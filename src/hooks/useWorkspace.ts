@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Company } from '../types';
-import { loadCompanies } from '../lib/companies';
+import { Workspace } from '../types';
+import { loadWorkspace } from '../lib/workspace';
 
-export function useCompanies(root: FileSystemDirectoryHandle | null) {
-  const [companies, setCompanies] = useState<Company[]>([]);
+export function useWorkspace(root: FileSystemDirectoryHandle | null) {
+  const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -12,8 +12,8 @@ export function useCompanies(root: FileSystemDirectoryHandle | null) {
     setLoading(true);
     setError(null);
     try {
-      const list = await loadCompanies(root);
-      setCompanies(list);
+      const ws = await loadWorkspace(root);
+      setWorkspace(ws);
     } catch (e) {
       setError(e instanceof Error ? e.message : '読み込みに失敗しました');
     } finally {
@@ -25,5 +25,5 @@ export function useCompanies(root: FileSystemDirectoryHandle | null) {
     refresh();
   }, [refresh]);
 
-  return { companies, loading, error, refresh };
+  return { workspace, loading, error, refresh };
 }

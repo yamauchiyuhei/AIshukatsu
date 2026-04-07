@@ -12,21 +12,98 @@ body {
     'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }
 
-/* Milkdown editor minimal styles */
+/* Milkdown editor styles (GitHub-flavored Markdown look) */
 .milkdown {
-  @apply outline-none;
+  @apply outline-none text-slate-800;
+  font-size: 15px;
+  line-height: 1.7;
 }
 .milkdown .editor {
   @apply min-h-[400px] max-w-none px-2 py-4;
 }
-.milkdown h1 { @apply text-3xl font-bold mt-6 mb-3; }
-.milkdown h2 { @apply text-2xl font-bold mt-5 mb-2; }
-.milkdown h3 { @apply text-xl font-semibold mt-4 mb-2; }
-.milkdown p  { @apply my-2 leading-relaxed; }
-.milkdown ul { @apply list-disc pl-6 my-2; }
-.milkdown ol { @apply list-decimal pl-6 my-2; }
-.milkdown blockquote { @apply border-l-4 border-slate-300 pl-4 text-slate-600 my-3; }
-.milkdown code { @apply bg-slate-100 px-1 py-0.5 rounded text-sm; }
-.milkdown pre { @apply bg-slate-100 p-3 rounded my-3 overflow-auto; }
-.milkdown hr { @apply my-6 border-slate-200; }
-.milkdown a { @apply text-blue-600 underline; }
+
+/* Headings */
+.milkdown h1 {
+  @apply text-3xl font-bold mt-8 mb-4 pb-2 border-b border-slate-200;
+}
+.milkdown h2 {
+  @apply text-2xl font-bold mt-7 mb-3 pb-1.5 border-b border-slate-200;
+}
+.milkdown h3 { @apply text-xl font-semibold mt-6 mb-2; }
+.milkdown h4 { @apply text-lg font-semibold mt-5 mb-2; }
+.milkdown h5 { @apply text-base font-semibold mt-4 mb-2; }
+.milkdown h6 { @apply text-sm font-semibold mt-4 mb-2 text-slate-600; }
+
+/* Body text */
+.milkdown p { @apply my-3; }
+
+/* Lists */
+.milkdown ul { @apply list-disc pl-6 my-3 space-y-1; }
+.milkdown ol { @apply list-decimal pl-6 my-3 space-y-1; }
+.milkdown li > p { @apply my-1; }
+.milkdown li > ul,
+.milkdown li > ol { @apply my-1; }
+
+/* Blockquote */
+.milkdown blockquote {
+  @apply border-l-4 border-slate-300 pl-4 my-4 text-slate-600;
+}
+.milkdown blockquote > p { @apply my-2; }
+
+/* Code */
+.milkdown code {
+  @apply bg-slate-100 text-rose-600 px-1.5 py-0.5 rounded text-[0.875em] font-mono;
+}
+.milkdown pre {
+  @apply bg-slate-900 text-slate-100 p-4 rounded-md my-4 overflow-auto text-sm leading-relaxed;
+}
+.milkdown pre code {
+  @apply bg-transparent text-slate-100 p-0 text-sm;
+}
+
+/* Horizontal rule */
+.milkdown hr {
+  @apply my-8 border-0 h-px bg-slate-200;
+}
+
+/* Links */
+.milkdown a {
+  @apply text-blue-600 underline underline-offset-2 hover:text-blue-700;
+}
+
+/* Tables — GitHub-style */
+.milkdown table {
+  @apply w-full my-5 border-collapse text-sm;
+  border: 1px solid theme('colors.slate.200');
+}
+.milkdown thead {
+  @apply bg-slate-50;
+}
+.milkdown th {
+  @apply px-4 py-2 text-left font-semibold text-slate-700;
+  border: 1px solid theme('colors.slate.200');
+}
+.milkdown td {
+  @apply px-4 py-2 text-slate-700 align-top;
+  border: 1px solid theme('colors.slate.200');
+}
+.milkdown tbody tr:nth-child(even) {
+  @apply bg-slate-50/50;
+}
+.milkdown tbody tr:hover {
+  @apply bg-slate-50;
+}
+
+/* Task lists (GFM checkboxes) */
+.milkdown input[type='checkbox'] {
+  @apply mr-2 align-middle;
+}
+
+/* Images */
+.milkdown img {
+  @apply max-w-full rounded my-3;
+}
+
+/* Strong / em */
+.milkdown strong { @apply font-semibold text-slate-900; }
+.milkdown em { @apply italic; }
