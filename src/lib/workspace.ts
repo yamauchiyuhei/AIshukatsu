@@ -1,21 +1,13 @@
 import {
-  Category,
-  Company,
   IGNORED_TOP_DIRS,
-  INDUSTRY_RESEARCH_FILE,
   SELF_ANALYSIS_DIR,
-  STATUS_FILE,
   SelfAnalysisFile,
   TEMPLATE_DIR,
   TemplateFileEntry,
   Workspace,
+  WorkspaceNode,
 } from '../types';
-import {
-  fileExists,
-  listSubdirectories,
-  readTextFile,
-} from './fs';
-import { parseStatus } from './statusParser';
+import { listSubdirectories } from './fs';
 
 /**
  * Find a subdirectory by name with NFC normalization (macOS may store NFD).
@@ -53,60 +45,48 @@ async function listMarkdownFileHandles(
   return out;
 }
 
-async function loadCompany(
-  category: string,
+/**
+ * Recursively scan a directory into `WorkspaceNode`s. Returns all markdown
+ * files and sub-folders (any depth). Folders are listed before files, both
+ * sorted with ja-locale aware comparison. Hidden entries (dot-prefixed) are
+ * skipped by the underlying helpers.
+ */
+async function scanFolder(
   dir: FileSystemDirectoryHandle,
-): Promise<Company> {
-  let status: Company['status'] = null;
-  let statusFlow: Company['statusFlow'];
+  parentPath: string[],
+): Promise<WorkspaceNode[]> {
+  const [files, subDirs] = await Promise.all([
+    listMarkdownFileHandles(dir),
+    listSubdirectories(dir),
+  ]);
 
-  const files = await listMarkdownFileHandles(dir);
-  // 選考フロー・ステータス.md を先頭に
-  files.sort((a, b) => {
-    if (a.name === STATUS_FILE) return -1;
-    if (b.name === STATUS_FILE) return 1;
-    return a.name.localeCompare(b.name, 'ja');
+  const folderNodes: WorkspaceNode[] = await Promise.all(
+    subDirs.map(async (sub) => {
+      const name = sub.name.normalize('NFC');
+      const path = [...parentPath, name];
+      return {
+        kind: 'folder' as const,
+        name,
+        path,
+        handle: sub,
+        children: await scanFolder(sub, path),
+      };
+    }),
+  );
+
+  const fileNodes: WorkspaceNode[] = files.map((f) => {
+    const name = f.name.normalize('NFC');
+    return {
+      kind: 'file' as const,
+      name,
+      path: [...parentPath, name],
+      handle: f.handle,
+    };
   });
 
-  if (await fileExists(dir, STATUS_FILE)) {
-    try {
-      const raw = await readTextFile(dir, STATUS_FILE);
-      const parsed = parseStatus(raw);
-      status = parsed.status;
-      statusFlow = parsed.flow;
-    } catch (e) {
-      console.warn(`failed to parse status for ${category}/${dir.name}:`, e);
-    }
-  }
-  return {
-    category,
-    name: dir.name,
-    handle: dir,
-    status,
-    statusFlow,
-    files,
-  };
-}
-
-async function loadCategory(
-  dir: FileSystemDirectoryHandle,
-): Promise<Category> {
-  const subDirs = await listSubdirectories(dir);
-  const companies = await Promise.all(
-    subDirs.map((sub) => loadCompany(dir.name, sub)),
-  );
-  companies.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
-
-  const industryResearchFile = (await fileExists(dir, INDUSTRY_RESEARCH_FILE))
-    ? INDUSTRY_RESEARCH_FILE
-    : undefined;
-
-  return {
-    name: dir.name,
-    handle: dir,
-    companies,
-    industryResearchFile,
-  };
+  folderNodes.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  fileNodes.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  return [...folderNodes, ...fileNodes];
 }
 
 async function loadSelfAnalysis(root: FileSystemDirectoryHandle): Promise<{
@@ -159,13 +139,26 @@ export async function loadWorkspace(
 ): Promise<Workspace> {
   const top = await listSubdirectories(root);
 
-  // macOS returns directory names in NFD; normalize to NFC for comparison.
-  const categoryDirs = top.filter(
+  // Everything at the root except the special/ignored directories becomes a
+  // top-level tree node. Nested levels are walked unconditionally.
+  const topFolders = top.filter(
     (d) => !IGNORED_TOP_DIRS.has(d.name.normalize('NFC')),
   );
 
-  const categories = await Promise.all(categoryDirs.map(loadCategory));
-  categories.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  const tree: WorkspaceNode[] = await Promise.all(
+    topFolders.map(async (sub) => {
+      const name = sub.name.normalize('NFC');
+      const path = [name];
+      return {
+        kind: 'folder' as const,
+        name,
+        path,
+        handle: sub,
+        children: await scanFolder(sub, path),
+      };
+    }),
+  );
+  tree.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
 
   const [selfAnalysis, templates] = await Promise.all([
     loadSelfAnalysis(root),
@@ -174,8 +167,53 @@ export async function loadWorkspace(
 
   return {
     root,
-    categories,
+    tree,
     selfAnalysis,
     templates,
   };
+}
+
+/**
+ * Walk `Workspace.tree` using NFC-normalized path segments and return the
+ * matching folder node. Returns `null` if any segment is missing or the
+ * terminal node is a file.
+ */
+export function resolveFolderByPath(
+  tree: WorkspaceNode[],
+  path: string[],
+): Extract<WorkspaceNode, { kind: 'folder' }> | null {
+  let nodes: WorkspaceNode[] = tree;
+  let current: Extract<WorkspaceNode, { kind: 'folder' }> | null = null;
+  for (const raw of path) {
+    const seg = raw.normalize('NFC');
+    const next = nodes.find(
+      (n): n is Extract<WorkspaceNode, { kind: 'folder' }> =>
+        n.kind === 'folder' && n.name === seg,
+    );
+    if (!next) return null;
+    current = next;
+    nodes = next.children;
+  }
+  return current;
+}
+
+/**
+ * Return all folder nodes in the tree (flat list, depth-first). Useful for
+ * industry → folder auto-matching: callers can pick the shallowest matching
+ * folder.
+ */
+export function collectFolders(
+  tree: WorkspaceNode[],
+): Extract<WorkspaceNode, { kind: 'folder' }>[] {
+  const out: Extract<WorkspaceNode, { kind: 'folder' }>[] = [];
+  const walk = (nodes: WorkspaceNode[]) => {
+    for (const n of nodes) {
+      if (n.kind === 'folder') {
+        out.push(n);
+        walk(n.children);
+      }
+    }
+  };
+  walk(tree);
+  return out;
 }

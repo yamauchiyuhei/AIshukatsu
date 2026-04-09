@@ -5,35 +5,28 @@ import {
   FileText,
   Folder,
   FolderOpen,
-  Plus,
   RefreshCw,
 } from 'lucide-react';
-import { Company, CompanyFile, Status, Workspace } from '../types';
+import { SelfAnalysisFile, TemplateFileEntry, Workspace, WorkspaceNode } from '../types';
+import { AddMenu } from './AddMenu';
 
-const STATUS_DOT: Record<Status, string> = {
-  '未応募': 'bg-slate-300',
-  'エントリー済': 'bg-sky-400',
-  'ES提出済': 'bg-blue-500',
-  'GD': 'bg-cyan-500',
-  'Webテスト': 'bg-teal-500',
-  '1次面接': 'bg-indigo-500',
-  '2次面接': 'bg-violet-500',
-  '最終面接': 'bg-amber-500',
-  '内定': 'bg-emerald-500',
-  'お祈り': 'bg-rose-400',
-};
+interface OpenFilePayload {
+  key: string;
+  label: string;
+  breadcrumb: string[];
+  handle: FileSystemFileHandle;
+}
 
 interface Props {
   workspace: Workspace;
   activeFileKey: string | null;
   rootName: string;
-  onOpenFile: (entry: {
-    key: string;
-    label: string;
-    breadcrumb: string[];
-    handle: FileSystemFileHandle;
-  }) => void;
+  spreadsheetActive?: boolean;
+  onOpenFile: (entry: OpenFilePayload) => void;
+  onOpenSpreadsheet?: () => void;
   onAddCompany: () => void;
+  onAddFolder: () => void;
+  onAddFile: () => void;
   onRefresh: () => void;
   onChangeFolder: () => void;
 }
@@ -42,15 +35,25 @@ export function FileTree({
   workspace,
   activeFileKey,
   rootName,
+  spreadsheetActive = false,
   onOpenFile,
+  onOpenSpreadsheet,
   onAddCompany,
+  onAddFolder,
+  onAddFile,
   onRefresh,
   onChangeFolder,
 }: Props) {
   return (
     <aside className="flex h-screen w-72 shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
-        <h1 className="text-base font-bold text-slate-900">AI就活くん</h1>
+        <div className="-my-1 h-16 w-16 overflow-hidden">
+          <img
+            src="/logo.png"
+            alt="AI就活くん"
+            className="h-full w-full scale-[1.45] object-contain"
+          />
+        </div>
         <div className="flex items-center gap-1">
           <button
             onClick={onRefresh}
@@ -59,74 +62,67 @@ export function FileTree({
           >
             <RefreshCw size={14} />
           </button>
-          <button
-            onClick={onAddCompany}
-            title="企業を追加"
-            className="rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-700"
-          >
-            <Plus size={14} />
-          </button>
+          <AddMenu
+            onAddCompany={onAddCompany}
+            onAddFolder={onAddFolder}
+            onAddFile={onAddFile}
+          />
         </div>
       </div>
 
       <div className="flex-1 overflow-auto px-2 pb-4 text-sm">
-        {/* Categories */}
-        {workspace.categories.map((cat) => (
-          <CategoryNode
-            key={`cat:${cat.name}`}
-            categoryName={cat.name}
-            companies={cat.companies}
-            industryFile={
-              cat.industryResearchFile
-                ? {
-                    name: cat.industryResearchFile,
-                    parentHandle: cat.handle,
-                  }
-                : null
-            }
+        {/* 就活スプレッドシート */}
+        <button
+          type="button"
+          onClick={onOpenSpreadsheet}
+          className={`group flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
+            spreadsheetActive
+              ? 'bg-slate-900 text-white'
+              : 'text-slate-700 hover:bg-slate-100'
+          }`}
+          title="就活スプレッドシート"
+        >
+          <span className="w-3" />
+          <Folder
+            size={14}
+            className={spreadsheetActive ? 'text-white' : 'text-slate-500'}
+          />
+          <span className="flex-1 truncate">就活スプレッドシート</span>
+        </button>
+
+        {/* Arbitrary-depth workspace tree (everything except the special
+            top-level folders). Empty top folders still render so users can
+            see them and know where to add files. */}
+        {workspace.tree.map((node) => (
+          <TreeNodeView
+            key={node.path.join('/')}
+            node={node}
             activeFileKey={activeFileKey}
             onOpenFile={onOpenFile}
+            defaultOpen={false}
           />
         ))}
 
-        {/* 自己分析 */}
+        {/* 自己分析 (special, edited from the dedicated screen) */}
         {workspace.selfAnalysis.files.length > 0 && (
-          <FolderNode
+          <SpecialFolderNode
             label="自己分析"
             keyPrefix="self"
-            childCount={workspace.selfAnalysis.files.length}
-          >
-            <FileList
-              files={workspace.selfAnalysis.files.map((f) => ({
-                name: f.name,
-                handle: f.handle,
-              }))}
-              breadcrumb={['自己分析']}
-              keyPrefix="self"
-              activeFileKey={activeFileKey}
-              onOpenFile={onOpenFile}
-            />
-          </FolderNode>
+            files={workspace.selfAnalysis.files}
+            activeFileKey={activeFileKey}
+            onOpenFile={onOpenFile}
+          />
         )}
 
-        {/* _テンプレート */}
+        {/* _テンプレート (special, edited from the dedicated screen) */}
         {workspace.templates.files.length > 0 && (
-          <FolderNode
+          <SpecialFolderNode
             label="_テンプレート"
             keyPrefix="tpl"
-            childCount={workspace.templates.files.length}
-          >
-            <FileList
-              files={workspace.templates.files.map((f) => ({
-                name: f.name,
-                handle: f.handle,
-              }))}
-              breadcrumb={['_テンプレート']}
-              keyPrefix="tpl"
-              activeFileKey={activeFileKey}
-              onOpenFile={onOpenFile}
-            />
-          </FolderNode>
+            files={workspace.templates.files}
+            activeFileKey={activeFileKey}
+            onOpenFile={onOpenFile}
+          />
         )}
       </div>
 
@@ -144,24 +140,51 @@ export function FileTree({
   );
 }
 
-function FolderNode({
-  label,
-  keyPrefix,
-  childCount,
-  children,
+/**
+ * Single recursive renderer for any workspace node. Folders track their own
+ * collapse state; files render as leaves. File keys are derived from the
+ * full path from the workspace root (`co:<path>/<file>`) so cloud sync and
+ * tab de-duplication are stable as nodes move around the tree.
+ */
+function TreeNodeView({
+  node,
+  activeFileKey,
+  onOpenFile,
   defaultOpen = false,
-  rightContent,
 }: {
-  label: string;
-  keyPrefix: string;
-  childCount?: number;
-  children: React.ReactNode;
+  node: WorkspaceNode;
+  activeFileKey: string | null;
+  onOpenFile: (entry: OpenFilePayload) => void;
   defaultOpen?: boolean;
-  rightContent?: React.ReactNode;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+
+  if (node.kind === 'file') {
+    const key = `co:${node.path.join('/')}`;
+    const active = activeFileKey === key;
+    return (
+      <button
+        onClick={() =>
+          onOpenFile({
+            key,
+            label: node.name,
+            breadcrumb: node.path.slice(0, -1),
+            handle: node.handle,
+          })
+        }
+        className={`flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
+          active ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
+        }`}
+      >
+        <span className="w-3" />
+        <FileText size={13} className={active ? 'text-white' : 'text-slate-400'} />
+        <span className="flex-1 truncate">{node.name}</span>
+      </button>
+    );
+  }
+
   return (
-    <div data-key={keyPrefix}>
+    <div>
       <button
         onClick={() => setOpen((v) => !v)}
         className="group flex w-full items-center gap-1 rounded px-1 py-1 text-left hover:bg-slate-100"
@@ -172,65 +195,41 @@ function FolderNode({
           <ChevronRight size={12} className="text-slate-400" />
         )}
         <Folder size={14} className="text-slate-500" />
-        <span className="flex-1 truncate text-slate-800">{label}</span>
-        {childCount !== undefined && (
-          <span className="text-xs text-slate-400">{childCount}</span>
-        )}
-        {rightContent}
+        <span className="flex-1 truncate text-slate-800">{node.name}</span>
       </button>
-      {open && <div className="ml-3 border-l border-slate-100 pl-1">{children}</div>}
+      {open && (
+        <div className="ml-3 border-l border-slate-100 pl-1">
+          {node.children.map((child) => (
+            <TreeNodeView
+              key={child.path.join('/')}
+              node={child}
+              activeFileKey={activeFileKey}
+              onOpenFile={onOpenFile}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-function CategoryNode({
-  categoryName,
-  companies,
-  industryFile,
+/**
+ * Flat file list for the protected `_テンプレート` / `自己分析` sections.
+ * Key format is preserved (`self/<name>`, `tpl/<name>`) so cloud sync and
+ * tab state stay compatible with the legacy layout.
+ */
+function SpecialFolderNode({
+  label,
+  keyPrefix,
+  files,
   activeFileKey,
   onOpenFile,
 }: {
-  categoryName: string;
-  companies: Company[];
-  industryFile: { name: string; parentHandle: FileSystemDirectoryHandle } | null;
+  label: string;
+  keyPrefix: 'self' | 'tpl';
+  files: (SelfAnalysisFile | TemplateFileEntry)[];
   activeFileKey: string | null;
-  onOpenFile: Props['onOpenFile'];
-}) {
-  return (
-    <FolderNode
-      label={categoryName}
-      keyPrefix={`cat:${categoryName}`}
-      childCount={companies.length}
-    >
-      {companies.map((c) => (
-        <CompanyNode
-          key={`co:${categoryName}/${c.name}`}
-          company={c}
-          activeFileKey={activeFileKey}
-          onOpenFile={onOpenFile}
-        />
-      ))}
-      {industryFile && (
-        <IndustryFileLeaf
-          categoryName={categoryName}
-          fileName={industryFile.name}
-          parentHandle={industryFile.parentHandle}
-          activeFileKey={activeFileKey}
-          onOpenFile={onOpenFile}
-        />
-      )}
-    </FolderNode>
-  );
-}
-
-function CompanyNode({
-  company,
-  activeFileKey,
-  onOpenFile,
-}: {
-  company: Company;
-  activeFileKey: string | null;
-  onOpenFile: Props['onOpenFile'];
+  onOpenFile: (entry: OpenFilePayload) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -245,109 +244,42 @@ function CompanyNode({
           <ChevronRight size={12} className="text-slate-400" />
         )}
         <Folder size={14} className="text-slate-500" />
-        <span className="flex-1 truncate text-slate-800">{company.name}</span>
-        {company.status && (
-          <span
-            title={company.status}
-            className={`h-2 w-2 rounded-full ${STATUS_DOT[company.status]}`}
-          />
-        )}
+        <span className="flex-1 truncate text-slate-800">{label}</span>
+        <span className="text-xs text-slate-400">{files.length}</span>
       </button>
       {open && (
         <div className="ml-3 border-l border-slate-100 pl-1">
-          <FileList
-            files={company.files}
-            breadcrumb={[company.category, company.name]}
-            keyPrefix={`co:${company.category}/${company.name}`}
-            activeFileKey={activeFileKey}
-            onOpenFile={onOpenFile}
-          />
+          {files.map((f) => {
+            const key = `${keyPrefix}/${f.name}`;
+            const active = activeFileKey === key;
+            return (
+              <button
+                key={key}
+                onClick={() =>
+                  onOpenFile({
+                    key,
+                    label: f.name,
+                    breadcrumb: [label],
+                    handle: f.handle,
+                  })
+                }
+                className={`flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
+                  active
+                    ? 'bg-slate-900 text-white'
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <span className="w-3" />
+                <FileText
+                  size={13}
+                  className={active ? 'text-white' : 'text-slate-400'}
+                />
+                <span className="flex-1 truncate">{f.name}</span>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
-  );
-}
-
-function FileList({
-  files,
-  breadcrumb,
-  keyPrefix,
-  activeFileKey,
-  onOpenFile,
-}: {
-  files: CompanyFile[];
-  breadcrumb: string[];
-  keyPrefix: string;
-  activeFileKey: string | null;
-  onOpenFile: Props['onOpenFile'];
-}) {
-  return (
-    <>
-      {files.map((f) => {
-        const key = `${keyPrefix}/${f.name}`;
-        const active = activeFileKey === key;
-        return (
-          <button
-            key={key}
-            onClick={() =>
-              onOpenFile({
-                key,
-                label: f.name,
-                breadcrumb,
-                handle: f.handle,
-              })
-            }
-            className={`flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
-              active ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
-            }`}
-          >
-            <span className="w-3" />
-            <FileText size={13} className={active ? 'text-white' : 'text-slate-400'} />
-            <span className="flex-1 truncate">{f.name}</span>
-          </button>
-        );
-      })}
-    </>
-  );
-}
-
-function IndustryFileLeaf({
-  categoryName,
-  fileName,
-  parentHandle,
-  activeFileKey,
-  onOpenFile,
-}: {
-  categoryName: string;
-  fileName: string;
-  parentHandle: FileSystemDirectoryHandle;
-  activeFileKey: string | null;
-  onOpenFile: Props['onOpenFile'];
-}) {
-  const key = `cat-file:${categoryName}/${fileName}`;
-  const active = activeFileKey === key;
-  return (
-    <button
-      onClick={async () => {
-        try {
-          const handle = await parentHandle.getFileHandle(fileName);
-          onOpenFile({
-            key,
-            label: fileName,
-            breadcrumb: [categoryName],
-            handle,
-          });
-        } catch (e) {
-          console.error('failed to open industry research file:', e);
-        }
-      }}
-      className={`flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
-        active ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
-      }`}
-    >
-      <span className="w-3" />
-      <FileText size={13} className={active ? 'text-white' : 'text-slate-400'} />
-      <span className="flex-1 truncate">{fileName}</span>
-    </button>
   );
 }
