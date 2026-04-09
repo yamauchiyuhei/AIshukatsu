@@ -53,7 +53,11 @@ export const db = _db;
  */
 const DESKTOP_AUTH_URL =
   (import.meta.env.VITE_DESKTOP_AUTH_URL as string | undefined) ??
-  'https://aisyuukatsu-30fdd.web.app/desktop-auth.html';
+  // IMPORTANT: must match Firebase `authDomain` (firebaseapp.com), NOT web.app.
+  // signInWithRedirect stores pending-state in IndexedDB on the authDomain
+  // origin; serving this page from a different origin breaks getRedirectResult
+  // due to Chrome's storage partitioning.
+  'https://aisyuukatsu-30fdd.firebaseapp.com/desktop-auth.html';
 
 /**
  * Sign in with Google.

@@ -68,8 +68,24 @@
     <div class="wrap">
       <div class="card">
         <h1>AI就活 デスクトップアプリ</h1>
-        <p id="status">Google アカウントでサインインしています…</p>
-        <button id="retry" style="display:none">もう一度試す</button>
+        <p id="status">下のボタンを押して Google アカウントでサインインしてください。</p>
+        <button id="signin">Google でサインイン</button>
+        <a
+          id="returnLink"
+          href="#"
+          style="
+            display: none;
+            margin-top: 16px;
+            padding: 10px 20px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 14px;
+            text-decoration: none;
+          "
+          >デスクトップアプリに戻る</a
+        >
         <p id="error" class="err"></p>
         <p style="margin-top:20px; font-size:12px; color:#94a3b8">
           サインインが完了すると、自動的にデスクトップアプリに戻ります。

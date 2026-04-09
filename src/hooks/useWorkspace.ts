@@ -15,7 +15,19 @@ export function useWorkspace(root: FileSystemDirectoryHandle | null) {
       const ws = await loadWorkspace(root);
       setWorkspace(ws);
     } catch (e) {
-      setError(e instanceof Error ? e.message : '読み込みに失敗しました');
+      // eslint-disable-next-line no-console
+      console.error('[useWorkspace] loadWorkspace failed:', e);
+      let msg: string;
+      if (e instanceof Error && e.message) msg = e.message;
+      else if (typeof e === 'string') msg = e;
+      else {
+        try {
+          msg = JSON.stringify(e);
+        } catch {
+          msg = String(e);
+        }
+      }
+      setError(msg || '読み込みに失敗しました (詳細不明)');
     } finally {
       setLoading(false);
     }
