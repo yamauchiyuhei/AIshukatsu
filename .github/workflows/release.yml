@@ -1,0 +1,123 @@
+name: Release Desktop App
+
+# Builds and publishes AI就活 desktop app bundles for macOS (Universal) and
+# Windows (x64) whenever a tag matching `v*.*.*` is pushed, or when manually
+# triggered from the Actions tab.
+#
+# Required GitHub repository secrets (set via Settings → Secrets → Actions):
+#
+#   # Tauri Updater signing (required for auto-updates)
+#   TAURI_SIGNING_PRIVATE_KEY          — output of `npx tauri signer generate`
+#   TAURI_SIGNING_PRIVATE_KEY_PASSWORD — password used when generating the key
+#
+#   # Firebase build-time config (required — the Vite build inlines these)
+#   VITE_FIREBASE_API_KEY
+#   VITE_FIREBASE_AUTH_DOMAIN
+#   VITE_FIREBASE_PROJECT_ID
+#   VITE_FIREBASE_STORAGE_BUCKET
+#   VITE_FIREBASE_MESSAGING_SENDER_ID
+#   VITE_FIREBASE_APP_ID
+#
+#   # macOS code signing + notarization (required for distributable .dmg)
+#   APPLE_CERTIFICATE            — base64 of the Developer ID .p12 file
+#   APPLE_CERTIFICATE_PASSWORD   — password for the .p12
+#   APPLE_SIGNING_IDENTITY       — e.g. "Developer ID Application: YOUR NAME (TEAMID)"
+#   APPLE_ID                     — Apple ID email (for notarytool)
+#   APPLE_PASSWORD               — app-specific password from appleid.apple.com
+#   APPLE_TEAM_ID                — 10-char Apple Developer Team ID
+#
+#   # Windows code signing (optional but recommended for SmartScreen)
+#   WINDOWS_CERTIFICATE          — base64 of the code signing .pfx
+#   WINDOWS_CERTIFICATE_PASSWORD — password for the .pfx
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag (e.g. v0.1.0)'
+        required: true
+        default: 'v0.1.0'
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest
+            rust_targets: 'aarch64-apple-darwin,x86_64-apple-darwin'
+            tauri_args: '--target universal-apple-darwin'
+          - platform: windows-latest
+            rust_targets: ''
+            tauri_args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust_targets }}
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ./src-tauri -> target
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build & release (tauri-action)
+        uses: tauri-apps/tauri-action@v0
+        env:
+          # Vite frontend env — baked into the bundle
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+
+          # Tauri Updater signing
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+
+          # macOS code signing + notarization (picked up automatically by tauri-action)
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.event.inputs.release_tag || github.ref_name }}
+          releaseName: 'AI就活 ${{ github.event.inputs.release_tag || github.ref_name }}'
+          releaseBody: |
+            ## AI就活 デスクトップアプリ
+
+            ### インストール
+            - **macOS (Intel / Apple Silicon)**: `.dmg` をダウンロードして展開
+            - **Windows 10/11 (x64)**: `.msi` または `.exe` をダウンロードして実行
+
+            初回起動時は macOS Gatekeeper / Windows SmartScreen の警告が出る場合があります。署名済みバイナリなので、右クリック → 開く (macOS) で進めてください。
+
+            ### 自動更新
+            初回以降は Tauri Updater 経由でバックグラウンド更新されます。
+          releaseDraft: true
+          prerelease: false
+          includeUpdaterJson: true
+          args: ${{ matrix.tauri_args }}
