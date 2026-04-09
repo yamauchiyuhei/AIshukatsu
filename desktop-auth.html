@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>AI就活 — デスクトップアプリ サインイン</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans',
+          'Noto Sans JP', sans-serif;
+        background: #f8fafc;
+        color: #0f172a;
+      }
+      .wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .card {
+        max-width: 480px;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+        text-align: center;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 12px;
+      }
+      p {
+        font-size: 14px;
+        line-height: 1.7;
+        color: #475569;
+        margin: 8px 0;
+      }
+      button {
+        margin-top: 16px;
+        padding: 10px 20px;
+        border: 1px solid #334155;
+        background: #0f172a;
+        color: #fff;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .err {
+        color: #b91c1c;
+        font-size: 13px;
+        white-space: pre-wrap;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>AI就活 デスクトップアプリ</h1>
+        <p id="status">Google アカウントでサインインしています…</p>
+        <button id="retry" style="display:none">もう一度試す</button>
+        <p id="error" class="err"></p>
+        <p style="margin-top:20px; font-size:12px; color:#94a3b8">
+          サインインが完了すると、自動的にデスクトップアプリに戻ります。
+        </p>
+      </div>
+    </div>
+    <script type="module" src="/src/desktopAuth.ts"></script>
+  </body>
+</html>

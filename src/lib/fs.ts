@@ -1,7 +1,37 @@
 // File System Access API helpers
 
-export async function pickRootDirectory(): Promise<FileSystemDirectoryHandle> {
-  return await window.showDirectoryPicker({ mode: 'readwrite' });
+import { isTauri, pickTauriRootDirectory } from './tauriFsaShim';
+
+/**
+ * Options for {@link pickRootDirectory}. `startIn` follows the
+ * File System Access API well-known directories: 'desktop', 'documents',
+ * 'downloads', etc. Browsers that don't understand the key simply ignore it.
+ */
+export interface PickRootDirectoryOptions {
+  startIn?:
+    | 'desktop'
+    | 'documents'
+    | 'downloads'
+    | 'music'
+    | 'pictures'
+    | 'videos';
+}
+
+export async function pickRootDirectory(
+  options: PickRootDirectoryOptions = {},
+): Promise<FileSystemDirectoryHandle> {
+  if (isTauri()) {
+    // Tauri desktop: use the native OS directory picker and wrap the result
+    // in a FSA-compatible shim.
+    return await pickTauriRootDirectory();
+  }
+  // `startIn` is optional – we only pass it through when provided so that the
+  // default (browser-remembered last location) keeps working for existing
+  // users that come through the classic WelcomeScreen.
+  return await window.showDirectoryPicker({
+    mode: 'readwrite',
+    ...(options.startIn ? { startIn: options.startIn } : {}),
+  });
 }
 
 export async function readTextFile(
@@ -48,6 +78,10 @@ export async function listSubdirectories(
   return out;
 }
 
+/**
+ * List markdown files in a directory (used by the template / self-analysis
+ * loaders, which are still markdown-only by design).
+ */
 export async function listMarkdownFiles(
   dir: FileSystemDirectoryHandle,
 ): Promise<string[]> {
@@ -58,6 +92,23 @@ export async function listMarkdownFiles(
       entry.name.toLowerCase().endsWith('.md') &&
       !entry.name.startsWith('.')
     ) {
+      out.push(entry.name);
+    }
+  }
+  return out.sort((a, b) => a.localeCompare(b, 'ja'));
+}
+
+/**
+ * List every visible (non-dot-prefixed) file in `dir`, regardless of
+ * extension. Used by the workspace scanner now that the tree renders
+ * images, PDFs, docx, etc. in addition to markdown.
+ */
+export async function listAllFiles(
+  dir: FileSystemDirectoryHandle,
+): Promise<string[]> {
+  const out: string[] = [];
+  for await (const entry of dir.values()) {
+    if (entry.kind === 'file' && !entry.name.startsWith('.')) {
       out.push(entry.name);
     }
   }
@@ -81,4 +132,134 @@ export async function subdirectoryExists(
   } catch {
     return false;
   }
+}
+
+/**
+ * Ensure a file name ends with .md. Leaves other extensions alone.
+ */
+export function ensureMdExtension(name: string): string {
+  const trimmed = name.trim();
+  if (/\.[a-z0-9]+$/i.test(trimmed)) return trimmed;
+  return `${trimmed}.md`;
+}
+
+/**
+ * Create an empty markdown file inside `dir`. Throws if a file with the same
+ * name already exists (we refuse to overwrite silently).
+ */
+export async function createEmptyFile(
+  dir: FileSystemDirectoryHandle,
+  name: string,
+  initialContent = '',
+): Promise<FileSystemFileHandle> {
+  if (await fileExists(dir, name)) {
+    throw new Error(`${name} は既に存在します`);
+  }
+  const handle = await dir.getFileHandle(name, { create: true });
+  if (initialContent) {
+    const writable = await handle.createWritable();
+    await writable.write(initialContent);
+    await writable.close();
+  }
+  return handle;
+}
+
+/**
+ * Permanently delete a file from `parent`. File System Access API's
+ * `removeEntry` bypasses the OS trash, so callers should confirm with the
+ * user first.
+ */
+export async function deleteFileEntry(
+  parent: FileSystemDirectoryHandle,
+  name: string,
+): Promise<void> {
+  await parent.removeEntry(name);
+}
+
+/**
+ * Permanently delete a folder (and everything inside it) from `parent`.
+ * Uses the `recursive: true` option of `removeEntry` so non-empty folders
+ * can be removed in one call.
+ */
+export async function deleteFolderEntry(
+  parent: FileSystemDirectoryHandle,
+  name: string,
+): Promise<void> {
+  await parent.removeEntry(name, { recursive: true });
+}
+
+/**
+ * Rename a file by copy-then-delete. File System Access API has a `move`
+ * method but its availability varies by browser; this fallback works in
+ * every Chromium-based browser we care about.
+ *
+ * Returns the new FileSystemFileHandle.
+ */
+export async function renameFileEntry(
+  parent: FileSystemDirectoryHandle,
+  oldName: string,
+  newName: string,
+): Promise<FileSystemFileHandle> {
+  if (oldName === newName) {
+    return parent.getFileHandle(oldName);
+  }
+  if (await fileExists(parent, newName)) {
+    throw new Error(`${newName} は既に存在します`);
+  }
+  // Read old content
+  const oldHandle = await parent.getFileHandle(oldName);
+  const oldFile = await oldHandle.getFile();
+  const content = await oldFile.arrayBuffer();
+  // Create new file with the same content
+  const newHandle = await parent.getFileHandle(newName, { create: true });
+  const writable = await newHandle.createWritable();
+  await writable.write(content);
+  await writable.close();
+  // Delete old file
+  await parent.removeEntry(oldName);
+  return newHandle;
+}
+
+/**
+ * Rename a folder by recursively copying its contents then deleting the
+ * original. Works in every Chromium-based browser. Throws if the new name
+ * already exists.
+ */
+export async function renameFolderEntry(
+  parent: FileSystemDirectoryHandle,
+  oldName: string,
+  newName: string,
+): Promise<FileSystemDirectoryHandle> {
+  if (oldName === newName) {
+    return parent.getDirectoryHandle(oldName);
+  }
+  if (await subdirectoryExists(parent, newName)) {
+    throw new Error(`${newName} は既に存在します`);
+  }
+  const src = await parent.getDirectoryHandle(oldName);
+  const dst = await parent.getDirectoryHandle(newName, { create: true });
+
+  const copyDir = async (
+    from: FileSystemDirectoryHandle,
+    to: FileSystemDirectoryHandle,
+  ) => {
+    for await (const entry of from.values()) {
+      if (entry.kind === 'file') {
+        const src = await from.getFileHandle(entry.name);
+        const file = await src.getFile();
+        const content = await file.arrayBuffer();
+        const dest = await to.getFileHandle(entry.name, { create: true });
+        const w = await dest.createWritable();
+        await w.write(content);
+        await w.close();
+      } else {
+        const subSrc = await from.getDirectoryHandle(entry.name);
+        const subDst = await to.getDirectoryHandle(entry.name, { create: true });
+        await copyDir(subSrc, subDst);
+      }
+    }
+  };
+  await copyDir(src, dst);
+  await parent.removeEntry(oldName, { recursive: true });
+  return dst;
 }
