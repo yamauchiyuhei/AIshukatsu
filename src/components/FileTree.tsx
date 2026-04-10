@@ -2,12 +2,12 @@ import { useState } from 'react';
 import {
   ChevronDown,
   ChevronRight,
-  FileText,
   Folder,
   FolderOpen,
   RefreshCw,
 } from 'lucide-react';
 import { SelfAnalysisFile, TemplateFileEntry, Workspace, WorkspaceNode } from '../types';
+import { fileIconFor } from './fileIcons';
 import { AddMenu } from './AddMenu';
 
 interface OpenFilePayload {
@@ -15,6 +15,16 @@ interface OpenFilePayload {
   label: string;
   breadcrumb: string[];
   handle: FileSystemFileHandle;
+}
+
+export interface ContextMenuRequest {
+  x: number;
+  y: number;
+  target: {
+    kind: 'file' | 'folder';
+    name: string;
+    path: string[];
+  };
 }
 
 interface Props {
@@ -29,6 +39,8 @@ interface Props {
   onAddFile: () => void;
   onRefresh: () => void;
   onChangeFolder: () => void;
+  /** Fired when any tree row is right-clicked. Parent owns the menu state. */
+  onContextMenu?: (req: ContextMenuRequest) => void;
 }
 
 export function FileTree({
@@ -43,6 +55,7 @@ export function FileTree({
   onAddFile,
   onRefresh,
   onChangeFolder,
+  onContextMenu,
 }: Props) {
   return (
     <aside className="flex h-screen w-72 shrink-0 flex-col border-r border-slate-200 bg-white">
@@ -99,6 +112,7 @@ export function FileTree({
             node={node}
             activeFileKey={activeFileKey}
             onOpenFile={onOpenFile}
+            onContextMenu={onContextMenu}
             defaultOpen={false}
           />
         ))}
@@ -150,11 +164,13 @@ function TreeNodeView({
   node,
   activeFileKey,
   onOpenFile,
+  onContextMenu,
   defaultOpen = false,
 }: {
   node: WorkspaceNode;
   activeFileKey: string | null;
   onOpenFile: (entry: OpenFilePayload) => void;
+  onContextMenu?: (req: ContextMenuRequest) => void;
   defaultOpen?: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -162,6 +178,7 @@ function TreeNodeView({
   if (node.kind === 'file') {
     const key = `co:${node.path.join('/')}`;
     const active = activeFileKey === key;
+    const Icon = fileIconFor(node.name);
     return (
       <button
         onClick={() =>
@@ -172,21 +189,42 @@ function TreeNodeView({
             handle: node.handle,
           })
         }
+        onContextMenu={(e) => {
+          if (!onContextMenu) return;
+          e.preventDefault();
+          onContextMenu({
+            x: e.clientX,
+            y: e.clientY,
+            target: { kind: 'file', name: node.name, path: node.path },
+          });
+        }}
         className={`flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
           active ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
         }`}
       >
         <span className="w-3" />
-        <FileText size={13} className={active ? 'text-white' : 'text-slate-400'} />
+        <Icon size={13} className={active ? 'text-white' : 'text-slate-400'} />
         <span className="flex-1 truncate">{node.name}</span>
       </button>
     );
   }
 
+  // Folder row: click ONLY toggles expand/collapse. We do not open a
+  // folder-view tab in the main area — the user navigates exclusively via
+  // the tree here, per product request.
   return (
     <div>
       <button
         onClick={() => setOpen((v) => !v)}
+        onContextMenu={(e) => {
+          if (!onContextMenu) return;
+          e.preventDefault();
+          onContextMenu({
+            x: e.clientX,
+            y: e.clientY,
+            target: { kind: 'folder', name: node.name, path: node.path },
+          });
+        }}
         className="group flex w-full items-center gap-1 rounded px-1 py-1 text-left hover:bg-slate-100"
       >
         {open ? (
@@ -205,6 +243,7 @@ function TreeNodeView({
               node={child}
               activeFileKey={activeFileKey}
               onOpenFile={onOpenFile}
+              onContextMenu={onContextMenu}
             />
           ))}
         </div>
@@ -252,6 +291,7 @@ function SpecialFolderNode({
           {files.map((f) => {
             const key = `${keyPrefix}/${f.name}`;
             const active = activeFileKey === key;
+            const Icon = fileIconFor(f.name);
             return (
               <button
                 key={key}
@@ -270,7 +310,7 @@ function SpecialFolderNode({
                 }`}
               >
                 <span className="w-3" />
-                <FileText
+                <Icon
                   size={13}
                   className={active ? 'text-white' : 'text-slate-400'}
                 />

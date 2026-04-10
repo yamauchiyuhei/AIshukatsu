@@ -10,6 +10,17 @@ import {
 import { listSubdirectories } from './fs';
 
 /**
+ * Hidden/system files we never want to show at the workspace root even
+ * though extension filtering has been removed. `.DS_Store` etc. are
+ * created automatically by macOS and Windows and should stay invisible.
+ */
+const ROOT_FILE_DENYLIST: ReadonlySet<string> = new Set([
+  '.DS_Store',
+  'Thumbs.db',
+  'desktop.ini',
+]);
+
+/**
  * Find a subdirectory by name with NFC normalization (macOS may store NFD).
  */
 async function findSubdirectory(
@@ -28,22 +39,24 @@ async function findSubdirectory(
   return null;
 }
 
-async function listMarkdownFileHandles(
+/**
+ * List every visible (non-dot-prefixed) file handle in `dir`, regardless of
+ * extension. The general workspace scanner now pulls everything so the tree
+ * can render images, PDFs, docx, etc. next to markdown.
+ */
+async function listAllFileHandles(
   dir: FileSystemDirectoryHandle,
 ): Promise<{ name: string; handle: FileSystemFileHandle }[]> {
   const out: { name: string; handle: FileSystemFileHandle }[] = [];
   for await (const entry of dir.values()) {
-    if (
-      entry.kind === 'file' &&
-      entry.name.toLowerCase().endsWith('.md') &&
-      !entry.name.startsWith('.')
-    ) {
+    if (entry.kind === 'file' && !entry.name.startsWith('.')) {
       out.push({ name: entry.name, handle: entry as FileSystemFileHandle });
     }
   }
   out.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
   return out;
 }
+
 
 /**
  * Recursively scan a directory into `WorkspaceNode`s. Returns all markdown
@@ -55,8 +68,11 @@ async function scanFolder(
   dir: FileSystemDirectoryHandle,
   parentPath: string[],
 ): Promise<WorkspaceNode[]> {
+  // Pull ALL visible files (not just .md) so images, PDFs, docx, etc. show
+  // up in the tree. Markdown-only listing is retained for the protected
+  // `自己分析` / `_テンプレート` folders loaded elsewhere.
   const [files, subDirs] = await Promise.all([
-    listMarkdownFileHandles(dir),
+    listAllFileHandles(dir),
     listSubdirectories(dir),
   ]);
 
@@ -96,7 +112,10 @@ async function loadSelfAnalysis(root: FileSystemDirectoryHandle): Promise<{
   try {
     const dir = await findSubdirectory(root, SELF_ANALYSIS_DIR);
     if (!dir) return { dirHandle: null, files: [] };
-    const files = await listMarkdownFileHandles(dir);
+    // Pick up every visible file (images / PDFs / docx / etc.), not just
+    // markdown. The FileTree now routes each file through the right viewer
+    // based on its extension.
+    const files = await listAllFileHandles(dir);
     return { dirHandle: dir, files };
   } catch {
     return { dirHandle: null, files: [] };
@@ -112,16 +131,16 @@ async function loadTemplates(root: FileSystemDirectoryHandle): Promise<{
     if (!tplDir) return { dirHandle: null, files: [] };
     const out: TemplateFileEntry[] = [];
 
-    // top-level md files in _テンプレート
-    const topFiles = await listMarkdownFileHandles(tplDir);
+    // top-level files in _テンプレート (any extension now)
+    const topFiles = await listAllFileHandles(tplDir);
     for (const f of topFiles) {
       out.push({ name: f.name, handle: f.handle });
     }
 
-    // _テンプレート/企業名_テンプレート/*.md
+    // _テンプレート/企業名_テンプレート/* (any extension now)
     const subDirs = await listSubdirectories(tplDir);
     for (const sub of subDirs) {
-      const files = await listMarkdownFileHandles(sub);
+      const files = await listAllFileHandles(sub);
       for (const f of files) {
         out.push({ name: `${sub.name}/${f.name}`, handle: f.handle });
       }
@@ -145,7 +164,7 @@ export async function loadWorkspace(
     (d) => !IGNORED_TOP_DIRS.has(d.name.normalize('NFC')),
   );
 
-  const tree: WorkspaceNode[] = await Promise.all(
+  const folderNodes: WorkspaceNode[] = await Promise.all(
     topFolders.map(async (sub) => {
       const name = sub.name.normalize('NFC');
       const path = [name];
@@ -158,7 +177,29 @@ export async function loadWorkspace(
       };
     }),
   );
-  tree.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+
+  // ALSO include files placed directly under the workspace root so users can
+  // drop a PDF / image / docx etc. at the top level and still see it in the
+  // tree. Previously only subdirectories were scanned, which silently hid
+  // any root-level file.
+  const rootFilesRaw = await listAllFileHandles(root);
+  const rootFileNodes: WorkspaceNode[] = rootFilesRaw
+    .filter((f) => !ROOT_FILE_DENYLIST.has(f.name))
+    .map((f) => {
+      const name = f.name.normalize('NFC');
+      return {
+        kind: 'file' as const,
+        name,
+        path: [name],
+        handle: f.handle,
+      };
+    });
+
+  folderNodes.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  rootFileNodes.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  // Folders first, then files — mirrors the convention used inside
+  // `scanFolder` for nested levels.
+  const tree: WorkspaceNode[] = [...folderNodes, ...rootFileNodes];
 
   const [selfAnalysis, templates] = await Promise.all([
     loadSelfAnalysis(root),

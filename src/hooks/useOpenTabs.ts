@@ -1,21 +1,31 @@
 import { useCallback, useState } from 'react';
+import { getFileKind, type FileKind } from '../lib/fileKind';
 
-export interface OpenTab {
+/**
+ * A single open FILE tab. `kind` is derived from the file's extension and
+ * drives which viewer is rendered (see `TabViewer`). Markdown is the only
+ * editable kind; every other kind is read-only.
+ */
+export interface FileTab {
+  kind: FileKind;
   key: string;          // unique path-like id
   label: string;        // display name shown in tab
   breadcrumb: string[]; // breadcrumb context (kept for tooltip / future use)
   handle: FileSystemFileHandle;
 }
 
+export type OpenTab = FileTab;
+
 export function useOpenTabs() {
   const [tabs, setTabs] = useState<OpenTab[]>([]);
   const [activeKey, setActiveKey] = useState<string | null>(null);
 
-  const openFile = useCallback((tab: OpenTab) => {
+  const openFile = useCallback((tab: Omit<FileTab, 'kind'>) => {
+    const kind = getFileKind(tab.label);
     setTabs((prev) => {
       const exists = prev.find((t) => t.key === tab.key);
       if (exists) return prev;
-      return [...prev, tab];
+      return [...prev, { kind, ...tab }];
     });
     setActiveKey(tab.key);
   }, []);
@@ -36,7 +46,7 @@ export function useOpenTabs() {
     [activeKey],
   );
 
-  const activate = useCallback((key: string) => {
+  const activate = useCallback((key: string | null) => {
     setActiveKey(key);
   }, []);
 

@@ -22,30 +22,14 @@ export interface CompanyTemplateFile {
   content: string;    // 生テキスト (プレースホルダ未置換)
 }
 
+const EXCLUDED_TEMPLATE_FILES: ReadonlySet<string> = new Set([
+  // 選考ステータス / 締切管理は就活スプレッドシート側で一元管理するため、
+  // 企業フォルダ直下には作成しない。ユーザーの _テンプレート フォルダに
+  // 残っていても読み込み時にスキップする。
+  '選考フロー・ステータス.md',
+]);
+
 const FALLBACK_TEMPLATES: CompanyTemplateFile[] = [
-  {
-    name: '選考フロー・ステータス.md',
-    content: `# 選考フロー・ステータス：【企業名】
-
-## 現在のステータス
-> **未応募**
-
-\`未応募\` → \`エントリー済\` → \`ES提出済\` → \`Webテスト\` → \`1次面接\` → \`2次面接\` → \`最終面接\` → \`内定\` / \`お祈り\`
-
-## 締切日一覧
-| 項目 | 締切日 | 状態 |
-|------|--------|------|
-| エントリー |  | 未 |
-| ES提出 |  | 未 |
-| Webテスト |  | 未 |
-| 1次面接 |  | 未 |
-| 2次面接 |  | 未 |
-| 最終面接 |  | 未 |
-
-## メモ
--
-`,
-  },
   {
     name: '企業分析.md',
     content: `# 企業分析：【企業名】
@@ -136,7 +120,9 @@ export async function loadCompanyTemplates(
       console.warn('企業名_テンプレート directory not found, using fallbacks');
       return FALLBACK_TEMPLATES;
     }
-    const fileNames = await listMarkdownFiles(companyTplDir);
+    const fileNames = (await listMarkdownFiles(companyTplDir)).filter(
+      (n) => !EXCLUDED_TEMPLATE_FILES.has(n),
+    );
     if (fileNames.length === 0) {
       console.warn('企業名_テンプレート is empty, using fallbacks');
       return FALLBACK_TEMPLATES;

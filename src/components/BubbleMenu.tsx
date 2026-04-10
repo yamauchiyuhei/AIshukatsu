@@ -6,8 +6,10 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  Highlighter,
   Italic,
   Link as LinkIcon,
+  Palette,
   Pilcrow,
   Quote,
   Strikethrough,
@@ -101,6 +103,95 @@ export function BubbleMenu({ view, anchor, visible }: Props) {
     view.focus();
   };
 
+  /**
+   * Extract the plain text content of the current selection, walking into
+   * any `html` atom nodes (which contain a `<span>…</span>` HTML string) and
+   * returning just the inner text. Without this helper, `textBetween` would
+   * return empty string for atom nodes and the replacement would eat them.
+   */
+  const extractSelectionPlainText = (
+    v: EditorView,
+    from: number,
+    to: number,
+  ): string => {
+    let text = '';
+    v.state.doc.nodesBetween(from, to, (node, pos) => {
+      if (node.isText) {
+        const start = Math.max(from, pos);
+        const end = Math.min(to, pos + node.nodeSize);
+        text += (node.text ?? '').slice(start - pos, end - pos);
+        return false;
+      }
+      if (node.type.name === 'html') {
+        const value = (node.attrs.value as string) ?? '';
+        // Strip all <span ...> and </span> tags, keep inner text content.
+        // Anything else inside (unlikely here) is also stripped.
+        const stripped = value
+          .replace(/<span\b[^>]*>/gi, '')
+          .replace(/<\/span>/gi, '')
+          .replace(/<[^>]+>/g, ''); // belt-and-braces for any other tags
+        text += stripped;
+        return false;
+      }
+      return true;
+    });
+    return text;
+  };
+
+  /**
+   * Wrap the current selection in a `<span style="...">…</span>` by replacing
+   * it with an `html` atom node. Previously-colored spans in the selection
+   * get unwrapped first (so their text is preserved and their old style is
+   * overwritten by the new one).
+   */
+  const wrapWithStyle = (styleValue: string) => {
+    const htmlType = view.state.schema.nodes.html as NodeType | undefined;
+    if (!htmlType) return;
+    const { from, to, empty } = view.state.selection;
+    if (empty) return;
+    const plainText = extractSelectionPlainText(view, from, to);
+    if (!plainText) return;
+    const safe = plainText.replace(/<\/span>/gi, '');
+    const value = `<span style="${styleValue}">${safe}</span>`;
+    const node = htmlType.create({ value });
+    const tr = view.state.tr.replaceWith(from, to, node);
+    view.dispatch(tr);
+    view.focus();
+  };
+
+  /**
+   * Remove any color/background wrapping from the current selection, leaving
+   * plain text in its place.
+   */
+  const unwrapToPlainText = () => {
+    const { from, to, empty } = view.state.selection;
+    if (empty) return;
+    const plainText = extractSelectionPlainText(view, from, to);
+    if (!plainText) return;
+    const textNode = view.state.schema.text(plainText);
+    const tr = view.state.tr.replaceWith(from, to, textNode);
+    view.dispatch(tr);
+    view.focus();
+  };
+
+  const applyTextColor = (color: string) => {
+    if (color === 'inherit') {
+      unwrapToPlainText();
+      return;
+    }
+    wrapWithStyle(`color:${color}`);
+  };
+
+  const applyBgColor = (color: string) => {
+    if (color === 'transparent') {
+      unwrapToPlainText();
+      return;
+    }
+    wrapWithStyle(
+      `background-color:${color}; padding:0 3px; border-radius:3px`,
+    );
+  };
+
   // Find the strikethrough mark name (varies between presets)
   const strikeMarkName = view.state.schema.marks.strike_through
     ? 'strike_through'
@@ -161,9 +252,134 @@ export function BubbleMenu({ view, anchor, visible }: Props) {
 
       <div className="mx-1 h-5 w-px bg-slate-200" />
 
+      <ColorPaletteButton
+        icon={<Palette size={14} />}
+        title="文字色"
+        palette={TEXT_COLORS}
+        onPick={applyTextColor}
+      />
+      <ColorPaletteButton
+        icon={<Highlighter size={14} />}
+        title="背景色 (ハイライト)"
+        palette={BG_COLORS}
+        onPick={applyBgColor}
+      />
+
+      <div className="mx-1 h-5 w-px bg-slate-200" />
+
       <ToolbarButton active={activeMarks.link} title="リンク (⌘K)" onClick={addLink}>
         <LinkIcon size={14} />
       </ToolbarButton>
+    </div>
+  );
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// Color palette dropdown
+// ────────────────────────────────────────────────────────────────────────────
+
+interface Swatch {
+  label: string;
+  value: string;
+}
+
+const TEXT_COLORS: Swatch[] = [
+  { label: 'デフォルト', value: 'inherit' },
+  { label: 'グレー', value: '#64748b' },
+  { label: '赤', value: '#ef4444' },
+  { label: 'オレンジ', value: '#f97316' },
+  { label: '黄', value: '#eab308' },
+  { label: '緑', value: '#22c55e' },
+  { label: '青', value: '#3b82f6' },
+  { label: '紫', value: '#a855f7' },
+  { label: '桃', value: '#ec4899' },
+];
+
+const BG_COLORS: Swatch[] = [
+  { label: 'なし', value: 'transparent' },
+  { label: 'グレー', value: '#e2e8f0' },
+  { label: '赤', value: '#fecaca' },
+  { label: 'オレンジ', value: '#fed7aa' },
+  { label: '黄', value: '#fef08a' },
+  { label: '緑', value: '#bbf7d0' },
+  { label: '青', value: '#bfdbfe' },
+  { label: '紫', value: '#e9d5ff' },
+  { label: '桃', value: '#fbcfe8' },
+];
+
+function ColorPaletteButton({
+  icon,
+  title,
+  palette,
+  onPick,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  palette: Swatch[];
+  onPick: (value: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        title={title}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          setOpen((v) => !v);
+        }}
+        className="flex h-7 w-7 items-center justify-center rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+      >
+        {icon}
+      </button>
+      {open && (
+        <div
+          className="absolute left-0 top-9 z-[60] w-40 rounded-md border border-slate-200 bg-white p-1 shadow-xl"
+          onMouseDown={(e) => e.preventDefault()}
+        >
+          <div className="mb-1 px-2 pt-1 text-[10px] font-medium uppercase text-slate-400">
+            {title}
+          </div>
+          <div className="grid grid-cols-1 gap-0.5">
+            {palette.map((s) => (
+              <button
+                key={s.value}
+                type="button"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  setOpen(false);
+                  onPick(s.value);
+                }}
+                className="flex items-center gap-2 rounded px-2 py-1 text-left text-xs text-slate-700 hover:bg-slate-100"
+              >
+                <span
+                  className="h-4 w-4 shrink-0 rounded border border-slate-200"
+                  style={{
+                    backgroundColor:
+                      s.value === 'inherit' || s.value === 'transparent'
+                        ? 'white'
+                        : s.value,
+                  }}
+                />
+                <span className="truncate">{s.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

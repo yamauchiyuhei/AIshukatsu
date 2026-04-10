@@ -17,9 +17,18 @@ body {
   @apply outline-none text-slate-800;
   font-size: 15px;
   line-height: 1.7;
+  /* Leave room on the left so the "+" block handle can sit outside the
+   * content column without colliding with the contenteditable focus frame. */
+  padding-left: 28px;
 }
-.milkdown .editor {
+.milkdown .editor,
+.milkdown .ProseMirror {
   @apply min-h-[400px] max-w-none px-2 py-4;
+  outline: none !important;
+}
+.milkdown .ProseMirror:focus,
+.milkdown .ProseMirror:focus-visible {
+  outline: none !important;
 }
 
 /* Headings */
@@ -68,30 +77,31 @@ body {
 
 /* Links */
 .milkdown a {
-  @apply text-blue-600 underline underline-offset-2 hover:text-blue-700;
+  @apply text-blue-600 underline underline-offset-2 hover:text-blue-700 cursor-pointer;
 }
 
-/* Tables — GitHub-style */
+/* Tables — VSCode-preview style, compact */
 .milkdown table {
-  @apply w-full my-5 border-collapse text-sm;
+  @apply w-auto my-4 border-collapse text-[13px];
   border: 1px solid theme('colors.slate.200');
 }
 .milkdown thead {
-  @apply bg-slate-50;
+  @apply bg-slate-100/70;
 }
 .milkdown th {
-  @apply px-4 py-2 text-left font-semibold text-slate-700;
+  @apply px-3 py-1.5 text-left font-semibold text-slate-800 leading-snug;
   border: 1px solid theme('colors.slate.200');
 }
 .milkdown td {
-  @apply px-4 py-2 text-slate-700 align-top;
+  @apply px-3 py-1.5 text-slate-700 align-top leading-snug;
   border: 1px solid theme('colors.slate.200');
 }
-.milkdown tbody tr:nth-child(even) {
-  @apply bg-slate-50/50;
+.milkdown td > p,
+.milkdown th > p {
+  @apply my-0;
 }
 .milkdown tbody tr:hover {
-  @apply bg-slate-50;
+  @apply bg-slate-50/60;
 }
 
 /* Task lists (GFM checkboxes) */
@@ -107,3 +117,344 @@ body {
 /* Strong / em */
 .milkdown strong { @apply font-semibold text-slate-900; }
 .milkdown em { @apply italic; }
+
+/* ─────────────────────────────────────────────────────────
+ * Spreadsheet (就活スプレッドシート) design tokens + helpers
+ * ───────────────────────────────────────────────────────── */
+:root {
+  --bg-base: #fafafa;
+  --bg-elev: #ffffff;
+  --bg-soft: #f5f5f7;
+  --border-soft: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+  --text-strong: #0f172a;
+  --text-soft: #475569;
+  --text-faint: #94a3b8;
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.08);
+  --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 1px rgba(15, 23, 42, 0.03);
+  --shadow-2: 0 4px 12px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+}
+
+.shukatsu-spreadsheet-root input[type="number"]::-webkit-inner-spin-button,
+.shukatsu-spreadsheet-root input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.shukatsu-spreadsheet-root input:focus,
+.shukatsu-spreadsheet-root textarea:focus,
+.shukatsu-spreadsheet-root select:focus {
+  outline: none;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-toast-in { animation: toast-in 180ms ease-out; }
+
+@keyframes drawer-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.animate-drawer-in { animation: drawer-in 240ms cubic-bezier(0.22, 1, 0.36, 1); }
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-pop-in { animation: pop-in 140ms ease-out; }
+
+@keyframes pulse-soft {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(79, 70, 229, 0); }
+}
+.animate-pulse-soft { animation: pulse-soft 1.6s ease-in-out infinite; }
+
+.apple-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+}
+.apple-pill { border-radius: 999px; }
+.apple-input {
+  background: var(--bg-soft);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--text-strong);
+  transition: background 120ms, border-color 120ms;
+}
+.apple-input:focus {
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* -------------------------------------------------------------------------
+ * Block handle ("+" button) — Notion-style inserter, powered by
+ * @milkdown/plugin-block. The plugin positions .block-handle to the left of
+ * the hovered top-level block via floating-ui and toggles [data-show].
+ * We additionally hide it while the user has a text selection (so the
+ * BubbleMenu has visual priority).
+ * ------------------------------------------------------------------------- */
+.block-handle {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  color: #94a3b8; /* slate-400 */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+  z-index: 20;
+  user-select: none;
+  cursor: grab;
+}
+.block-handle[data-show='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+.block-handle[data-selection-active='true'] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.block-handle:active {
+  cursor: grabbing;
+}
+.block-handle__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms;
+}
+.block-handle__btn:hover {
+  background-color: #f1f5f9; /* slate-100 */
+  color: #475569; /* slate-600 */
+}
+.block-handle__btn:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 1px;
+}
+
+/* -------------------------------------------------------------------------
+ * Block insert menu (shown after clicking the "+" button).
+ * ------------------------------------------------------------------------- */
+.block-insert-menu {
+  min-width: 240px;
+  padding: 6px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0; /* slate-200 */
+  border-radius: 10px;
+  box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.25),
+    0 4px 12px -4px rgba(15, 23, 42, 0.15);
+  z-index: 60;
+  font-size: 13px;
+  animation: blockMenuIn 120ms ease-out;
+}
+@keyframes blockMenuIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.block-insert-menu__section-label {
+  padding: 6px 10px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8; /* slate-400 */
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+.block-insert-menu__item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #0f172a; /* slate-900 */
+  text-align: left;
+  transition: background-color 90ms;
+}
+.block-insert-menu__item.is-active,
+.block-insert-menu__item:hover {
+  background-color: #f1f5f9; /* slate-100 */
+}
+.block-insert-menu__icon {
+  width: 16px;
+  height: 16px;
+  color: #475569; /* slate-600 */
+  flex-shrink: 0;
+}
+.block-insert-menu__label {
+  flex: 1;
+}
+.block-insert-menu__hint {
+  font-size: 11px;
+  color: #94a3b8; /* slate-400 */
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* -------------------------------------------------------------------------
+ * Sheet preview (xlsx/csv via SheetJS `sheet_to_html`).
+ * SheetJS emits a bare <table> with inline attrs; we style it consistently
+ * with the app's compact table look so it doesn't clash with the rest.
+ * ------------------------------------------------------------------------- */
+.sheet-preview table {
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 100%;
+}
+.sheet-preview th,
+.sheet-preview td {
+  border: 1px solid #e2e8f0; /* slate-200 */
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+  white-space: pre-wrap;
+  color: #334155; /* slate-700 */
+}
+.sheet-preview tr:first-child td,
+.sheet-preview thead td,
+.sheet-preview th {
+  background-color: #f1f5f9; /* slate-100 */
+  font-weight: 600;
+  color: #0f172a; /* slate-900 */
+}
+.sheet-preview tbody tr:hover td {
+  background-color: rgba(241, 245, 249, 0.5);
+}
+
+/* -------------------------------------------------------------------------
+ * DOCX preview (mammoth-generated HTML).
+ * Mammoth outputs semantic tags (h1-h6, p, ul, ol, table, strong, em, ...);
+ * we reuse the Milkdown-style headings/lists by scoping similar rules.
+ * ------------------------------------------------------------------------- */
+.docx-preview {
+  color: #1e293b; /* slate-800 */
+  font-size: 15px;
+  line-height: 1.75;
+}
+.docx-preview h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.docx-preview h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1.4rem 0 0.8rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.docx-preview h3 { font-size: 1.25rem; font-weight: 600; margin: 1.2rem 0 0.6rem; }
+.docx-preview h4 { font-size: 1.1rem;  font-weight: 600; margin: 1rem 0 0.5rem; }
+.docx-preview p { margin: 0.6rem 0; }
+.docx-preview ul { list-style: disc; padding-left: 1.5rem; margin: 0.6rem 0; }
+.docx-preview ol { list-style: decimal; padding-left: 1.5rem; margin: 0.6rem 0; }
+.docx-preview li { margin: 0.2rem 0; }
+.docx-preview blockquote {
+  border-left: 4px solid #cbd5e1;
+  padding-left: 1rem;
+  color: #475569;
+  margin: 0.8rem 0;
+}
+.docx-preview table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 13px;
+}
+.docx-preview th,
+.docx-preview td {
+  border: 1px solid #e2e8f0;
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.docx-preview th { background-color: #f1f5f9; font-weight: 600; }
+.docx-preview strong { font-weight: 600; color: #0f172a; }
+.docx-preview em { font-style: italic; }
+.docx-preview img { max-width: 100%; height: auto; margin: 0.5rem 0; }
+.docx-preview a {
+  color: #2563eb; /* blue-600 */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------------
+ * File right-click context menu (shared by FileTree entries).
+ * ------------------------------------------------------------------------- */
+.file-context-menu {
+  min-width: 200px;
+  padding: 4px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.25),
+    0 4px 12px -4px rgba(15, 23, 42, 0.15);
+  z-index: 150;
+  font-size: 13px;
+  animation: blockMenuIn 120ms ease-out;
+}
+.file-context-menu__item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #0f172a;
+  text-align: left;
+  transition: background-color 90ms;
+}
+.file-context-menu__item:hover {
+  background-color: #f1f5f9;
+}
+.file-context-menu__item--danger {
+  color: #e11d48; /* rose-600 */
+}
+.file-context-menu__item--danger:hover {
+  background-color: #fff1f2; /* rose-50 */
+}
+.file-context-menu__icon {
+  flex-shrink: 0;
+  color: #475569;
+}
+.file-context-menu__item--danger .file-context-menu__icon {
+  color: #e11d48;
+}
+.file-context-menu__sep {
+  height: 1px;
+  background-color: #f1f5f9;
+  margin: 4px 6px;
+}
+
+/* -------------------------------------------------------------------------
+ * Markdown source view (read-only raw markdown display).
+ * ------------------------------------------------------------------------- */
+.markdown-source {
+  padding: 1rem 0;
+}

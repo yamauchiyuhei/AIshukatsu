@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { pickRootDirectory } from '../lib/fs';
+import { pickRootDirectory, type PickRootDirectoryOptions } from '../lib/fs';
 import {
   clearRootHandle,
   ensureReadWritePermission,
@@ -31,10 +31,18 @@ export function useRootDirectory() {
     })();
   }, []);
 
-  const pick = useCallback(async () => {
-    const picked = await pickRootDirectory();
+  const pick = useCallback(async (options?: PickRootDirectoryOptions) => {
+    const picked = await pickRootDirectory(options);
     await saveRootHandle(picked);
     setHandle(picked);
+    setStatus('ready');
+    return picked;
+  }, []);
+
+  /** Adopt an already-picked handle (e.g. a subdirectory we created). */
+  const adopt = useCallback(async (next: FileSystemDirectoryHandle) => {
+    await saveRootHandle(next);
+    setHandle(next);
     setStatus('ready');
   }, []);
 
@@ -50,5 +58,5 @@ export function useRootDirectory() {
     setStatus('no-handle');
   }, []);
 
-  return { handle, status, pick, requestPermission, reset };
+  return { handle, status, pick, adopt, requestPermission, reset };
 }

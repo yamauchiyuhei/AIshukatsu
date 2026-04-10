@@ -10,7 +10,13 @@ export function WelcomeScreen({ needsPermission, onPick, onRequestPermission }: 
   return (
     <div className="flex h-screen items-center justify-center px-6">
       <div className="max-w-xl text-center">
-        <h1 className="text-4xl font-bold text-slate-900">AI就活くん</h1>
+        <div className="mx-auto mb-4 h-40 w-40 overflow-hidden">
+          <img
+            src="/logo.png"
+            alt="AI就活"
+            className="h-full w-full scale-[1.45] object-contain"
+          />
+        </div>
         <p className="mt-3 text-slate-600">
           ローカルのMarkdownファイルで就活情報を管理する、AIフレンドリーなツール。
         </p>

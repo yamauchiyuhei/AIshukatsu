@@ -3,12 +3,15 @@ import { WelcomeScreen } from './components/WelcomeScreen';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { LoginScreen } from './components/onboarding/LoginScreen';
 import { isOnboarded } from './lib/onboardingState';
-import { FileTree } from './components/FileTree';
+import { FileTree, type ContextMenuRequest } from './components/FileTree';
 import { TabBar } from './components/TabBar';
-import { MarkdownPage } from './components/MarkdownPage';
+import { TabViewer } from './components/TabViewer';
 import { AddCompanyModal } from './components/AddCompanyModal';
 import { AddFolderModal } from './components/AddFolderModal';
 import { AddFileModal } from './components/AddFileModal';
+import { FileContextMenu, type ContextMenuTarget } from './components/FileContextMenu';
+import { ConfirmDialog } from './components/ConfirmDialog';
+import { RenameDialog } from './components/RenameDialog';
 import type { TargetLocation } from './components/LocationPicker';
 import { useRootDirectory } from './hooks/useRootDirectory';
 import { useWorkspace } from './hooks/useWorkspace';
@@ -21,13 +24,17 @@ import { useSheet } from './spreadsheet/lib/store';
 import {
   createEmptyFile,
   createSubdirectory,
+  deleteFileEntry,
+  deleteFolderEntry,
   ensureMdExtension,
   fileExists,
+  renameFileEntry,
+  renameFolderEntry,
   subdirectoryExists,
 } from './lib/fs';
 import { writeCompanyFolder } from './lib/companyFolderCreator';
 import { resolveFolderByPath } from './lib/workspace';
-import { Workspace, WorkspaceNode } from './types';
+import type { Workspace, WorkspaceNode } from './types';
 
 /**
  * Resolve `path` (from workspace root) to a directory handle. An empty path
@@ -55,6 +62,19 @@ export default function App() {
   const [showAddFile, setShowAddFile] = useState(false);
   const { names: companySuggestions } = useCompanyMaster();
 
+  // Right-click context menu state (anchor + target) lives here so we can
+  // render the menu overlay and the rename/delete dialogs it triggers.
+  const [ctxAnchor, setCtxAnchor] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+  const [ctxTarget, setCtxTarget] = useState<ContextMenuTarget | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<ContextMenuTarget | null>(
+    null,
+  );
+  const [renameTarget, setRenameTarget] = useState<ContextMenuTarget | null>(
+    null,
+  );
+
   // Reactive auth state from the spreadsheet store. Drives the top-level
   // auth gate below so that signing out (which flips store.user to null)
   // immediately routes the user back to the LoginScreen.
@@ -78,7 +98,7 @@ export default function App() {
     return () => unsub();
   }, []);
 
-  // After workspace refreshes, drop tabs whose files no longer exist
+  // After workspace refreshes, drop tabs whose files no longer exist.
   const validKeys = useMemo(() => {
     if (!workspace) return new Set<string>();
     const set = new Set<string>();
@@ -233,7 +253,63 @@ export default function App() {
     setShowAddFile(false);
   };
 
-  const fileTabActive = tabs.activeTab?.kind === 'file';
+  const handleContextMenu = (req: ContextMenuRequest) => {
+    setCtxAnchor({ x: req.x, y: req.y });
+    setCtxTarget(req.target);
+  };
+
+  const closeContextMenu = () => {
+    setCtxAnchor(null);
+    setCtxTarget(null);
+  };
+
+  const handleCtxCreateFile = (target: ContextMenuTarget) => {
+    // Reuse the existing AddFileModal by pre-pointing it at this folder.
+    // The modal's LocationPicker still lets the user change target.
+    setShowAddFile(true);
+  };
+
+  const handleCtxCreateFolder = (target: ContextMenuTarget) => {
+    setShowAddFolder(true);
+  };
+
+  const performDelete = async () => {
+    if (!deleteTarget) return;
+    try {
+      const parentPath = deleteTarget.path.slice(0, -1);
+      const parent = resolveNodeByPath(workspace, parentPath);
+      if (deleteTarget.kind === 'file') {
+        await deleteFileEntry(parent, deleteTarget.name);
+      } else {
+        await deleteFolderEntry(parent, deleteTarget.name);
+      }
+      await refresh();
+    } catch (e) {
+      console.error('[delete] failed', e);
+      alert(
+        '削除に失敗しました: ' + (e instanceof Error ? e.message : String(e)),
+      );
+    } finally {
+      setDeleteTarget(null);
+    }
+  };
+
+  const performRename = async (newName: string) => {
+    if (!renameTarget) return;
+    const parentPath = renameTarget.path.slice(0, -1);
+    const parent = resolveNodeByPath(workspace, parentPath);
+    if (renameTarget.kind === 'file') {
+      await renameFileEntry(parent, renameTarget.name, newName);
+    } else {
+      await renameFolderEntry(parent, renameTarget.name, newName);
+    }
+    await refresh();
+    setRenameTarget(null);
+  };
+
+  // A tab is "active" whenever `activeTab` is non-null — the spreadsheet
+  // view is shown when there's no active tab at all.
+  const fileTabActive = tabs.activeTab != null;
 
   return (
     <div className="flex h-screen bg-slate-50">
@@ -251,6 +327,7 @@ export default function App() {
         onChangeFolder={async () => {
           await reset();
         }}
+        onContextMenu={handleContextMenu}
       />
 
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -262,12 +339,16 @@ export default function App() {
         />
 
         <div className="flex-1 overflow-hidden">
-          {tabs.activeTab?.kind === 'file' ? (
-            <MarkdownPage
-              fileHandle={tabs.activeTab.handle}
-              fileKey={tabs.activeTab.key}
-              label={tabs.activeTab.label}
-              breadcrumb={tabs.activeTab.breadcrumb}
+          {tabs.activeTab ? (
+            <TabViewer
+              tab={tabs.activeTab}
+              rootName={handle.name}
+              onNavigate={(index) => {
+                // Home click (index === -1) returns to the spreadsheet.
+                // Parent-segment clicks are a no-op because the sidebar
+                // tree is the single source of navigation here.
+                if (index === -1) tabs.activate(null);
+              }}
             />
           ) : (
             <SpreadsheetRoot active={!fileTabActive} />
@@ -297,6 +378,38 @@ export default function App() {
           onSubmit={handleAddFile}
         />
       )}
+
+      <FileContextMenu
+        anchor={ctxAnchor}
+        target={ctxTarget}
+        onClose={closeContextMenu}
+        onCreateFile={handleCtxCreateFile}
+        onCreateFolder={handleCtxCreateFolder}
+        onRename={(t) => setRenameTarget(t)}
+        onDelete={(t) => setDeleteTarget(t)}
+      />
+      <ConfirmDialog
+        open={deleteTarget != null}
+        title={deleteTarget?.kind === 'folder' ? 'フォルダを削除' : 'ファイルを削除'}
+        message={
+          deleteTarget
+            ? `「${deleteTarget.name}」を${
+                deleteTarget.kind === 'folder' ? 'フォルダごと' : ''
+              }完全に削除します。\nこの操作は取り消せません。`
+            : ''
+        }
+        confirmLabel="削除"
+        destructive
+        onConfirm={() => void performDelete()}
+        onCancel={() => setDeleteTarget(null)}
+      />
+      <RenameDialog
+        open={renameTarget != null}
+        initialName={renameTarget?.name ?? ''}
+        title={renameTarget?.kind === 'folder' ? 'フォルダの名前を変更' : 'ファイルの名前を変更'}
+        onCancel={() => setRenameTarget(null)}
+        onSubmit={performRename}
+      />
     </div>
   );
 }

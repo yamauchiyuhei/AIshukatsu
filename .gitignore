@@ -16,3 +16,9 @@ vite.config.d.ts
 # Tauri / Rust
 src-tauri/target
 src-tauri/gen/schemas
+
+# Firebase local cache
+.firebase/
+
+# Temp / generated artifacts
+tmp/
