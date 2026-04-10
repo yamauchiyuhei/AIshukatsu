@@ -77,7 +77,10 @@ jobs:
           workspaces: ./src-tauri -> target
 
       - name: Install frontend dependencies
-        run: npm ci
+        run: |
+          node --version
+          npm --version
+          npm ci --foreground-scripts --loglevel=verbose 2>&1 | tail -200
 
       - name: Build & release (tauri-action)
         uses: tauri-apps/tauri-action@v0
