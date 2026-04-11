@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { LoginScreen } from './components/onboarding/LoginScreen';
+import { LandingPage } from './components/LandingPage';
 import { isOnboarded } from './lib/onboardingState';
 import { FileTree, type ContextMenuRequest } from './components/FileTree';
 import { TabBar } from './components/TabBar';
@@ -150,7 +151,7 @@ export default function App() {
   // local workspace UI. Root handle and onboarding flag are preserved, so
   // signing back in restores the previous state instantly.
   if (firebaseEnabled && !authUser) {
-    return <LoginScreen variant="gate" user={null} onNext={() => {}} />;
+    return <LandingPage onSignIn={() => {}} />;
   }
   if (status === 'no-handle' && !isOnboarded()) {
     // First-time visitor → show the guided onboarding flow. Once finished,
