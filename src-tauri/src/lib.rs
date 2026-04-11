@@ -5,7 +5,7 @@ pub fn run() {
     let mut builder = tauri::Builder::default();
 
     // On desktop: ensure only one instance is running. A second launch
-    // (e.g. triggered by the OS opening an `aisyuukatsu://` deep link)
+    // (e.g. triggered by the OS opening an `aishukatsu://` deep link)
     // re-focuses the existing window and forwards the URL via the
     // deep-link plugin.
     #[cfg(desktop)]
@@ -20,7 +20,7 @@ pub fn run() {
             // Log the deep-link URL for debugging; the deep-link plugin
             // emits `on_open_url` events that the JS side listens for.
             for arg in &argv {
-                if arg.starts_with("aisyuukatsu://") {
+                if arg.starts_with("aishukatsu://") {
                     eprintln!("[single-instance] deep link: {}", arg);
                 }
             }
@@ -39,7 +39,7 @@ pub fn run() {
             #[cfg(any(target_os = "linux", all(debug_assertions, windows)))]
             {
                 use tauri_plugin_deep_link::DeepLinkExt;
-                let _ = app.deep_link().register("aisyuukatsu");
+                let _ = app.deep_link().register("aishukatsu");
             }
             let _ = app;
             Ok(())

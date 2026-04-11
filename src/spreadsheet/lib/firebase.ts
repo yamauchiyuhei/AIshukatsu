@@ -64,7 +64,7 @@ const DESKTOP_AUTH_URL =
  *
  * - In a browser: opens the standard Firebase popup flow.
  * - In the Tauri desktop app: opens the user's default browser to the hosted
- *   desktop-auth page, waits for the `aisyuukatsu://auth-callback` deep link
+ *   desktop-auth page, waits for the `aishukatsu://auth-callback` deep link
  *   to come back, then exchanges the OAuth credential locally.
  */
 export async function signInWithGoogle(): Promise<User | null> {
@@ -100,7 +100,7 @@ async function signInWithGoogleViaDeepLink(authInstance: Auth): Promise<User | n
         for (const raw of urls) {
           try {
             const u = new URL(raw);
-            if (u.protocol !== 'aisyuukatsu:') continue;
+            if (u.protocol !== 'aishukatsu:') continue;
             if (u.host !== 'auth-callback' && u.pathname !== '//auth-callback') {
               // Deep link URLs from different platforms put the "host" in
               // different places — accept either shape.

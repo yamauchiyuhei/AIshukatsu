@@ -17,7 +17,7 @@ import {
 import { signInWithGoogle } from '../spreadsheet/lib/firebase';
 
 const GITHUB_RELEASE =
-  'https://github.com/yamauchiyuhei/AIsyuukatsu/releases/latest';
+  'https://github.com/yamauchiyuhei/AIshukatsu/releases/latest';
 const DL_MACOS =
   `${GITHUB_RELEASE}/download/AI._aarch64.app.tar.gz`;
 const DL_WINDOWS =
@@ -340,7 +340,7 @@ export function LandingPage({ onSignIn }: Props) {
             <span>AI就活</span>
           </div>
           <div className="lp-footer__links">
-            <a href="https://github.com/yamauchiyuhei/AIsyuukatsu" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://github.com/yamauchiyuhei/AIshukatsu" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
           <p className="lp-footer__copy">&copy; {new Date().getFullYear()} AI就活. All rights reserved.</p>
         </div>

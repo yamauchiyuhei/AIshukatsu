@@ -8,7 +8,7 @@
 //   4. On click, `signInWithRedirect()` navigates the tab to Google.
 //      After the user signs in, Google redirects back to this same page.
 //   5. We extract the OAuth credential (idToken + accessToken) and navigate
-//      to `aisyuukatsu://auth-callback?idToken=...&accessToken=...`.
+//      to `aishukatsu://auth-callback?idToken=...&accessToken=...`.
 //   6. The desktop app catches the deep link via plugin-deep-link, calls
 //      `signInWithCredential`, and the user is now signed in inside the app.
 
@@ -78,7 +78,7 @@ function handleCredential(
   const params = new URLSearchParams();
   params.set('idToken', idToken);
   if (accessToken) params.set('accessToken', accessToken);
-  const target = `aisyuukatsu://auth-callback?${params.toString()}`;
+  const target = `aishukatsu://auth-callback?${params.toString()}`;
 
   setStatus(
     'サインインに成功しました。下のボタンを押してデスクトップアプリに戻ってください。',
@@ -89,7 +89,7 @@ function handleCredential(
     signinBtn.style.display = 'none';
   }
 
-  // Show a real <a href="aisyuukatsu://..."> anchor. Chrome honors direct
+  // Show a real <a href="aishukatsu://..."> anchor. Chrome honors direct
   // anchor clicks to custom schemes much more reliably than scripted
   // window.location navigation — even with a user gesture, the latter is
   // sometimes silently blocked.

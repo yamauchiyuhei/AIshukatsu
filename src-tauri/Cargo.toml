@@ -1,5 +1,5 @@
 [package]
-name = "aisyuukatsu"
+name = "aishukatsu"
 version = "0.1.2"
 description = "AI就活 — Desktop"
 authors = ["you"]
@@ -7,7 +7,7 @@ edition = "2021"
 rust-version = "1.77"
 
 [lib]
-name = "aisyuukatsu_lib"
+name = "aishukatsu_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

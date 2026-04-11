@@ -1,4 +1,4 @@
-# AIsyuukatsu
+# AIshukatsu
 
 ローカルの Markdown ファイル群を **AI と人間の共通言語** として扱う就活管理アプリ。
 

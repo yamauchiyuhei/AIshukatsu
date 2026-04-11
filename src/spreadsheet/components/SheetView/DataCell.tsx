@@ -133,7 +133,11 @@ export function DataCell({
 
   // Display mode
   const display = formatDisplay(column, value);
-  const isUrl = column.type === 'url' && typeof value === 'string' && value;
+  // Auto-detect URLs: column.type === 'url' OR the cell value starts with http(s)://
+  const strVal = typeof value === 'string' ? value.trim() : '';
+  const isUrl =
+    (column.type === 'url' && strVal) ||
+    /^https?:\/\//i.test(strVal);
 
   return (
     <button
@@ -143,15 +147,16 @@ export function DataCell({
       className={`flex h-full w-full items-center px-2 py-1.5 text-left text-xs transition ${bgClass} ${textClass} ${
         selected ? '' : 'hover:bg-indigo-50/40'
       }`}
-      title="クリックで編集"
+      title={isUrl ? 'クリックで開く / ダブルクリックで編集' : 'クリックで編集'}
     >
       {isUrl ? (
         <a
-          href={String(value)}
+          href={strVal}
           target="_blank"
           rel="noreferrer"
-          className="truncate text-indigo-600 underline"
+          className="truncate text-indigo-600 underline hover:text-indigo-800"
           onClick={(e) => e.stopPropagation()}
+          title={strVal}
         >
           {display || '\u00A0'}
         </a>
