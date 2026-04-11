@@ -50,8 +50,8 @@ jobs:
       matrix:
         include:
           - platform: macos-latest
-            rust_targets: 'aarch64-apple-darwin,x86_64-apple-darwin'
-            tauri_args: '--target universal-apple-darwin'
+            rust_targets: 'aarch64-apple-darwin'
+            tauri_args: '--target aarch64-apple-darwin'
           - platform: windows-latest
             rust_targets: ''
             tauri_args: ''
@@ -113,8 +113,8 @@ jobs:
             ## AI就活 デスクトップアプリ
 
             ### インストール
-            - **macOS (Intel / Apple Silicon)**: `.dmg` をダウンロードして展開
-            - **Windows 10/11 (x64)**: `.msi` または `.exe` をダウンロードして実行
+            - **macOS (Apple Silicon / Rosetta 2 で Intel も可)**: `.dmg` をダウンロードして展開
+            - **Windows 10/11 (x64)**: `.exe` をダウンロードして実行
 
             初回起動時は macOS Gatekeeper / Windows SmartScreen の警告が出る場合があります。署名済みバイナリなので、右クリック → 開く (macOS) で進めてください。
 
