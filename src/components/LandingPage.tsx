@@ -21,7 +21,7 @@ const GITHUB_RELEASE =
 const DL_MACOS =
   `${GITHUB_RELEASE}/download/AI._aarch64.app.tar.gz`;
 const DL_WINDOWS =
-  `${GITHUB_RELEASE}/download/AI._0.1.2_x64-setup.exe`;
+  `${GITHUB_RELEASE}/download/AI._0.1.3_x64-setup.exe`;
 
 interface Props {
   onSignIn: () => void;
@@ -191,19 +191,17 @@ export function LandingPage({ onSignIn }: Props) {
         <div className="lp-hero__content">
           <div className="lp-hero__badge lp-anim-word" style={{ animationDelay: '0s' }}>
             <Sparkles size={13} />
-            <span>就活生のための統合管理アプリ</span>
+            <span>AI が就活を加速する</span>
           </div>
           <h1 className="lp-hero__title">
-            <span className="lp-anim-word" style={{ animationDelay: '0.15s' }}>就活を、</span>
-            <br />
-            <span className="lp-hero__gradient lp-anim-word" style={{ animationDelay: '0.35s' }}>
-              もっとスマートに。
+            <span className="lp-hero__gradient lp-anim-word" style={{ animationDelay: '0.15s' }}>
+              AI が就活を加速する。
             </span>
           </h1>
           <p className="lp-hero__subtitle lp-anim-word" style={{ animationDelay: '0.55s' }}>
-            企業研究・ES・面接対策・スケジュール管理を
+            企業研究・ES・面接・スケジュール。
             <br className="hidden sm:inline" />
-            ひとつのアプリで。ローカルファーストであなたのデータを安全に。
+            就活のすべてをこれ一つで。
           </p>
           <div className="lp-hero__actions lp-anim-word" style={{ animationDelay: '0.7s' }}>
             <button type="button" onClick={handleSignIn} className="lp-btn lp-btn--primary">

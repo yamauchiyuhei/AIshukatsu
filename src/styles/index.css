@@ -419,7 +419,13 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: lp-gradient-shift 6s ease-in-out infinite alternate;
+}
+/* When the gradient span also has the word-entrance animation, combine
+   both animations so neither overrides the other. */
+.lp-hero__gradient.lp-anim-word {
+  animation:
+    lp-word-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    lp-gradient-shift 6s ease-in-out 0.7s infinite alternate;
 }
 @keyframes lp-gradient-shift {
   from { background-position: 0% 50%; }

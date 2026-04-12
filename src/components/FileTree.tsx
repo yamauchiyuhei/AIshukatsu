@@ -60,11 +60,11 @@ export function FileTree({
   return (
     <aside className="flex h-screen w-72 shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
-        <div className="-my-1 h-16 w-16 overflow-hidden">
+        <div className="h-10 w-10">
           <img
             src="/logo.png"
             alt="AI就活くん"
-            className="h-full w-full scale-[1.45] object-contain"
+            className="h-full w-full rounded-lg object-contain"
           />
         </div>
         <div className="flex items-center gap-1">
