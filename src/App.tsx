@@ -4,6 +4,7 @@ import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { LoginScreen } from './components/onboarding/LoginScreen';
 import { LandingPage } from './components/LandingPage';
 import { isOnboarded } from './lib/onboardingState';
+import { isTauri } from './lib/tauriFsaShim';
 import { FileTree, type ContextMenuRequest } from './components/FileTree';
 import { TabBar } from './components/TabBar';
 import { TabViewer } from './components/TabViewer';
@@ -151,6 +152,11 @@ export default function App() {
   // local workspace UI. Root handle and onboarding flag are preserved, so
   // signing back in restores the previous state instantly.
   if (firebaseEnabled && !authUser) {
+    // Desktop app → show the compact login screen (no marketing LP).
+    // Browser → show the full landing page with download links etc.
+    if (isTauri()) {
+      return <LoginScreen variant="gate" user={null} onNext={() => {}} />;
+    }
     return <LandingPage onSignIn={() => {}} />;
   }
   if (status === 'no-handle' && !isOnboarded()) {

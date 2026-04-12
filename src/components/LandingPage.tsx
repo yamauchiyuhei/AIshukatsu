@@ -21,7 +21,7 @@ const GITHUB_RELEASE =
 const DL_MACOS =
   `${GITHUB_RELEASE}/download/AI._aarch64.app.tar.gz`;
 const DL_WINDOWS =
-  `${GITHUB_RELEASE}/download/AI._0.1.3_x64-setup.exe`;
+  `${GITHUB_RELEASE}/download/AI._0.1.4_x64-setup.exe`;
 
 interface Props {
   onSignIn: () => void;
