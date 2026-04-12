@@ -5,6 +5,7 @@ import { LoginScreen } from './components/onboarding/LoginScreen';
 import { LandingPage } from './components/LandingPage';
 import { isOnboarded } from './lib/onboardingState';
 import { isTauri } from './lib/tauriFsaShim';
+import { UpdateBanner } from './components/UpdateBanner';
 import { FileTree, type ContextMenuRequest } from './components/FileTree';
 import { TabBar } from './components/TabBar';
 import { TabViewer } from './components/TabViewer';
@@ -319,7 +320,9 @@ export default function App() {
   const fileTabActive = tabs.activeTab != null;
 
   return (
-    <div className="flex h-screen bg-slate-50">
+    <div className="flex h-screen flex-col bg-slate-50">
+      <UpdateBanner />
+      <div className="flex flex-1 overflow-hidden">
       <FileTree
         workspace={workspace}
         activeFileKey={tabs.activeKey}
@@ -417,6 +420,7 @@ export default function App() {
         onCancel={() => setRenameTarget(null)}
         onSubmit={performRename}
       />
+      </div>
     </div>
   );
 }

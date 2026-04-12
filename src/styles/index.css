@@ -842,6 +842,92 @@ body {
 }
 
 /* -------------------------------------------------------------------------
+ * Update banner — slim bar at the top of the desktop app when a new
+ * version is available.
+ * ------------------------------------------------------------------------- */
+.update-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  border-bottom: 1px solid #c7d2fe;
+  font-size: 13px;
+  color: #312e81;
+  flex-wrap: wrap;
+}
+.update-banner__text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.update-banner__text--error {
+  color: #9f1239;
+}
+.update-banner__icon {
+  flex-shrink: 0;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.update-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.update-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.update-banner__btn--primary {
+  color: #fff;
+  background: #4f46e5;
+}
+.update-banner__btn--primary:hover {
+  background: #4338ca;
+}
+.update-banner__btn--secondary {
+  color: #4338ca;
+  background: rgba(67, 56, 202, 0.08);
+}
+.update-banner__btn--secondary:hover {
+  background: rgba(67, 56, 202, 0.15);
+}
+.update-banner__progress {
+  width: 100%;
+  height: 4px;
+  background: rgba(67, 56, 202, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.update-banner__progress-bar {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 2px;
+  transition: width 200ms ease;
+}
+.update-banner__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 2px;
+}
+
+/* -------------------------------------------------------------------------
  * Block handle ("+" button) — Notion-style inserter, powered by
  * @milkdown/plugin-block. The plugin positions .block-handle to the left of
  * the hovered top-level block via floating-ui and toggles [data-show].

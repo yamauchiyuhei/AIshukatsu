@@ -139,6 +139,30 @@ export function DataCell({
     (column.type === 'url' && strVal) ||
     /^https?:\/\//i.test(strVal);
 
+  // For URL cells: single click opens the link, double click enters edit mode.
+  // For other cells: single click enters edit mode (unchanged).
+  if (isUrl) {
+    return (
+      <div
+        className={`flex h-full w-full items-center px-2 py-1.5 text-left text-xs transition ${bgClass} ${textClass} ${
+          selected ? '' : 'hover:bg-indigo-50/40'
+        }`}
+        onDoubleClick={() => setEditing(true)}
+        title="クリックで開く / ダブルクリックで編集"
+      >
+        <a
+          href={strVal}
+          target="_blank"
+          rel="noreferrer"
+          className="truncate text-indigo-600 underline hover:text-indigo-800"
+          title={strVal}
+        >
+          {display || '\u00A0'}
+        </a>
+      </div>
+    );
+  }
+
   return (
     <button
       type="button"
@@ -147,22 +171,9 @@ export function DataCell({
       className={`flex h-full w-full items-center px-2 py-1.5 text-left text-xs transition ${bgClass} ${textClass} ${
         selected ? '' : 'hover:bg-indigo-50/40'
       }`}
-      title={isUrl ? 'クリックで開く / ダブルクリックで編集' : 'クリックで編集'}
+      title="クリックで編集"
     >
-      {isUrl ? (
-        <a
-          href={strVal}
-          target="_blank"
-          rel="noreferrer"
-          className="truncate text-indigo-600 underline hover:text-indigo-800"
-          onClick={(e) => e.stopPropagation()}
-          title={strVal}
-        >
-          {display || '\u00A0'}
-        </a>
-      ) : (
-        <span className="truncate whitespace-pre-wrap">{display || '\u00A0'}</span>
-      )}
+      <span className="truncate whitespace-pre-wrap">{display || '\u00A0'}</span>
     </button>
   );
 }

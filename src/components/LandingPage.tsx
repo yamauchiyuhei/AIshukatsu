@@ -18,10 +18,12 @@ import { signInWithGoogle } from '../spreadsheet/lib/firebase';
 
 const GITHUB_RELEASE =
   'https://github.com/yamauchiyuhei/AIshukatsu/releases/latest';
+// macOS asset name is version-independent → direct download always works.
 const DL_MACOS =
   `${GITHUB_RELEASE}/download/AI._aarch64.app.tar.gz`;
-const DL_WINDOWS =
-  `${GITHUB_RELEASE}/download/AI._0.1.6_x64-setup.exe`;
+// Windows asset name includes the version number (e.g. AI._0.1.6_x64-setup.exe)
+// so we link to the Releases page where the user can pick the right file.
+const DL_WINDOWS = GITHUB_RELEASE;
 
 interface Props {
   onSignIn: () => void;
