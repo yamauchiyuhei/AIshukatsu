@@ -18,11 +18,10 @@ import { signInWithGoogle } from '../spreadsheet/lib/firebase';
 
 const GITHUB_RELEASE =
   'https://github.com/yamauchiyuhei/AIshukatsu/releases/latest';
-// macOS asset name is version-independent → direct download always works.
+// With ASCII productName "AIshukatsu", asset names are predictable.
 const DL_MACOS =
-  `${GITHUB_RELEASE}/download/AI._aarch64.app.tar.gz`;
-// Windows asset name includes the version number (e.g. AI._0.1.6_x64-setup.exe)
-// so we link to the Releases page where the user can pick the right file.
+  `${GITHUB_RELEASE}/download/AIshukatsu_aarch64.app.tar.gz`;
+// Windows asset includes version number → link to Releases page.
 const DL_WINDOWS = GITHUB_RELEASE;
 
 interface Props {
