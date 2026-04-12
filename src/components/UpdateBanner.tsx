@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Download, RefreshCw, X, CheckCircle2 } from 'lucide-react';
 import { isTauri } from '../lib/tauriFsaShim';
 
-type Phase = 'idle' | 'available' | 'downloading' | 'ready' | 'dismissed';
+type Phase = 'idle' | 'available' | 'downloading' | 'ready' | 'dismissed' | 'error-manual';
 
 /**
  * Slim banner shown at the top of the main layout when a new desktop app
@@ -67,8 +67,10 @@ export function UpdateBanner() {
       setPhase('ready');
     } catch (e) {
       console.error('[updater] download failed:', e);
-      setError('ダウンロードに失敗しました。後でもう一度お試しください。');
-      setPhase('available');
+      setError(
+        'ダウンロードに失敗しました。お手数ですが、最新版を手動でダウンロードしてください。',
+      );
+      setPhase('error-manual');
     }
   };
 
@@ -127,16 +129,29 @@ export function UpdateBanner() {
         </div>
       )}
 
-      {error && (
-        <div className="update-banner__text update-banner__text--error">
-          <span>{error}</span>
-          <button
-            type="button"
-            onClick={() => setError(null)}
-            className="update-banner__close"
-          >
-            <X size={14} />
-          </button>
+      {phase === 'error-manual' && (
+        <div className="update-banner__dl">
+          <div className="update-banner__text update-banner__text--error">
+            <span>{error}</span>
+          </div>
+          <div className="update-banner__actions">
+            <button
+              type="button"
+              onClick={() => setPhase('dismissed')}
+              className="update-banner__btn update-banner__btn--secondary"
+            >
+              閉じる
+            </button>
+            <a
+              href="https://github.com/yamauchiyuhei/AIshukatsu/releases/latest"
+              target="_blank"
+              rel="noreferrer"
+              className="update-banner__btn update-banner__btn--primary"
+            >
+              <Download size={13} />
+              手動でダウンロード
+            </a>
+          </div>
         </div>
       )}
     </div>
