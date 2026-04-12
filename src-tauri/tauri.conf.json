@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "AI就活",
-  "version": "0.1.5",
-  "identifier": "com.aishukatsu.app",
+  "version": "0.1.6",
+  "identifier": "com.aisyuukatsu.app",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:5173",
