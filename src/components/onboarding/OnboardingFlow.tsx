@@ -9,7 +9,19 @@ import {
   watchAuth,
   type User,
 } from '../../spreadsheet/lib/firebase';
-import { createSubdirectory, subdirectoryExists } from '../../lib/fs';
+import {
+  createSubdirectory,
+  fileExists,
+  subdirectoryExists,
+  writeTextFile,
+} from '../../lib/fs';
+import {
+  SELF_ANALYSIS_TEMPLATES,
+  SELF_ANALYSIS_README,
+  ROOT_CLAUDE_MD,
+  ROOT_README_MD,
+} from '../../lib/onboardingTemplates';
+import { SELF_ANALYSIS_DIR } from '../../types';
 import {
   writeCompanyFolder,
   loadFallbackTemplates,
@@ -174,6 +186,37 @@ export function OnboardingFlow({ onComplete }: Props) {
         done += 1;
         setGenProgress(done);
       }
+    }
+
+    // ── Generate 自己分析/ folder + templates ───────────────────
+    setGenCurrent('自己分析フォルダ');
+    try {
+      const saDir = await createSubdirectory(rootHandle, SELF_ANALYSIS_DIR);
+      // Write README
+      if (!(await fileExists(saDir, 'README.md'))) {
+        await writeTextFile(saDir, 'README.md', SELF_ANALYSIS_README);
+      }
+      // Write each template
+      for (const tpl of SELF_ANALYSIS_TEMPLATES) {
+        if (!(await fileExists(saDir, tpl.name))) {
+          await writeTextFile(saDir, tpl.name, tpl.content);
+        }
+      }
+    } catch (e) {
+      console.warn('[onboarding] self-analysis folder creation failed', e);
+    }
+
+    // ── Generate root CLAUDE.md + README.md ──────────────────
+    setGenCurrent('CLAUDE.md / README.md');
+    try {
+      if (!(await fileExists(rootHandle, 'CLAUDE.md'))) {
+        await writeTextFile(rootHandle, 'CLAUDE.md', ROOT_CLAUDE_MD);
+      }
+      if (!(await fileExists(rootHandle, 'README.md'))) {
+        await writeTextFile(rootHandle, 'README.md', ROOT_README_MD);
+      }
+    } catch (e) {
+      console.warn('[onboarding] root file creation failed', e);
     }
 
     setGenCurrent(null);
