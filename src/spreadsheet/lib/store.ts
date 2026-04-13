@@ -143,6 +143,8 @@ interface SheetState {
 
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 let cloudTimer: ReturnType<typeof setTimeout> | null = null;
+/** Tracks which UID was last hydrated to avoid redundant re-loads. */
+let lastHydratedUid: string | null = null;
 /**
  * Persist `wb` to IndexedDB (debounced) and, if signed in, push to the
  * cloud (longer debounce).
@@ -261,6 +263,11 @@ export const useSheet = create<SheetState>((set, get) => {
 
     /* ----------- lifecycle ----------- */
     hydrate: async (userUid: string) => {
+      // Skip if already hydrated for this exact UID (setUser + SpreadsheetRoot
+      // may both call hydrate — only the first one needs to run).
+      if (lastHydratedUid === userUid && get().hydrated) return;
+      lastHydratedUid = userUid;
+
       const loaded = await loadWorkbook(userUid);
       let wb: Workbook;
       if (loaded) {
@@ -662,11 +669,12 @@ export const useSheet = create<SheetState>((set, get) => {
           const stash = sessionStorage.getItem(`shukatsu-passphrase-${u.uid}`);
           if (stash) set({ passphrase: stash });
         } catch {}
-        // Restore the last-known cloud sync time for this uid BEFORE pulling,
-        // so pullFromCloud can correctly decide whether local has unsynced
-        // changes. Without this, every page reload would wipe the marker and
-        // pullFromCloud would clobber offline edits.
+        // Hydrate the per-user workbook FIRST, then restore cloud sync
+        // state and pull. This ensures the UID-scoped data (including
+        // migration from the shared key) is loaded before any cloud
+        // operations compare local vs remote.
         void (async () => {
+          await get().hydrate(u.uid);
           const iso = await loadCloudSyncedAt(u.uid);
           set({ cloudLastSyncedAt: iso ? new Date(iso) : null });
           void get().pullFromCloud();
