@@ -38,11 +38,11 @@ export function LoginScreen({ user, onNext, variant = 'onboarding' }: Props) {
 
   return (
     <OnboardingShell step={variant === 'onboarding' ? 1 : null} total={4}>
-      <div className="mx-auto mb-4 h-28 w-28 overflow-hidden">
+      <div className="mx-auto mb-4 h-20 w-20">
         <img
           src="/logo.png"
           alt="AI就活"
-          className="h-full w-full scale-[1.45] object-contain"
+          className="h-full w-full rounded-2xl object-contain"
         />
       </div>
       <h1 className="text-2xl font-bold text-slate-900">AI就活へようこそ</h1>

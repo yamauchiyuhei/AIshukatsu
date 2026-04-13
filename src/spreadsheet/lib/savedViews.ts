@@ -1,7 +1,8 @@
 import { get, set } from 'idb-keyval';
 import { SavedView } from '../types/sheet';
 
-const KEY = 'shukatsu-saved-views-v1';
+const KEY_SHARED = 'shukatsu-saved-views-v1';
+function keyForUser(uid: string) { return `shukatsu-saved-views-v1:${uid}`; }
 
 /** Built-in views always available regardless of persisted state. */
 export const BUILTIN_VIEWS: SavedView[] = [
@@ -40,21 +41,29 @@ export const BUILTIN_VIEWS: SavedView[] = [
   },
 ];
 
-export async function loadSavedViews(): Promise<SavedView[]> {
+export async function loadSavedViews(uid: string): Promise<SavedView[]> {
   try {
-    const data = await get<SavedView[]>(KEY);
-    return data ?? [];
+    // Try per-user key first
+    const data = await get<SavedView[]>(keyForUser(uid));
+    if (data) return data;
+    // Migrate from shared key (one-time)
+    const shared = await get<SavedView[]>(KEY_SHARED);
+    if (shared && shared.length) {
+      await set(keyForUser(uid), shared);
+      // Don't delete shared key — safety backup
+    }
+    return shared ?? [];
   } catch (e) {
     console.error('loadSavedViews failed', e);
     return [];
   }
 }
 
-export async function persistSavedViews(views: SavedView[]): Promise<void> {
+export async function persistSavedViews(uid: string, views: SavedView[]): Promise<void> {
   try {
     // Never persist built-ins
     const filtered = views.filter((v) => !v.builtin);
-    await set(KEY, filtered);
+    await set(keyForUser(uid), filtered);
   } catch (e) {
     console.error('persistSavedViews failed', e);
   }

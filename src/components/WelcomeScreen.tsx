@@ -10,11 +10,11 @@ export function WelcomeScreen({ needsPermission, onPick, onRequestPermission }: 
   return (
     <div className="flex h-screen items-center justify-center px-6">
       <div className="max-w-xl text-center">
-        <div className="mx-auto mb-4 h-40 w-40 overflow-hidden">
+        <div className="mx-auto mb-4 h-24 w-24">
           <img
             src="/logo.png"
             alt="AI就活"
-            className="h-full w-full scale-[1.45] object-contain"
+            className="h-full w-full rounded-2xl object-contain"
           />
         </div>
         <p className="mt-3 text-slate-600">

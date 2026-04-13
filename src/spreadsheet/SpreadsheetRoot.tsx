@@ -24,6 +24,7 @@ interface Props {
 export function SpreadsheetRoot({ active }: Props) {
   const hydrate = useSheet((s) => s.hydrate);
   const hydrated = useSheet((s) => s.hydrated);
+  const user = useSheet((s) => s.user);
   const view = useSheet((s) => s.view);
   const undo = useSheet((s) => s.undo);
   const redo = useSheet((s) => s.redo);
@@ -34,8 +35,8 @@ export function SpreadsheetRoot({ active }: Props) {
   const [paletteOpen, setPaletteOpen] = useState(false);
 
   useEffect(() => {
-    hydrate();
-  }, [hydrate]);
+    if (user?.uid) hydrate(user.uid);
+  }, [hydrate, user?.uid]);
 
   // Auth is subscribed at App-level (src/App.tsx) so the store stays in sync
   // even while this view is unmounted.

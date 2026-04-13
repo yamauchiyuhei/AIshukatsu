@@ -80,7 +80,7 @@ interface SheetState {
   pushToCloud: () => Promise<void>;
 
   /* ----------- lifecycle ----------- */
-  hydrate: () => Promise<void>;
+  hydrate: (uid: string) => Promise<void>;
 
   /* ----------- view / filter ----------- */
   setView: (v: ViewMode) => void;
@@ -155,16 +155,22 @@ let cloudTimer: ReturnType<typeof setTimeout> | null = null;
  *     every pull would immediately look like a local edit and cause a
  *     false "conflict" on the next sign-in.
  */
+function getUid(): string | null {
+  return useSheet.getState().user?.uid ?? null;
+}
+
 function scheduleSave(wb: Workbook, opts: { markDirty?: boolean } = {}) {
   const markDirty = opts.markDirty !== false;
   if (markDirty) {
     const iso = new Date().toISOString();
     useSheet.setState({ workbookUpdatedAt: iso });
-    void saveLocalUpdatedAt(iso);
+    const u = getUid();
+    if (u) void saveLocalUpdatedAt(u, iso);
   }
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    saveWorkbook(wb);
+    const u = getUid();
+    if (u) saveWorkbook(u, wb);
   }, 400);
   // Cloud push: longer debounce so we batch many edits
   if (cloudTimer) clearTimeout(cloudTimer);
@@ -254,8 +260,8 @@ export const useSheet = create<SheetState>((set, get) => {
     cloudError: null,
 
     /* ----------- lifecycle ----------- */
-    hydrate: async () => {
-      const loaded = await loadWorkbook();
+    hydrate: async (userUid: string) => {
+      const loaded = await loadWorkbook(userUid);
       let wb: Workbook;
       if (loaded) {
         wb = loaded;
@@ -272,17 +278,17 @@ export const useSheet = create<SheetState>((set, get) => {
         seed.cells['memo'] = 'まずはここを編集してみてください';
         const sheet: Sheet = { id: uid('s'), name: '本選考', columns: cols, rows: [seed] };
         wb = { version: 2, sheets: [sheet], activeSheetId: sheet.id };
-        await saveWorkbook(wb);
+        await saveWorkbook(userUid, wb);
       }
-      const userViews = await loadSavedViews();
-      const localUpdatedAt = await loadLocalUpdatedAt();
+      const userViews = await loadSavedViews(userUid);
+      const localUpdatedAt = await loadLocalUpdatedAt(userUid);
       set({
         workbook: wb,
         hydrated: true,
         savedViews: mergeWithBuiltins(userViews),
         workbookUpdatedAt: localUpdatedAt,
       });
-      maybeAutoBackup(wb);
+      maybeAutoBackup(userUid, wb);
     },
 
     /* ----------- view / filter ----------- */
@@ -618,7 +624,8 @@ export const useSheet = create<SheetState>((set, get) => {
       };
       const next = [...state.savedViews, view];
       set({ savedViews: next, activeViewId: view.id });
-      persistSavedViews(next);
+      const u = getUid();
+      if (u) persistSavedViews(u, next);
     },
 
     deleteSavedView: (id) => {
@@ -628,7 +635,8 @@ export const useSheet = create<SheetState>((set, get) => {
         savedViews: next,
         activeViewId: state.activeViewId === id ? null : state.activeViewId,
       });
-      persistSavedViews(next);
+      const u = getUid();
+      if (u) persistSavedViews(u, next);
     },
 
     applySavedView: (id) => {
@@ -773,7 +781,7 @@ export const useSheet = create<SheetState>((set, get) => {
           // the pulled data would immediately look like an unsynced edit.
           scheduleSave(result.workbook, { markDirty: false });
           await saveCloudSyncedAt(state.user.uid, syncedAt.toISOString());
-          await saveLocalUpdatedAt(null);
+          await saveLocalUpdatedAt(state.user.uid, null);
           return;
         }
 
@@ -807,7 +815,7 @@ export const useSheet = create<SheetState>((set, get) => {
         // (or sign-in on this device) knows local is already clean and
         // matches the cloud at `now`.
         await saveCloudSyncedAt(state.user.uid, now.toISOString());
-        await saveLocalUpdatedAt(null);
+        await saveLocalUpdatedAt(state.user.uid, null);
       } catch (e) {
         set({
           cloudStatus: 'error',
