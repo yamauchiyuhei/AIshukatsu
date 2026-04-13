@@ -103,6 +103,37 @@ async function migrateSharedToUser(uid: string): Promise<Workbook | null> {
   }
 }
 
+// ── Cleanup: remove data that was mistakenly copied to wrong accounts ───
+/**
+ * v0.2.3 bug: the migration copied shared data to every account that
+ * logged in (not just the original owner). This cleanup runs once per
+ * uid: if the migration flag says uid X owns the data, and the current
+ * uid is NOT X, delete the per-user key so this user starts fresh.
+ */
+const KEY_CLEANUP_DONE_PREFIX = 'shukatsu-cleanup-done:';
+async function cleanupMisCopiedData(uid: string): Promise<void> {
+  try {
+    const done = await get<boolean>(KEY_CLEANUP_DONE_PREFIX + uid);
+    if (done) return; // already cleaned up for this uid
+
+    const owner = await get<string>(KEY_MIGRATION_DONE);
+    if (owner && owner !== uid) {
+      // This uid is NOT the original owner — remove the mis-copied data
+      const existing = await get<Workbook>(keyWorkbook(uid));
+      if (existing) {
+        await del(keyWorkbook(uid));
+        await del(keyBackups(uid));
+        await del(keyLastBackup(uid));
+        await del(keyLocalUpdated(uid));
+        console.log(`[persistence] cleaned up mis-copied data for ${uid} (owner: ${owner})`);
+      }
+    }
+    await set(KEY_CLEANUP_DONE_PREFIX + uid, true);
+  } catch (e) {
+    console.warn('[persistence] cleanup failed', e);
+  }
+}
+
 // ── Workbook load / save (per-user) ─────────────────────────────────────
 
 /**
@@ -112,6 +143,9 @@ async function migrateSharedToUser(uid: string): Promise<Workbook | null> {
  */
 export async function loadWorkbook(uid: string): Promise<Workbook | null> {
   try {
+    // First, clean up any data that was mistakenly copied by v0.2.3
+    await cleanupMisCopiedData(uid);
+
     // 1. Try per-user key first
     const wb = await get<Workbook>(keyWorkbook(uid));
     if (wb && wb.sheets?.length) return wb;
