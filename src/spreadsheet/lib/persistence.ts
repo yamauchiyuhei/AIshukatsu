@@ -44,15 +44,23 @@ function emptyWorkbook(): Workbook {
 }
 
 // ── Migration: shared → per-user ────────────────────────────────────────
+const KEY_MIGRATION_DONE = 'shukatsu-shared-migrated-to-uid';
+
 /**
  * One-time migration: copies existing data from the old shared keys into
- * per-user keys so that each Google account gets its own workbook. The
- * shared keys are **never deleted** (they serve as a safety backup).
+ * per-user keys. Only runs ONCE — after the first user claims the shared
+ * data, a flag is set so subsequent users start with a fresh workbook.
  *
- * This runs automatically when `loadWorkbook(uid)` finds no per-user data
- * but shared data exists.
+ * The shared keys are **never deleted** (they serve as a safety backup).
  */
 async function migrateSharedToUser(uid: string): Promise<Workbook | null> {
+  // If migration has already been done for any user, don't copy shared
+  // data to another account — that user should start fresh.
+  try {
+    const alreadyMigrated = await get<string>(KEY_MIGRATION_DONE);
+    if (alreadyMigrated) return null;
+  } catch {}
+
   try {
     // 1. Try v2 shared
     const wb = await get<Workbook>(KEY_V2_SHARED);
@@ -65,6 +73,8 @@ async function migrateSharedToUser(uid: string): Promise<Workbook | null> {
       if (lastBackup) await set(keyLastBackup(uid), lastBackup);
       const localUpdated = await get<string>(KEY_LOCAL_UPDATED_SHARED);
       if (localUpdated) await set(keyLocalUpdated(uid), localUpdated);
+      // Mark migration as done so the NEXT user gets a fresh workbook
+      await set(KEY_MIGRATION_DONE, uid);
       console.log(`[persistence] migrated shared workbook to user ${uid}`);
       return wb;
     }
@@ -81,6 +91,7 @@ async function migrateSharedToUser(uid: string): Promise<Workbook | null> {
       await set(keyWorkbook(uid), migrated);
       // Also save to shared v2 so future migrations don't re-read v1
       await set(KEY_V2_SHARED, migrated);
+      await set(KEY_MIGRATION_DONE, uid);
       console.log(`[persistence] migrated legacy v1 to user ${uid}`);
       return migrated;
     }
