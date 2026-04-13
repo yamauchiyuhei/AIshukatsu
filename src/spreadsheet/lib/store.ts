@@ -18,6 +18,7 @@ import {
   loadLocalUpdatedAt,
   loadWorkbook,
   maybeAutoBackup,
+  resetMigrationFlag,
   saveCloudSyncedAt,
   saveLocalUpdatedAt,
   saveWorkbook,
@@ -677,7 +678,21 @@ export const useSheet = create<SheetState>((set, get) => {
           await get().hydrate(u.uid);
           const iso = await loadCloudSyncedAt(u.uid);
           set({ cloudLastSyncedAt: iso ? new Date(iso) : null });
-          void get().pullFromCloud();
+          await get().pullFromCloud();
+          // Recovery: if after hydrate + cloud pull the workbook is still
+          // the empty seed (1 row with "株式会社サンプル"), this user may
+          // be the real owner whose data was lost by the v0.2.5 cleanup
+          // bug. Reset the migration flag and retry from the shared key.
+          const wb = get().workbook;
+          const isSeed =
+            wb.sheets.length === 1 &&
+            wb.sheets[0].rows.length <= 1 &&
+            wb.sheets[0].rows[0]?.cells?.['company'] === '株式会社サンプル';
+          if (isSeed) {
+            await resetMigrationFlag();
+            lastHydratedUid = null; // allow re-hydrate
+            await get().hydrate(u.uid);
+          }
         })();
       } else {
         set({

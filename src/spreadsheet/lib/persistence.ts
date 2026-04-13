@@ -54,12 +54,6 @@ const KEY_MIGRATION_DONE = 'shukatsu-shared-migrated-to-uid';
  * The shared keys are **never deleted** (they serve as a safety backup).
  */
 async function migrateSharedToUser(uid: string): Promise<Workbook | null> {
-  // If migration has already been done for any user, don't copy shared
-  // data to another account — that user should start fresh.
-  try {
-    const alreadyMigrated = await get<string>(KEY_MIGRATION_DONE);
-    if (alreadyMigrated) return null;
-  } catch {}
 
   try {
     // 1. Try v2 shared
@@ -103,58 +97,59 @@ async function migrateSharedToUser(uid: string): Promise<Workbook | null> {
   }
 }
 
-// ── Cleanup: remove data that was mistakenly copied to wrong accounts ───
-/**
- * v0.2.3 bug: the migration copied shared data to every account that
- * logged in (not just the original owner). This cleanup runs once per
- * uid: if the migration flag says uid X owns the data, and the current
- * uid is NOT X, delete the per-user key so this user starts fresh.
- */
-const KEY_CLEANUP_DONE_PREFIX = 'shukatsu-cleanup-done:';
-async function cleanupMisCopiedData(uid: string): Promise<void> {
-  try {
-    const done = await get<boolean>(KEY_CLEANUP_DONE_PREFIX + uid);
-    if (done) return; // already cleaned up for this uid
-
-    const owner = await get<string>(KEY_MIGRATION_DONE);
-    if (owner && owner !== uid) {
-      // This uid is NOT the original owner — remove the mis-copied data
-      const existing = await get<Workbook>(keyWorkbook(uid));
-      if (existing) {
-        await del(keyWorkbook(uid));
-        await del(keyBackups(uid));
-        await del(keyLastBackup(uid));
-        await del(keyLocalUpdated(uid));
-        console.log(`[persistence] cleaned up mis-copied data for ${uid} (owner: ${owner})`);
-      }
-    }
-    await set(KEY_CLEANUP_DONE_PREFIX + uid, true);
-  } catch (e) {
-    console.warn('[persistence] cleanup failed', e);
-  }
-}
-
 // ── Workbook load / save (per-user) ─────────────────────────────────────
 
 /**
  * Loads the workbook for a specific user. If no per-user data exists,
  * attempts to migrate from the shared (legacy) key. Returns null if
- * no data exists anywhere.
+ * no data exists anywhere — the caller (store.hydrate) will then
+ * create an empty workbook, and pullFromCloud will restore from
+ * Firestore if a cloud backup exists.
  */
+/**
+ * Detect if a workbook is just the initial seed (1 row with "株式会社サンプル").
+ * This means the user has never actually edited it — likely created by a
+ * failed migration attempt.
+ */
+function isSeedWorkbook(wb: Workbook): boolean {
+  if (wb.sheets.length !== 1) return false;
+  const rows = wb.sheets[0].rows;
+  if (rows.length === 0) return true;
+  if (rows.length === 1 && rows[0].cells?.['company'] === '株式会社サンプル') return true;
+  return false;
+}
+
 export async function loadWorkbook(uid: string): Promise<Workbook | null> {
   try {
-    // First, clean up any data that was mistakenly copied by v0.2.3
-    await cleanupMisCopiedData(uid);
-
     // 1. Try per-user key first
     const wb = await get<Workbook>(keyWorkbook(uid));
-    if (wb && wb.sheets?.length) return wb;
+    if (wb && wb.sheets?.length) {
+      // If the per-user data is just the empty seed, it was likely
+      // created by a failed migration (v0.2.5 bug). Try to recover
+      // from the shared key instead.
+      if (!isSeedWorkbook(wb)) return wb;
+      console.log('[persistence] per-user key has only seed data, attempting recovery from shared key');
+    }
 
-    // 2. Migrate from shared key
+    // 2. Try to migrate from shared key
     return await migrateSharedToUser(uid);
   } catch (e) {
     console.error('loadWorkbook failed', e);
     return null;
+  }
+}
+
+/**
+ * Emergency recovery: reset the migration flag so the original owner
+ * can re-migrate from the shared key. Called if loadWorkbook returns
+ * null AND cloud pull also fails.
+ */
+export async function resetMigrationFlag(): Promise<void> {
+  try {
+    await del(KEY_MIGRATION_DONE);
+    console.log('[persistence] migration flag reset');
+  } catch (e) {
+    console.warn('[persistence] resetMigrationFlag failed', e);
   }
 }
 
