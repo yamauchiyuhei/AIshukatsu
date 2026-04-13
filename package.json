@@ -1,13 +1,14 @@
 {
   "name": "aishukatsu",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "upload:content": "tsx scripts/uploadCompanyContent.ts",
+    "upload:industry": "tsx scripts/uploadIndustryResearch.ts",
     "generate:content": "tsx scripts/generateCompanyContent.ts",
     "generate:industry-map": "tsx scripts/generateCompanyIndustryMap.ts",
     "tauri": "tauri",

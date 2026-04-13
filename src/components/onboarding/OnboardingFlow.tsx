@@ -22,6 +22,7 @@ import {
   ROOT_README_MD,
 } from '../../lib/onboardingTemplates';
 import { SELF_ANALYSIS_DIR } from '../../types';
+import { pullIndustryResearch } from '../../lib/industryResearchSync';
 import {
   writeCompanyFolder,
   loadFallbackTemplates,
@@ -157,6 +158,18 @@ export function OnboardingFlow({ onComplete }: Props) {
           setGenProgress(done);
         }
         continue;
+      }
+
+      // Write 業界研究.md from Firestore if available
+      try {
+        if (!(await fileExists(categoryDir, '業界研究.md'))) {
+          const researchContent = await pullIndustryResearch(industry);
+          if (researchContent) {
+            await writeTextFile(categoryDir, '業界研究.md', researchContent);
+          }
+        }
+      } catch (e) {
+        console.warn(`[onboarding] industry research failed for ${industry}:`, e);
       }
 
       for (const name of companies) {
