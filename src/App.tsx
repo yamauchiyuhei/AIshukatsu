@@ -31,11 +31,17 @@ import {
   deleteFolderEntry,
   ensureMdExtension,
   fileExists,
+  moveFileEntry,
+  moveFolderEntry,
   renameFileEntry,
   renameFolderEntry,
   subdirectoryExists,
+  writeTextFile,
 } from './lib/fs';
 import { writeCompanyFolder } from './lib/companyFolderCreator';
+import { saveFolderOrder } from './lib/sortOrder';
+import { lookupIndustry } from './lib/companyIndustryMap';
+import { pullIndustryResearch } from './lib/industryResearchSync';
 import { resolveFolderByPath } from './lib/workspace';
 import type { Workspace, WorkspaceNode } from './types';
 
@@ -53,9 +59,36 @@ function resolveNodeByPath(
   return folder.handle;
 }
 
+/** Find the kind of a node at the given path in the workspace tree. */
+function findNodeKind(
+  tree: WorkspaceNode[],
+  path: string[],
+): 'file' | 'folder' | null {
+  if (path.length === 0) return null;
+  const [head, ...rest] = path;
+  for (const node of tree) {
+    if (node.name !== head) continue;
+    if (rest.length === 0) return node.kind;
+    if (node.kind === 'folder') return findNodeKind(node.children, rest);
+    return null;
+  }
+  return null;
+}
+
 export default function App() {
+  // Reactive auth state from the spreadsheet store. Drives the top-level
+  // auth gate below so that signing out (which flips store.user to null)
+  // immediately routes the user back to the LoginScreen.
+  const authUser = useSheet((s) => s.user);
+  // `authChecked` becomes true once Firebase's onAuthStateChanged has fired
+  // at least once. Without this we'd flash the LoginScreen for a moment on
+  // every reload while Firebase is still determining the current user.
+  // In Firebase-less environments (local dev) we start as `true` so the
+  // gate is skipped entirely.
+  const [authChecked, setAuthChecked] = useState(!firebaseEnabled);
+
   const { handle, status, pick, adopt, requestPermission, reset } =
-    useRootDirectory();
+    useRootDirectory(authUser?.uid ?? null);
   const root = status === 'ready' ? handle : null;
   const { workspace, loading, error, refresh } = useWorkspace(root);
 
@@ -77,17 +110,6 @@ export default function App() {
   const [renameTarget, setRenameTarget] = useState<ContextMenuTarget | null>(
     null,
   );
-
-  // Reactive auth state from the spreadsheet store. Drives the top-level
-  // auth gate below so that signing out (which flips store.user to null)
-  // immediately routes the user back to the LoginScreen.
-  const authUser = useSheet((s) => s.user);
-  // `authChecked` becomes true once Firebase's onAuthStateChanged has fired
-  // at least once. Without this we'd flash the LoginScreen for a moment on
-  // every reload while Firebase is still determining the current user.
-  // In Firebase-less environments (local dev) we start as `true` so the
-  // gate is skipped entirely.
-  const [authChecked, setAuthChecked] = useState(!firebaseEnabled);
 
   // Subscribe to Firebase auth changes at the app root so the spreadsheet
   // store (user / passphrase) stays populated even when the SpreadsheetRoot
@@ -132,13 +154,6 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validKeys]);
 
-  if (status === 'loading') {
-    return (
-      <div className="flex h-screen items-center justify-center text-slate-500">
-        読み込み中…
-      </div>
-    );
-  }
   // Auth gate: while Firebase's initial onAuthStateChanged is still pending,
   // show a loading state so we don't flash LoginScreen for signed-in users.
   if (firebaseEnabled && !authChecked) {
@@ -160,12 +175,20 @@ export default function App() {
     }
     return <LandingPage onSignIn={() => {}} />;
   }
-  if (status === 'no-handle' && !isOnboarded()) {
+  if (status === 'loading') {
+    return (
+      <div className="flex h-screen items-center justify-center text-slate-500">
+        読み込み中…
+      </div>
+    );
+  }
+  if (status === 'no-handle' && authUser && !isOnboarded(authUser.uid)) {
     // First-time visitor → show the guided onboarding flow. Once finished,
     // we adopt the created "AI就活" subfolder as the root and fall through
     // to the normal MainLayout.
     return (
       <OnboardingFlow
+        uid={authUser.uid}
         onComplete={(created) => {
           void adopt(created);
         }}
@@ -219,10 +242,26 @@ export default function App() {
   }
 
   const handleAddCompany = async (parentPath: string[], companyName: string) => {
-    const parent = resolveNodeByPath(workspace, parentPath);
-    // writeCompanyFolder guards against duplicate subdirectories internally,
-    // then tries Firestore populated content first, falling back to empty
-    // templates (identical to the legacy behaviour).
+    const industry = lookupIndustry(companyName);
+    let parent: FileSystemDirectoryHandle;
+    if (industry) {
+      // 業界フォルダを自動作成（既存なら再利用）
+      parent = await createSubdirectory(handle, industry);
+      // 業界研究.md を書き込み（未作成の場合のみ）
+      try {
+        if (!(await fileExists(parent, '業界研究.md'))) {
+          const content = await pullIndustryResearch(industry);
+          if (content) {
+            await writeTextFile(parent, '業界研究.md', content);
+          }
+        }
+      } catch (e) {
+        console.warn('[addCompany] industry research failed', e);
+      }
+    } else {
+      // 未登録企業 → 従来通りユーザー選択の親フォルダ
+      parent = resolveNodeByPath(workspace, parentPath);
+    }
     await writeCompanyFolder(handle, parent, companyName);
     await refresh();
     setShowAdd(false);
@@ -315,6 +354,34 @@ export default function App() {
     setRenameTarget(null);
   };
 
+  const handleMoveNode = async (sourcePath: string[], destFolderPath: string[]) => {
+    try {
+      const sourceParentPath = sourcePath.slice(0, -1);
+      const sourceName = sourcePath[sourcePath.length - 1];
+      const sourceParent = resolveNodeByPath(workspace, sourceParentPath);
+      const destParent = resolveNodeByPath(workspace, destFolderPath);
+
+      const kind = findNodeKind(workspace.tree, sourcePath);
+      if (kind === 'file') {
+        await moveFileEntry(sourceParent, sourceName, destParent);
+      } else if (kind === 'folder') {
+        await moveFolderEntry(sourceParent, sourceName, destParent);
+      }
+      await refresh();
+    } catch (e) {
+      console.error('[move] failed', e);
+      alert(
+        '移動に失敗しました: ' + (e instanceof Error ? e.message : String(e)),
+      );
+    }
+  };
+
+  const handleReorderChildren = (_folderPath: string[], orderedNames: string[]) => {
+    saveFolderOrder(_folderPath.join('/'), orderedNames);
+    // Force re-render by refreshing workspace tree.
+    void refresh();
+  };
+
   // A tab is "active" whenever `activeTab` is non-null — the spreadsheet
   // view is shown when there's no active tab at all.
   const fileTabActive = tabs.activeTab != null;
@@ -338,6 +405,8 @@ export default function App() {
           await reset();
         }}
         onContextMenu={handleContextMenu}
+        onMoveNode={handleMoveNode}
+        onReorderChildren={handleReorderChildren}
       />
 
       <div className="flex flex-1 flex-col overflow-hidden">

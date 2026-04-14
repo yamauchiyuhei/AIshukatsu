@@ -9,6 +9,7 @@ import {
 import { SelfAnalysisFile, TemplateFileEntry, Workspace, WorkspaceNode } from '../types';
 import { fileIconFor } from './fileIcons';
 import { AddMenu } from './AddMenu';
+import { getSortedChildren } from '../lib/sortOrder';
 
 interface OpenFilePayload {
   key: string;
@@ -27,6 +28,14 @@ export interface ContextMenuRequest {
   };
 }
 
+const DND_MIME = 'application/x-aishukatsu-path';
+
+/** Detect whether the cursor is in the top or bottom half of an element. */
+function dropPosition(e: React.DragEvent): 'before' | 'after' {
+  const rect = e.currentTarget.getBoundingClientRect();
+  return e.clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+}
+
 interface Props {
   workspace: Workspace;
   activeFileKey: string | null;
@@ -39,8 +48,11 @@ interface Props {
   onAddFile: () => void;
   onRefresh: () => void;
   onChangeFolder: () => void;
-  /** Fired when any tree row is right-clicked. Parent owns the menu state. */
   onContextMenu?: (req: ContextMenuRequest) => void;
+  /** Fired when a node is drag-dropped onto a different folder. */
+  onMoveNode?: (sourcePath: string[], destFolderPath: string[]) => void;
+  /** Fired when nodes are reordered within the same folder. */
+  onReorderChildren?: (folderPath: string[], orderedNames: string[]) => void;
 }
 
 export function FileTree({
@@ -56,7 +68,12 @@ export function FileTree({
   onRefresh,
   onChangeFolder,
   onContextMenu,
+  onMoveNode,
+  onReorderChildren,
 }: Props) {
+  // Apply custom sort order to root-level nodes.
+  const sortedTree = getSortedChildren('', workspace.tree);
+
   return (
     <aside className="flex h-screen w-72 shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
@@ -83,7 +100,26 @@ export function FileTree({
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto px-2 pb-4 text-sm">
+      <div
+        className="flex-1 overflow-auto px-2 pb-4 text-sm"
+        onDragOver={(e) => {
+          if (e.dataTransfer.types.includes(DND_MIME)) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+          }
+        }}
+        onDrop={(e) => {
+          // Drops that bubble up to the root area → move to workspace root.
+          e.preventDefault();
+          const raw = e.dataTransfer.getData(DND_MIME);
+          if (!raw || !onMoveNode) return;
+          let sourcePath: string[];
+          try { sourcePath = JSON.parse(raw); } catch { return; }
+          // Already at root level → ignore.
+          if (sourcePath.length <= 1) return;
+          onMoveNode(sourcePath, []);
+        }}
+      >
         {/* 就活スプレッドシート */}
         <button
           type="button"
@@ -103,21 +139,21 @@ export function FileTree({
           <span className="flex-1 truncate">就活スプレッドシート</span>
         </button>
 
-        {/* Arbitrary-depth workspace tree (everything except the special
-            top-level folders). Empty top folders still render so users can
-            see them and know where to add files. */}
-        {workspace.tree.map((node) => (
+        {sortedTree.map((node) => (
           <TreeNodeView
             key={node.path.join('/')}
             node={node}
+            siblings={sortedTree}
             activeFileKey={activeFileKey}
             onOpenFile={onOpenFile}
             onContextMenu={onContextMenu}
+            onMoveNode={onMoveNode}
+            onReorderChildren={onReorderChildren}
             defaultOpen={false}
           />
         ))}
 
-        {/* 自己分析 (special, edited from the dedicated screen) */}
+        {/* 自己分析 */}
         {workspace.selfAnalysis.files.length > 0 && (
           <SpecialFolderNode
             label="自己分析"
@@ -128,7 +164,7 @@ export function FileTree({
           />
         )}
 
-        {/* _テンプレート (special, edited from the dedicated screen) */}
+        {/* _テンプレート */}
         {workspace.templates.files.length > 0 && (
           <SpecialFolderNode
             label="_テンプレート"
@@ -154,67 +190,222 @@ export function FileTree({
   );
 }
 
-/**
- * Single recursive renderer for any workspace node. Folders track their own
- * collapse state; files render as leaves. File keys are derived from the
- * full path from the workspace root (`co:<path>/<file>`) so cloud sync and
- * tab de-duplication are stable as nodes move around the tree.
- */
 function TreeNodeView({
   node,
+  siblings,
   activeFileKey,
   onOpenFile,
   onContextMenu,
+  onMoveNode,
+  onReorderChildren,
   defaultOpen = false,
 }: {
   node: WorkspaceNode;
+  siblings: WorkspaceNode[];
   activeFileKey: string | null;
   onOpenFile: (entry: OpenFilePayload) => void;
   onContextMenu?: (req: ContextMenuRequest) => void;
+  onMoveNode?: (sourcePath: string[], destFolderPath: string[]) => void;
+  onReorderChildren?: (folderPath: string[], orderedNames: string[]) => void;
   defaultOpen?: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+  const [dragOver, setDragOver] = useState(false);
+  const [dropEdge, setDropEdge] = useState<'before' | 'after' | null>(null);
 
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData(DND_MIME, JSON.stringify(node.path));
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const parentPath = node.path.slice(0, -1);
+  const parentKey = parentPath.join('/');
+
+  /** Handle reorder drop (same parent) or delegate to folder-move drop. */
+  const handleReorderDragOver = (e: React.DragEvent) => {
+    if (!e.dataTransfer.types.includes(DND_MIME)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    e.dataTransfer.dropEffect = 'move';
+    setDropEdge(dropPosition(e));
+  };
+
+  const handleReorderDragLeave = (e: React.DragEvent) => {
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+    setDropEdge(null);
+  };
+
+  const handleReorderDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const edge = dropEdge;
+    setDropEdge(null);
+    const raw = e.dataTransfer.getData(DND_MIME);
+    if (!raw) return;
+    let sourcePath: string[];
+    try { sourcePath = JSON.parse(raw); } catch { return; }
+
+    // Don't drop onto self.
+    if (sourcePath.join('/') === node.path.join('/')) return;
+
+    const sourceParent = sourcePath.slice(0, -1).join('/');
+
+    // Same parent → reorder.
+    if (sourceParent === parentKey && onReorderChildren) {
+      e.stopPropagation();
+      const sourceName = sourcePath[sourcePath.length - 1];
+      const names = siblings.map((s) => s.name).filter((n) => n !== sourceName);
+      const targetIdx = names.indexOf(node.name);
+      const insertIdx = edge === 'before' ? targetIdx : targetIdx + 1;
+      names.splice(insertIdx, 0, sourceName);
+      onReorderChildren(parentPath, names);
+      return;
+    }
+
+    // Different parent + dropping on a folder → move into it.
+    if (node.kind === 'folder' && onMoveNode) {
+      e.stopPropagation();
+      const sourcePrefix = sourcePath.join('/') + '/';
+      if (node.path.join('/').startsWith(sourcePrefix)) return;
+      onMoveNode(sourcePath, node.path);
+      return;
+    }
+
+    // Different parent, target is not a folder → let the event bubble up
+    // to the nearest ancestor folder so it can handle the move.
+  };
+
+  // ── File row ──────────────────────────────────────────────────
   if (node.kind === 'file') {
     const key = `co:${node.path.join('/')}`;
     const active = activeFileKey === key;
     const Icon = fileIconFor(node.name);
     return (
-      <button
-        onClick={() =>
-          onOpenFile({
-            key,
-            label: node.name,
-            breadcrumb: node.path.slice(0, -1),
-            handle: node.handle,
-          })
-        }
-        onContextMenu={(e) => {
-          if (!onContextMenu) return;
-          e.preventDefault();
-          onContextMenu({
-            x: e.clientX,
-            y: e.clientY,
-            target: { kind: 'file', name: node.name, path: node.path },
-          });
-        }}
-        className={`flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
-          active ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
-        }`}
-      >
-        <span className="w-3" />
-        <Icon size={13} className={active ? 'text-white' : 'text-slate-400'} />
-        <span className="flex-1 truncate">{node.name}</span>
-      </button>
+      <div className="relative">
+        {dropEdge === 'before' && (
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-indigo-500 rounded-full" />
+        )}
+        <button
+          draggable
+          onDragStart={handleDragStart}
+          onDragOver={handleReorderDragOver}
+          onDragLeave={handleReorderDragLeave}
+          onDrop={handleReorderDrop}
+          onClick={() =>
+            onOpenFile({
+              key,
+              label: node.name,
+              breadcrumb: node.path.slice(0, -1),
+              handle: node.handle,
+            })
+          }
+          onContextMenu={(e) => {
+            if (!onContextMenu) return;
+            e.preventDefault();
+            onContextMenu({
+              x: e.clientX,
+              y: e.clientY,
+              target: { kind: 'file', name: node.name, path: node.path },
+            });
+          }}
+          className={`flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
+            active ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100'
+          }`}
+        >
+          <span className="w-3" />
+          <Icon size={13} className={active ? 'text-white' : 'text-slate-400'} />
+          <span className="flex-1 truncate">{node.name}</span>
+        </button>
+        {dropEdge === 'after' && (
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500 rounded-full" />
+        )}
+      </div>
     );
   }
 
-  // Folder row: click ONLY toggles expand/collapse. We do not open a
-  // folder-view tab in the main area — the user navigates exclusively via
-  // the tree here, per product request.
+  // ── Folder row (also a drop target for moving items into) ─────
+  const handleFolderDragOver = (e: React.DragEvent) => {
+    if (!e.dataTransfer.types.includes(DND_MIME)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+
+    // Detect: are we near the edge (reorder) or center (move into)?
+    const rect = e.currentTarget.getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    const edgeZone = rect.height * 0.25;
+    if (y < edgeZone) {
+      setDragOver(false);
+      setDropEdge('before');
+    } else if (y > rect.height - edgeZone) {
+      setDragOver(false);
+      setDropEdge('after');
+    } else {
+      setDragOver(true);
+      setDropEdge(null);
+    }
+  };
+
+  const handleFolderDragLeave = (e: React.DragEvent) => {
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+    setDragOver(false);
+    setDropEdge(null);
+  };
+
+  const handleFolderDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const wasDragOver = dragOver;
+    const edge = dropEdge;
+    setDragOver(false);
+    setDropEdge(null);
+
+    const raw = e.dataTransfer.getData(DND_MIME);
+    if (!raw) return;
+    let sourcePath: string[];
+    try { sourcePath = JSON.parse(raw); } catch { return; }
+
+    if (sourcePath.join('/') === node.path.join('/')) return;
+
+    const sourceParent = sourcePath.slice(0, -1).join('/');
+
+    // Edge drop (reorder within same parent).
+    if (edge && sourceParent === parentKey && onReorderChildren) {
+      e.stopPropagation();
+      const sourceName = sourcePath[sourcePath.length - 1];
+      const names = siblings.map((s) => s.name).filter((n) => n !== sourceName);
+      const targetIdx = names.indexOf(node.name);
+      const insertIdx = edge === 'before' ? targetIdx : targetIdx + 1;
+      names.splice(insertIdx, 0, sourceName);
+      onReorderChildren(parentPath, names);
+      return;
+    }
+
+    // Drop on folder (center or edge from a different parent) → move into it.
+    if (onMoveNode) {
+      const sourcePrefix = sourcePath.join('/') + '/';
+      if (node.path.join('/').startsWith(sourcePrefix)) return;
+      if (sourceParent === node.path.join('/')) return;
+      e.stopPropagation();
+      onMoveNode(sourcePath, node.path);
+      return;
+    }
+
+    // Unhandled → let event bubble to ancestor folder.
+  };
+
+  // Apply custom sort to children.
+  const folderKey = node.path.join('/');
+  const sortedChildren = getSortedChildren(folderKey, node.children);
+
   return (
-    <div>
+    <div className="relative">
+      {dropEdge === 'before' && (
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-indigo-500 rounded-full z-10" />
+      )}
       <button
+        draggable
+        onDragStart={handleDragStart}
+        onDragOver={handleFolderDragOver}
+        onDragLeave={handleFolderDragLeave}
+        onDrop={handleFolderDrop}
         onClick={() => setOpen((v) => !v)}
         onContextMenu={(e) => {
           if (!onContextMenu) return;
@@ -225,25 +416,60 @@ function TreeNodeView({
             target: { kind: 'folder', name: node.name, path: node.path },
           });
         }}
-        className="group flex w-full items-center gap-1 rounded px-1 py-1 text-left hover:bg-slate-100"
+        className={`group flex w-full items-center gap-1 rounded px-1 py-1 text-left transition-colors ${
+          dragOver
+            ? 'bg-indigo-50 ring-2 ring-indigo-300'
+            : 'hover:bg-slate-100'
+        }`}
       >
         {open ? (
           <ChevronDown size={12} className="text-slate-400" />
         ) : (
           <ChevronRight size={12} className="text-slate-400" />
         )}
-        <Folder size={14} className="text-slate-500" />
-        <span className="flex-1 truncate text-slate-800">{node.name}</span>
+        <Folder size={14} className={dragOver ? 'text-indigo-500' : 'text-slate-500'} />
+        <span className={`flex-1 truncate ${dragOver ? 'text-indigo-700' : 'text-slate-800'}`}>
+          {node.name}
+        </span>
       </button>
+      {dropEdge === 'after' && !open && (
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500 rounded-full z-10" />
+      )}
       {open && (
-        <div className="ml-3 border-l border-slate-100 pl-1">
-          {node.children.map((child) => (
+        <div
+          className="ml-3 border-l border-slate-100 pl-1"
+          onDragOver={(e) => {
+            // Allow drops to bubble through to ancestor folders.
+            if (e.dataTransfer.types.includes(DND_MIME)) {
+              e.preventDefault();
+              e.dataTransfer.dropEffect = 'move';
+            }
+          }}
+          onDrop={(e) => {
+            // Unhandled drops on the children area → move into this folder.
+            e.preventDefault();
+            const raw = e.dataTransfer.getData(DND_MIME);
+            if (!raw || !onMoveNode) return;
+            let sourcePath: string[];
+            try { sourcePath = JSON.parse(raw); } catch { return; }
+            if (sourcePath.join('/') === node.path.join('/')) return;
+            const sourceParent = sourcePath.slice(0, -1).join('/');
+            if (sourceParent === node.path.join('/')) return;
+            const sourcePrefix = sourcePath.join('/') + '/';
+            if (node.path.join('/').startsWith(sourcePrefix)) return;
+            onMoveNode(sourcePath, node.path);
+          }}
+        >
+          {sortedChildren.map((child) => (
             <TreeNodeView
               key={child.path.join('/')}
               node={child}
+              siblings={sortedChildren}
               activeFileKey={activeFileKey}
               onOpenFile={onOpenFile}
               onContextMenu={onContextMenu}
+              onMoveNode={onMoveNode}
+              onReorderChildren={onReorderChildren}
             />
           ))}
         </div>
@@ -252,11 +478,6 @@ function TreeNodeView({
   );
 }
 
-/**
- * Flat file list for the protected `_テンプレート` / `自己分析` sections.
- * Key format is preserved (`self/<name>`, `tpl/<name>`) so cloud sync and
- * tab state stay compatible with the legacy layout.
- */
 function SpecialFolderNode({
   label,
   keyPrefix,

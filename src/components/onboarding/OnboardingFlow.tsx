@@ -18,10 +18,12 @@ import {
 import {
   SELF_ANALYSIS_TEMPLATES,
   SELF_ANALYSIS_README,
+  ENTRY_SHEET_README,
   ROOT_CLAUDE_MD,
   ROOT_README_MD,
+  ROOT_USAGE_GUIDE_MD,
 } from '../../lib/onboardingTemplates';
-import { SELF_ANALYSIS_DIR } from '../../types';
+import { SELF_ANALYSIS_DIR, ENTRY_SHEET_DIR } from '../../types';
 import { pullIndustryResearch } from '../../lib/industryResearchSync';
 import {
   writeCompanyFolder,
@@ -36,11 +38,13 @@ const INDUSTRY_COMPANIES = industryCompaniesJson as Record<string, string[]>;
 type Step = 'login' | 'desktop' | 'industry' | 'company' | 'generating';
 
 interface Props {
+  /** Firebase uid of the signed-in user. */
+  uid: string;
   /** Called once the user has finished the flow (root handle adopted, files written). */
   onComplete: (handle: FileSystemDirectoryHandle) => void;
 }
 
-export function OnboardingFlow({ onComplete }: Props) {
+export function OnboardingFlow({ uid, onComplete }: Props) {
   // App.tsx provides a top-level auth gate that guarantees the user is
   // already signed in (when firebaseEnabled) before this flow mounts, so we
   // can always start at 'desktop'. The 'login' step is kept in the state
@@ -219,7 +223,18 @@ export function OnboardingFlow({ onComplete }: Props) {
       console.warn('[onboarding] self-analysis folder creation failed', e);
     }
 
-    // ── Generate root CLAUDE.md + README.md ──────────────────
+    // ── Generate エントリーシート/ folder ──────────────────────
+    setGenCurrent('エントリーシートフォルダ');
+    try {
+      const esDir = await createSubdirectory(rootHandle, ENTRY_SHEET_DIR);
+      if (!(await fileExists(esDir, 'README.md'))) {
+        await writeTextFile(esDir, 'README.md', ENTRY_SHEET_README);
+      }
+    } catch (e) {
+      console.warn('[onboarding] entry-sheet folder creation failed', e);
+    }
+
+    // ── Generate root CLAUDE.md + README.md + 使い方ガイド ─────
     setGenCurrent('CLAUDE.md / README.md');
     try {
       if (!(await fileExists(rootHandle, 'CLAUDE.md'))) {
@@ -227,6 +242,9 @@ export function OnboardingFlow({ onComplete }: Props) {
       }
       if (!(await fileExists(rootHandle, 'README.md'))) {
         await writeTextFile(rootHandle, 'README.md', ROOT_README_MD);
+      }
+      if (!(await fileExists(rootHandle, 'AI就活の使い方.md'))) {
+        await writeTextFile(rootHandle, 'AI就活の使い方.md', ROOT_USAGE_GUIDE_MD);
       }
     } catch (e) {
       console.warn('[onboarding] root file creation failed', e);
@@ -239,7 +257,7 @@ export function OnboardingFlow({ onComplete }: Props) {
 
   const handleFinish = () => {
     if (!rootHandle) return;
-    markOnboarded();
+    markOnboarded(uid);
     onComplete(rootHandle);
   };
 

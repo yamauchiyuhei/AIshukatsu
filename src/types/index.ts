@@ -2,10 +2,12 @@ export const INDUSTRY_RESEARCH_FILE = '業界研究.md';
 export const TEMPLATE_DIR = '_テンプレート';
 export const COMPANY_TEMPLATE_DIR = '企業名_テンプレート';
 export const SELF_ANALYSIS_DIR = '自己分析';
+export const ENTRY_SHEET_DIR = 'エントリーシート';
 
 export const IGNORED_TOP_DIRS: ReadonlySet<string> = new Set([
   TEMPLATE_DIR,
   SELF_ANALYSIS_DIR,
+  ENTRY_SHEET_DIR,
   '.claude',
   '.git',
   '.obsidian',

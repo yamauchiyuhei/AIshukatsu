@@ -264,10 +264,7 @@ export class TauriFileSystemDirectoryHandle {
 // ---------------------------------------------------------------------------
 // Environment detection + factories
 
-export function isTauri(): boolean {
-  if (typeof window === 'undefined') return false;
-  return '__TAURI_INTERNALS__' in window || '__TAURI__' in window;
-}
+export { isTauri } from '@tauri-apps/api/core';
 
 /**
  * Open the Tauri native directory picker and return a FSA-compatible shim.

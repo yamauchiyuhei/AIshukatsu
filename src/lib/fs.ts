@@ -189,6 +189,65 @@ export async function deleteFolderEntry(
 }
 
 /**
+ * Move a file from one directory to another by copy-then-delete.
+ */
+export async function moveFileEntry(
+  sourceParent: FileSystemDirectoryHandle,
+  fileName: string,
+  destParent: FileSystemDirectoryHandle,
+): Promise<void> {
+  if (await fileExists(destParent, fileName)) {
+    throw new Error(`移動先に「${fileName}」が既に存在します`);
+  }
+  const srcHandle = await sourceParent.getFileHandle(fileName);
+  const file = await srcHandle.getFile();
+  const content = await file.arrayBuffer();
+  const destHandle = await destParent.getFileHandle(fileName, { create: true });
+  const w = await destHandle.createWritable();
+  await w.write(content);
+  await w.close();
+  await sourceParent.removeEntry(fileName);
+}
+
+/**
+ * Move a folder from one directory to another by recursive copy-then-delete.
+ */
+export async function moveFolderEntry(
+  sourceParent: FileSystemDirectoryHandle,
+  folderName: string,
+  destParent: FileSystemDirectoryHandle,
+): Promise<void> {
+  if (await subdirectoryExists(destParent, folderName)) {
+    throw new Error(`移動先に「${folderName}」が既に存在します`);
+  }
+  const src = await sourceParent.getDirectoryHandle(folderName);
+  const dst = await destParent.getDirectoryHandle(folderName, { create: true });
+
+  const copyDir = async (
+    from: FileSystemDirectoryHandle,
+    to: FileSystemDirectoryHandle,
+  ) => {
+    for await (const entry of from.values()) {
+      if (entry.kind === 'file') {
+        const fh = await from.getFileHandle(entry.name);
+        const file = await fh.getFile();
+        const content = await file.arrayBuffer();
+        const dest = await to.getFileHandle(entry.name, { create: true });
+        const w = await dest.createWritable();
+        await w.write(content);
+        await w.close();
+      } else {
+        const subSrc = await from.getDirectoryHandle(entry.name);
+        const subDst = await to.getDirectoryHandle(entry.name, { create: true });
+        await copyDir(subSrc, subDst);
+      }
+    }
+  };
+  await copyDir(src, dst);
+  await sourceParent.removeEntry(folderName, { recursive: true });
+}
+
+/**
  * Rename a file by copy-then-delete. File System Access API has a `move`
  * method but its availability varies by browser; this fallback works in
  * every Chromium-based browser we care about.

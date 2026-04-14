@@ -54,6 +54,13 @@ const KEY_MIGRATION_DONE = 'shukatsu-shared-migrated-to-uid';
  * The shared keys are **never deleted** (they serve as a safety backup).
  */
 async function migrateSharedToUser(uid: string): Promise<Workbook | null> {
+  // If another UID already migrated the shared data, this is a new user
+  // → start fresh (return null). Only the original owner (or first user
+  // if flag is unset) gets the shared data. NO DATA IS EVER DELETED.
+  try {
+    const migratedTo = await get<string>(KEY_MIGRATION_DONE);
+    if (migratedTo && migratedTo !== uid) return null;
+  } catch {}
 
   try {
     // 1. Try v2 shared
@@ -124,11 +131,29 @@ export async function loadWorkbook(uid: string): Promise<Workbook | null> {
     // 1. Try per-user key first
     const wb = await get<Workbook>(keyWorkbook(uid));
     if (wb && wb.sheets?.length) {
-      // If the per-user data is just the empty seed, it was likely
-      // created by a failed migration (v0.2.5 bug). Try to recover
-      // from the shared key instead.
-      if (!isSeedWorkbook(wb)) return wb;
-      console.log('[persistence] per-user key has only seed data, attempting recovery from shared key');
+      if (isSeedWorkbook(wb)) {
+        // Seed-only data — likely a failed migration artifact. Try shared key.
+        console.log('[persistence] per-user key has only seed data, attempting recovery from shared key');
+      } else {
+        // Has real data. Check the migration flag to determine ownership.
+        // This flag was set to the original owner's UID when they first
+        // migrated from the shared key (v0.2.7+).
+        const owner = await get<string>(KEY_MIGRATION_DONE);
+        if (owner && owner !== uid) {
+          // Another UID owns the shared data. This per-user key is a
+          // v0.2.3 mis-copy. Ignore it and start fresh.
+          console.log(`[persistence] ignoring mis-copied data for ${uid} (owner: ${owner})`);
+          // Fall through → return null → hydrate creates empty seed
+        } else {
+          // Owner matches, or flag is not set yet (first run).
+          // If flag is unset, set it now to claim ownership.
+          if (!owner) {
+            await set(KEY_MIGRATION_DONE, uid);
+            console.log(`[persistence] claimed ownership for ${uid}`);
+          }
+          return wb;
+        }
+      }
     }
 
     // 2. Try to migrate from shared key

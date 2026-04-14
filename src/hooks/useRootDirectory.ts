@@ -9,13 +9,19 @@ import {
 
 export type RootStatus = 'loading' | 'no-handle' | 'needs-permission' | 'ready';
 
-export function useRootDirectory() {
+export function useRootDirectory(uid: string | null) {
   const [handle, setHandle] = useState<FileSystemDirectoryHandle | null>(null);
   const [status, setStatus] = useState<RootStatus>('loading');
 
   useEffect(() => {
+    // While uid is unknown (auth pending), stay in loading state.
+    if (!uid) {
+      setHandle(null);
+      setStatus('loading');
+      return;
+    }
     (async () => {
-      const stored = await loadRootHandle();
+      const stored = await loadRootHandle(uid);
       if (!stored) {
         setStatus('no-handle');
         return;
@@ -29,22 +35,30 @@ export function useRootDirectory() {
         setStatus('needs-permission');
       }
     })();
-  }, []);
+  }, [uid]);
 
-  const pick = useCallback(async (options?: PickRootDirectoryOptions) => {
-    const picked = await pickRootDirectory(options);
-    await saveRootHandle(picked);
-    setHandle(picked);
-    setStatus('ready');
-    return picked;
-  }, []);
+  const pick = useCallback(
+    async (options?: PickRootDirectoryOptions) => {
+      if (!uid) throw new Error('uid is required');
+      const picked = await pickRootDirectory(options);
+      await saveRootHandle(uid, picked);
+      setHandle(picked);
+      setStatus('ready');
+      return picked;
+    },
+    [uid],
+  );
 
   /** Adopt an already-picked handle (e.g. a subdirectory we created). */
-  const adopt = useCallback(async (next: FileSystemDirectoryHandle) => {
-    await saveRootHandle(next);
-    setHandle(next);
-    setStatus('ready');
-  }, []);
+  const adopt = useCallback(
+    async (next: FileSystemDirectoryHandle) => {
+      if (!uid) throw new Error('uid is required');
+      await saveRootHandle(uid, next);
+      setHandle(next);
+      setStatus('ready');
+    },
+    [uid],
+  );
 
   const requestPermission = useCallback(async () => {
     if (!handle) return;
@@ -53,10 +67,11 @@ export function useRootDirectory() {
   }, [handle]);
 
   const reset = useCallback(async () => {
-    await clearRootHandle();
+    if (!uid) return;
+    await clearRootHandle(uid);
     setHandle(null);
     setStatus('no-handle');
-  }, []);
+  }, [uid]);
 
   return { handle, status, pick, adopt, requestPermission, reset };
 }
