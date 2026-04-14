@@ -65,8 +65,21 @@ export function MarkdownPage({
     passphraseRef.current = passphrase;
   }, [passphrase]);
 
+  // Guard: track the fileHandle this component was mounted with so the
+  // autosave closure never writes to the wrong file, even if React somehow
+  // reuses this component instance across different tabs.
+  const mountedHandleRef = useRef(fileHandle);
+  useEffect(() => {
+    mountedHandleRef.current = fileHandle;
+  }, [fileHandle]);
+
   const { state, schedule, flush, reset } = useAutoSave({
     onSave: async (value) => {
+      // Safety check: abort if the fileHandle changed since the edit was made.
+      if (mountedHandleRef.current !== fileHandle) {
+        console.warn('[autosave] fileHandle mismatch — skipping save to prevent cross-file write');
+        return;
+      }
       // ① Local save (existing behavior) — must not be skipped on cloud error.
       const writable = await fileHandle.createWritable();
       await writable.write(value);

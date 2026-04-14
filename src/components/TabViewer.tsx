@@ -37,6 +37,7 @@ export function TabViewer({ tab, rootName, onNavigate }: Props) {
     case 'markdown':
       return (
         <MarkdownPage
+          key={tab.key}
           fileHandle={tab.handle}
           fileKey={tab.key}
           label={tab.label}
