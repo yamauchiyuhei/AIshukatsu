@@ -279,7 +279,7 @@ export function LandingPage({ onSignIn }: Props) {
             <div className="lp-download__card lp-slide-left">
               <div className="lp-download__card-icon"><Apple size={32} /></div>
               <h3 className="lp-download__card-title">macOS</h3>
-              <p className="lp-download__card-desc">Apple Silicon (M1/M2/M3)<br />Intel Mac は Rosetta 2 で動作</p>
+              <p className="lp-download__card-desc">Apple Silicon / Intel 両対応<br />Universal Binary</p>
               <a href={DL_MACOS} className="lp-btn lp-btn--outline lp-shine">
                 <Download size={16} />ダウンロード (.app)
               </a>
@@ -287,7 +287,7 @@ export function LandingPage({ onSignIn }: Props) {
             <div className="lp-download__card lp-fade-in">
               <div className="lp-download__card-icon"><Monitor size={32} /></div>
               <h3 className="lp-download__card-title">Windows</h3>
-              <p className="lp-download__card-desc">Windows 10 / 11 (x64)<br />NSIS インストーラ</p>
+              <p className="lp-download__card-desc">Windows 10 / 11<br />x64 / ARM64 対応</p>
               <a href={DL_WINDOWS} className="lp-btn lp-btn--outline lp-shine">
                 <Download size={16} />ダウンロード (.exe)
               </a>
