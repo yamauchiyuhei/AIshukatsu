@@ -19,7 +19,7 @@ import { signInWithGoogle } from '../spreadsheet/lib/firebase';
 const GITHUB_RELEASE =
   'https://github.com/yamauchiyuhei/AIshukatsu/releases/latest';
 const DL_MACOS =
-  `${GITHUB_RELEASE}/download/AIshukatsu_aarch64.app.tar.gz`;
+  `${GITHUB_RELEASE}/download/AIshukatsu_universal.app.tar.gz`;
 const DL_WINDOWS = GITHUB_RELEASE;
 
 interface Props {
