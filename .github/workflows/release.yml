@@ -123,7 +123,7 @@ jobs:
 
             ### 自動更新
             初回以降は Tauri Updater 経由でバックグラウンド更新されます。
-          releaseDraft: true
+          releaseDraft: false
           prerelease: false
           includeUpdaterJson: true
           args: ${{ matrix.tauri_args }}
