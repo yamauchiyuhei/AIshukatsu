@@ -66,9 +66,10 @@ export function UpdateBanner() {
 
       setPhase('ready');
     } catch (e) {
-      console.error('[updater] download failed:', e);
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error('[updater] download/install failed:', msg, e);
       setError(
-        'ダウンロードに失敗しました。お手数ですが、最新版を手動でダウンロードしてください。',
+        `更新に失敗しました: ${msg}\nお手数ですが、最新版を手動でダウンロードしてください。`,
       );
       setPhase('error-manual');
     }
