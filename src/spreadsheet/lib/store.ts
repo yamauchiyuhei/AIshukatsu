@@ -743,6 +743,7 @@ export const useSheet = create<SheetState>((set, get) => {
     pullFromCloud: async () => {
       const state = get();
       if (!state.user) return;
+      if (state.cloudStatus === 'syncing') return; // Guard: prevent concurrent sync
       try {
         set({ cloudStatus: 'syncing', cloudError: null });
         const result = await pullWorkbook(state.user.uid, state.passphrase);
@@ -821,6 +822,7 @@ export const useSheet = create<SheetState>((set, get) => {
     pushToCloud: async () => {
       const state = get();
       if (!state.user) return;
+      if (state.cloudStatus === 'syncing') return; // Guard: prevent concurrent sync
       try {
         set({ cloudStatus: 'syncing', cloudError: null });
         const { salt } = await pushWorkbook(state.user.uid, state.workbook, {

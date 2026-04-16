@@ -17,8 +17,10 @@
  */
 
 import {
+  collection,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   serverTimestamp,
   Timestamp,
@@ -164,4 +166,84 @@ export async function pullNote(
     salt,
     decryptFailed,
   };
+}
+
+// ── Bulk restore ──────────────────────────────────────────────────────────
+
+export interface CloudNoteEntry {
+  /** Original fileKey (e.g. "co:IT・通信/DeNA/企業分析.md") */
+  key: string;
+  label: string;
+  breadcrumb: string[];
+  content: string;
+  encrypted: boolean;
+  salt: string;
+  decryptFailed: boolean;
+}
+
+/**
+ * Fetch **all** notes for a user from Firestore. Used by the bulk-restore
+ * feature to recreate the entire folder structure from cloud backup.
+ *
+ * Encrypted notes are decrypted in-place when a passphrase is provided.
+ * Notes that cannot be decrypted have `decryptFailed: true` and their raw
+ * cipher text in `content` — callers should skip those.
+ */
+export async function listAllNotes(
+  uid: string,
+  passphrase: string | null,
+): Promise<CloudNoteEntry[]> {
+  if (!db) return [];
+  const ref = collection(db, 'users', uid, 'notes');
+  const snap = await getDocs(ref);
+  const entries: CloudNoteEntry[] = [];
+
+  for (const d of snap.docs) {
+    const data = d.data() as NoteDoc;
+    const rawContent = data.content ?? '';
+    const salt = data.salt || '';
+    let content = rawContent;
+    let decryptFailed = false;
+
+    if (data.encrypted && isEncrypted(rawContent)) {
+      if (passphrase) {
+        try {
+          const plain = await decryptString(rawContent, passphrase, salt);
+          if (plain === '' && rawContent.length > 10) {
+            decryptFailed = true;
+          } else {
+            content = plain;
+          }
+        } catch {
+          decryptFailed = true;
+        }
+      } else {
+        decryptFailed = true;
+      }
+    }
+
+    // Defensive: skip documents with missing required fields
+    const key = typeof data.key === 'string' ? data.key : '';
+    const label = typeof data.label === 'string' ? data.label : '';
+    const breadcrumb = Array.isArray(data.breadcrumb)
+      ? data.breadcrumb.filter((s): s is string => typeof s === 'string')
+      : [];
+
+    if (!label) {
+      console.warn(`[listAllNotes] skipping doc ${d.id}: missing label`);
+      continue;
+    }
+
+    entries.push({
+      key,
+      label,
+      breadcrumb,
+      content,
+      encrypted: !!data.encrypted,
+      salt,
+      decryptFailed,
+    });
+  }
+
+  return entries;
 }

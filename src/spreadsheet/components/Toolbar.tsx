@@ -21,9 +21,11 @@ import { Popover } from './Popover';
 
 interface Props {
   onOpenPalette: () => void;
+  rootHandle?: FileSystemDirectoryHandle | null;
+  onRestoreComplete?: () => void;
 }
 
-export function Toolbar({ onOpenPalette }: Props) {
+export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props) {
   const view = useSheet((s) => s.view);
   const setView = useSheet((s) => s.setView);
   const search = useSheet((s) => s.searchQuery);
@@ -117,7 +119,7 @@ export function Toolbar({ onOpenPalette }: Props) {
 
           {/* Right: auth (fixed, never clipped) */}
           <div className="shrink-0">
-            <AuthButton />
+            <AuthButton rootHandle={rootHandle} onRestoreComplete={onRestoreComplete} />
           </div>
         </div>
 

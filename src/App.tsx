@@ -430,7 +430,7 @@ export default function App() {
               }}
             />
           ) : (
-            <SpreadsheetRoot active={!fileTabActive} />
+            <SpreadsheetRoot active={!fileTabActive} rootHandle={handle} onRestoreComplete={refresh} />
           )}
         </div>
       </div>

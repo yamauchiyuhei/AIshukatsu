@@ -63,10 +63,11 @@ interface Args {
   out?: string;
   overwrite: boolean;
   sleepMs: number;
+  concurrency: number;
 }
 
 function parseArgs(argv: string[]): Args {
-  const a: Args = { dryRun: false, overwrite: false, sleepMs: 1500 };
+  const a: Args = { dryRun: false, overwrite: false, sleepMs: 0, concurrency: 5 };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
     if (k === '--company') a.company = argv[++i];
@@ -75,6 +76,7 @@ function parseArgs(argv: string[]): Args {
     else if (k === '--out') a.out = argv[++i];
     else if (k === '--overwrite') a.overwrite = true;
     else if (k === '--sleep') a.sleepMs = Number(argv[++i]);
+    else if (k === '--concurrency') a.concurrency = Number(argv[++i]);
   }
   return a;
 }
@@ -346,13 +348,14 @@ Google Search で最新の企業情報を調べて、指定された企業につ
 
 【絶対に守るルール】
 1. 出力は Markdown のみ。前置き・後書き・コードブロック・「以下のとおりです」等の挨拶文は一切禁止。
-2. 数値・事実は可能な限り Google Search 結果に基づき、出典 URL を本文末尾に列挙する。
-3. 確証のない情報は「(要確認)」と明記する。絶対に断定しない。
-4. 企業の公式サイト・IR 資料・新卒採用サイトを優先情報源とする。
-5. 表・箇条書き・見出しを活用して読みやすくする。
-6. 見出し構造・セクション構成はユーザーが示す「参考例」に厳密に揃える。
-7. 企業名は正確に記載する (略称と正式社名を使い分ける)。
-8. 文字数は参考例と同程度を目安とする (短すぎず長すぎず)。
+2. **出力は必ず 6,000 文字以内**。参考例と同程度の長さを目安とする。
+3. **検索結果の本文をそのままコピーしない**。自分の言葉で要約・構造化する。
+4. **出典 URL は本文末尾の「参考情報源」セクションに最大 10 件まで**列挙する。本文中に URL を埋め込まない。
+5. 数値・事実は可能な限り Google Search 結果に基づき、確証のない情報は「(要確認)」と明記する。
+6. 企業の公式サイト・IR 資料・新卒採用サイトを優先情報源とする。
+7. 表・箇条書き・見出しを活用して読みやすくする。
+8. 見出し構造・セクション構成はユーザーが示す「参考例」に厳密に揃える。
+9. 企業名は正確に記載する (略称と正式社名を使い分ける)。
 `;
 
 function buildPromptKigyouBunseki(company: string): string {
@@ -406,11 +409,19 @@ async function generateWithSearch(prompt: string): Promise<string> {
       systemInstruction: SYSTEM_PROMPT,
       tools: [{ googleSearch: {} }],
       temperature: 0.4,
+      // Hard cap: ~6,000 JP chars ≈ 8,000 tokens. Cuts off search-dump outputs
+      // before they balloon to 100k+ tokens.
+      maxOutputTokens: 8000,
     },
   });
   const text = res.text;
   if (!text || text.trim().length === 0) {
     throw new Error('Gemini returned empty text');
+  }
+  // Guard against abnormally large outputs (e.g. Gemini dumping raw search
+  // results). Firestore has a 1MB document limit; sane output is <20KB.
+  if (text.length > 50_000) {
+    throw new Error(`Output too large (${text.length.toLocaleString()} chars) — likely search dump`);
   }
   return text.trim();
 }
@@ -431,11 +442,13 @@ async function generateWithRetry(
       return out;
     } catch (e) {
       lastErr = e;
-      console.warn(
-        `  [retry ${i + 1}/${maxRetries}] ${label}: ${
-          e instanceof Error ? e.message : String(e)
-        }`,
-      );
+      const msg = e instanceof Error ? e.message : String(e);
+      // Search-dump outputs are deterministic for the same prompt — retrying
+      // wastes quota. Fail fast.
+      if (msg.startsWith('Output too large')) {
+        throw e;
+      }
+      console.warn(`  [retry ${i + 1}/${maxRetries}] ${label}: ${msg}`);
       await sleep(2000 * (i + 1));
     }
   }
@@ -451,26 +464,12 @@ interface GeneratedFiles {
 }
 
 async function generateForCompany(company: string): Promise<GeneratedFiles> {
-  console.log(`  → 企業分析.md`);
-  const kigyou = await generateWithRetry(
-    buildPromptKigyouBunseki(company),
-    '企業分析',
-  );
-  console.log(`    ${kigyou.length.toLocaleString()} chars`);
-
-  console.log(`  → ES・面接対策.md`);
-  const es = await generateWithRetry(
-    buildPromptEsMensetsu(company),
-    'ES・面接対策',
-  );
-  console.log(`    ${es.length.toLocaleString()} chars`);
-
-  console.log(`  → インターン.md`);
-  const intern = await generateWithRetry(
-    buildPromptIntern(company),
-    'インターン',
-  );
-  console.log(`    ${intern.length.toLocaleString()} chars`);
+  // All three Gemini calls are independent — run in parallel (~3× faster).
+  const [kigyou, es, intern] = await Promise.all([
+    generateWithRetry(buildPromptKigyouBunseki(company), `${company}/企業分析`),
+    generateWithRetry(buildPromptEsMensetsu(company), `${company}/ES・面接対策`),
+    generateWithRetry(buildPromptIntern(company), `${company}/インターン`),
+  ]);
 
   return {
     '企業分析.md': kigyou,
@@ -515,56 +514,63 @@ async function main(): Promise<void> {
 
   const stats = { ok: 0, failed: 0, totalBytes: 0 };
   const failures: Array<{ name: string; err: string }> = [];
+  let completed = 0;
 
-  for (let i = 0; i < targets.length; i++) {
-    const company = targets[i];
-    const idx = `(${i + 1}/${targets.length})`;
-    console.log(`${idx} ${company}`);
-    try {
-      const files = await generateForCompany(company);
-      const bytes = Object.values(files).reduce(
-        (acc, s) => acc + Buffer.byteLength(s, 'utf8'),
-        0,
-      );
-      stats.totalBytes += bytes;
+  console.log(`[generate] concurrency: ${args.concurrency}`);
+  console.log('');
 
-      // Local write (for inspection / dry-run)
-      if (args.out) {
-        const dir = path.join(path.resolve(args.out), company);
-        await mkdir(dir, { recursive: true });
-        for (const [filename, content] of Object.entries(files)) {
-          await writeFile(path.join(dir, filename), content, 'utf8');
+  // Simple semaphore: start next task as soon as any running one resolves.
+  let cursor = 0;
+  async function worker(): Promise<void> {
+    while (cursor < targets.length) {
+      const i = cursor++;
+      const company = targets[i];
+      try {
+        const files = await generateForCompany(company);
+        const bytes = Object.values(files).reduce(
+          (acc, s) => acc + Buffer.byteLength(s, 'utf8'),
+          0,
+        );
+        stats.totalBytes += bytes;
+
+        if (args.out) {
+          const dir = path.join(path.resolve(args.out), company);
+          await mkdir(dir, { recursive: true });
+          for (const [filename, content] of Object.entries(files)) {
+            await writeFile(path.join(dir, filename), content, 'utf8');
+          }
         }
-        console.log(`    [WROTE LOCAL] ${dir}`);
+
+        if (!args.dryRun && db) {
+          await db
+            .collection('companyContent')
+            .doc(company)
+            .set({
+              version: 1,
+              files,
+              sourceName: company,
+              generatedBy: MODEL,
+              updatedAt: FieldValue.serverTimestamp(),
+            });
+        }
+
+        stats.ok += 1;
+        completed += 1;
+        console.log(
+          `(${completed}/${targets.length}) ✅ ${company} (${bytes.toLocaleString()} bytes)`,
+        );
+      } catch (e) {
+        stats.failed += 1;
+        completed += 1;
+        const msg = e instanceof Error ? e.message : String(e);
+        failures.push({ name: company, err: msg });
+        console.error(`(${completed}/${targets.length}) ❌ ${company}: ${msg}`);
       }
-
-      // Firestore upload
-      if (!args.dryRun && db) {
-        await db
-          .collection('companyContent')
-          .doc(company)
-          .set({
-            version: 1,
-            files,
-            sourceName: company,
-            generatedBy: MODEL,
-            updatedAt: FieldValue.serverTimestamp(),
-          });
-        console.log(`    [PUT FIRESTORE] ${company} (${bytes.toLocaleString()} bytes)`);
-      }
-
-      stats.ok += 1;
-    } catch (e) {
-      stats.failed += 1;
-      const msg = e instanceof Error ? e.message : String(e);
-      failures.push({ name: company, err: msg });
-      console.error(`    [FAIL] ${msg}`);
-    }
-
-    if (i < targets.length - 1 && args.sleepMs > 0) {
-      await sleep(args.sleepMs);
     }
   }
+
+  const workers = Array.from({ length: Math.max(1, args.concurrency) }, () => worker());
+  await Promise.all(workers);
 
   console.log('');
   console.log('[generate] ── summary ───────────────────────');

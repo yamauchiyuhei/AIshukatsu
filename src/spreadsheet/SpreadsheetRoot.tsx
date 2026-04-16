@@ -19,9 +19,13 @@ interface Props {
    * don't steal keystrokes from other tabs (markdown editor, etc.).
    */
   active: boolean;
+  /** Workspace root handle for bulk-restore to write files. */
+  rootHandle?: FileSystemDirectoryHandle | null;
+  /** Callback after bulk restore so the caller can refresh workspace. */
+  onRestoreComplete?: () => void;
 }
 
-export function SpreadsheetRoot({ active }: Props) {
+export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete }: Props) {
   const hydrate = useSheet((s) => s.hydrate);
   const hydrated = useSheet((s) => s.hydrated);
   const user = useSheet((s) => s.user);
@@ -101,7 +105,7 @@ export function SpreadsheetRoot({ active }: Props) {
           </button>
         </div>
       )}
-      <Toolbar onOpenPalette={() => setPaletteOpen(true)} />
+      <Toolbar onOpenPalette={() => setPaletteOpen(true)} rootHandle={rootHandle} onRestoreComplete={onRestoreComplete} />
       <SheetTabs />
       <StatsBar />
       <div className="flex flex-1 overflow-hidden">
