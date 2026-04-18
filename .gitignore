@@ -22,3 +22,18 @@ src-tauri/gen/schemas
 
 # Temp / generated artifacts
 tmp/
+
+# Firebase debug logs
+firebase-debug*.log
+
+# macOS auto screenshots (filename pattern: スクリーンショット YYYY-MM-DD …)
+スクリーンショット*.png
+
+# Marketing/design source PNGs kept locally — canonical copies live in public/screenshots/
+/企業研究*.png
+/業界研究*.png
+/就活スプレッドシート*.png
+
+# Scratch scripts (underscore-prefixed)
+scripts/_*.ts
+

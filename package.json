@@ -16,6 +16,7 @@
     "tauri:build": "tauri build"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.9.0",
     "@milkdown/core": "^7.5.8",
     "@milkdown/ctx": "^7.5.8",
     "@milkdown/plugin-block": "^7.5.8",
@@ -34,14 +35,19 @@
     "@tauri-apps/plugin-shell": "^2.3.5",
     "@tauri-apps/plugin-updater": "^2.10.1",
     "buffer": "^6.0.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "firebase": "^12.11.0",
+    "framer-motion": "^12.38.0",
     "gray-matter": "^4.0.3",
     "idb-keyval": "^6.2.1",
     "lucide-react": "^0.454.0",
     "mammoth": "^1.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss-animate": "^1.0.7",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "zustand": "^5.0.2"
   },

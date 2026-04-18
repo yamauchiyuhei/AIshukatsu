@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Download, RefreshCw, X, CheckCircle2 } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Download, RefreshCw, CheckCircle2 } from 'lucide-react';
 import { isTauri } from '../lib/tauriFsaShim';
 
 type Phase = 'idle' | 'available' | 'downloading' | 'ready' | 'dismissed' | 'error-manual';
@@ -75,10 +76,19 @@ export function UpdateBanner() {
     }
   };
 
-  if (phase === 'idle' || phase === 'dismissed') return null;
+  const visible = phase !== 'idle' && phase !== 'dismissed';
 
   return (
-    <div className="update-banner">
+    <AnimatePresence initial={false}>
+      {visible && (
+        <motion.div
+          key={phase}
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="update-banner"
+        >
       {phase === 'available' && (
         <>
           <div className="update-banner__text">
@@ -155,6 +165,8 @@ export function UpdateBanner() {
           </div>
         </div>
       )}
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

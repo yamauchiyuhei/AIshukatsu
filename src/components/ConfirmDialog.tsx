@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { Button } from './ui/Button';
+import { Modal } from './ui/Modal';
 
 interface Props {
   open: boolean;
@@ -15,6 +16,9 @@ interface Props {
 /**
  * Minimal modal confirmation dialog shared by delete operations and any
  * future destructive action. Closes on Escape / backdrop click.
+ *
+ * Visuals are driven by the shared {@link Modal} + {@link Button} primitives
+ * so the dialog matches RenameDialog and any future surface.
  */
 export function ConfirmDialog({
   open,
@@ -26,57 +30,30 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: Props) {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        onCancel();
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        onConfirm();
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open, onCancel, onConfirm]);
-
-  if (!open) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/40 p-4"
-      onClick={onCancel}
+    <Modal
+      open={open}
+      onClose={onCancel}
+      onEnter={onConfirm}
+      ariaLabel={title}
     >
-      <div
-        className="w-full max-w-sm rounded-lg bg-white p-5 shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 className="text-base font-semibold text-slate-900">{title}</h3>
-        <p className="mt-2 whitespace-pre-line text-sm text-slate-600">
-          {message}
-        </p>
-        <div className="mt-5 flex justify-end gap-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
-          >
-            {cancelLabel}
-          </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            className={
-              destructive
-                ? 'rounded-md bg-rose-600 px-4 py-2 text-sm text-white hover:bg-rose-700'
-                : 'rounded-md bg-slate-900 px-4 py-2 text-sm text-white hover:bg-slate-800'
-            }
-          >
-            {confirmLabel}
-          </button>
-        </div>
+      <h3 className="text-base font-semibold text-slate-900">{title}</h3>
+      <p className="mt-2 whitespace-pre-line text-sm text-slate-600">
+        {message}
+      </p>
+      <div className="mt-5 flex justify-end gap-2">
+        <Button variant="outline" size="sm" onClick={onCancel}>
+          {cancelLabel}
+        </Button>
+        <Button
+          variant={destructive ? 'destructive' : 'default'}
+          size="sm"
+          onClick={onConfirm}
+          autoFocus
+        >
+          {confirmLabel}
+        </Button>
       </div>
-    </div>
+    </Modal>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import {
   ChevronDown,
   ChevronRight,
@@ -73,6 +74,9 @@ export function FileTree({
 }: Props) {
   // Apply custom sort order to root-level nodes.
   const sortedTree = getSortedChildren('', workspace.tree);
+  // Auto-animate list mutations (add / remove / reorder) on the root tree
+  // container. Purely visual — no logic change.
+  const [treeListRef] = useAutoAnimate<HTMLDivElement>({ duration: 160 });
 
   return (
     <aside className="flex h-screen w-72 shrink-0 flex-col border-r border-slate-200 bg-white">
@@ -139,19 +143,21 @@ export function FileTree({
           <span className="flex-1 truncate">就活スプレッドシート</span>
         </button>
 
-        {sortedTree.map((node) => (
-          <TreeNodeView
-            key={node.path.join('/')}
-            node={node}
-            siblings={sortedTree}
-            activeFileKey={activeFileKey}
-            onOpenFile={onOpenFile}
-            onContextMenu={onContextMenu}
-            onMoveNode={onMoveNode}
-            onReorderChildren={onReorderChildren}
-            defaultOpen={false}
-          />
-        ))}
+        <div ref={treeListRef}>
+          {sortedTree.map((node) => (
+            <TreeNodeView
+              key={node.path.join('/')}
+              node={node}
+              siblings={sortedTree}
+              activeFileKey={activeFileKey}
+              onOpenFile={onOpenFile}
+              onContextMenu={onContextMenu}
+              onMoveNode={onMoveNode}
+              onReorderChildren={onReorderChildren}
+              defaultOpen={false}
+            />
+          ))}
+        </div>
 
         {/* 自己分析 */}
         {workspace.selfAnalysis.files.length > 0 && (
@@ -212,6 +218,8 @@ function TreeNodeView({
   const [open, setOpen] = useState(defaultOpen);
   const [dragOver, setDragOver] = useState(false);
   const [dropEdge, setDropEdge] = useState<'before' | 'after' | null>(null);
+  // Animate children add / remove / reorder inside this folder.
+  const [childrenRef] = useAutoAnimate<HTMLDivElement>({ duration: 150 });
 
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData(DND_MIME, JSON.stringify(node.path));
@@ -437,6 +445,7 @@ function TreeNodeView({
       )}
       {open && (
         <div
+          ref={childrenRef}
           className="ml-3 border-l border-slate-100 pl-1"
           onDragOver={(e) => {
             // Allow drops to bubble through to ancestor folders.
