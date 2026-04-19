@@ -131,9 +131,55 @@ body {
   @apply my-8 border-0 h-px bg-slate-200;
 }
 
-/* Links */
+/* Links — compact "chip" style so long マイページ URLs and 出典 references
+ * don't blow up paragraph width. Applied to every <a> in the editor; the
+ * max-width + ellipsis handles bare autolinks, while short labelled links
+ * just look like a subtle pill. An external-link arrow is rendered via
+ * ::after so every link gets a clear "opens elsewhere" affordance.
+ */
 .milkdown a {
-  @apply text-blue-600 underline underline-offset-2 hover:text-blue-700 cursor-pointer;
+  @apply inline-flex max-w-[28em] items-center gap-1 truncate rounded-md bg-indigo-50 px-1.5 py-0.5 font-medium text-indigo-700 no-underline transition-colors align-baseline;
+  vertical-align: baseline;
+}
+.milkdown a::after {
+  content: '↗';
+  @apply shrink-0 text-[0.85em] opacity-60;
+}
+.milkdown a:hover {
+  @apply bg-indigo-100 text-indigo-800 underline;
+}
+/* Email / non-http links keep the plain style (no chip). */
+.milkdown a[href^="mailto:"],
+.milkdown a[href^="tel:"],
+.milkdown a:not([href^="http"]) {
+  @apply bg-transparent text-blue-600 px-0 py-0 underline;
+}
+.milkdown a[href^="mailto:"]::after,
+.milkdown a[href^="tel:"]::after,
+.milkdown a:not([href^="http"])::after {
+  content: '';
+}
+/* Inside headings, links should blend with the heading size and weight. */
+.milkdown h1 a,
+.milkdown h2 a,
+.milkdown h3 a,
+.milkdown h4 a,
+.milkdown h5 a,
+.milkdown h6 a {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  text-decoration: underline;
+}
+.milkdown h1 a::after,
+.milkdown h2 a::after,
+.milkdown h3 a::after,
+.milkdown h4 a::after,
+.milkdown h5 a::after,
+.milkdown h6 a::after {
+  content: '';
 }
 
 /* Tables — VSCode-preview style, compact */
