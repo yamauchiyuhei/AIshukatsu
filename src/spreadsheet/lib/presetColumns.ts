@@ -47,7 +47,7 @@ export function createPresetColumns(): Column[] {
     { id: 'es_deadline', name: 'ES締切', type: 'date', width: 120 },
     { id: 'webtest_deadline', name: 'Webテスト締切', type: 'date', width: 130 },
     { id: 'interview_at', name: '面接日程', type: 'datetime', width: 150 },
-    { id: 'mypage_url', name: 'マイページURL', type: 'url', width: 150 },
+    { id: 'mypage_url', name: 'マイページURL', type: 'url', width: 200 },
     { id: 'login_id', name: 'ID', type: 'text', width: 110 },
     { id: 'password', name: 'パスワード', type: 'password', width: 110 },
     { id: 'memo', name: 'メモ', type: 'longtext', width: 220 },

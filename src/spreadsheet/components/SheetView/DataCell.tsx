@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Star } from 'lucide-react';
+import { Check, Copy, Link as LinkIcon, Star } from 'lucide-react';
 import { CellValue, Column } from '../../types/sheet';
 import { CellEditor } from './CellEditor';
 import { URGENCY_BG, URGENCY_TEXT, urgencyForDate } from '../../lib/conditionalFormat';
@@ -139,27 +139,18 @@ export function DataCell({
     (column.type === 'url' && strVal) ||
     /^https?:\/\//i.test(strVal);
 
-  // For URL cells: single click opens the link, double click enters edit mode.
-  // For other cells: single click enters edit mode (unchanged).
+  // For URL cells: render a compact chip with favicon + hostname so long
+  // マイページURLs don't blow up column width. Click opens the link, double
+  // click enters edit mode, a hover-only copy icon yanks the full URL.
   if (isUrl) {
     return (
-      <div
-        className={`flex h-full w-full items-center px-2 py-1.5 text-left text-xs transition ${bgClass} ${textClass} ${
-          selected ? '' : 'hover:bg-indigo-50/40'
-        }`}
-        onDoubleClick={() => setEditing(true)}
-        title="クリックで開く / ダブルクリックで編集"
-      >
-        <a
-          href={strVal}
-          target="_blank"
-          rel="noreferrer"
-          className="truncate text-indigo-600 underline hover:text-indigo-800"
-          title={strVal}
-        >
-          {display || '\u00A0'}
-        </a>
-      </div>
+      <UrlCell
+        url={strVal}
+        bgClass={bgClass}
+        textClass={textClass}
+        selected={selected}
+        onEnterEdit={() => setEditing(true)}
+      />
     );
   }
 
@@ -175,6 +166,97 @@ export function DataCell({
     >
       <span className="truncate whitespace-pre-wrap">{display || '\u00A0'}</span>
     </button>
+  );
+}
+
+/**
+ * Compact URL display: favicon + hostname, click to open, hover-only copy
+ * button, full URL in tooltip. Keeps the column width predictable regardless
+ * of actual URL length.
+ */
+function UrlCell({
+  url,
+  bgClass,
+  textClass,
+  selected,
+  onEnterEdit,
+}: {
+  url: string;
+  bgClass: string;
+  textClass: string;
+  selected: boolean;
+  onEnterEdit: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+  const [faviconFailed, setFaviconFailed] = useState(false);
+
+  let hostname = '';
+  try {
+    hostname = new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    // Fall back to truncated raw string for malformed URLs (rare — already
+    // filtered by isUrl at the call site, but keep a safety net).
+    hostname = url.length > 40 ? `${url.slice(0, 40)}…` : url;
+  }
+
+  const faviconUrl = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(
+    hostname,
+  )}&sz=32`;
+
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Ignore clipboard failures — not critical.
+    }
+  };
+
+  return (
+    <div
+      className={`group flex h-full w-full items-center gap-1.5 px-2 py-1.5 text-left text-xs transition ${bgClass} ${textClass} ${
+        selected ? '' : 'hover:bg-indigo-50/40'
+      }`}
+      onDoubleClick={onEnterEdit}
+      title={`${url}\n(クリックで開く / ダブルクリックで編集)`}
+    >
+      {faviconFailed ? (
+        <LinkIcon size={12} className="shrink-0 text-slate-400" />
+      ) : (
+        <img
+          src={faviconUrl}
+          alt=""
+          className="h-4 w-4 shrink-0 rounded-sm object-contain"
+          onError={() => setFaviconFailed(true)}
+          loading="lazy"
+          aria-hidden
+        />
+      )}
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        className="min-w-0 flex-1 truncate text-indigo-600 hover:text-indigo-800 hover:underline"
+      >
+        {hostname}
+      </a>
+      <button
+        type="button"
+        onClick={handleCopy}
+        className="shrink-0 rounded p-0.5 text-slate-400 opacity-0 transition hover:bg-slate-200 hover:text-slate-700 group-hover:opacity-100 focus:opacity-100"
+        title={copied ? 'コピーしました' : 'URLをコピー'}
+        aria-label="URLをコピー"
+      >
+        {copied ? (
+          <Check size={11} className="text-emerald-500" />
+        ) : (
+          <Copy size={11} />
+        )}
+      </button>
+    </div>
   );
 }
 
