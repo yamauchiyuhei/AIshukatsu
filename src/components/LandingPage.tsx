@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import { signInWithGoogle } from '../spreadsheet/lib/firebase';
+import { LegalModal } from './onboarding/LegalModal';
+import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../data/legal';
+
+const ISSUES_URL = 'https://github.com/yamauchiyuhei/AIshukatsu/issues';
 
 // ───────────────────────── constants ─────────────────────────
 const GITHUB_RELEASE =
@@ -917,7 +921,30 @@ function FAQ({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
 }
 
 // ───────────────────────── Footer ─────────────────────────
+type FooterLink = { label: string; href?: string; onClick?: () => void };
+
 function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
+  const [legal, setLegal] = useState<'terms' | 'privacy' | null>(null);
+
+  const columns: { h: string; l: FooterLink[] }[] = [
+    {
+      h: 'プロダクト',
+      l: ['機能', '選考管理', 'AI連携', 'ダウンロード', 'ロードマップ'].map((label) => ({ label })),
+    },
+    {
+      h: 'リソース',
+      l: ['ドキュメント', 'テンプレート', 'リリースノート', '変更履歴'].map((label) => ({ label })),
+    },
+    {
+      h: '法務',
+      l: [
+        { label: '利用規約', onClick: () => setLegal('terms') },
+        { label: 'プライバシーポリシー', onClick: () => setLegal('privacy') },
+        { label: 'お問い合わせ', href: ISSUES_URL },
+      ],
+    },
+  ];
+
   return (
     <footer className={'relative pt-20 pb-10 border-t ' + t.border + ' ' + t.bg}>
       <div className="mx-auto max-w-6xl px-6">
@@ -934,16 +961,32 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
               © {new Date().getFullYear()} AIshukatsu. Made with ♡ for 28卒.
             </div>
           </div>
-          {[
-            { h: 'プロダクト', l: ['機能', '選考管理', 'AI連携', 'ダウンロード', 'ロードマップ'] },
-            { h: 'リソース', l: ['ドキュメント', 'テンプレート', 'GitHub', 'リリースノート', '変更履歴'] },
-            { h: '法務', l: ['利用規約', 'プライバシーポリシー', '特定商取引法', 'お問い合わせ'] },
-          ].map((col, i) => (
+          {columns.map((col, i) => (
             <div key={i}>
               <div className={'text-xs landing-mono uppercase tracking-widest ' + t.textDim}>{col.h}</div>
               <ul className={'mt-3 space-y-2 text-sm ' + t.textMuted}>
                 {col.l.map((x) => (
-                  <li key={x}><a href="#" className="hover:opacity-100 opacity-80">{x}</a></li>
+                  <li key={x.label}>
+                    {x.onClick ? (
+                      <button
+                        type="button"
+                        onClick={x.onClick}
+                        className="opacity-80 transition hover:opacity-100"
+                      >
+                        {x.label}
+                      </button>
+                    ) : (
+                      <a
+                        href={x.href ?? '#'}
+                        className="opacity-80 transition hover:opacity-100"
+                        {...(x.href?.startsWith('http')
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : {})}
+                      >
+                        {x.label}
+                      </a>
+                    )}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -960,6 +1003,20 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           </div>
         </div>
       </div>
+      {legal === 'terms' && (
+        <LegalModal
+          title="利用規約"
+          body={TERMS_OF_SERVICE}
+          onClose={() => setLegal(null)}
+        />
+      )}
+      {legal === 'privacy' && (
+        <LegalModal
+          title="プライバシーポリシー"
+          body={PRIVACY_POLICY}
+          onClose={() => setLegal(null)}
+        />
+      )}
     </footer>
   );
 }
