@@ -13,7 +13,7 @@ const GITHUB_RELEASE =
   'https://github.com/yamauchiyuhei/AIshukatsu/releases/latest';
 const DL_MACOS = `${GITHUB_RELEASE}/download/AIshukatsu_universal.app.tar.gz`;
 const DL_WINDOWS = GITHUB_RELEASE;
-const APP_VERSION = 'v0.2.14';
+const APP_VERSION = 'v0.2.15';
 
 // ───────────────────────── theme tokens ─────────────────────────
 type ThemeKey = 'dark' | 'light';
