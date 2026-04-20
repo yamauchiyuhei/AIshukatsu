@@ -71,6 +71,7 @@ const LandingStyles = () => (
   <style>{`
     .landing-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
     .landing-serif { font-family: 'Instrument Serif', ui-serif, serif; font-style: italic; }
+    .landing-sans-jp { font-family: 'Noto Sans JP', 'Inter', system-ui, sans-serif; }
     .landing-grid-bg {
       background-image:
         linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
@@ -191,7 +192,7 @@ function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignI
             <span>Mac / Windows 対応</span>
           </div>
 
-          <h1 className={'mt-6 text-[clamp(44px,7.5vw,104px)] font-black leading-[0.95] tracking-tight ' + t.text}>
+          <h1 className={'landing-sans-jp mt-6 text-[clamp(44px,7.5vw,104px)] font-bold leading-[0.95] tracking-tight ' + t.text}>
             就活を、<br />
             <span className={t.heading}>AIと一緒に、</span><br />
             <span className="landing-serif font-normal">ちゃんと</span>終わらせる。
