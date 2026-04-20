@@ -120,26 +120,16 @@ const LandingStyles = () => (
 );
 
 // ───────────────────────── Logo ─────────────────────────
-function Logo({ theme }: { theme: ThemeKey }) {
-  const c = theme === 'dark' ? '#fff' : '#0f172a';
+function Logo(_: { theme: ThemeKey }) {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <defs>
-        <linearGradient id="landing-logo-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#6366f1" />
-          <stop offset="1" stopColor="#ec4899" />
-        </linearGradient>
-      </defs>
-      <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#landing-logo-gradient)" />
-      <path
-        d="M7 16 L12 7 L17 16 M9 13 H15"
-        stroke={c}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    </svg>
+    <img
+      src="/logo.png"
+      alt="AI就活"
+      width={24}
+      height={24}
+      className="rounded-md"
+      decoding="async"
+    />
   );
 }
 
