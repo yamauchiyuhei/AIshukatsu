@@ -437,7 +437,7 @@ function SectionLabel({
         <span className={'h-px w-8 ' + (theme === 'dark' ? 'bg-white/30' : 'bg-slate-300')} />
         <span>{subtitle}</span>
       </div>
-      <h2 className={'mt-4 text-4xl md:text-6xl font-black tracking-tight leading-[1.05] ' + t.text}>{title}</h2>
+      <h2 className={'landing-sans-jp mt-4 text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] ' + t.text}>{title}</h2>
     </div>
   );
 }
@@ -828,7 +828,7 @@ function DownloadSection({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeK
       </div>
       <div className="relative mx-auto max-w-6xl px-6 text-center">
         <div className={'landing-mono text-xs ' + t.textDim}>— Start in 30 seconds —</div>
-        <h2 className={'mt-5 text-5xl md:text-7xl font-black tracking-tight ' + t.text}>
+        <h2 className={'landing-sans-jp mt-5 text-5xl md:text-7xl font-bold tracking-tight ' + t.text}>
           さあ、<span className={t.heading}>就活</span>を始めよう。
         </h2>
         <p className={'mt-5 text-lg ' + t.textMuted}>ダウンロード即無料。アカウント作成はワンクリックで完了。</p>
@@ -949,7 +949,7 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
         </div>
 
         <div className={'mt-16 pt-8 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ' + t.border}>
-          <div className={'text-5xl md:text-7xl font-black tracking-tighter ' + t.textDim}>AI SHUKATSU.</div>
+          <div className={'text-5xl md:text-7xl font-bold tracking-tighter ' + t.textDim}>AI SHUKATSU.</div>
           <div className={'text-xs landing-mono flex items-center gap-3 ' + t.textDim}>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 landing-pulse-dot" />
             <span>all systems operational</span>
