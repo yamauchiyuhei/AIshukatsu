@@ -124,6 +124,93 @@ const LandingStyles = () => (
     .landing-pulse-dot { animation: landing-pulse-dot 2s ease-in-out infinite; }
     @keyframes landing-blink { 50% { opacity: 0; } }
     .landing-blink { animation: landing-blink 1s step-end infinite; }
+
+    /* Scroll-triggered reveal — opt-in via data-reveal / data-stagger */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity .9s cubic-bezier(.2,.8,.2,1),
+        transform .9s cubic-bezier(.2,.8,.2,1);
+      will-change: opacity, transform;
+    }
+    [data-reveal][data-revealed="true"] {
+      opacity: 1;
+      transform: none;
+    }
+    [data-stagger] > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity .75s cubic-bezier(.2,.8,.2,1),
+        transform .75s cubic-bezier(.2,.8,.2,1);
+      will-change: opacity, transform;
+    }
+    [data-stagger][data-revealed="true"] > * { opacity: 1; transform: none; }
+    [data-stagger][data-revealed="true"] > *:nth-child(1) { transition-delay: 0ms; }
+    [data-stagger][data-revealed="true"] > *:nth-child(2) { transition-delay: 80ms; }
+    [data-stagger][data-revealed="true"] > *:nth-child(3) { transition-delay: 160ms; }
+    [data-stagger][data-revealed="true"] > *:nth-child(4) { transition-delay: 240ms; }
+    [data-stagger][data-revealed="true"] > *:nth-child(5) { transition-delay: 320ms; }
+    [data-stagger][data-revealed="true"] > *:nth-child(6) { transition-delay: 400ms; }
+    [data-stagger][data-revealed="true"] > *:nth-child(7) { transition-delay: 480ms; }
+    [data-stagger][data-revealed="true"] > *:nth-child(8) { transition-delay: 560ms; }
+
+    /* Hero load-in (no observer needed — runs on mount) */
+    @keyframes landing-rise-in {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: none; }
+    }
+    .landing-rise-in { animation: landing-rise-in .9s cubic-bezier(.2,.8,.2,1) both; }
+    .landing-rise-d1 { animation-delay: .05s; }
+    .landing-rise-d2 { animation-delay: .18s; }
+    .landing-rise-d3 { animation-delay: .35s; }
+    .landing-rise-d4 { animation-delay: .55s; }
+    .landing-rise-d5 { animation-delay: .8s; }
+    .landing-rise-d6 { animation-delay: 1.05s; }
+
+    @keyframes landing-pop-in {
+      0% { opacity: 0; transform: scale(.95) translateY(18px); }
+      60% { transform: scale(1.01) translateY(-2px); }
+      100% { opacity: 1; transform: none; }
+    }
+    .landing-pop-in { animation: landing-pop-in 1.1s cubic-bezier(.2,.8,.2,1) both; }
+
+    /* Slow ambient aurora breathing */
+    @keyframes landing-aurora-drift {
+      0%, 100% { transform: translate3d(0,0,0) scale(1); }
+      50% { transform: translate3d(10px,-14px,0) scale(1.06); }
+    }
+    .landing-aurora-anim { animation: landing-aurora-drift 16s ease-in-out infinite; }
+
+    /* Feature card icon — gentle bounce on parent .group hover */
+    .landing-icon-chip { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+    .group:hover .landing-icon-chip { transform: scale(1.08) rotate(-3deg); }
+
+    /* CTA arrow nudge — small extra travel on hover (kept very subtle) */
+    .landing-cta-arrow { transition: transform .25s ease, opacity .25s ease; }
+    .group:hover .landing-cta-arrow { transform: translateX(4px); opacity: .9; }
+
+    /* Reduced motion: turn every opt-in animation off */
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal], [data-stagger] > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .landing-rise-in,
+      .landing-pop-in,
+      .landing-aurora-anim,
+      .landing-marquee,
+      .landing-pulse-dot,
+      .landing-blink,
+      .landing-text-gradient,
+      .landing-text-gradient-light {
+        animation: none !important;
+      }
+      .landing-icon-chip,
+      .landing-cta-arrow { transition: none !important; }
+    }
   `}</style>
 );
 
@@ -186,20 +273,20 @@ function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignI
     <section className={'relative overflow-hidden pt-40 pb-24 ' + t.bg}>
       <div className={'absolute inset-0 ' + t.grid} />
       <div className="absolute inset-0 pointer-events-none">
-        <div className={'absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] ' + t.aurora} />
+        <div className={'absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] landing-aurora-anim ' + t.aurora} />
       </div>
       <div className={'absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent ' + (theme === 'dark' ? 'to-[#05060a]' : 'to-[#fafafa]')} />
 
       <div className="relative mx-auto max-w-6xl px-6">
         <div className="max-w-4xl">
-          <div className={'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs ' + t.chip}>
+          <div className={'landing-rise-in landing-rise-d1 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs ' + t.chip}>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 landing-pulse-dot" />
             <span className="landing-mono tracking-wider">28卒・29卒の就活OS</span>
             <span className={t.textDim}>・</span>
             <span>Mac / Windows 対応</span>
           </div>
 
-          <h1 className={'landing-sans-jp mt-6 text-[clamp(44px,7.5vw,104px)] font-bold leading-[0.95] tracking-tight ' + t.text}>
+          <h1 className={'landing-rise-in landing-rise-d2 landing-sans-jp mt-6 text-[clamp(44px,7.5vw,104px)] font-bold leading-[0.95] tracking-tight ' + t.text}>
             <span className="whitespace-nowrap">就活を、</span><br />
             <span className={'whitespace-nowrap ' + t.heading}>AIと一緒に、</span><br />
             <span className="whitespace-nowrap">
@@ -207,13 +294,13 @@ function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignI
             </span>
           </h1>
 
-          <p className={'mt-7 max-w-2xl text-lg md:text-xl leading-relaxed ' + t.textMuted}>
+          <p className={'landing-rise-in landing-rise-d3 mt-7 max-w-2xl text-lg md:text-xl leading-relaxed ' + t.textMuted}>
             1企業 1フォルダ、全部 Markdown。<br className="hidden md:block" />
             書いた情報はそのまま <span className={t.text + ' font-medium'}>Claude / Cursor / ChatGPT</span> に渡せる、
             ローカルファーストの就活管理アプリ。
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-3">
+          <div className="landing-rise-in landing-rise-d4 mt-10 flex flex-wrap items-center gap-3">
             <a
               href="#download"
               className={'group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition ' + t.btn}
@@ -227,7 +314,7 @@ function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignI
                 </svg>
               </span>
               無料ダウンロード
-              <span className="opacity-50 group-hover:translate-x-0.5 transition">→</span>
+              <span className="landing-cta-arrow opacity-50">→</span>
             </a>
             <button
               type="button"
@@ -245,7 +332,7 @@ function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignI
             </a>
           </div>
 
-          <div className={'mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs ' + t.textMuted}>
+          <div className={'landing-rise-in landing-rise-d5 mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs ' + t.textMuted}>
             {['ローカルファースト', 'Markdown ネイティブ', 'パスワード暗号化', 'Firestore バックアップ', 'Chrome / Edge / Desktop'].map((s) => (
               <div key={s} className="flex items-center gap-2">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12l5 5L20 7" /></svg>
@@ -255,7 +342,7 @@ function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignI
           </div>
         </div>
 
-        <div id="demo" className="relative mt-24">
+        <div id="demo" className="landing-pop-in landing-rise-d6 relative mt-24">
           <HeroScreen t={t} theme={theme} />
         </div>
       </div>
@@ -267,7 +354,7 @@ function HeroScreen({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   return (
     <div className="relative">
       <div className="absolute -inset-4 rounded-[2rem] pointer-events-none">
-        <div className={'absolute inset-0 ' + t.aurora + ' opacity-70'} />
+        <div className={'absolute inset-0 landing-aurora-anim ' + t.aurora + ' opacity-70'} />
       </div>
       <div className={'relative rounded-[1.75rem] border overflow-hidden shadow-2xl ' + (theme === 'dark' ? 'border-white/10 bg-[#0a0b12]' : 'border-slate-200 bg-white')}>
         <div className={'flex items-center gap-2 px-4 py-3 border-b ' + t.border}>
@@ -445,7 +532,7 @@ function SectionLabel({
   theme: ThemeKey;
 }) {
   return (
-    <div className="mb-14">
+    <div className="mb-14" data-reveal>
       <div className={'landing-mono text-xs flex items-center gap-2 ' + t.textDim}>
         <span>{n}</span>
         <span className={'h-px w-8 ' + (theme === 'dark' ? 'bg-white/30' : 'bg-slate-300')} />
@@ -610,7 +697,7 @@ function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           title={<>&quot;紙で管理&quot;の限界を、<br />4つの設計で超える。</>}
           t={t}
         />
-        <div className="grid md:grid-cols-2 gap-5">
+        <div className="grid md:grid-cols-2 gap-5" data-stagger>
           {items.map((f, i) => (
             <div
               key={i}
@@ -618,7 +705,7 @@ function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
             >
               <div className={'absolute -top-20 -right-20 h-60 w-60 rounded-full bg-gradient-to-br opacity-60 group-hover:opacity-100 transition ' + f.accent} />
               <div className="relative">
-                <div className={'mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ' + f.iconCls}>
+                <div className={'landing-icon-chip mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ' + f.iconCls}>
                   {f.icon}
                 </div>
                 <div className={'text-xl font-bold ' + t.text}>{f.title}</div>
@@ -855,7 +942,7 @@ function Stories({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           title={<>先輩たちが、<br />どう使って内定を取ったか。</>}
           t={t}
         />
-        <div className="grid md:grid-cols-2 gap-5">
+        <div className="grid md:grid-cols-2 gap-5" data-stagger>
           {testimonials.map((x, i) => (
             <figure key={i} className={'rounded-2xl p-7 border ' + t.border + ' ' + t.card}>
               <div className={'text-lg leading-relaxed ' + t.text}>&quot;{x.body}&quot;</div>
@@ -872,7 +959,7 @@ function Stories({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           ))}
         </div>
 
-        <div className="mt-16 grid md:grid-cols-3 gap-4">
+        <div className="mt-16 grid md:grid-cols-3 gap-4" data-stagger>
           {[
             { tag: 'USE CASE 01', title: 'ES 量産期', body: 'Frontmatter に〆切・提出先をメモ。テンプレから派生させて5社並行で下書き。' },
             { tag: 'USE CASE 02', title: '面接ラッシュ', body: 'カレンダーで時系列、カンバンで進捗、詳細は Markdown。同じデータを3視点で。' },
@@ -895,7 +982,7 @@ function DownloadSection({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeK
   return (
     <section id="download" className={'relative py-32 overflow-hidden ' + t.bg}>
       <div className="absolute inset-0 pointer-events-none">
-        <div className={'absolute inset-0 ' + t.aurora + ' opacity-80'} />
+        <div className={'absolute inset-0 landing-aurora-anim ' + t.aurora + ' opacity-80'} />
       </div>
       <div className="relative mx-auto max-w-6xl px-6 text-center">
         <div className={'landing-mono text-xs ' + t.textDim}>— Start in 30 seconds —</div>
@@ -904,7 +991,7 @@ function DownloadSection({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeK
         </h2>
         <p className={'mt-5 text-lg ' + t.textMuted}>ダウンロード即無料。アカウント作成はワンクリックで完了。</p>
 
-        <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+        <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto" data-stagger>
           <a
             href={DL_MACOS}
             className={'group flex items-center justify-center gap-3 rounded-2xl px-6 py-5 text-base font-semibold transition ' + t.btn}
@@ -960,7 +1047,10 @@ function FAQ({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
     <section id="faq" className={'relative py-32 ' + t.bg2}>
       <div className="mx-auto max-w-4xl px-6">
         <SectionLabel n="05" subtitle="Questions" title="よくある質問" t={t} theme={theme} />
-        <div className={'rounded-2xl border ' + t.border + ' ' + t.card + ' divide-y ' + (theme === 'dark' ? 'divide-white/10' : 'divide-slate-200')}>
+        <div
+          className={'rounded-2xl border ' + t.border + ' ' + t.card + ' divide-y ' + (theme === 'dark' ? 'divide-white/10' : 'divide-slate-200')}
+          data-stagger
+        >
           {items.map((it, i) => {
             const isOpen = open === i;
             return (
@@ -1384,6 +1474,31 @@ export function LandingPage({ onSignIn }: Props) {
   };
 
   const t = themes[theme];
+
+  // Scroll-triggered reveals: a single observer flips data-revealed="true"
+  // on any [data-reveal] / [data-stagger] node when it crosses the viewport,
+  // then disconnects per-node so each animation plays once.
+  useEffect(() => {
+    const els = document.querySelectorAll('[data-reveal], [data-stagger]');
+    if (els.length === 0) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      els.forEach((el) => el.setAttribute('data-revealed', 'true'));
+      return;
+    }
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.setAttribute('data-revealed', 'true');
+            obs.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   const handleSignIn = async () => {
     try {
