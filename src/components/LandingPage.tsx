@@ -193,9 +193,11 @@ function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignI
           </div>
 
           <h1 className={'landing-sans-jp mt-6 text-[clamp(44px,7.5vw,104px)] font-bold leading-[0.95] tracking-tight ' + t.text}>
-            就活を、<br />
-            <span className={t.heading}>AIと一緒に、</span><br />
-            <span className="landing-serif font-normal">ちゃんと</span>終わらせる。
+            <span className="whitespace-nowrap">就活を、</span><br />
+            <span className={'whitespace-nowrap ' + t.heading}>AIと一緒に、</span><br />
+            <span className="whitespace-nowrap">
+              <span className="landing-serif font-normal">ちゃんと</span>終わらせる。
+            </span>
           </h1>
 
           <p className={'mt-7 max-w-2xl text-lg md:text-xl leading-relaxed ' + t.textMuted}>
