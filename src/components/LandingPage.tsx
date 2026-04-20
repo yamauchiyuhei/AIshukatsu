@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { signInWithGoogle } from '../spreadsheet/lib/firebase';
+import { useEffect, useState, type FormEvent } from 'react';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db, firebaseEnabled, signInWithGoogle } from '../spreadsheet/lib/firebase';
 import { LegalModal } from './onboarding/LegalModal';
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../data/legal';
 
-const CONTACT_MAILTO =
-  'mailto:yamatomo.inc@gmail.com?subject=' +
-  encodeURIComponent('【AI就活】お問い合わせ');
+const CONTACT_EMAIL = 'yamatomo.inc@gmail.com';
+const CONTACT_RATE_LIMIT_MS = 60_000;
+const CONTACT_RATE_LIMIT_KEY = 'aishukatsu-contact-last-submit';
 
 // ───────────────────────── constants ─────────────────────────
 const GITHUB_RELEASE =
@@ -927,6 +928,7 @@ type FooterLink = { label: string; href?: string; onClick?: () => void };
 
 function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const [legal, setLegal] = useState<'terms' | 'privacy' | null>(null);
+  const [contactOpen, setContactOpen] = useState(false);
 
   const columns: { h: string; l: FooterLink[] }[] = [
     {
@@ -942,7 +944,7 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
       l: [
         { label: '利用規約', onClick: () => setLegal('terms') },
         { label: 'プライバシーポリシー', onClick: () => setLegal('privacy') },
-        { label: 'お問い合わせ', href: CONTACT_MAILTO },
+        { label: 'お問い合わせ', onClick: () => setContactOpen(true) },
       ],
     },
   ];
@@ -1019,7 +1021,252 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           onClose={() => setLegal(null)}
         />
       )}
+      <ContactForm
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+        t={t}
+        theme={theme}
+      />
     </footer>
+  );
+}
+
+// ───────────────────────── Contact form (Firestore-backed) ─────────────────────────
+function ContactForm({
+  open,
+  onClose,
+  t,
+  theme,
+}: {
+  open: boolean;
+  onClose: () => void;
+  t: ThemeTokens;
+  theme: ThemeKey;
+}) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState(''); // honeypot — real users never see/fill this
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
+  // Reset state whenever the modal closes so a future open starts fresh.
+  useEffect(() => {
+    if (open) return;
+    setStatus('idle');
+    setErrorMsg(null);
+    setName('');
+    setEmail('');
+    setSubject('');
+    setMessage('');
+    setWebsite('');
+  }, [open]);
+
+  if (!open) return null;
+
+  const isDark = theme === 'dark';
+  const inputCls =
+    'w-full rounded-lg border px-3 py-2 text-sm outline-none transition ' +
+    (isDark
+      ? 'bg-white/5 border-white/10 text-white placeholder-white/30 focus:border-white/30'
+      : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-slate-500');
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (website) return; // bot caught — silently ignore
+    if (!firebaseEnabled || !db) {
+      setErrorMsg(`お問い合わせ機能が一時的に利用できません。お手数ですが ${CONTACT_EMAIL} までメールでご連絡ください。`);
+      setStatus('error');
+      return;
+    }
+    const last = Number(localStorage.getItem(CONTACT_RATE_LIMIT_KEY) || 0);
+    if (Date.now() - last < CONTACT_RATE_LIMIT_MS) {
+      setErrorMsg('連続送信は 60 秒空けてください。');
+      setStatus('error');
+      return;
+    }
+    setStatus('sending');
+    setErrorMsg(null);
+    try {
+      await addDoc(collection(db, 'contactInquiries'), {
+        name: name.trim().slice(0, 100),
+        email: email.trim().slice(0, 200),
+        subject: subject.trim().slice(0, 200),
+        message: message.trim().slice(0, 5000),
+        createdAt: serverTimestamp(),
+        userAgent: navigator.userAgent.slice(0, 500),
+      });
+      localStorage.setItem(CONTACT_RATE_LIMIT_KEY, String(Date.now()));
+      setStatus('sent');
+    } catch (err) {
+      console.error('[contact] submit failed', err);
+      setErrorMsg(`送信に失敗しました。時間を置いて再度お試しいただくか、${CONTACT_EMAIL} までメールでご連絡ください。`);
+      setStatus('error');
+    }
+  };
+
+  const panelCls =
+    'flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl border shadow-2xl ' +
+    (isDark ? 'bg-[#0a0b12] border-white/10' : 'bg-white border-slate-200');
+  const headerBorder = isDark ? 'border-white/10' : 'border-slate-200';
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div className={panelCls} onClick={(e) => e.stopPropagation()}>
+        <div className={'flex items-center justify-between border-b px-6 py-4 ' + headerBorder}>
+          <h2 className={'text-lg font-semibold ' + t.text}>お問い合わせ</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="閉じる"
+            className={t.textMuted + ' opacity-70 transition hover:opacity-100'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="overflow-y-auto p-6">
+          {status === 'sent' ? (
+            <div className="space-y-4 py-6 text-center">
+              <div className={'mx-auto grid h-12 w-12 place-items-center rounded-full ' + (isDark ? 'bg-emerald-500/15 text-emerald-300' : 'bg-emerald-50 text-emerald-600')}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12l5 5L20 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </div>
+              <div className={'text-base font-semibold ' + t.text}>送信が完了しました</div>
+              <div className={'text-sm leading-relaxed ' + t.textMuted}>
+                内容を確認のうえ、可能な限り早くご返信いたします。
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                className={'mt-2 inline-flex rounded-full px-5 py-2 text-sm font-semibold transition ' + t.btn}
+              >
+                閉じる
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={onSubmit} className="space-y-4">
+              <p className={'text-sm leading-relaxed ' + t.textMuted}>
+                ご質問・不具合のご報告・機能リクエストなどお気軽にどうぞ。通常 1〜2 営業日以内にご返信します。
+              </p>
+
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                aria-hidden="true"
+                className="absolute left-[-9999px] h-0 w-0 opacity-0"
+              />
+
+              <div>
+                <label className={'mb-1 block text-xs font-medium ' + t.textMuted}>
+                  お名前 <span className="text-rose-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  maxLength={100}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={inputCls}
+                  autoComplete="name"
+                />
+              </div>
+              <div>
+                <label className={'mb-1 block text-xs font-medium ' + t.textMuted}>
+                  メールアドレス <span className="text-rose-400">*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  maxLength={200}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={inputCls}
+                  autoComplete="email"
+                />
+              </div>
+              <div>
+                <label className={'mb-1 block text-xs font-medium ' + t.textMuted}>件名</label>
+                <input
+                  type="text"
+                  maxLength={200}
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  className={inputCls}
+                  placeholder="任意"
+                />
+              </div>
+              <div>
+                <label className={'mb-1 block text-xs font-medium ' + t.textMuted}>
+                  お問い合わせ内容 <span className="text-rose-400">*</span>
+                </label>
+                <textarea
+                  required
+                  maxLength={5000}
+                  rows={6}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className={inputCls + ' resize-none'}
+                />
+              </div>
+
+              {errorMsg && (
+                <div
+                  className={
+                    'rounded-lg border px-3 py-2 text-xs leading-relaxed ' +
+                    (isDark
+                      ? 'border-rose-500/30 bg-rose-500/10 text-rose-200'
+                      : 'border-rose-200 bg-rose-50 text-rose-700')
+                  }
+                >
+                  {errorMsg}
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  disabled={status === 'sending'}
+                  className={'rounded-full px-4 py-2 text-sm transition ' + t.btnGhost + ' disabled:opacity-50'}
+                >
+                  キャンセル
+                </button>
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className={'rounded-full px-5 py-2 text-sm font-semibold transition ' + t.btn + ' disabled:opacity-50'}
+                >
+                  {status === 'sending' ? '送信中…' : '送信する'}
+                </button>
+              </div>
+
+              <div className={'pt-2 text-[10px] ' + t.textDim}>
+                個人情報の取り扱いはプライバシーポリシーに準じます。
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
