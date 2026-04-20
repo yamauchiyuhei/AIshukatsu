@@ -3,7 +3,9 @@ import { signInWithGoogle } from '../spreadsheet/lib/firebase';
 import { LegalModal } from './onboarding/LegalModal';
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../data/legal';
 
-const ISSUES_URL = 'https://github.com/yamauchiyuhei/AIshukatsu/issues';
+const CONTACT_MAILTO =
+  'mailto:yamatomo.inc@gmail.com?subject=' +
+  encodeURIComponent('【AI就活】お問い合わせ');
 
 // ───────────────────────── constants ─────────────────────────
 const GITHUB_RELEASE =
@@ -940,7 +942,7 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
       l: [
         { label: '利用規約', onClick: () => setLegal('terms') },
         { label: 'プライバシーポリシー', onClick: () => setLegal('privacy') },
-        { label: 'お問い合わせ', href: ISSUES_URL },
+        { label: 'お問い合わせ', href: CONTACT_MAILTO },
       ],
     },
   ];
