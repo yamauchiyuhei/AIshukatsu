@@ -6,7 +6,6 @@ export const ENTRY_SHEET_DIR = 'エントリーシート';
 
 export const IGNORED_TOP_DIRS: ReadonlySet<string> = new Set([
   TEMPLATE_DIR,
-  SELF_ANALYSIS_DIR,
   '.claude',
   '.git',
   '.obsidian',

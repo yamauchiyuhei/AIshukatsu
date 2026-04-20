@@ -159,17 +159,6 @@ export function FileTree({
           ))}
         </div>
 
-        {/* 自己分析 */}
-        {workspace.selfAnalysis.files.length > 0 && (
-          <SpecialFolderNode
-            label="自己分析"
-            keyPrefix="self"
-            files={workspace.selfAnalysis.files}
-            activeFileKey={activeFileKey}
-            onOpenFile={onOpenFile}
-          />
-        )}
-
         {/* _テンプレート */}
         {workspace.templates.files.length > 0 && (
           <SpecialFolderNode
