@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Cloud, Code2, Eye, Redo2, Undo2 } from 'lucide-react';
 import { MarkdownEditor, MarkdownEditorHandle } from './MarkdownEditor';
 import { Breadcrumb } from './Breadcrumb';
@@ -105,6 +105,17 @@ export function MarkdownPage({
       }
     },
   });
+
+  // Mirror edits from either editor (Milkdown WYSIWYG or the raw textarea)
+  // back into `body` so toggling between view modes always shows the latest
+  // content — Milkdown reinitialises from `initialValue={body}` on remount.
+  const handleChange = useCallback(
+    (value: string) => {
+      setBody(value);
+      schedule(value);
+    },
+    [schedule],
+  );
 
   // Load: parallel local + cloud fetch, adopt the newer version.
   useEffect(() => {
@@ -292,18 +303,18 @@ export function MarkdownPage({
         {loading ? (
           <p className="text-sm text-slate-500">読み込み中…</p>
         ) : viewMode === 'source' ? (
-          // Read-only source view. We keep the editor mounted (hidden) in
-          // the preview variant so the autosave / history wiring survives a
-          // round-trip back to preview mode.
-          <pre className="markdown-source max-w-none overflow-auto whitespace-pre-wrap break-words font-mono text-[13px] leading-relaxed text-slate-800">
-            {body}
-          </pre>
+          <textarea
+            className="markdown-source block h-full w-full resize-none border-0 bg-transparent p-0 font-mono text-[13px] leading-relaxed text-slate-800 outline-none focus:ring-0"
+            value={body}
+            onChange={(e) => handleChange(e.target.value)}
+            spellCheck={false}
+          />
         ) : (
           <MarkdownEditor
             ref={editorRef}
             resetKey={fileKey}
             initialValue={body}
-            onChange={schedule}
+            onChange={handleChange}
             onHistoryChange={setHistory}
           />
         )}
