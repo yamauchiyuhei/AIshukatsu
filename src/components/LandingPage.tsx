@@ -538,12 +538,67 @@ function TerminalCard() {
 }
 
 // ───────────────────────── Features ─────────────────────────
+const featureSvgProps = {
+  width: 22,
+  height: 22,
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.8,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+};
+
 function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const items = [
-    { icon: '📂', title: 'ローカル保存、あなたのPC内のみ', body: 'DBもクラウド強制もなし。File System Access API で Finder / Explorer と完全同期。', accent: 'from-indigo-500/20 to-indigo-500/0' },
-    { icon: '✍', title: 'Notion風 WYSIWYG エディタ', body: 'Milkdown ベース。スラッシュコマンドで #見出し や - チェックリストをその場で挿入。', accent: 'from-pink-500/20 to-pink-500/0' },
-    { icon: '🏢', title: '新規企業で5ファイル自動生成', body: '選考状況 / 企業分析 / ES・面接対策 / 説明会メモ / インターン を業界推定で雛形展開。', accent: 'from-emerald-500/20 to-emerald-500/0' },
-    { icon: '🔐', title: 'パスワード欄は AES-GCM 暗号化', body: 'マイページのID/パスワードはパスフレーズで暗号化してから Firestore に同期。', accent: 'from-amber-500/20 to-amber-500/0' },
+    {
+      icon: (
+        <svg {...featureSvgProps}>
+          <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
+        </svg>
+      ),
+      iconCls: 'bg-indigo-500/15 text-indigo-500',
+      title: 'ローカル保存、あなたのPC内のみ',
+      body: 'DBもクラウド強制もなし。File System Access API で Finder / Explorer と完全同期。',
+      accent: 'from-indigo-500/20 to-indigo-500/0',
+    },
+    {
+      icon: (
+        <svg {...featureSvgProps}>
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+        </svg>
+      ),
+      iconCls: 'bg-pink-500/15 text-pink-500',
+      title: 'Notion風 WYSIWYG エディタ',
+      body: 'Milkdown ベース。スラッシュコマンドで #見出し や - チェックリストをその場で挿入。',
+      accent: 'from-pink-500/20 to-pink-500/0',
+    },
+    {
+      icon: (
+        <svg {...featureSvgProps}>
+          <rect x="4" y="3" width="16" height="18" rx="1.5" />
+          <path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01" />
+          <path d="M10 21v-3a2 2 0 0 1 4 0v3" />
+        </svg>
+      ),
+      iconCls: 'bg-emerald-500/15 text-emerald-500',
+      title: '新規企業で5ファイル自動生成',
+      body: '選考状況 / 企業分析 / ES・面接対策 / 説明会メモ / インターン を業界推定で雛形展開。',
+      accent: 'from-emerald-500/20 to-emerald-500/0',
+    },
+    {
+      icon: (
+        <svg {...featureSvgProps}>
+          <rect x="3" y="11" width="18" height="11" rx="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
+      ),
+      iconCls: 'bg-amber-500/15 text-amber-500',
+      title: 'パスワード欄は AES-GCM 暗号化',
+      body: 'マイページのID/パスワードはパスフレーズで暗号化してから Firestore に同期。',
+      accent: 'from-amber-500/20 to-amber-500/0',
+    },
   ];
   return (
     <section id="features" className={'relative py-32 ' + t.bg2}>
@@ -563,7 +618,9 @@ function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
             >
               <div className={'absolute -top-20 -right-20 h-60 w-60 rounded-full bg-gradient-to-br opacity-60 group-hover:opacity-100 transition ' + f.accent} />
               <div className="relative">
-                <div className="text-3xl mb-4">{f.icon}</div>
+                <div className={'mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ' + f.iconCls}>
+                  {f.icon}
+                </div>
                 <div className={'text-xl font-bold ' + t.text}>{f.title}</div>
                 <div className={'mt-2 text-sm leading-relaxed ' + t.textMuted}>{f.body}</div>
               </div>
