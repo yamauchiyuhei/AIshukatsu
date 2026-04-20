@@ -1,6 +1,6 @@
 [package]
 name = "aisyuukatsu"
-version = "0.2.13"
+version = "0.2.14"
 description = "AI就活 — Desktop"
 authors = ["you"]
 edition = "2021"
