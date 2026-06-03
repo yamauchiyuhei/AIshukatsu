@@ -10,7 +10,7 @@ export function StatsBar() {
     (stats.byStatus['1次面接'] ?? 0) +
     (stats.byStatus['2次面接'] ?? 0) +
     (stats.byStatus['最終面接'] ?? 0);
-  const esSubmitted = stats.byStatus['ES提出済'] ?? 0;
+  const esSubmitted = stats.esSubmittedCount;
   const esRate = stats.total > 0 ? Math.round((esSubmitted / stats.total) * 100) : 0;
   const offerRate = stats.total > 0 ? ((stats.offerCount / stats.total) * 100).toFixed(1) : '0.0';
 

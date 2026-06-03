@@ -84,6 +84,19 @@ export type StatusValue = (typeof STATUS_VALUES)[number];
 export const COMPLETED_STATUSES: ReadonlySet<string> = new Set(['内定']);
 export const REJECTED_STATUSES: ReadonlySet<string> = new Set(['お祈り']);
 
+/**
+ * True once a company has reached ES submission: counts 「ES提出済」 and every
+ * later selection stage (GD〜内定), plus 「お祈り」 — a rejected company had
+ * still submitted its ES, so it stays counted (cumulative, never decreases when
+ * a process ends). Excludes 未応募 / エントリー済 (pre-ES). Drives the
+ * "ES提出済" stat tile.
+ */
+export function hasSubmittedEs(status: string): boolean {
+  if (REJECTED_STATUSES.has(status)) return true;
+  const i = STATUS_VALUES.indexOf(status as StatusValue);
+  return i >= STATUS_VALUES.indexOf('ES提出済') && i <= STATUS_VALUES.indexOf('内定');
+}
+
 /** Per-status accent color (used by Kanban header stripe + badges). */
 export const STATUS_ACCENT: Record<StatusValue, string> = {
   '未応募': 'bg-slate-300',
