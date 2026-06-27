@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import {
+  ArrowUpDown,
   ChevronDown,
   ChevronRight,
   Folder,
@@ -10,7 +11,27 @@ import {
 import { SelfAnalysisFile, TemplateFileEntry, Workspace, WorkspaceNode } from '../types';
 import { fileIconFor } from './fileIcons';
 import { AddMenu } from './AddMenu';
-import { getSortedChildren } from '../lib/sortOrder';
+import { DocumentSearch } from './DocumentSearch/DocumentSearch';
+import {
+  ensureCreatedAt,
+  getSortMode,
+  setSortMode,
+  sortNodes,
+  type SortMode,
+} from '../lib/sortOrder';
+
+/** Every node's path-key (files and folders, any depth) for createdAt seeding. */
+function collectAllKeys(nodes: WorkspaceNode[]): string[] {
+  const out: string[] = [];
+  const walk = (ns: WorkspaceNode[]) => {
+    for (const n of ns) {
+      out.push(n.path.join('/'));
+      if (n.kind === 'folder') walk(n.children);
+    }
+  };
+  walk(nodes);
+  return out;
+}
 
 interface OpenFilePayload {
   key: string;
@@ -72,11 +93,26 @@ export function FileTree({
   onMoveNode,
   onReorderChildren,
 }: Props) {
-  // Apply custom sort order to root-level nodes.
-  const sortedTree = getSortedChildren('', workspace.tree);
+  const [sortMode, setSortModeState] = useState<SortMode>(() => getSortMode());
+
+  // Stamp any not-yet-seen node with a "first seen / created" time and read the
+  // map back, once per workspace. (See sortOrder.ts for why filesystem
+  // birthtime can't be used.)
+  const createdMap = useMemo(
+    () => ensureCreatedAt(collectAllKeys(workspace.tree), Date.now()),
+    [workspace],
+  );
+
+  // Apply the selected sort order to root-level nodes.
+  const sortedTree = sortNodes('', workspace.tree, sortMode, createdMap);
   // Auto-animate list mutations (add / remove / reorder) on the root tree
   // container. Purely visual — no logic change.
   const [treeListRef] = useAutoAnimate<HTMLDivElement>({ duration: 160 });
+
+  const changeSort = (mode: SortMode) => {
+    setSortMode(mode);
+    setSortModeState(mode);
+  };
 
   return (
     <aside className="flex h-screen w-72 shrink-0 flex-col border-r border-slate-200 bg-white">
@@ -124,51 +160,71 @@ export function FileTree({
           onMoveNode(sourcePath, []);
         }}
       >
-        {/* 就活スプレッドシート */}
-        <button
-          type="button"
-          onClick={onOpenSpreadsheet}
-          className={`group flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
-            spreadsheetActive
-              ? 'bg-slate-900 text-white'
-              : 'text-slate-700 hover:bg-slate-100'
-          }`}
-          title="就活スプレッドシート"
-        >
-          <span className="w-3" />
-          <Folder
-            size={14}
-            className={spreadsheetActive ? 'text-white' : 'text-slate-500'}
-          />
-          <span className="flex-1 truncate">就活スプレッドシート</span>
-        </button>
+        <DocumentSearch workspace={workspace} onOpenFile={onOpenFile}>
+          {/* 並び替え */}
+          <div className="mb-1 flex items-center gap-1 px-1">
+            <ArrowUpDown size={12} className="shrink-0 text-slate-400" />
+            <select
+              value={sortMode}
+              onChange={(e) => changeSort(e.target.value as SortMode)}
+              aria-label="並び替え"
+              title="ファイルの並び替え"
+              className="flex-1 cursor-pointer rounded border border-transparent bg-transparent py-0.5 text-xs text-slate-500 hover:border-slate-200 hover:bg-slate-50 focus:border-indigo-300 focus:outline-none"
+            >
+              <option value="manual">標準（手動）</option>
+              <option value="createdAsc">作成順（古い順）</option>
+              <option value="createdDesc">作成順（新しい順）</option>
+            </select>
+          </div>
 
-        <div ref={treeListRef}>
-          {sortedTree.map((node) => (
-            <TreeNodeView
-              key={node.path.join('/')}
-              node={node}
-              siblings={sortedTree}
+          {/* 就活スプレッドシート */}
+          <button
+            type="button"
+            onClick={onOpenSpreadsheet}
+            className={`group flex w-full items-center gap-1 rounded px-1 py-1 text-left ${
+              spreadsheetActive
+                ? 'bg-slate-900 text-white'
+                : 'text-slate-700 hover:bg-slate-100'
+            }`}
+            title="就活スプレッドシート"
+          >
+            <span className="w-3" />
+            <Folder
+              size={14}
+              className={spreadsheetActive ? 'text-white' : 'text-slate-500'}
+            />
+            <span className="flex-1 truncate">就活スプレッドシート</span>
+          </button>
+
+          <div ref={treeListRef}>
+            {sortedTree.map((node) => (
+              <TreeNodeView
+                key={node.path.join('/')}
+                node={node}
+                siblings={sortedTree}
+                sortMode={sortMode}
+                createdMap={createdMap}
+                activeFileKey={activeFileKey}
+                onOpenFile={onOpenFile}
+                onContextMenu={onContextMenu}
+                onMoveNode={onMoveNode}
+                onReorderChildren={onReorderChildren}
+                defaultOpen={false}
+              />
+            ))}
+          </div>
+
+          {/* _テンプレート */}
+          {workspace.templates.files.length > 0 && (
+            <SpecialFolderNode
+              label="_テンプレート"
+              keyPrefix="tpl"
+              files={workspace.templates.files}
               activeFileKey={activeFileKey}
               onOpenFile={onOpenFile}
-              onContextMenu={onContextMenu}
-              onMoveNode={onMoveNode}
-              onReorderChildren={onReorderChildren}
-              defaultOpen={false}
             />
-          ))}
-        </div>
-
-        {/* _テンプレート */}
-        {workspace.templates.files.length > 0 && (
-          <SpecialFolderNode
-            label="_テンプレート"
-            keyPrefix="tpl"
-            files={workspace.templates.files}
-            activeFileKey={activeFileKey}
-            onOpenFile={onOpenFile}
-          />
-        )}
+          )}
+        </DocumentSearch>
       </div>
 
       <div className="border-t border-slate-100 px-3 py-2">
@@ -188,6 +244,8 @@ export function FileTree({
 function TreeNodeView({
   node,
   siblings,
+  sortMode,
+  createdMap,
   activeFileKey,
   onOpenFile,
   onContextMenu,
@@ -197,6 +255,8 @@ function TreeNodeView({
 }: {
   node: WorkspaceNode;
   siblings: WorkspaceNode[];
+  sortMode: SortMode;
+  createdMap: Record<string, number>;
   activeFileKey: string | null;
   onOpenFile: (entry: OpenFilePayload) => void;
   onContextMenu?: (req: ContextMenuRequest) => void;
@@ -388,9 +448,9 @@ function TreeNodeView({
     // Unhandled → let event bubble to ancestor folder.
   };
 
-  // Apply custom sort to children.
+  // Apply the active sort mode to children.
   const folderKey = node.path.join('/');
-  const sortedChildren = getSortedChildren(folderKey, node.children);
+  const sortedChildren = sortNodes(folderKey, node.children, sortMode, createdMap);
 
   return (
     <div className="relative">
@@ -463,6 +523,8 @@ function TreeNodeView({
               key={child.path.join('/')}
               node={child}
               siblings={sortedChildren}
+              sortMode={sortMode}
+              createdMap={createdMap}
               activeFileKey={activeFileKey}
               onOpenFile={onOpenFile}
               onContextMenu={onContextMenu}
