@@ -162,9 +162,19 @@ export function DataCell({
       className={`flex h-full w-full items-center px-2 py-1.5 text-left text-xs transition ${bgClass} ${textClass} ${
         selected ? '' : 'hover:bg-indigo-50/40'
       }`}
-      title="クリックで編集"
+      title={column.type === 'longtext' && display ? display : 'クリックで編集'}
     >
-      <span className="truncate whitespace-pre-wrap">{display || '\u00A0'}</span>
+      {/* longtext (メモ): clamp to 3 lines so rows stay short; full text in
+          the tooltip and in the textarea editor. Other text: single line. */}
+      <span
+        className={
+          column.type === 'longtext'
+            ? 'line-clamp-3 whitespace-pre-wrap break-words'
+            : 'truncate'
+        }
+      >
+        {display || '\u00A0'}
+      </span>
     </button>
   );
 }

@@ -33,6 +33,7 @@ import {
 import { firebaseEnabled, signInWithGoogle, signOut as fbSignOut, User } from './firebase';
 import { pullWorkbook, pushWorkbook } from './cloudSync';
 import { clearCryptoCache } from './crypto';
+import { loadFromCsv, readCsvSignature, saveToCsv } from './csvStore';
 
 interface SheetState {
   workbook: Workbook;
@@ -82,6 +83,20 @@ interface SheetState {
 
   /* ----------- lifecycle ----------- */
   hydrate: (uid: string) => Promise<void>;
+
+  /* ----------- csv (file-backed source of truth) ----------- */
+  /** Workspace root directory handle. When set, the エントリー一覧 is persisted
+   *  to `データ/エントリー一覧.csv` (the source of truth) instead of the cloud. */
+  rootHandle: FileSystemDirectoryHandle | null;
+  setRootHandle: (h: FileSystemDirectoryHandle | null) => void;
+  /** Re-read the CSV from disk (picks up external edits, e.g. by Claude). */
+  reloadFromCsv: () => Promise<void>;
+  /** Flush any pending CSV write immediately (used on blur / unload). */
+  flushCsvNow: () => Promise<void>;
+  /** Compare the on-disk CSV against what we last wrote/read. If it changed
+   *  externally (e.g. Claude edited it): reload when local is clean, or report
+   *  a conflict when there are unsaved local edits. */
+  checkExternalCsvChange: () => Promise<'reloaded' | 'conflict' | 'unchanged' | 'na'>;
 
   /* ----------- view / filter ----------- */
   setView: (v: ViewMode) => void;
@@ -144,8 +159,19 @@ interface SheetState {
 
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 let cloudTimer: ReturnType<typeof setTimeout> | null = null;
+/** CSV write debounce + last-written content signature (csvMode only). */
+let csvSaveTimer: ReturnType<typeof setTimeout> | null = null;
+let lastCsvSignature: string | null = null;
 /** Tracks which UID was last hydrated to avoid redundant re-loads. */
 let lastHydratedUid: string | null = null;
+
+/** True if `wb` is just the initial seed (empty, or the single sample row). */
+function isSeedWorkbook(wb: Workbook): boolean {
+  if (wb.sheets.length !== 1) return false;
+  const rows = wb.sheets[0].rows;
+  if (rows.length === 0) return true;
+  return rows.length === 1 && rows[0].cells?.['company'] === '株式会社サンプル';
+}
 /**
  * Persist `wb` to IndexedDB (debounced) and, if signed in, push to the
  * cloud (longer debounce).
@@ -170,12 +196,33 @@ function scheduleSave(wb: Workbook, opts: { markDirty?: boolean } = {}) {
     const u = getUid();
     if (u) void saveLocalUpdatedAt(u, iso);
   }
+  // IndexedDB write — the primary store in legacy mode, a cache in csvMode.
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
     const u = getUid();
     if (u) saveWorkbook(u, wb);
   }, 400);
-  // Cloud push: longer debounce so we batch many edits
+
+  const root = useSheet.getState().rootHandle;
+  if (root) {
+    // CSV is the source of truth → write the file (debounced). Do NOT auto-push
+    // to the cloud: a second writer would re-introduce the divergence this
+    // whole change exists to remove. (Cloud stays a manual backup target.)
+    if (csvSaveTimer) clearTimeout(csvSaveTimer);
+    csvSaveTimer = setTimeout(() => {
+      void saveToCsv(root, wb, lastCsvSignature).then((res) => {
+        if (res) {
+          lastCsvSignature = res.signature;
+          // Local is now persisted to disk → clears the "dirty" flag the
+          // focus-reload conflict check reads.
+          useSheet.setState({ workbookUpdatedAt: null });
+        }
+      });
+    }, 700);
+    return;
+  }
+
+  // No file backing (degraded web) → cloud push, longer debounce to batch.
   if (cloudTimer) clearTimeout(cloudTimer);
   cloudTimer = setTimeout(() => {
     const s = useSheet.getState();
@@ -238,6 +285,7 @@ export const useSheet = create<SheetState>((set, get) => {
     workbook: createInitialWorkbook(),
     view: 'sheet',
     hydrated: false,
+    rootHandle: null,
 
     selection: null,
     selectionRange: null,
@@ -269,25 +317,48 @@ export const useSheet = create<SheetState>((set, get) => {
       if (lastHydratedUid === userUid && get().hydrated) return;
       lastHydratedUid = userUid;
 
-      const loaded = await loadWorkbook(userUid);
+      const root = get().rootHandle;
       let wb: Workbook;
-      if (loaded) {
-        wb = loaded;
+
+      if (root) {
+        // ── CSV-backed (normal desktop/local case) ──────────────────────
+        const res = await loadFromCsv(root);
+        if (res) {
+          wb = res.workbook;
+          lastCsvSignature = res.signature;
+          await saveWorkbook(userUid, wb); // mirror into the IndexedDB cache
+        } else {
+          // No CSV file yet → migrate existing IndexedDB data once (never wipe
+          // it), or seed an empty workbook. We avoid the 株式会社サンプル seed
+          // here because the cloud seed-recovery logic keys off it.
+          const idb = await loadWorkbook(userUid);
+          wb = idb && !isSeedWorkbook(idb) ? idb : createInitialWorkbook();
+          const saved = await saveToCsv(root, wb);
+          if (saved) lastCsvSignature = saved.signature;
+          await saveWorkbook(userUid, wb);
+        }
       } else {
-        // first run: seed with one sample row
-        const cols = createPresetColumns();
-        const seed: Row = createEmptyRow(cols);
-        seed.cells['company'] = '株式会社サンプル';
-        seed.cells['industry'] = 'IT・ソフトウェア';
-        seed.cells['kubun'] = '本選考';
-        seed.cells['rating'] = 5;
-        seed.cells['status'] = 'ES提出済';
-        seed.cells['es_deadline'] = new Date().toISOString().slice(0, 10);
-        seed.cells['memo'] = 'まずはここを編集してみてください';
-        const sheet: Sheet = { id: uid('s'), name: '本選考', columns: cols, rows: [seed] };
-        wb = { version: 2, sheets: [sheet], activeSheetId: sheet.id };
-        await saveWorkbook(userUid, wb);
+        // ── Legacy/web fallback: IndexedDB + cloud ──────────────────────
+        const loaded = await loadWorkbook(userUid);
+        if (loaded) {
+          wb = loaded;
+        } else {
+          // first run: seed with one sample row
+          const cols = createPresetColumns();
+          const seed: Row = createEmptyRow(cols);
+          seed.cells['company'] = '株式会社サンプル';
+          seed.cells['industry'] = 'IT・ソフトウェア';
+          seed.cells['kubun'] = '本選考';
+          seed.cells['rating'] = 5;
+          seed.cells['status'] = 'ES提出済';
+          seed.cells['es_deadline'] = new Date().toISOString().slice(0, 10);
+          seed.cells['memo'] = 'まずはここを編集してみてください';
+          const sheet: Sheet = { id: uid('s'), name: '本選考', columns: cols, rows: [seed] };
+          wb = { version: 2, sheets: [sheet], activeSheetId: sheet.id };
+          await saveWorkbook(userUid, wb);
+        }
       }
+
       const userViews = await loadSavedViews(userUid);
       const localUpdatedAt = await loadLocalUpdatedAt(userUid);
       set({
@@ -297,6 +368,69 @@ export const useSheet = create<SheetState>((set, get) => {
         workbookUpdatedAt: localUpdatedAt,
       });
       maybeAutoBackup(userUid, wb);
+    },
+
+    /* ----------- csv (file-backed source of truth) ----------- */
+    setRootHandle: (h) => {
+      const prev = get().rootHandle;
+      if (h === prev) return;
+      set({ rootHandle: h });
+      // Gaining (or switching) a root handle → (re)hydrate from the CSV so the
+      // file becomes the source of truth, even if we already hydrated from
+      // IndexedDB before the handle finished loading.
+      if (h) {
+        lastCsvSignature = null;
+        const u = get().user?.uid;
+        if (u) {
+          lastHydratedUid = null;
+          void get().hydrate(u);
+        }
+      }
+    },
+
+    reloadFromCsv: async () => {
+      const root = get().rootHandle;
+      if (!root) return;
+      const res = await loadFromCsv(root);
+      if (!res) return;
+      historyStack.clear();
+      lastCsvSignature = res.signature;
+      set({
+        workbook: res.workbook,
+        selection: null,
+        selectionRange: null,
+        selectedRowIds: [],
+        workbookUpdatedAt: null,
+      });
+      const u = getUid();
+      if (u) void saveWorkbook(u, res.workbook); // refresh the IndexedDB cache
+    },
+
+    flushCsvNow: async () => {
+      const root = get().rootHandle;
+      if (!root) return;
+      if (csvSaveTimer) {
+        clearTimeout(csvSaveTimer);
+        csvSaveTimer = null;
+      }
+      const res = await saveToCsv(root, get().workbook, lastCsvSignature);
+      if (res) {
+        lastCsvSignature = res.signature;
+        set({ workbookUpdatedAt: null });
+      }
+    },
+
+    checkExternalCsvChange: async () => {
+      const root = get().rootHandle;
+      if (!root) return 'na';
+      const sig = await readCsvSignature(root);
+      // Same as our last write/read (or our own echo) → nothing to do.
+      if (!sig || sig === lastCsvSignature) return 'unchanged';
+      // The file changed underneath us. Preserve unsaved local edits (mirror
+      // the cloud-conflict philosophy) rather than clobbering them.
+      if (get().workbookUpdatedAt != null) return 'conflict';
+      await get().reloadFromCsv();
+      return 'reloaded';
     },
 
     /* ----------- view / filter ----------- */
@@ -679,6 +813,9 @@ export const useSheet = create<SheetState>((set, get) => {
           const iso = await loadCloudSyncedAt(u.uid);
           set({ cloudLastSyncedAt: iso ? new Date(iso) : null });
           await get().pullFromCloud();
+          // The seed-recovery below targets the IndexedDB/cloud world only;
+          // in csvMode the CSV file is authoritative, so skip it.
+          if (get().rootHandle) return;
           // Recovery: if after hydrate + cloud pull the workbook is still
           // the empty seed (1 row with "株式会社サンプル"), this user may
           // be the real owner whose data was lost by the v0.2.5 cleanup
@@ -743,10 +880,19 @@ export const useSheet = create<SheetState>((set, get) => {
     pullFromCloud: async () => {
       const state = get();
       if (!state.user) return;
+      // CSV mode: the file is the source of truth — never let a cloud pull
+      // overwrite it. (The cloud remains available only as a manual backup.)
+      if (state.rootHandle) return;
       if (state.cloudStatus === 'syncing') return; // Guard: prevent concurrent sync
       try {
         set({ cloudStatus: 'syncing', cloudError: null });
         const result = await pullWorkbook(state.user.uid, state.passphrase);
+
+        // A root handle may have arrived while the network call was in flight.
+        if (get().rootHandle) {
+          set({ cloudStatus: 'synced' });
+          return;
+        }
 
         // No cloud doc yet → push current local as initial.
         if (!result) {

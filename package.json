@@ -11,6 +11,9 @@
     "upload:industry": "tsx scripts/uploadIndustryResearch.ts",
     "generate:content": "tsx scripts/generateCompanyContent.ts",
     "generate:industry-map": "tsx scripts/generateCompanyIndustryMap.ts",
+    "generate:tgweb": "tsx scripts/generateTgWebData.ts",
+    "generate:webtest-others": "tsx scripts/generateOtherWebTestData.ts",
+    "generate:interview": "tsx scripts/generateInterviewData.ts",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"
@@ -60,6 +63,7 @@
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "firebase-admin": "^13.7.0",
+    "marked": "^18.0.2",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.14",
     "tsx": "^4.21.0",

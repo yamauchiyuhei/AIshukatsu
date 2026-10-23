@@ -10,6 +10,9 @@ export const IGNORED_TOP_DIRS: ReadonlySet<string> = new Set([
   '.git',
   '.obsidian',
   'node_modules',
+  // エントリー一覧.csv の保管先。スプレッドシートが管理するので、生CSVが
+  // ファイルツリーに並行編集タブとして現れないよう隠す。
+  'データ',
 ]);
 
 /**

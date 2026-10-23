@@ -8,19 +8,19 @@
     "fs:default",
     {
       "identifier": "fs:allow-read-text-file",
-      "allow": [{ "path": "**" }]
+      "allow": [{ "path": "**" }, { "path": "**/.エントリー一覧.meta.json" }]
     },
     {
       "identifier": "fs:allow-write-text-file",
-      "allow": [{ "path": "**" }]
+      "allow": [{ "path": "**" }, { "path": "**/.エントリー一覧.meta.json" }]
     },
     {
       "identifier": "fs:allow-read-file",
-      "allow": [{ "path": "**" }]
+      "allow": [{ "path": "**" }, { "path": "**/.エントリー一覧.meta.json" }]
     },
     {
       "identifier": "fs:allow-write-file",
-      "allow": [{ "path": "**" }]
+      "allow": [{ "path": "**" }, { "path": "**/.エントリー一覧.meta.json" }]
     },
     {
       "identifier": "fs:allow-read-dir",
@@ -40,11 +40,11 @@
     },
     {
       "identifier": "fs:allow-exists",
-      "allow": [{ "path": "**" }]
+      "allow": [{ "path": "**" }, { "path": "**/.エントリー一覧.meta.json" }]
     },
     {
       "identifier": "fs:allow-stat",
-      "allow": [{ "path": "**" }]
+      "allow": [{ "path": "**" }, { "path": "**/.エントリー一覧.meta.json" }]
     },
     "dialog:default",
     "dialog:allow-open",

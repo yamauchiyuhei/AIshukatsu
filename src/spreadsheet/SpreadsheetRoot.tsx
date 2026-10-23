@@ -9,6 +9,7 @@ import { KanbanBoard } from './components/KanbanView/KanbanBoard';
 import { MonthCalendar } from './components/CalendarView/MonthCalendar';
 import { ToastHost, ConfirmHost, toast } from './components/Toast';
 import { CommandPalette } from './components/CommandPalette';
+import { CSV_DISPLAY_PATH } from './lib/csvStore';
 
 const SECURITY_NOTICE_KEY = 'shukatsu-sheet-security-notice-dismissed-v1';
 
@@ -32,6 +33,8 @@ export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete }: Props
   const view = useSheet((s) => s.view);
   const undo = useSheet((s) => s.undo);
   const redo = useSheet((s) => s.redo);
+  const checkExternalCsvChange = useSheet((s) => s.checkExternalCsvChange);
+  const flushCsvNow = useSheet((s) => s.flushCsvNow);
 
   const [showNotice, setShowNotice] = useState(
     () => !localStorage.getItem(SECURITY_NOTICE_KEY),
@@ -41,6 +44,42 @@ export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete }: Props
   useEffect(() => {
     if (user?.uid) hydrate(user.uid);
   }, [hydrate, user?.uid]);
+
+  // Keep in sync with データ/エントリー一覧.csv when it's edited outside the app
+  // (e.g. by Claude). On focus/visibility we diff the file and reload if it
+  // changed; on blur/hide we flush any pending write first so local edits
+  // aren't lost when switching away to let Claude run.
+  useEffect(() => {
+    if (!active || !rootHandle || !hydrated) return;
+
+    const onMaybeChanged = () => {
+      void checkExternalCsvChange().then((r) => {
+        if (r === 'reloaded') toast.info('外部の変更を読み込みました');
+        else if (r === 'conflict')
+          toast.warn(
+            '外部で変更されています。アプリの変更を保存するか、再読み込みしてください',
+          );
+      });
+    };
+    const onHide = () => {
+      void flushCsvNow();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') onMaybeChanged();
+      else onHide();
+    };
+
+    window.addEventListener('focus', onMaybeChanged);
+    window.addEventListener('blur', onHide);
+    window.addEventListener('beforeunload', onHide);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      window.removeEventListener('focus', onMaybeChanged);
+      window.removeEventListener('blur', onHide);
+      window.removeEventListener('beforeunload', onHide);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [active, rootHandle, hydrated, checkExternalCsvChange, flushCsvNow]);
 
   // Auth is subscribed at App-level (src/App.tsx) so the store stays in sync
   // even while this view is unmounted.
@@ -89,9 +128,9 @@ export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete }: Props
         <div className="mx-auto mt-3 flex w-[calc(100%-1.5rem)] max-w-5xl items-start gap-2 rounded-2xl border border-amber-200/70 bg-amber-50/80 px-4 py-2.5 text-xs text-amber-900 shadow-sm backdrop-blur">
           <ShieldAlert size={14} className="mt-0.5 shrink-0" />
           <span className="flex-1 leading-5">
-            このアプリのデータはお使いのブラウザ内 (IndexedDB) にローカル保存されます。
-            ID/パスワード等の機密情報を入力する場合は、共有 PC では使用しないでください。
-            定期的にバックアップ (エクスポート / 自動バックアップ) を取ることをおすすめします。
+            エントリー一覧は <code className="rounded bg-amber-100/70 px-1">{CSV_DISPLAY_PATH}</code> にローカル保存されます
+            （ID・パスワードはCSVに含めず端末内のみに保持）。
+            共有 PC では機密情報の入力にご注意ください。定期的なバックアップ（エクスポート）もおすすめします。
           </span>
           <button
             onClick={() => {

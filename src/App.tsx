@@ -92,6 +92,13 @@ export default function App() {
   const root = status === 'ready' ? handle : null;
   const { workspace, loading, error, refresh } = useWorkspace(root);
 
+  // Tell the spreadsheet store about the workspace root as early as possible —
+  // before the auth-driven cloud pull runs — so the エントリー一覧 is persisted
+  // to データ/エントリー一覧.csv (the source of truth) rather than the cloud.
+  useEffect(() => {
+    useSheet.getState().setRootHandle(root);
+  }, [root]);
+
   const tabs = useOpenTabs();
   const [showAdd, setShowAdd] = useState(false);
   const [showAddFolder, setShowAddFolder] = useState(false);

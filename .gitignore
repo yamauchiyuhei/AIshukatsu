@@ -37,3 +37,8 @@ firebase-debug*.log
 # Scratch scripts (underscore-prefixed)
 scripts/_*.ts
 
+# Local worktrees and source spreadsheets (runtime data is encrypted in public/data/)
+.claude/worktrees/
+/*.xlsx
+/*.xlsx.bak
+
