@@ -15,9 +15,10 @@ interface Props {
    * step indicator hidden.
    */
   variant?: 'onboarding' | 'gate';
+  showWebsiteLinks?: boolean;
 }
 
-export function LoginScreen({ user, onNext, variant = 'onboarding' }: Props) {
+export function LoginScreen({ user, onNext, variant = 'onboarding', showWebsiteLinks = false }: Props) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [legal, setLegal] = useState<'terms' | 'privacy' | null>(null);
@@ -113,6 +114,8 @@ export function LoginScreen({ user, onNext, variant = 'onboarding' }: Props) {
         </button>
         に同意したものとみなされます。
       </p>
+
+      {showWebsiteLinks && <nav aria-label="サイトへのリンク" className="mt-6 flex justify-center gap-6 text-xs text-slate-600"><a href="/" className="underline underline-offset-4 hover:text-slate-900">サイト紹介に戻る</a><a href="/magazine/" className="underline underline-offset-4 hover:text-slate-900">マガジンを読む</a></nav>}
 
       {legal === 'terms' && (
         <LegalModal

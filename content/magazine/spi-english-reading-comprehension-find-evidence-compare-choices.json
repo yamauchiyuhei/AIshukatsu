@@ -1,0 +1,176 @@
+{
+  "slug": "spi-english-reading-comprehension-find-evidence-compare-choices",
+  "title": "SPI英語の長文対策｜設問の根拠を探して選択肢を比較する読み方",
+  "description": "SPI英語の長文読解で「本文に根拠はあるか」を確かめながら選択肢を比較する読み方を解説します。設問の種類ごとに根拠を探す場所と比較の手順を整理し、独自の練習問題で実際に練習できます。",
+  "category": "schedule",
+  "tags": [
+    "SPI英語",
+    "長文読解",
+    "選択肢比較",
+    "根拠探し",
+    "読解対策"
+  ],
+  "lead": "SPI英語の長文読解で迷うのは、選択肢を本文と照合せず「なんとなく合っていそう」で選んでしまうときです。正答を選ぶには、設問に対応する本文の箇所を特定し、そこに書かれていることだけを根拠にして選択肢を比較する手順が有効です。この記事ではその読み方の流れと練習方法を具体的に紹介します。",
+  "sections": [
+    {
+      "id": "why-choices-feel-similar",
+      "heading": "選択肢で迷う原因：本文との照合を省いている",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "長文読解で選択肢を二択に絞ったまま迷い続けるのは、本文に戻らず選択肢の「雰囲気」で判断してしまうことがあります。選択肢の英文は、正答も誤答も同じテーマの語句を使って書かれているため、内容を読んだだけでは区別しにくいことがあります。"
+        },
+        {
+          "type": "paragraph",
+          "text": "根本的な対処は「選択肢の正誤を本文が決める」という方針を徹底することです。自分の知識や話の流れへの予測ではなく、本文に書かれている表現が根拠になります。この方針を意識して読む練習を積むと、迷いが減っていきます。"
+        }
+      ]
+    },
+    {
+      "id": "two-step-reading-flow",
+      "heading": "根拠を探して比較する2段階の読み方",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "長文問題を解くときの流れを2段階に分けると整理しやすくなります。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "【第1段階：設問を先に読む】選択肢まで読まず設問文だけを確認して、本文のどのあたりを読めばよいか見当をつけます。固有名詞・数字・キーワードがあればメモするか頭に置いておきます。",
+            "【第2段階：本文で根拠箇所を特定してから選択肢を比較する】本文を読み進めて設問のキーワードが出てきた段落を特定し、そこを根拠として選択肢と一文ずつ照合します。"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "設問を先に読む目的は「全文を均等に精読しなくてよい」状態を作ることです。長文全体を丁寧に訳そうとすると時間が足りなくなりやすいため、根拠になる段落に集中する読み方が一例として有効です。"
+        }
+      ]
+    },
+    {
+      "id": "how-to-compare-choices",
+      "heading": "選択肢を比較するときに確認する3つのポイント",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "根拠箇所を特定したら、選択肢を次の3点で照合します。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "①書いてあることか：本文に明示されている内容か、それとも本文から推測した追加情報か。本文にない事実が選択肢に含まれている場合は誤答の候補になります。",
+            "②主語・目的語のずれ：本文と選択肢で「誰が・何を」の対応が変わっていないか確認します。主語が入れ替わっていたり、目的語が別のものに差し替えられたりするパターンがあります。",
+            "③程度・範囲の言い換え：always / never / only / all など断定の強い語が選択肢に加わっている場合、本文がそこまで断言しているか確認します。本文がsometimesやmanyと書いているのにalwaysやallに変わっていれば誤答の可能性が高いです。"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "誤答の選択肢は「本文と無関係な内容」だけでなく「本文の一部だけを取り出して別の意味にしたもの」も多いです。根拠箇所をそのまま選択肢と重ねて読むと気づきやすくなります。"
+        }
+      ]
+    },
+    {
+      "id": "question-types-and-evidence-location",
+      "heading": "設問の種類ごとに根拠を探す場所の目安",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "設問の形式によって、根拠がある場所の見当のつけ方が変わります。以下は一例としての目安です。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "内容一致（Which of the following is true / false?）：選択肢ごとにキーワードを本文から探し、それぞれの根拠箇所を個別に確認します。1つの段落だけに根拠が集まるとは限らないため、各選択肢を本文全体と照合します。",
+            "主旨・要旨（What is the main idea?）：冒頭段落と結論段落を重点的に読みます。本文全体のテーマを指す選択肢か、一部の話題だけを指す選択肢かを比べます。",
+            "空欄補充（Choose the best word / phrase）：空欄の直前・直後の文と、段落全体の流れを根拠にします。前後の論理関係（逆接・例示・補足など）を確認してから選択肢を当てはめます。"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "どの設問形式でも「根拠箇所を決めてから選択肢を絞る」順番を崩さないことがポイントです。先に選択肢を読んで本文を見ていく方向は、内容を先読みしてしまい判断がぶれやすくなるため注意が必要です。"
+        }
+      ]
+    },
+    {
+      "id": "practice-problem",
+      "heading": "独自の練習問題：根拠を特定して選択肢を比較する",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "以下は独自の練習問題です。本番問題の再現ではありません。根拠を探して選択肢を比較する手順を練習するために作成しました。"
+        },
+        {
+          "type": "quote",
+          "text": "【独自の練習問題】\n\n次の英文を読み、設問に答えなさい。\n\n---\nThe city library introduced a new reservation system last spring. Under the new system, members can reserve up to three books online at a time. Previously, reservations were only accepted by phone during business hours. The head librarian noted that the number of reservations increased by about 40% in the first month after the introduction.\n---\n\nQ. According to the passage, which of the following is true?\n\n(A) Members can now reserve books in person at the library counter.\n(B) The previous system allowed online reservations at any time.\n(C) The number of reservations rose by approximately 40% shortly after the new system launched.\n(D) Members can reserve an unlimited number of books under the new system."
+        },
+        {
+          "type": "paragraph",
+          "text": "【解答と根拠の確認】\n\n正答：(C)\n\n根拠箇所：'The head librarian noted that the number of reservations increased by about 40% in the first month after the introduction.'\n\n(C) は 'increased by about 40%' を 'rose by approximately 40%' と言い換え、'in the first month after the introduction' を 'shortly after the new system launched' と言い換えています。本文の内容と一致します。\n\n(A) について：本文は 'online' での予約に言及していますが、カウンターでの対面予約（in person at the library counter）は本文に書かれていません。本文にない情報なので誤答です。\n\n(B) について：'Previously, reservations were only accepted by phone' とあり、旧システムはオンライン予約ではなく電話のみです。(B) は本文と逆の内容なので誤答です。\n\n(D) について：'up to three books' と上限が明記されています。'unlimited' は本文と矛盾するため誤答です。\n\n練習のポイント：(D) は 'three' という数字を見落とすと誤答しやすいです。数量・上限・頻度を表す語は根拠箇所で必ず確認する習慣を持つと、このタイプのミスを減らせます。"
+        }
+      ]
+    },
+    {
+      "id": "common-mistakes-and-fixes",
+      "heading": "よくあるつまずきと修正の手順",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "練習を進める中で「毎回本文に戻っているのに正答率が上がらない」と感じるときは、根拠箇所の特定が雑になっている可能性があります。以下の2点を確認してみてください。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "根拠の文を一文に絞れているか：「このあたりに書いてあった」という曖昧な特定ではなく、「この文のこの表現が根拠」と一文レベルで指せているかを確認します。曖昧なままだと選択肢との照合精度が下がります。",
+            "選択肢の言い換えに気づいているか：英語の読解問題では正答選択肢が本文の語句をそのまま使わず言い換えていることが多いです。同義語や別の表現に置き換えられていても内容が一致しているかを確認する練習を意識的に重ねると、言い換えに対応しやすくなります。"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "間違えた問題を振り返るときは「なぜ選んだか」より「正答の根拠は本文のどこか」を先に確認する習慣が定着の助けになります。"
+        }
+      ]
+    },
+    {
+      "id": "next-steps",
+      "heading": "次の行動：根拠照合を練習に組み込む",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "今日からできる練習の進め方の一例を整理します。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "問題を解くたびに根拠箇所に線を引いてから選択肢を選ぶことを徹底します。最初は時間がかかっても、手順を崩さないことを優先します。",
+            "解き終わったら正誤にかかわらず根拠箇所を確認します。正答できた問題も「なぜその根拠で(C)になるか」を言語化することで、手順の確認になります。",
+            "設問の種類（内容一致・主旨・空欄補充）ごとに分けて練習すると、それぞれで根拠を探す感覚がつかみやすくなります。"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "SPI英語の長文対策は、英語力を上げることと読解手順を固めることの両面があります。語彙や文法に不安がある場合は基礎の語句を地道に補いつつ、手順の練習と並行して進めるのが一つの目安です。使っている問題集や参考書の解説も、根拠照合の観点から読み直すと活用の幅が広がります。"
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "author": "AI就活編集部",
+  "datePublished": "2026-10-26",
+  "dateModified": "2026-10-27",
+  "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
+  "sources": [
+    {
+      "title": "リクルートマネジメントソリューションズ：SPI3 よくある質問",
+      "url": "https://www.spi.recruit.co.jp/spi3/faq/"
+    }
+  ],
+  "editorialId": "J0638",
+  "cover": {
+    "src": "/magazine/covers/spi-english-reading-comprehension-find-evidence-compare-choices-525c0aa672.webp",
+    "thumbnail": "/magazine/covers/spi-english-reading-comprehension-find-evidence-compare-choices-525c0aa672-card.webp",
+    "alt": "SPI英語の長文対策｜設問の根拠を探して選択肢を比較する読み方のテーマを表す就活準備のイメージ",
+    "width": 1280,
+    "height": 720,
+    "source": "ai-generated"
+  }
+}

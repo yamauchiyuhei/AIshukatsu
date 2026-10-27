@@ -44,7 +44,15 @@ updated_at: 2026-04-07
 
 ## 対応ブラウザ
 
-Chrome / Edge など **Chromium 系のみ**。Safari / Firefox は File System Access API 非対応のため動きません。
+ワークスペースのフォルダ操作は Chrome / Edge など **Chromium 系のみ**。Safari / Firefox は File System Access API 非対応です。公開マガジンの記事閲覧には、このAPIやログインは必要ありません。
+
+## 就活マガジン
+
+`/magazine/` に記事一覧・検索・カテゴリ絞り込み、`/magazine/<slug>/` に目次付きの記事ページがあります。原稿は `content/magazine/*.json` で管理し、下書きは配信しません。ビルド時に記事本文の静的HTML・構造化データ・サイトマップを生成します。
+
+記事の作成・公開手順は [マガジン運用ガイド](docs/magazine-publishing.md) を参照してください。
+
+ブラウザのトップ `/` は常に紹介サイトを表示します。Web版の管理アプリは `/app/` から開きます。既存のログイン状態と保存フォルダを引き継ぎ、デスクトップ版の起動先は従来のままです。
 
 ## 開発
 

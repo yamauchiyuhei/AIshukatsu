@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { LoginScreen } from './components/onboarding/LoginScreen';
-import { LandingPage } from './components/LandingPage';
 import { isOnboarded } from './lib/onboardingState';
 import { isTauri } from './lib/tauriFsaShim';
 import { UpdateBanner } from './components/UpdateBanner';
@@ -175,12 +174,7 @@ export default function App() {
   // local workspace UI. Root handle and onboarding flag are preserved, so
   // signing back in restores the previous state instantly.
   if (firebaseEnabled && !authUser) {
-    // Desktop app → show the compact login screen (no marketing LP).
-    // Browser → show the full landing page with download links etc.
-    if (isTauri()) {
-      return <LoginScreen variant="gate" user={null} onNext={() => {}} />;
-    }
-    return <LandingPage onSignIn={() => {}} />;
+    return <LoginScreen variant="gate" user={null} onNext={() => {}} showWebsiteLinks={!isTauri()} />;
   }
   if (status === 'loading') {
     return (
@@ -206,6 +200,7 @@ export default function App() {
     return (
       <WelcomeScreen
         needsPermission={status === 'needs-permission'}
+        showWebsiteLinks={!isTauri()}
         onPick={() => void pick()}
         onRequestPermission={requestPermission}
       />
@@ -396,6 +391,12 @@ export default function App() {
   return (
     <div className="flex h-screen flex-col bg-slate-50">
       <UpdateBanner />
+      {!isTauri() && (
+        <nav aria-label="サイトへのリンク" className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 py-2 text-xs text-slate-600">
+          <span className="font-medium text-slate-900">AI就活 ワークスペース</span>
+          <div className="flex items-center gap-5"><a href="/" className="hover:text-slate-900">サイト紹介</a><a href="/magazine/" className="hover:text-slate-900">マガジン</a></div>
+        </nav>
+      )}
       <div className="flex flex-1 overflow-hidden">
       <FileTree
         workspace={workspace}

@@ -8,6 +8,7 @@ interface Props {
   needsPermission: boolean;
   onPick: () => void;
   onRequestPermission: () => void;
+  showWebsiteLinks?: boolean;
 }
 
 /**
@@ -18,6 +19,7 @@ export function WelcomeScreen({
   needsPermission,
   onPick,
   onRequestPermission,
+  showWebsiteLinks = false,
 }: Props) {
   return (
     <div className="relative flex h-screen items-center justify-center overflow-hidden bg-slate-950 px-6 text-slate-100">
@@ -85,6 +87,7 @@ export function WelcomeScreen({
         <p className="mt-8 text-xs text-slate-500">
           ※ Chrome / Edge など Chromium 系ブラウザで動作します。
         </p>
+        {showWebsiteLinks && <nav aria-label="サイトへのリンク" className="mt-6 flex justify-center gap-6 text-xs text-slate-300"><a href="/" className="underline underline-offset-4 hover:text-white">サイト紹介に戻る</a><a href="/magazine/" className="underline underline-offset-4 hover:text-white">マガジンを読む</a></nav>}
       </motion.div>
     </div>
   );

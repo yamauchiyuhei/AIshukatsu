@@ -1,0 +1,168 @@
+{
+  "slug": "tamatebako-english-unit-prep-time-management",
+  "title": "玉手箱の英語テストが課されたときの準備と当日の時間配分",
+  "description": "玉手箱の英語ユニットが課されたとき、出題形式を把握したうえで時間内に解ききるための配分方法と準備の進め方を解説します。",
+  "category": "schedule",
+  "tags": [
+    "玉手箱",
+    "英語対策",
+    "Webテスト",
+    "時間配分",
+    "読解"
+  ],
+  "lead": "玉手箱の英語ユニットで鍵になるのは「形式を知ること」と「時間配分を体で覚えること」です。英文の難易度自体はそれほど高くなくても、読むスピードが間に合わず時間切れになるケースが少なくありません。形式の特徴を押さえ、1問あたりにかけてよい時間の感覚を練習で身につけておくことが、当日の安定につながります。",
+  "sections": [
+    {
+      "id": "what-english-unit-covers",
+      "heading": "玉手箱の英語ユニットで問われること",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "玉手箱の英語ユニットは、英文を読んで内容を理解する読解形式が中心です。日本SHLの公式ページでは、玉手箱の測定項目として言語・計数・英語・パーソナリティ（OPQ）が示されています。英語ユニットが実際に含まれるかどうかは企業ごとに異なりますので、受検案内で必ず確認してください。"
+        },
+        {
+          "type": "paragraph",
+          "text": "英語ユニットでは、英文の主旨や筆者の主張を読み取る力が問われると考えられます。難解な語彙の知識よりも、パッセージ全体の流れをつかんで設問に答えるスピードが重要になりやすい形式ですが、実際の出題内容は受検案内で確認してください。文法の細かい知識よりも「何が書かれているか」を素早く把握する読解力が中心になる傾向があります。"
+        }
+      ]
+    },
+    {
+      "id": "reading-speed-is-key",
+      "heading": "時間切れになる原因は「読みすぎ」にある",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英語ユニットで時間切れになりやすい原因の一つとして考えられるのは、英文を一語一語丁寧に読もうとするあまり時間が足りなくなることです。設問は本文の細部よりも全体の内容や論旨に関わるものが中心とされる場合、精読しすぎると時間を使いすぎてしまうことがあります。"
+        },
+        {
+          "type": "paragraph",
+          "text": "効果的な読み方の一例として、まず設問を先に読んでから本文を読む「先読み」があります。何を聞かれているかを把握してから本文に向かうと、必要な情報に意識が向きやすくなります。ただし、これが全員に合う方法とは限りません。練習を通じて自分に合う読み順を探すことをおすすめします。"
+        },
+        {
+          "type": "note",
+          "text": "先読みが有効かどうかは個人差があります。練習で両方の順序を試し、どちらが安定するか確認しておきましょう。"
+        }
+      ]
+    },
+    {
+      "id": "time-allocation-guide",
+      "heading": "1問あたりの時間配分の目安を作る",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "玉手箱の英語ユニットの具体的な問題数や制限時間は受検案内によって異なります。ここでは一般的な読解形式の練習をもとにした配分の考え方を「一例」として紹介します。"
+        },
+        {
+          "type": "paragraph",
+          "text": "一つのパッセージに複数の設問が紐づく形式の場合、パッセージの読解に時間をかけすぎると後の設問に回す時間が残りません。練習では「パッセージを読む時間」と「設問を解く時間」を分けて意識し、それぞれに大まかな上限を決めて解く習慣をつけることが一つの手です。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "練習時は実際にタイマーを使い、1パッセージあたりの経過時間を記録する",
+            "時間オーバーしたパッセージを振り返り、どこで止まったか確認する",
+            "どの段落に設問の答えが集中しているか、読後に照合してみる",
+            "本番前に数回分を続けて解き、集中が持続するか確認する"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "practice-example",
+      "heading": "独自の練習問題：本文から判断できるかを確かめる",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "以下は「本文の内容と一致するか」を判断する練習の一例です。実際の玉手箱の問題ではありません。形式に慣れるための独自練習問題として使ってください。"
+        },
+        {
+          "type": "quote",
+          "text": "【独自の練習問題】\n\n次の英文を読み、設問に答えてください。\n\n（パッセージ）\nMany companies are now exploring ways to reduce the amount of paper used in their offices. Some have introduced digital filing systems, while others have encouraged employees to read documents on screen rather than printing them. These changes have helped lower costs in some cases, though the effectiveness varies depending on the size of the organization.\n\n（設問）\nWhich of the following can be concluded from the passage?\n\nA. All companies have successfully reduced paper use.\nB. Digital filing systems are the only method used.\nC. The impact of paperless efforts differs between organizations.\nD. Printing costs have increased due to new technology.\n\n【解答と解説】\n正解：C\n\n本文最終文に「the effectiveness varies depending on the size of the organization」とあり、組織の規模によって効果が異なると述べられています。\n\nAは「All companies」と断定しており、本文は「some cases」と限定しているため不一致。\nBは「the only method」と断定していますが、本文は「some」「others」と複数の取り組みを挙げているため不一致。\nDは「costs have increased」ですが、本文は「lower costs in some cases」と減少を述べており不一致。\n\nCだけが本文から判断できる内容です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "この練習のポイントは「本文に書かれていないことを選ばない」ことです。自分の知識や常識で補ってしまうと、本文と無関係な選択肢を選んでしまいます。パッセージに戻って根拠の文を指さしてから答えを決める習慣をつけると、正答率が安定しやすくなります。"
+        }
+      ]
+    },
+    {
+      "id": "vocabulary-prep",
+      "heading": "語彙の準備：ビジネス・社会系の頻出テーマを中心に",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英語ユニットに登場するパッセージのテーマは、ビジネス、環境、社会・経済など比較的幅広い分野にわたることが想定されます。専門的な技術語よりも、ニュースや一般的なビジネス文書で使われる語彙が読める状態を目指すことが、一つの準備の方向性です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "語彙の準備では「知らない単語があっても文脈から意味を推測する」訓練も大切です。すべての単語を事前に覚えることは難しいため、前後の文脈から単語の大まかな意味を推測して読み進める練習を取り入れると、読む速度を落とさずに済みます。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "ニュース英語やビジネス英文のパッセージを毎日少量読む習慣をつける",
+            "わからない単語が出たら前後から推測し、後で辞書で確認する",
+            "「言いかえ表現」に気づく練習をする（筆者が同じ内容を違う言葉で繰り返すことがある）"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "day-of-tips",
+      "heading": "当日の時間感覚を崩さないために",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "受検中は残り時間を意識しながら、「このパッセージにこれ以上時間をかけない」と判断する練習をしておくことが役立ちます。残り時間の表示方法や操作方法は受検案内で確認してください。一つのパッセージに固執して後のパッセージが全て未着手になることを避けるのが基本的な方針です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "答えに迷ったときは根拠が見つかった選択肢を優先します。「本文から判断できない」という選択肢が用意されている場合は、本文に書かれていない内容を自分の知識で補って選ぶことがないよう注意が必要です。"
+        },
+        {
+          "type": "note",
+          "text": "受検環境の準備（PC・ブラウザ・通信）も当日の集中に影響します。案内された動作環境を事前に確認しておくことをおすすめします。"
+        }
+      ]
+    },
+    {
+      "id": "next-steps",
+      "heading": "次にやること：形式確認から始める",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "まず受検案内を確認し、英語ユニットが含まれているか・どのような形式かを把握します。そのうえで、英文読解の練習を時間を計りながら重ねることが準備の中心になります。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "受検案内で英語ユニットの有無と形式を確認する",
+            "タイマーを使ってパッセージ読解の時間感覚を練習する",
+            "上記の独自練習問題のように「本文から判断できるか」を常に意識して解く",
+            "言語・計数ユニットとあわせて総合的な時間配分を確認しておく"
+          ]
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "author": "AI就活編集部",
+  "datePublished": "2026-10-26",
+  "dateModified": "2026-10-27",
+  "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
+  "sources": [
+    {
+      "title": "日本SHL：玉手箱Ⅲ",
+      "url": "https://www.shl.co.jp/service/assessment/tamatebako3/"
+    }
+  ],
+  "editorialId": "J0666",
+  "cover": {
+    "src": "/magazine/covers/tamatebako-english-unit-prep-time-management-086663b1b1.webp",
+    "thumbnail": "/magazine/covers/tamatebako-english-unit-prep-time-management-086663b1b1-card.webp",
+    "alt": "玉手箱の英語テストが課されたときの準備と当日の時間配分のテーマを表す就活準備のイメージ",
+    "width": 1280,
+    "height": 720,
+    "source": "ai-generated"
+  }
+}

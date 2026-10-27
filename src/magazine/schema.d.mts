@@ -1,0 +1,11 @@
+import type { Article, ArticleSummary, Category } from './types';
+export const categories: Category[];
+export function isSlug(value: unknown): boolean;
+export function todayInTokyo(date?: Date): string;
+export function validateArticle(article: unknown, options?: { today?: string }): string[];
+export function readingMinutes(article: Partial<Article>): number;
+export function articleSummary(article: Article): ArticleSummary;
+export function filterArticles(articles: ArticleSummary[], options?: { category?: string; query?: string }): ArticleSummary[];
+export const pageSize: number;
+export function magazinePagePath(page?: number): string;
+export function paginateArticles(articles: ArticleSummary[], page?: number): { page: number; pages: number; items: ArticleSummary[] };
