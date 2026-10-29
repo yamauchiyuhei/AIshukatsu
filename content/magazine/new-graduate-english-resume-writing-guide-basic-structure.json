@@ -1,0 +1,145 @@
+{
+  "slug": "new-graduate-english-resume-writing-guide-basic-structure",
+  "title": "新卒向け英文履歴書の書き方｜学歴・経験・スキルを整理する基本構成",
+  "description": "英文履歴書（Resume）の基本構成を解説。日本語の履歴書を直訳せず、学歴・経験・スキルをどう整理して書くかを具体的な文例付きで紹介します。",
+  "category": "es",
+  "tags": [
+    "英文履歴書",
+    "Resume",
+    "新卒",
+    "ES・応募書類",
+    "就活準備"
+  ],
+  "lead": "英文履歴書は日本語の履歴書を英訳したものではありません。求められる項目の順番も、書き方の作法も異なります。この記事では、新卒が英文Resumeを初めて作成するときに押さえておきたい基本構成と、つまずきやすいポイントを整理します。",
+  "sections": [
+    {
+      "id": "resume-vs-japanese",
+      "heading": "英文ResumeはA4の日本語履歴書とは別物と考える",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "日本の就活で使う履歴書には、顔写真・学歴・職歴・資格・趣味など様式がほぼ決まっています。一方、英語圏のResumeは「応募する職種に合わせて読み手を説得するための書類」という位置づけで、自分が強調したい情報を優先して配置する自由度があります。"
+        },
+        {
+          "type": "paragraph",
+          "text": "そのため、日本語の履歴書を一行ずつ翻訳しても、英文Resumeとしては機能しにくいことがあります。顔写真・生年月日・性別・家族構成は、英語圏では一般的に記載しない傾向があります（国や企業によって異なるため、応募先が指定する様式があれば必ずそちらを優先してください）。"
+        },
+        {
+          "type": "note",
+          "text": "応募先から「CV（Curriculum Vitae）」と指定された場合、ResumeとCVは形式が異なります。学術職や一部の海外職では詳細な業績を記述するCVが求められます。今回はビジネス就職向けのResumeを対象に説明します。"
+        }
+      ]
+    },
+    {
+      "id": "basic-sections",
+      "heading": "新卒Resumeを構成する5つのセクション",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Resumeに決まった法律上の様式はありませんが、新卒の場合は以下の5つを基本として整理するのが一例です。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Contact Information（氏名・連絡先）：名前・メールアドレス・電話番号・LinkedInなど。住所は市区町村レベルまでで十分とされる場合があります。",
+            "Objective または Summary（目的・自己概要）：2〜3文で自分の強みと志望を簡潔に示します。応募ポジションが明確な場合に役立ちます。",
+            "Education（学歴）：在学中・卒業見込みの場合は「Expected graduation: [年月]」と書きます。GPA・関連科目・受賞歴などを添えることがあります。",
+            "Experience（経験）：アルバイト・インターンシップ・ボランティアなどを記載します。新卒の場合は職務経歴が少ないため、学内のプロジェクトや課外活動も含められます。",
+            "Skills（スキル）：語学力・ITスキルなど、職種に関連するものを列挙します。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "education-section",
+      "heading": "Education欄：学歴を正確かつシンプルに書く",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "日本語の履歴書では「入学・卒業」を時系列で記載しますが、英文Resumeでは最終学歴を上に書く「逆時系列（reverse chronological order）」が一般的です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "大学名は正式な英語表記を大学の公式ウェブサイトで確認してください。学部・学科名も同様です。卒業見込みの場合は「Expected: March 2027」のように明記します。"
+        },
+        {
+          "type": "quote",
+          "text": "架空の例（Education欄）\n\nEducation\nXX University, Faculty of Economics, Department of Business Administration\nBachelor of Economics — Expected: March 2027\nRelevant Coursework: Business Statistics, Marketing Strategy, Financial Accounting\n\n上記は構成の例です。大学名・学部名・卒業年月は自分の情報に置き換えてください。"
+        }
+      ]
+    },
+    {
+      "id": "experience-section",
+      "heading": "Experience欄：動詞から始める箇条書きで成果を伝える",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英文Resumeの経験欄では、「私は〜しました」という文章体ではなく、動詞の過去形（現在進行中なら現在形）を先頭に置く箇条書き形式が標準的です。一般にAction Verbsと呼ばれる表現を使い、何をして、どんな結果につながったかを端的に書きます。"
+        },
+        {
+          "type": "paragraph",
+          "text": "数字で示せる成果があれば積極的に使いましょう。ただし、実際にはなかった数字を作ることは絶対に避けてください。"
+        },
+        {
+          "type": "quote",
+          "text": "架空の例（Experience欄・インターンシップ）\n\nExperience\nMarketing Intern — ABC Trading Co., Ltd. (June 2026 – August 2026)\n・Assisted in creating social media content, resulting in a 15% increase in post engagement over 8 weeks\n・Translated product descriptions from Japanese to English for the company's bilingual catalog\n・Collaborated with a 4-person team to organize an internal event for 80 participants\n\n※数値はあくまで架空の例です。実際の数字に置き換えて使用してください。"
+        }
+      ]
+    },
+    {
+      "id": "common-mistakes",
+      "heading": "日本語の癖から起きやすい3つのつまずきと修正",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英文Resumeを初めて書くとき、日本語の作法がそのまま出てしまいがちです。以下は修正しやすいポイントです。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "「〜をしました」形式のまま書いてしまう：主語と「I」を削り、動詞から始める形に変えましょう。例）「I was in charge of customer service」→「Managed customer inquiries and resolved complaints」",
+            "形式的な敬語の直訳：「よろしくお願いいたします」に相当する締め文は不要です。Resumeは申し込み書類であり挨拶文ではありません。",
+            "学歴を古い順に並べる：日本語の慣習とは逆に、最終学歴を先頭に置くのが一般的です。"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "フォント・余白・行間といった見た目の整理も読みやすさに影響します。応募先が指定するフォーマットがあればそちらを優先し、指定がない場合は読みやすいシンプルなレイアウトを心がけるとよいでしょう。"
+        }
+      ]
+    },
+    {
+      "id": "next-action",
+      "heading": "まず手を動かす：自分のResumeを作る最初のステップ",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "完璧に仕上げてから書き始めようとすると手が止まりやすいです。まず「Contact Information」と「Education」だけを記入した状態で保存し、そこに「Experience」と「Skills」を少しずつ足していく方法が取り組みやすい一例です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "書き上げたら、応募先の求人票に書かれているキーワードが自分のResumeに含まれているか見直してみましょう。職種に関係するスキルや経験が言語化されていると、読み手に伝わりやすくなります。"
+        },
+        {
+          "type": "paragraph",
+          "text": "英語が不安な場合は、大学のキャリアセンターや外国語センターに添削を依頼することを検討してください。英文書類の添削経験がある担当者に見てもらうと、日本語的な言い回しが残っている箇所を指摘してもらいやすいです。また、応募先の企業・機関が独自の提出様式を指定している場合は、その指示を必ず最優先にしてください。"
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "author": "AI就活編集部",
+  "datePublished": "2026-10-26",
+  "dateModified": "2026-10-27",
+  "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
+  "sources": [],
+  "editorialId": "J0417",
+  "cover": {
+    "src": "/magazine/covers/new-graduate-english-resume-writing-guide-basic-structure-2fc59f635f.webp",
+    "thumbnail": "/magazine/covers/new-graduate-english-resume-writing-guide-basic-structure-2fc59f635f-card.webp",
+    "alt": "新卒向け英文履歴書の書き方｜学歴・経験・スキルを整理する基本構成のテーマを表す就活準備のイメージ",
+    "width": 1280,
+    "height": 720,
+    "source": "ai-generated"
+  }
+}

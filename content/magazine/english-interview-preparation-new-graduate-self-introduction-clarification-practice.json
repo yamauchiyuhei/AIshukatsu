@@ -1,0 +1,183 @@
+{
+  "slug": "english-interview-preparation-new-graduate-self-introduction-clarification-practice",
+  "title": "英語面接の準備は何から？新卒向けの自己紹介・聞き返し・練習の進め方",
+  "description": "初めての英語面接に向け、自己紹介の組み立て方・聞き取れないときの聞き返しフレーズ・練習の進め方を具体的に解説します。英語が得意でなくても準備次第で落ち着いて臨めます。",
+  "category": "interview",
+  "tags": [
+    "英語面接",
+    "新卒",
+    "自己紹介",
+    "聞き返し",
+    "面接準備"
+  ],
+  "lead": "英語面接の準備は、完璧な英語力より「決まった場面を確実に乗り越える準備」から始めるのが現実的です。自己紹介・聞き返し・志望理由の三点を固めると、初めての英語面接でも大きく崩れにくくなります。",
+  "sections": [
+    {
+      "id": "what-to-prepare-first",
+      "heading": "まず何を固めるか——三つの優先事項",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英語面接の準備を始めるとき、「英語全体を仕上げなければ」と感じると動き出しにくくなります。実際には、面接の流れには繰り返し登場する場面があり、そこを先に準備しておくと安定します。優先する順番の一例は次の三つです。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "自己紹介（自分について話す最初の場面）",
+            "聞き取れなかったときの聞き返し（どの面接でも起こりうる）",
+            "志望理由・学生時代の経験など頻出の質問への回答"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "この記事では、自己紹介と聞き返しを中心に、練習の進め方まで順に説明します。"
+        }
+      ]
+    },
+    {
+      "id": "self-introduction-structure",
+      "heading": "自己紹介は「名前・専攻・強み・入社後の意欲」の四段構成で組む",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英語面接の冒頭で \"Tell me about yourself.\" と問われることは多く、ここで落ち着いて話せると最初の緊張をほぐしやすくなります。長く話そうとせず、四つのパーツを短くつなぐ構成が一例として使いやすいです。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "名前と大学・学部を述べる",
+            "専攻または力を入れてきた活動を一言で添える",
+            "自分の強みや得意なことを一つ挙げ、根拠となるエピソードをひと言触れる",
+            "入社後にどう貢献したいかで締める"
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "【架空の例】My name is Yuki Tanaka. I study marketing at Sakura University. Through organizing events for my student group, I developed the ability to coordinate different opinions and keep projects on track. I hope to apply this skill in your team to help build stronger relationships with customers."
+        },
+        {
+          "type": "paragraph",
+          "text": "上の例は構成の例です（約45語の短縮版）。実際に使う際は自分の名前・専攻・エピソードに置き換えてください。全体で60〜90語程度を目安にすると、ゆっくり話して40〜60秒程度に収まります。"
+        },
+        {
+          "type": "note",
+          "text": "数字や実績を使いたい場合は、実際の自分の体験に基づくものだけを使いましょう。「インパクトを出したい」という気持ちから数字を作ることは避けてください。"
+        }
+      ]
+    },
+    {
+      "id": "clarification-phrases",
+      "heading": "聞き取れなかったときの聞き返し——三つのフレーズを場面別に準備する",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英語面接で一番緊張する瞬間のひとつが「質問が聞き取れなかったとき」です。沈黙してしまうよりも、落ち着いて確認するほうが印象が崩れにくいです。次の三つを場面別に覚えておくと対応しやすくなります。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "全体が聞き取れなかったとき：「I'm sorry, could you please repeat the question?」（もう一度おっしゃっていただけますか）",
+            "早くて聞き取れなかったとき：「Could you speak a little more slowly, please?」（もう少しゆっくり話していただけますか）",
+            "一部の意味がわからなかったとき：「Could you clarify what you mean by [聞き取れた単語]?」（〜の部分をもう少し詳しく教えていただけますか）"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "大切なのは、聞き返すこと自体は問題ないと知っておくことです。何度も同じ質問を聞き直すのは避けたほうがよいですが、一度確認することは自然なコミュニケーションの範囲です。"
+        },
+        {
+          "type": "note",
+          "text": "聞き返した後に相手が言い換えてくれた場合、まず「Thank you.」と一言添えてから答え始めると流れが整いやすくなります。"
+        }
+      ]
+    },
+    {
+      "id": "practice-steps",
+      "heading": "練習の進め方——声に出す・録音する・繰り返す",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英語面接の練習は、頭の中で考えるだけでは不十分です。実際に声に出して初めて気づく「詰まる箇所」「聞き返しフレーズが出てこない場面」があります。次の流れが練習の一例です。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "自己紹介文を書いて声に出して読む。詰まる単語や言いにくい箇所に印をつける",
+            "頻出の質問（Why do you want to work here? / Tell me about a time you overcame a challenge.）への回答を、日本語でなく最初から英語で考える習慣をつける",
+            "スマートフォンなどで練習を録音し、聞き返したときに何がわかりにくかったかを自分で確認する",
+            "聞き返しフレーズは単体で声に出し、いつでも口から出るようにしておく"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "練習相手がいる場合は、意図的に少し早口で質問してもらうと聞き返しフレーズを実際に使う練習ができます。一人で練習する場合は、自分で録音した質問を流して答える形も一例です。"
+        }
+      ]
+    },
+    {
+      "id": "common-stumbles",
+      "heading": "つまずきやすいポイントと修正の考え方",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英語面接の準備で陥りやすいつまずきがいくつかあります。事前に知っておくと対策しやすくなります。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "自己紹介を丸暗記して本番で詰まる：文章全体ではなく「四段構成のキーワード」を覚え、その場でつなぐ練習が一例として有効です",
+            "完璧な英語を目指して準備が止まる：文法ミスより「意図が伝わるか」を優先する意識が助けになります",
+            "聞き返しフレーズを準備していない：「何も言えずに沈黙する」より「確認する一言を言う」ほうが会話が続きます",
+            "日本語で考えてから英訳しようとする：よく聞かれる質問の回答は、最初から英語で準備しておくと変換の負荷が下がります"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "英語面接でも日本語面接と同様に、「何を伝えたいか」が明確であることが根幹です。言葉に迷ったとき「What I want to say is…」と前置きして話し始めるのも一例として使えます。"
+        }
+      ]
+    },
+    {
+      "id": "next-steps",
+      "heading": "練習を進める前に確認しておくこと・次の行動",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "英語面接を実施しているかどうか、またその形式（会話形式か録画形式かなど）は企業ごとに異なります。準備を始める前に、応募先の採用情報や説明会の案内でどのような選考があるかを確認しておきましょう。"
+        },
+        {
+          "type": "paragraph",
+          "text": "確認できたら、次の行動の一例として次の順番が参考になります。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "自己紹介文を書いて声に出す練習を一度やってみる",
+            "聞き返しフレーズを三つ口から出るまで繰り返す",
+            "頻出質問への回答を英語で一つ準備する",
+            "可能であれば友人やキャリアセンターで模擬練習を依頼する"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "一度に全部仕上げようとしなくて大丈夫です。自己紹介と聞き返しを先に固めるだけで、初めての英語面接に臨む準備としては大きな一歩になります。"
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "author": "AI就活編集部",
+  "datePublished": "2026-10-27",
+  "dateModified": "2026-10-27",
+  "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
+  "sources": [],
+  "editorialId": "J0498",
+  "cover": {
+    "src": "/magazine/covers/english-interview-preparation-new-graduate-self-introduction-clarification-practice-c010a70246.webp",
+    "thumbnail": "/magazine/covers/english-interview-preparation-new-graduate-self-introduction-clarification-practice-c010a70246-card.webp",
+    "alt": "ノートパソコンに向かって面接の受け答えを練習する学生",
+    "width": 1280,
+    "height": 720,
+    "source": "ai-generated"
+  }
+}

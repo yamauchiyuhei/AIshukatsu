@@ -245,6 +245,8 @@ export const PRIVACY_POLICY = `プライバシーポリシー
 1. 本サービスは、ユーザー体験の向上、認証状態の維持、設定情報の保持等を目的として、Cookie、localStorage、sessionStorage、IndexedDB、File System Access API 等のブラウザ内保存機構を利用します。
 2. ユーザーは、ブラウザの設定により Cookie 等の受け入れを拒否することができますが、その場合、本サービスの一部またはすべての機能を利用できなくなることがあります。
 3. 本サービスは、File System Access API を通じて、ユーザーが明示的に選択したローカルディレクトリにアクセスします。ユーザーの明示的な許可なしにローカルファイルシステムを読み書きすることはありません。
+4. 公開ウェブサイトのトップページとマガジンでは、閲覧状況の把握と改善のため Google Analytics 4 を利用します。Cookie 等を用いて公開ページの URL・タイトル、参照元、利用端末等のアクセス情報を Google に送信します。就活管理画面およびデスクトップアプリは計測対象に含めず、入力内容、ローカルファイル、検索語句、URL のクエリ文字列およびフラグメントは送信しません。広告向けの Google シグナルおよび広告のパーソナライズは無効にしています。
+5. Google によるデータの取り扱いは https://policies.google.com/technologies/partner-sites を参照してください。アクセス解析の停止には、ブラウザの設定や Google アナリティクス オプトアウト アドオン（https://tools.google.com/dlpage/gaoptout）を利用できます。
 
 
 第11条 (セキュリティ対策)

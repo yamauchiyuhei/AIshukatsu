@@ -1,0 +1,160 @@
+{
+  "slug": "gab-english-unit-format-and-focused-preparation",
+  "title": "GABの英語ユニットが苦手なときに出題形式を確認して対策を絞る",
+  "description": "GABの英語ユニットに苦手意識を感じている方へ。公式案内で出題形式と受検方式をまず確認し、的外れな対策を避けながら準備の範囲を絞る進め方をわかりやすく解説します。",
+  "category": "schedule",
+  "tags": [
+    "GAB",
+    "英語対策",
+    "Webテスト",
+    "適性検査",
+    "英文読解"
+  ],
+  "lead": "GABの英語対策で最初にすべきことは、英語ユニットの形式をきちんと把握することです。形式を誤解したまま準備を進めると、本番と異なる練習に時間を使ってしまいます。受検案内と公式情報で形式を確認し、そのうえで苦手箇所を絞り込むと、練習の方向が定まりやすくなります。",
+  "sections": [
+    {
+      "id": "confirm-format-first",
+      "heading": "まず受検案内で英語ユニットの有無と形式を確認する",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "GABには言語・計数・英語・OPQ（パーソナリティ）の各ユニットがありますが、企業が依頼するユニットの組み合わせは案内によって異なります。英語ユニットが含まれるかどうかは、届いた受検案内を確認するのが最初のステップです。"
+        },
+        {
+          "type": "paragraph",
+          "text": "日本SHLの公式ページによると、GABの英語（大意）はテストセンター方式のみで提供されると案内されています。公式案内ではテストセンター方式のみとされているため、自宅Web受検の場合は英語ユニットが含まれない可能性があります。ただし実際の科目構成は受検案内が優先されますので、「英語が苦手だから対策しなければ」と焦る前に、自分が受ける方式と科目構成を必ず確認してください。"
+        },
+        {
+          "type": "note",
+          "text": "受検案内に方式や科目の記載がわかりにくい場合は、応募企業の採用担当窓口に確認するのが確実です。公式サイトの案内はあくまで一般的な情報であり、実際の科目構成は企業によって異なります。"
+        }
+      ]
+    },
+    {
+      "id": "what-english-unit-asks",
+      "heading": "GABの英語ユニットで問われること",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "日本SHLの公式案内では、GABの英語（大意）は50〜80語程度の英文を読み、設問の解答を英語の選択肢から選ぶ形式と説明されています。英文そのものは長大ではなく、短い段落を読んで内容を把握する問題です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "この形式を知ると、「英語の文法問題を大量にやらなければ」「英単語帳を最初からやり直さなければ」という焦りがやや落ち着くのではないでしょうか。問われているのは、短い英文の大意を正確につかむ力です。精密な文法知識を問うタイプとは異なります。"
+        },
+        {
+          "type": "note",
+          "text": "公式ページで確認できる情報以外の詳細な出題傾向（選択肢の構成、時間配分など）は、受検案内または企業からの案内を参照してください。ここでは公式に示された範囲のみをお伝えしています。"
+        }
+      ]
+    },
+    {
+      "id": "reading-comprehension-approach",
+      "heading": "大意をつかむ英文読解の基本的な考え方",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "50〜80語程度の短い英文で問われやすいのは、「この文章が主に述べていることは何か」「筆者が強調している点はどれか」といった、全体の趣旨に関わる読み取りです。細部の数字や固有名詞を拾うより、文章の流れと中心的な主張を把握することに集中するのが一つの考え方です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "具体的な読み方の一例として、次の手順が挙げられます。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "最初の1〜2文で話題と方向性を把握する",
+            "接続詞（however, therefore, in factなど）に注目して文章の転換点を確認する",
+            "最後の文で筆者の結論や主張をつかむ",
+            "選択肢を読んで「本文の内容と合っているか」を一つずつ照合する"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "この手順はあくまで一例であり、全ての問題に当てはまるわけではありません。自分が練習しながら確認し、合わない部分は調整してみてください。"
+        }
+      ]
+    },
+    {
+      "id": "practice-example",
+      "heading": "独自の練習問題：短い英文で大意をつかむ",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "以下は編集部が作成した独自の練習問題です。本番の出題形式を再現したものではありません。大意をつかむ練習の一例としてご活用ください。"
+        },
+        {
+          "type": "quote",
+          "text": "【架空の例・独自の練習問題】\n\n英文：\nMany researchers have studied the effects of short breaks during work. Some findings suggest that stepping away from a task, even briefly, can help people return to it with a clearer perspective. However, the ideal length and frequency of breaks may vary depending on the type of work involved.\n\n設問：What is the main point of this passage?\n\n選択肢：\n（A）Short breaks are never beneficial for workers.\n（B）Taking breaks may help people approach tasks more clearly, though the best way to do so can differ.\n（C）Researchers have proven the exact ideal length of a work break.\n（D）All types of work benefit equally from the same kind of break.\n\n解答と解説：\n正解は（B）です。\n\n・第1文は「休憩の効果を研究した研究者が多くいる」と話題を提示しています。\n・第2文は「少しの休憩でも、より明確な視点でタスクに戻れる可能性がある」と肯定的な示唆を述べています。\n・第3文はhoweverで転換し、「理想的な長さや頻度は仕事の種類によって異なりうる」と留保を加えています。\n・（A）は「有益でない」と本文の趣旨と逆です。\n・（C）は「正確な理想の時間を証明した」と書かれていますが、本文にそのような断言はありません。\n・（D）は「全ての種類の仕事が同じ休憩から等しく恩恵を受ける」ですが、第3文と矛盾します。\n・（B）が「休憩は明確さに役立つかもしれないが、最適な方法は異なりうる」と本文全体の趣旨を正しく反映しています。"
+        }
+      ]
+    },
+    {
+      "id": "common-mistakes",
+      "heading": "的外れな対策になりやすいつまずきパターン",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "GABの英語対策でありがちな方向のずれを整理しておきます。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "英文法の問題集を大量にこなす：大意読解では精密な文法問題よりも読解力が中心になります。文法の基礎が不安な場合は確認する程度で十分な場合もあります。",
+            "英単語帳を最初から全部暗記しようとする：長文に出てくる語彙の範囲は限られます。読みながら知らない単語の前後文脈から意味を推測する練習のほうが実践的です。",
+            "日本語読解の感覚のまま英文を読む：日本語では結論が後半に来ることが多いですが、英語では最初の文に主張が置かれることも少なくありません。文章構成の違いを意識して読む練習が助けになります。",
+            "テストセンター方式かどうかを確認せずに対策を進める：英語ユニットの有無や形式は方式によって異なります。確認前に大量の準備をすると、範囲がずれることがあります。"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "上記はあくまで対策の方向を整理するための一例です。自分の現在の英語力と、受検案内で確認した形式に合わせて調整してみてください。"
+        }
+      ]
+    },
+    {
+      "id": "next-steps",
+      "heading": "確認と練習の進め方をまとめる",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "GABの英語ユニットへの準備は、次の順で進めると方向がブレにくくなります。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "受検案内を確認し、英語ユニットが含まれているか・方式は何かを把握する",
+            "公式情報（日本SHLのページ）で英語ユニットの説明を確認する",
+            "短い英文の大意読解を中心とした練習に取り組む",
+            "練習後は「どこで間違えたか」ではなく「なぜその選択肢を選んだか」を振り返る",
+            "不明点は企業の採用担当に問い合わせる"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "英語が苦手に感じるときほど、闇雲に広い範囲をやろうとしがちです。まず形式を確かめ、練習の範囲を絞ることが、限られた準備期間を使いやすくする一歩になります。"
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "author": "AI就活編集部",
+  "datePublished": "2026-10-26",
+  "dateModified": "2026-10-27",
+  "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
+  "sources": [
+    {
+      "title": "日本SHL：GAB",
+      "url": "https://www.shl.co.jp/service/assessment/gab/"
+    }
+  ],
+  "editorialId": "J0683",
+  "cover": {
+    "src": "/magazine/covers/gab-english-unit-format-and-focused-preparation-bd34de8a4a.webp",
+    "thumbnail": "/magazine/covers/gab-english-unit-format-and-focused-preparation-bd34de8a4a-card.webp",
+    "alt": "GABの英語ユニットが苦手なときに出題形式を確認して対策を絞るのテーマを表す就活準備のイメージ",
+    "width": 1280,
+    "height": 720,
+    "source": "ai-generated"
+  }
+}

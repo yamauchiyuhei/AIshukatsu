@@ -42,3 +42,10 @@ scripts/_*.ts
 /*.xlsx
 /*.xlsx.bak
 
+# Generated publication assets; manuscripts live in content/magazine/
+/public/magazine/articles/
+/.cache/
+/content/editorial/production-work/
+
+# Python editorial tool caches
+__pycache__/
