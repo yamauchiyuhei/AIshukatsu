@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+import { isClosedStatus } from '../../../lib/deadlines';
+import { clampRating } from '../../../lib/cellValues';
+import { safeExternalUrl } from '../../../lib/safeHtml';
+import { useEffect, useState, useRef } from 'react';
 import { Check, Copy, Link as LinkIcon, Star } from 'lucide-react';
 import { CellValue, Column } from '../../types/sheet';
 import { CellEditor } from './CellEditor';
@@ -35,13 +38,20 @@ export function DataCell({
   onEditingChange,
 }: Props) {
   const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(value);
+  const draftRef = useRef(value);
+  const editingRef = useRef(false);
+  const enterEdit = () => { draftRef.current = value; setDraft(value); editingRef.current = true; setEditing(true); };
+  const commit = () => { if (!editingRef.current) return; editingRef.current = false; setEditing(false); if (draftRef.current !== value) onChange(draftRef.current); };
+  const cancel = () => { editingRef.current = false; setEditing(false); };
+  const changeDraft = (next: CellValue) => { draftRef.current = next; setDraft(next); };
 
   // notify parent
   useEffect(() => {
     onEditingChange?.(editing);
   }, [editing, onEditingChange]);
 
-  const completed = status === '内定' || status === 'お祈り';
+  const completed = isClosedStatus(status);
 
   // Conditional formatting for date cells
   let bgClass = '';
@@ -58,6 +68,7 @@ export function DataCell({
       <div className="flex h-full items-center justify-center px-1 py-1">
         <input
           type="checkbox"
+          aria-label={column.name}
           checked={!!value}
           onChange={(e) => onChange(e.target.checked)}
           className="h-4 w-4 rounded"
@@ -72,13 +83,15 @@ export function DataCell({
           <button
             key={n}
             type="button"
+            aria-label={`${column.name}を${n}に設定`}
+            aria-pressed={clampRating(value) === n}
             onClick={() => onChange(Number(value) === n ? 0 : n)}
-            className="transition hover:scale-110"
+            className="min-h-6 min-w-6 transition hover:scale-110"
           >
             <Star
               size={12}
               className={
-                n <= Number(value || 0) ? 'fill-amber-400 text-amber-400' : 'text-slate-300'
+                n <= clampRating(value) ? 'fill-amber-400 text-amber-400' : 'text-slate-300'
               }
             />
           </button>
@@ -95,9 +108,10 @@ export function DataCell({
         <div className="px-1 py-1">
           <CellEditor
             column={column}
-            value={value}
-            onChange={onChange}
-            onBlur={() => setEditing(false)}
+            value={draft}
+            onChange={changeDraft}
+            onCancel={cancel}
+            onBlur={commit}
             autoFocus
           />
         </div>
@@ -106,7 +120,7 @@ export function DataCell({
     return (
       <button
         type="button"
-        onClick={() => setEditing(true)}
+        onClick={enterEdit}
         className={`m-1 inline-flex max-w-full items-center rounded-full px-2.5 py-0.5 text-[11px] ${
           STATUS_BADGE[v] ?? 'bg-slate-100 text-slate-600'
         }`}
@@ -122,9 +136,10 @@ export function DataCell({
       <div className="px-1 py-1">
         <CellEditor
           column={column}
-          value={value}
-          onChange={onChange}
-          onBlur={() => setEditing(false)}
+          value={draft}
+          onChange={changeDraft}
+          onCancel={cancel}
+          onBlur={commit}
           autoFocus
         />
       </div>
@@ -149,7 +164,7 @@ export function DataCell({
         bgClass={bgClass}
         textClass={textClass}
         selected={selected}
-        onEnterEdit={() => setEditing(true)}
+        onEnterEdit={enterEdit}
       />
     );
   }
@@ -157,8 +172,8 @@ export function DataCell({
   return (
     <button
       type="button"
-      onClick={() => setEditing(true)}
-      onDoubleClick={() => setEditing(true)}
+      onClick={enterEdit}
+      onDoubleClick={enterEdit}
       className={`flex h-full w-full items-center px-2 py-1.5 text-left text-xs transition ${bgClass} ${textClass} ${
         selected ? '' : 'hover:bg-indigo-50/40'
       }`}
@@ -233,26 +248,16 @@ function UrlCell({
       onDoubleClick={onEnterEdit}
       title={`${url}\n(クリックで開く / ダブルクリックで編集)`}
     >
-      {faviconFailed ? (
-        <LinkIcon size={12} className="shrink-0 text-slate-400" />
-      ) : (
-        <img
-          src={faviconUrl}
-          alt=""
-          className="h-4 w-4 shrink-0 rounded-sm object-contain"
-          onError={() => setFaviconFailed(true)}
-          loading="lazy"
-          aria-hidden
-        />
-      )}
+      <LinkIcon size={14} className="shrink-0 text-slate-400" />
       <a
-        href={url}
+        href={safeExternalUrl(url) ?? undefined}
         target="_blank"
         rel="noreferrer"
         className="min-w-0 flex-1 truncate text-indigo-600 hover:text-indigo-800 hover:underline"
       >
         {hostname}
       </a>
+      <button type="button" aria-label="URLを編集" title="URLを編集" onClick={onEnterEdit} className="shrink-0 px-1 text-slate-600">編集</button>
       <button
         type="button"
         onClick={handleCopy}

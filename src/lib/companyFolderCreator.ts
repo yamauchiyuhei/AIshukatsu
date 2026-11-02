@@ -14,12 +14,15 @@ import {
   createSubdirectory,
   subdirectoryExists,
   writeTextFile,
+  fileExists,
 } from './fs';
 import {
   loadCompanyTemplates,
   materializeTemplate,
   type CompanyTemplateFile,
 } from './templateLoader';
+import { withTimeout } from './async';
+import { validateFileName } from './fileNames';
 import { pullCompanyContent } from './companyContentSync';
 
 export type WriteCompanyResult = 'created-populated' | 'created-empty';
@@ -40,33 +43,29 @@ export async function writeCompanyFolder(
   // folder on every single fallback. Onboarding uses this; handleAddCompany
   // does not need to.
   preloadedFallbackTemplates?: CompanyTemplateFile[],
+  resumeExisting = false,
 ): Promise<WriteCompanyResult> {
-  if (await subdirectoryExists(categoryDir, companyName)) {
+  if (!resumeExisting && await subdirectoryExists(categoryDir, companyName)) {
     throw new Error('同じ名前の企業フォルダが既に存在します');
   }
   const dir = await createSubdirectory(categoryDir, companyName);
 
   // ── 1. Populated content from Firestore ────────────────────────────────
-  try {
-    const content = await pullCompanyContent(companyName);
-    if (content) {
-      for (const [filename, text] of Object.entries(content.files)) {
-        await writeTextFile(dir, filename, text);
-      }
-      return 'created-populated';
+  let content: Awaited<ReturnType<typeof pullCompanyContent>> = null;
+  try { content=await withTimeout(pullCompanyContent(companyName)); } catch { /* offline uses bundled templates */ }
+  if(content){
+    for(const [filename,text] of Object.entries(content.files)){
+      if(validateFileName(filename))throw new Error('テンプレートのファイル名が不正です。');
+      if(!await fileExists(dir,filename))await writeTextFile(dir,filename,text);
     }
-  } catch (e) {
-    console.warn(
-      '[companyContent] fetch failed, falling back to empty templates:',
-      e,
-    );
+    return 'created-populated';
   }
 
   // ── 2. Fallback: empty templates with placeholder substitution ────────
   const templates =
     preloadedFallbackTemplates ?? (await loadCompanyTemplates(root));
   for (const t of templates) {
-    await writeTextFile(dir, t.name, materializeTemplate(t, companyName));
+    if (!await fileExists(dir, t.name)) await writeTextFile(dir, t.name, materializeTemplate(t, companyName));
   }
   return 'created-empty';
 }

@@ -1,64 +1,19 @@
-import { useEffect } from 'react';
-import { X } from 'lucide-react';
+import { useState } from 'react';
+import { Modal } from '../../../components/ui/Modal';
 import { useSheet, getActiveSheet } from '../../lib/store';
 import { CellEditor } from '../SheetView/CellEditor';
+import type { CellValue } from '../../types/sheet';
 
-interface Props {
-  rowId: string;
-  onClose: () => void;
-}
-
-export function KanbanDetailDrawer({ rowId, onClose }: Props) {
-  const sheet = useSheet((s) => getActiveSheet(s));
-  const updateCell = useSheet((s) => s.updateCell);
-
-  const row = sheet.rows.find((r) => r.id === rowId);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
-
-  if (!row) {
-    return null;
-  }
-
-  return (
-    <div className="fixed inset-0 z-40" onClick={onClose}>
-      <div className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm" />
-      <div
-        className="absolute right-0 top-0 h-full w-[400px] overflow-auto border-l border-slate-200/70 bg-white shadow-2xl animate-drawer-in"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="sticky top-0 flex items-center justify-between border-b border-slate-200/70 bg-white/90 px-5 py-3 backdrop-blur">
-          <h2 className="text-sm font-semibold tracking-tight text-slate-900">
-            {String(row.cells['company'] ?? '(無題)')}
-          </h2>
-          <button
-            onClick={onClose}
-            className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
-          >
-            <X size={16} />
-          </button>
-        </div>
-        <div className="space-y-4 p-5">
-          {sheet.columns.map((col) => (
-            <div key={col.id}>
-              <div className="mb-1 text-[10px] font-medium uppercase tracking-wide text-slate-500">
-                {col.name}
-              </div>
-              <CellEditor
-                column={col}
-                value={row.cells[col.id] ?? ''}
-                onChange={(v) => updateCell(row.id, col.id, v)}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+export function KanbanDetailDrawer({ rowId, onClose }: {rowId:string;onClose:()=>void}) {
+  const sheet=useSheet(s=>getActiveSheet(s));
+  const row=sheet.rows.find(r=>r.id===rowId);
+  const [draft,setDraft]=useState<Record<string,CellValue>>(()=>({...row?.cells}));
+  if(!row)return null;
+  return <Modal open onClose={onClose} ariaLabel="エントリーの詳細" className="max-w-xl">
+    <h2 className="mb-5 text-lg font-semibold">{String(row.cells.company||'企業名未入力')}</h2>
+    <form onSubmit={event=>{event.preventDefault();const changes=sheet.columns.filter(c=>draft[c.id]!==row.cells[c.id]).map(c=>({rowId,colId:c.id,value:draft[c.id]??''}));useSheet.getState().applyCellUpdates(changes);onClose();}}>
+      <div className="space-y-4">{sheet.columns.map(column=><div key={column.id}><div className="mb-1 text-sm font-medium">{column.name}</div><CellEditor column={column} value={draft[column.id]??''} onChange={value=>setDraft(previous=>({...previous,[column.id]:value}))}/></div>)}</div>
+      <div className="mt-6 flex justify-end gap-3"><button type="button" className="rounded border px-4 py-2" onClick={onClose}>キャンセル</button><button type="submit" className="rounded bg-indigo-700 px-4 py-2 text-white">変更を保存</button></div>
+    </form>
+  </Modal>;
 }

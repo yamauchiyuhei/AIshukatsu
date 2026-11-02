@@ -1503,3 +1503,22 @@ body {
   padding: 0.1em 0.35em;
   border-radius: 4px;
 }
+
+/* Workspace preferences remain scoped to the private application. */
+.workspace-app button, .workspace-app [role="button"] { min-height: 28px; }
+.workspace-app :is(button,a,input,select,textarea,[tabindex]):focus-visible {
+  outline: 2px solid #4338ca; outline-offset: 2px;
+}
+.workspace-app.workspace-comfortable td { height: 40px; }
+.workspace-app.workspace-compact td { height: 30px; padding-top: 2px; padding-bottom: 2px; }
+.workspace-app.workspace-large-text :is(td,th,input,select,textarea,.text-xs,.text-sm) { font-size: 1rem; }
+.workspace-app.workspace-large-text .text-\[10px\], .workspace-app.workspace-large-text .text-\[11px\] { font-size: .875rem; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+@media (max-width: 640px) {
+  .workspace-app header { flex-wrap: wrap; }
+  .workspace-app [role="separator"] { min-width: 8px; }
+}
+
+.workspace-app button:has(> svg:only-child) { min-width: 28px; }

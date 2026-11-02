@@ -1,3 +1,4 @@
+import { trackFileOperation } from './saveQueue';
 // Tauri FSA shim
 //
 // Polyfills the subset of the File System Access API the app uses, backed by
@@ -18,9 +19,11 @@ import {
   mkdir as tauriMkdir,
   remove as tauriRemove,
   exists as tauriExists,
+  stat as tauriStat,
 } from '@tauri-apps/plugin-fs';
 
 function joinPath(parent: string, child: string): string {
+  if (!child || child === '.' || child === '..' || /[\\/]/.test(child)) throw new DOMException('ファイル名が不正です', 'TypeMismatchError');
   const sep = parent.includes('\\') && !parent.includes('/') ? '\\' : '/';
   if (parent.endsWith('/') || parent.endsWith('\\')) {
     return parent + child;
@@ -74,7 +77,8 @@ class TauriWritableStream {
       merged.set(c, offset);
       offset += c.byteLength;
     }
-    await tauriWriteFile(this.absPath, merged);
+    const { invoke } = await import('@tauri-apps/api/core');
+    await trackFileOperation(()=>invoke('atomic_write_workspace_file', { path: this.absPath, bytes: Array.from(merged) }));
   }
 
   async abort(): Promise<void> {
@@ -87,47 +91,6 @@ class TauriWritableStream {
  * Pretends to be a `File` object. The app calls `.text()`, `.arrayBuffer()`,
  * and reads `.name` / `.size` / `.type` on these.
  */
-class TauriFileObject {
-  readonly name: string;
-  readonly type = '';
-  constructor(private readonly absPath: string, name?: string) {
-    this.name = name ?? basename(absPath);
-  }
-
-  async text(): Promise<string> {
-    return await tauriReadTextFile(this.absPath);
-  }
-
-  async arrayBuffer(): Promise<ArrayBuffer> {
-    const bytes = await tauriReadFile(this.absPath);
-    // Copy into a fresh ArrayBuffer so consumers that keep a reference don't
-    // see it mutate under them.
-    const out = new ArrayBuffer(bytes.byteLength);
-    new Uint8Array(out).set(bytes);
-    return out;
-  }
-
-  // Not used by the app, but stubbed so TS structural typing works.
-  stream(): ReadableStream<Uint8Array> {
-    const path = this.absPath;
-    return new ReadableStream({
-      async start(controller) {
-        const bytes = await tauriReadFile(path);
-        controller.enqueue(bytes);
-        controller.close();
-      },
-    });
-  }
-  slice(): Blob {
-    throw new Error('slice() not implemented on TauriFileObject');
-  }
-  get lastModified(): number {
-    return Date.now();
-  }
-  get size(): number {
-    return 0;
-  }
-}
 
 export class TauriFileSystemFileHandle {
   readonly kind = 'file' as const;
@@ -140,8 +103,11 @@ export class TauriFileSystemFileHandle {
   }
 
   async getFile(): Promise<File> {
-    // Cast through unknown – we provide the subset the app actually touches.
-    return new TauriFileObject(this._absPath, this.name) as unknown as File;
+    const metadata=await tauriStat(this._absPath);
+    if(metadata.size>256*1024*1024)throw new Error('256MBを超えるファイルはOSのアプリで開いてください。');
+    const bytes=await tauriReadFile(this._absPath);
+    const copy = new Uint8Array(bytes.byteLength); copy.set(bytes);
+    return new File([copy], this.name, { lastModified: metadata.mtime?.getTime() ?? 0 });
   }
 
   async createWritable(): Promise<FileSystemWritableFileStream> {
@@ -185,6 +151,8 @@ export class TauriFileSystemDirectoryHandle {
       // Create an empty file so subsequent reads succeed.
       await tauriWriteFile(full, new Uint8Array());
     }
+    const meta=await tauriStat(full);
+    if (!meta.isFile || meta.isSymlink) throw new DOMException('通常のファイルではありません','TypeMismatchError');
     return new TauriFileSystemFileHandle(full, name) as unknown as FileSystemFileHandle;
   }
 
@@ -200,6 +168,8 @@ export class TauriFileSystemDirectoryHandle {
       }
       await tauriMkdir(full, { recursive: true });
     }
+    const meta=await tauriStat(full);
+    if (!meta.isDirectory || meta.isSymlink) throw new DOMException('通常のフォルダではありません','TypeMismatchError');
     return new TauriFileSystemDirectoryHandle(full, name) as unknown as FileSystemDirectoryHandle;
   }
 
@@ -217,6 +187,7 @@ export class TauriFileSystemDirectoryHandle {
     const entries = await tauriReadDir(this._absPath);
     for (const entry of entries) {
       const full = joinPath(this._absPath, entry.name);
+      if (entry.isSymlink) continue;
       if (entry.isDirectory) {
         yield new TauriFileSystemDirectoryHandle(
           full,
@@ -270,11 +241,9 @@ export { isTauri } from '@tauri-apps/api/core';
  * Open the Tauri native directory picker and return a FSA-compatible shim.
  */
 export async function pickTauriRootDirectory(): Promise<FileSystemDirectoryHandle> {
-  const { open } = await import('@tauri-apps/plugin-dialog');
-  const picked = await open({ directory: true, multiple: false });
-  if (!picked || typeof picked !== 'string') {
-    throw new DOMException('User cancelled directory picker', 'AbortError');
-  }
+  const { invoke } = await import('@tauri-apps/api/core');
+  const picked = await invoke<string | null>('pick_workspace_directory', { create: false });
+  if (!picked) throw new DOMException('User cancelled directory picker', 'AbortError');
   return new TauriFileSystemDirectoryHandle(
     picked,
   ) as unknown as FileSystemDirectoryHandle;
@@ -288,6 +257,8 @@ export async function rehydrateTauriRootDirectory(
   absPath: string,
 ): Promise<FileSystemDirectoryHandle | null> {
   try {
+    const { invoke } = await import('@tauri-apps/api/core');
+    if (!await invoke<boolean>('restore_workspace_permission', { path: absPath })) return null;
     const present = await tauriExists(absPath);
     if (!present) return null;
   } catch {

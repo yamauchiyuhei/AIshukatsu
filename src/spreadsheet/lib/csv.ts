@@ -90,6 +90,7 @@ export function parseCsv(text: string): { headers: string[]; rows: string[][] } 
       pending = true;
     }
   }
+  if (inQuotes) throw new Error('CSVの引用符が閉じられていません。ファイルを確認してください。');
   if (pending || field !== '' || record.length > 0) endRecord();
 
   if (records.length === 0) return { headers: [], rows: [] };

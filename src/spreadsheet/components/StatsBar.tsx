@@ -1,10 +1,16 @@
+import { useToday } from '../../hooks/useToday';
+import { applyFilters } from '../lib/filtering';
 import { useMemo } from 'react';
 import { useSheet, getActiveSheet } from '../lib/store';
 import { computeStats } from '../lib/stats';
 
 export function StatsBar() {
   const sheet = useSheet((s) => getActiveSheet(s));
-  const stats = useMemo(() => computeStats(sheet.rows), [sheet.rows]);
+  const today = useToday();
+  const query=useSheet(s=>s.searchQuery), industry=useSheet(s=>s.filterIndustry), status=useSheet(s=>s.filterStatus);
+  const filters={query,industry,status,sortColumnId:null,sortDir:'asc' as const};
+  const visible = applyFilters(sheet.rows,sheet.columns,filters);
+  const stats = useMemo(() => computeStats(visible,sheet.columns), [sheet.rows,sheet.columns,today,filters.query,filters.industry,filters.status]);
 
   const interviewing =
     (stats.byStatus['1次面接'] ?? 0) +
@@ -15,8 +21,8 @@ export function StatsBar() {
   const offerRate = stats.total > 0 ? ((stats.offerCount / stats.total) * 100).toFixed(1) : '0.0';
 
   return (
-    <div className="grid grid-cols-2 gap-3 border-b border-slate-200/60 bg-white/40 px-5 py-3 backdrop-blur md:grid-cols-5">
-      <Tile label="エントリー" value={stats.total} accent="text-slate-700" />
+    <div className="grid grid-cols-2 gap-3 border-b border-slate-200/60 bg-white/40 px-5 py-3 backdrop-blur md:grid-cols-3 xl:grid-cols-6">
+      <Tile label="表示中のエントリー" value={stats.total} accent="text-slate-700" />
       <Tile
         label="ES提出済"
         value={`${esSubmitted}/${stats.total}`}
@@ -30,8 +36,9 @@ export function StatsBar() {
         value={`${stats.offerCount} (${offerRate}%)`}
         accent="text-emerald-700"
       />
+      <Tile label="期限超過" value={stats.overdueCount} accent={stats.overdueCount ? 'text-rose-700' : 'text-slate-500'} emphasized={stats.overdueCount > 0}/>
       <Tile
-        label="⚠ 7日以内"
+        label="今日〜7日先"
         value={stats.urgentCount}
         accent={stats.urgentCount > 0 ? 'text-rose-700' : 'text-slate-400'}
         emphasized={stats.urgentCount > 0}
@@ -57,10 +64,11 @@ function Tile({ label, value, accent, progress, progressColor, emphasized }: Til
           : 'border-slate-200/70 bg-white/80'
       }`}
     >
-      <div className="truncate whitespace-nowrap text-[10px] font-medium uppercase tracking-wide text-slate-500">
+      <div title={label}
+      className="text-xs font-medium uppercase tracking-wide text-slate-500">
         {label}
       </div>
-      <div className={`mt-0.5 truncate whitespace-nowrap text-lg font-semibold tabular-nums ${accent}`}>
+      <div className={`mt-0.5 whitespace-nowrap text-base font-semibold tabular-nums ${accent}`}>
         {value}
       </div>
       {progress !== undefined && (

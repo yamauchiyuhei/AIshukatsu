@@ -115,7 +115,7 @@ export function FileTree({
   };
 
   return (
-    <aside className="flex h-screen w-72 shrink-0 flex-col border-r border-slate-200 bg-white">
+    <aside className="flex h-full w-full shrink-0 flex-col border-r border-slate-200 bg-white">
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <div className="h-10 w-10">
           <img

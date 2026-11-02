@@ -2,6 +2,7 @@ import { OnboardingShell } from './LoginScreen';
 import industryCompanies from '../../data/industryCompanies.json';
 
 interface Props {
+  onSkip?: () => void;
   selected: string[];
   onToggle: (industry: string) => void;
   onNext: () => void;
@@ -12,11 +13,11 @@ interface Props {
 // with the data file (also happens to match presetColumns.ts's 12 industries).
 const INDUSTRIES = Object.keys(industryCompanies);
 
-export function IndustrySelectScreen({ selected, onToggle, onNext, onBack }: Props) {
+export function IndustrySelectScreen({ selected, onToggle, onNext, onBack, onSkip }: Props) {
   const canProceed = selected.length > 0;
 
   return (
-    <OnboardingShell step={3} total={4}>
+    <OnboardingShell step={2} total={4}>
       <h1 className="text-2xl font-bold text-slate-900">
         興味のある業界を選んでください
       </h1>
@@ -83,6 +84,7 @@ export function IndustrySelectScreen({ selected, onToggle, onNext, onBack }: Pro
           次へ ({selected.length})
         </button>
       </div>
+      {onSkip && <button className="mt-4 text-sm text-slate-600 underline" onClick={onSkip}>あとで設定する</button>}
     </OnboardingShell>
   );
 }

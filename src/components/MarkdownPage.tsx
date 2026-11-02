@@ -1,15 +1,19 @@
+import { SaveQueue } from '../lib/saveQueue';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Cloud, Code2, Eye, Redo2, Undo2 } from 'lucide-react';
+import { Code2, Eye, Redo2, Undo2 } from 'lucide-react';
+import { get, set, del } from 'idb-keyval';
 import { MarkdownEditor, MarkdownEditorHandle } from './MarkdownEditor';
 import { Breadcrumb } from './Breadcrumb';
 import { useAutoSave } from '../hooks/useAutoSave';
 import { useSheet } from '../spreadsheet/lib/store';
-import { pullNote, pushNote } from '../lib/markdownCloudSync';
-
+import { pullNote, pushNote, type PullNoteResult } from '../lib/markdownCloudSync';
+import { getPreferences, platformShortcut, usePreferences } from '../lib/preferences';
+import { downloadBlob } from '../lib/download';
 interface Props {
   fileHandle: FileSystemFileHandle;
   /** Stable identifier so the editor remounts when the file changes. */
   fileKey: string;
+  documentIdentity?: string;
   /** File name (e.g. `業界研究.md`), used for Firestore metadata. */
   label: string;
   /** Ancestor labels (e.g. `['IT・通信', 'DeNA']`), used for Firestore metadata. */
@@ -20,338 +24,136 @@ interface Props {
   onNavigate?: (index: number) => void;
 }
 
-interface HistoryState {
-  canUndo: boolean;
-  canRedo: boolean;
-}
 
-/**
- * Full-bleed WYSIWYG markdown editor for an arbitrary file handle.
- * Saves to the local PC file AND mirrors to Firestore when signed in.
- */
-export function MarkdownPage({
-  fileHandle,
-  fileKey,
-  label,
-  breadcrumb,
-  rootName,
-  onNavigate,
-}: Props) {
-  const [body, setBody] = useState<string>('');
+export function MarkdownPage({ fileHandle, fileKey, documentIdentity = fileKey, label, breadcrumb, rootName, onNavigate }: Props) {
+  const [body, setBody] = useState('');
+  const bodyRef = useRef('');
+  const localRef = useRef<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [cloudBanner, setCloudBanner] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [editorRevision, setEditorRevision] = useState(0);
+  const [reload, setReload] = useState(0);
+  const [cloudState, setCloudState] = useState('クラウド自動保存はオフ');
+  const [cloudConflict, setCloudConflict] = useState<PullNoteResult | null>(null);
+  const conflictRef = useRef<PullNoteResult | null>(null);
+  const [draft, setDraft] = useState<string | null>(null);
+  const sourceRef=useRef<HTMLTextAreaElement|null>(null);
+  const captureRef=useRef<()=>void>(()=>{});
   const editorRef = useRef<MarkdownEditorHandle | null>(null);
-  const [history, setHistory] = useState<HistoryState>({
-    canUndo: false,
-    canRedo: false,
-  });
-  /** preview = Milkdown WYSIWYG (default), source = read-only raw markdown */
+  const [history, setHistory] = useState({ canUndo: false, canRedo: false });
   const [viewMode, setViewMode] = useState<'preview' | 'source'>('preview');
+  const user = useSheet(s => s.user);
+  const passphrase = useSheet(s => s.passphrase);
+  const preferences = usePreferences();
+  const documentOwner = useRef(user?.uid ?? 'local-guest');
+  const draftKey = `aishukatsu-draft:${documentOwner.current}:${rootName}:${fileKey}`;
+  const active = useRef({ fileHandle, fileKey, label, breadcrumb, user, passphrase, draftKey });
+  active.current = { fileHandle, fileKey, label, breadcrumb, user, passphrase, draftKey };
+  const mounted = useRef(true);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
 
-  // Cloud sync state (subscribed from the shared spreadsheet store)
-  const user = useSheet((s) => s.user);
-  const passphrase = useSheet((s) => s.passphrase);
-  // Per-file salt is cached so crypto.ts can reuse its derived AES key.
-  const cloudSaltRef = useRef<string | null>(null);
-
-  // Keep the latest auth state in refs so the autosave closure always sees
-  // them without needing to re-create the hook on every auth change.
-  const userRef = useRef(user);
-  const passphraseRef = useRef(passphrase);
-  useEffect(() => {
-    userRef.current = user;
-  }, [user]);
-  useEffect(() => {
-    passphraseRef.current = passphrase;
-  }, [passphrase]);
-
-  // Guard: track the fileHandle this component was mounted with so the
-  // autosave closure never writes to the wrong file, even if React somehow
-  // reuses this component instance across different tabs.
-  const mountedHandleRef = useRef(fileHandle);
-  useEffect(() => {
-    mountedHandleRef.current = fileHandle;
-  }, [fileHandle]);
-
-  const { state, schedule, flush, reset } = useAutoSave({
-    onSave: async (value) => {
-      // Safety check: abort if the fileHandle changed since the edit was made.
-      if (mountedHandleRef.current !== fileHandle) {
-        console.warn('[autosave] fileHandle mismatch — skipping save to prevent cross-file write');
-        return;
-      }
-      // ① Local save (existing behavior) — must not be skipped on cloud error.
-      const writable = await fileHandle.createWritable();
-      await writable.write(value);
-      await writable.close();
-
-      // ② Cloud save (best-effort, fire-and-forget).
-      const u = userRef.current;
-      if (u) {
-        try {
-          const result = await pushNote({
-            uid: u.uid,
-            fileKey,
-            label,
-            breadcrumb,
-            content: value,
-            passphrase: passphraseRef.current,
-            saltReuse: cloudSaltRef.current,
-          });
-          if (result) cloudSaltRef.current = result.salt;
-        } catch (e) {
-          console.warn('cloud push failed (markdown):', e);
-        }
-      }
-    },
+  const cloudQueue = useRef<SaveQueue>();
+  const cloudRequest = useRef(0);
+  if (!cloudQueue.current) cloudQueue.current = new SaveQueue(async encoded => {
+    const payload = JSON.parse(encoded);
+    const current = () => mounted.current && active.current.user?.uid === payload.uid && active.current.fileKey === payload.fileKey && cloudRequest.current === payload.request;
+    if (current()) setCloudState('クラウドへ保存中…');
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      timer=setTimeout(()=>{if(current())setCloudState('クラウド応答待ち・端末には保存済み');},12000);
+      await pushNote(payload);
+      if (current()) setCloudState('クラウド保存済み');
+    } catch (error) {
+      if (mounted.current && active.current.user?.uid===payload.uid) setCloudState('クラウド保存失敗・端末には保存済み');
+      throw error;
+    } finally { if(timer)clearTimeout(timer); }
   });
+  const saveCloud = async (value: string) => {
+    const state = active.current;
+    if (!state.user || state.user.uid !== documentOwner.current || !getPreferences().cloudDocuments) return;
+    if (conflictRef.current) { if (mounted.current) setCloudState('別の版があります。端末の変更は保存済み'); return; }
+    cloudQueue.current!.set(JSON.stringify({ uid:state.user.uid,fileKey:state.fileKey,label:state.label,breadcrumb:state.breadcrumb,content:value,passphrase:state.passphrase,request:++cloudRequest.current }));
+    await cloudQueue.current!.flush().catch(()=>{});
+  };
+  useEffect(()=>{const retry=()=>{if(cloudQueue.current?.dirty)void cloudQueue.current.flush().catch(()=>{});};window.addEventListener('online',retry);return()=>window.removeEventListener('online',retry);},[]);
+  const { state, schedule, flush, discard } = useAutoSave({ documentKey:documentIdentity,documentLabel:label,owner:documentOwner.current, onBeforeSave:()=>captureRef.current(), onSave: async value => {
+    const target = active.current;
+    if (localRef.current === null) throw new Error('読み込みが完了していません');
+    const disk = await (await target.fileHandle.getFile()).text();
+    if (disk !== localRef.current && disk !== value) throw new Error('外部で変更されています。再読み込み前に下書きを書き出してください。');
+    const writable = await target.fileHandle.createWritable();
+    await writable.write(value); await writable.close();
+    localRef.current = value;
+    if (bodyRef.current === value) await del(target.draftKey);
+    window.dispatchEvent(new Event('aishukatsu-document-saved'));
+    // Cloud failures have their own state and must not misreport local writes.
+    void saveCloud(value);
+  }});
+  const handleChange = useCallback((value: string) => {
+    if (value === bodyRef.current) return;
+    bodyRef.current = value; if(mounted.current)setBody(value);
+    void set(active.current.draftKey, value).catch(() => {});
+    schedule(value);
+  }, [schedule]);
 
-  // Mirror edits from either editor (Milkdown WYSIWYG or the raw textarea)
-  // back into `body` so toggling between view modes always shows the latest
-  // content — Milkdown reinitialises from `initialValue={body}` on remount.
-  const handleChange = useCallback(
-    (value: string) => {
-      setBody(value);
-      schedule(value);
-    },
-    [schedule],
-  );
-
-  // Load: parallel local + cloud fetch, adopt the newer version.
+  captureRef.current=()=>{if(loading||loadError)return;if(sourceRef.current)handleChange(sourceRef.current.value);else editorRef.current?.flushChanges();};
   useEffect(() => {
     let cancelled = false;
-    (async () => {
-      await flush();
-      reset();
-      setLoading(true);
-      setCloudBanner(null);
-      setHistory({ canUndo: false, canRedo: false });
-      cloudSaltRef.current = null;
+    localRef.current = null; setLoading(true); setLoadError(null); setDraft(null);
+    setCloudConflict(null); conflictRef.current = null;
+    void (async () => {
       try {
-        const u = userRef.current;
-        const [file, cloudResult] = await Promise.all([
-          fileHandle.getFile(),
-          u
-            ? pullNote(u.uid, fileKey, passphraseRef.current).catch((e) => {
-                console.warn('cloud pull failed (markdown):', e);
-                return null;
-              })
-            : Promise.resolve(null),
-        ]);
-        const localText = await file.text();
-        const localMtime = new Date(file.lastModified);
-
-        let chosen = localText;
-        let adoptedCloud = false;
-
-        if (cloudResult) {
-          cloudSaltRef.current = cloudResult.salt;
-
-          if (cloudResult.decryptFailed) {
-            console.warn(
-              'cloud note is encrypted but could not be decrypted (no/wrong passphrase); keeping local copy',
-            );
-          } else if (
-            cloudResult.updatedAt &&
-            cloudResult.updatedAt.getTime() > localMtime.getTime() + 1000 &&
-            cloudResult.content !== localText
-          ) {
-            // Cloud is meaningfully newer → adopt and write back to disk.
-            chosen = cloudResult.content;
-            adoptedCloud = true;
-            try {
-              const w = await fileHandle.createWritable();
-              await w.write(chosen);
-              await w.close();
-            } catch (e) {
-              console.warn('local write-back failed:', e);
-            }
-          } else if (
-            !cloudResult.updatedAt ||
-            localMtime.getTime() > (cloudResult.updatedAt?.getTime() ?? 0) + 1000
-          ) {
-            // Local is newer → push current local up so cloud catches up.
-            if (u && localText) {
-              try {
-                const result = await pushNote({
-                  uid: u.uid,
-                  fileKey,
-                  label,
-                  breadcrumb,
-                  content: localText,
-                  passphrase: passphraseRef.current,
-                  saltReuse: cloudSaltRef.current,
-                });
-                if (result) cloudSaltRef.current = result.salt;
-              } catch (e) {
-                console.warn('initial cloud push failed:', e);
-              }
-            }
-          }
-        } else if (u) {
-          // No cloud doc yet → upload current local as initial version.
-          try {
-            const result = await pushNote({
-              uid: u.uid,
-              fileKey,
-              label,
-              breadcrumb,
-              content: localText,
-              passphrase: passphraseRef.current,
-              saltReuse: cloudSaltRef.current,
-            });
-            if (result) cloudSaltRef.current = result.salt;
-          } catch (e) {
-            console.warn('initial cloud push failed:', e);
-          }
-        }
-
-        if (!cancelled) {
-          setBody(chosen);
-          if (adoptedCloud) {
-            setCloudBanner('クラウドから最新版を取得しました');
-            window.setTimeout(() => {
-              if (!cancelled) setCloudBanner(null);
-            }, 4000);
-          }
-        }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
+        const file = await fileHandle.getFile();
+        const text = await file.text();
+        const savedDraft = await get<string>(draftKey);
+        if (cancelled) return;
+        localRef.current = text; bodyRef.current = text; setBody(text);
+        if (savedDraft != null && savedDraft !== text) setDraft(savedDraft);
+      } catch {
+        if (!cancelled) setLoadError('文書を読み込めません。保存先の権限やファイルの場所を確認してください。読み込めるまで編集は行いません。');
+      } finally { if (!cancelled) setLoading(false); }
     })();
-    return () => {
-      cancelled = true;
-    };
-    // Re-run when the file changes OR the user signs in/out so a fresh login
-    // triggers a one-shot cloud reconciliation for the currently open file.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fileHandle, user?.uid]);
+    return () => { cancelled = true; };
+  }, [documentIdentity, user?.uid, reload]);
 
-  const saveLabel: Record<typeof state, string> = {
-    idle: '',
-    dirty: '未保存',
-    saving: '保存中…',
-    saved: user ? '保存済み (ローカル + クラウド)' : '保存済み',
-    error: '保存エラー',
+  useEffect(() => {
+    if (!user || !preferences.cloudDocuments || loading || loadError) { setCloudState('クラウド自動保存はオフ'); return; }
+    let cancelled = false;
+    setCloudState('クラウドを確認中…');
+    void pullNote(user.uid, fileKey, passphrase).then(result => {
+      if (cancelled) return;
+      if (result?.decryptFailed) { setCloudState('合言葉を確認してください・端末の文書を使用中'); return; }
+      if (result && result.content !== localRef.current) {
+        conflictRef.current = result; setCloudConflict(result); setCloudState('クラウドに別の版があります');
+      } else if (result) setCloudState('クラウドと一致');
+      else setCloudState('未送信・編集時に自動保存します');
+    }).catch(() => { if (!cancelled) setCloudState('クラウドに接続できません・端末の文書を使用中'); });
+    return () => { cancelled = true; };
+  }, [user?.uid, preferences.cloudDocuments, passphrase, fileKey, loading, loadError]);
+
+  useEffect(()=>{const check=async()=>{if(loading||loadError||localRef.current===null||state==='dirty'||state==='saving'||state==='error')return;try{const text=await (await active.current.fileHandle.getFile()).text();if(mounted.current&&text!==localRef.current){setReload(n=>n+1);}}catch{if(mounted.current)setLoadError('文書へのアクセスが失われました。フォルダの接続を確認してください。');}};window.addEventListener('focus',check);return()=>window.removeEventListener('focus',check);},[loading,loadError,state]);
+  const labels = { idle: '変更なし', dirty: '端末：未保存', saving: '端末：保存中…', saved: '端末：保存済み', error: '端末：保存できませんでした' };
+  const reloadFromDisk = async () => {
+    // Preserve the draft before abandoning a conflicting file version.
+    if (state === 'dirty' || state === 'error') await set(draftKey, bodyRef.current);
+    await discard();
+    setReload(n => n + 1);
   };
-
-  return (
-    <div className="flex h-full flex-col overflow-hidden bg-white">
-      {/* Top toolbar — always visible */}
-      <div className="flex items-center gap-1 border-b border-slate-100 bg-white px-12 py-1.5">
-        <ToolbarBtn
-          disabled={!history.canUndo || viewMode === 'source'}
-          onClick={() => editorRef.current?.undo()}
-          title="戻る (⌘Z)"
-        >
-          <Undo2 size={14} />
-        </ToolbarBtn>
-        <ToolbarBtn
-          disabled={!history.canRedo || viewMode === 'source'}
-          onClick={() => editorRef.current?.redo()}
-          title="進む (⌘⇧Z)"
-        >
-          <Redo2 size={14} />
-        </ToolbarBtn>
-        <div className="ml-auto">
-          {/* Intentionally subtle toggle — markdown preview stays the
-              default experience and the source view is an advanced escape
-              hatch ("地味目" per user request). */}
-          <button
-            type="button"
-            onClick={() =>
-              setViewMode((m) => (m === 'preview' ? 'source' : 'preview'))
-            }
-            title={
-              viewMode === 'preview'
-                ? 'ソース表示に切替'
-                : 'プレビューに戻す'
-            }
-            className="flex h-6 items-center gap-1 rounded px-1.5 text-[11px] text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-          >
-            {viewMode === 'preview' ? (
-              <>
-                <Code2 size={12} />
-                <span>ソース</span>
-              </>
-            ) : (
-              <>
-                <Eye size={12} />
-                <span>プレビュー</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-      {rootName && onNavigate && (
-        <Breadcrumb
-          segments={[...breadcrumb, label]}
-          rootLabel={rootName}
-          onNavigate={onNavigate}
-        />
-      )}
-
-      <div className="relative flex-1 overflow-auto px-12 py-8">
-        {cloudBanner && (
-          <div className="pointer-events-none mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50/90 px-3 py-1.5 text-xs text-indigo-800 shadow-sm">
-            <Cloud size={13} />
-            <span>{cloudBanner}</span>
-          </div>
-        )}
-        {loading ? (
-          <p className="text-sm text-slate-500">読み込み中…</p>
-        ) : viewMode === 'source' ? (
-          <textarea
-            className="markdown-source block h-full w-full resize-none border-0 bg-transparent p-0 font-mono text-[13px] leading-relaxed text-slate-800 outline-none focus:ring-0"
-            value={body}
-            onChange={(e) => handleChange(e.target.value)}
-            spellCheck={false}
-          />
-        ) : (
-          <MarkdownEditor
-            ref={editorRef}
-            resetKey={fileKey}
-            initialValue={body}
-            onChange={handleChange}
-            onHistoryChange={setHistory}
-          />
-        )}
-      </div>
-      {state !== 'idle' && (
-        <span className="pointer-events-none fixed bottom-3 right-4 rounded bg-slate-900/80 px-2 py-1 text-[11px] text-white">
-          {saveLabel[state]}
-        </span>
-      )}
+  return <div className="flex h-full flex-col overflow-hidden bg-white">
+    <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-2">
+      <button disabled={!history.canUndo || viewMode === 'source'} onClick={() => editorRef.current?.undo()} title={`元に戻す (${platformShortcut('Z')})`} aria-label="文書の変更を元に戻す"><Undo2 size={18}/></button>
+      <button disabled={!history.canRedo || viewMode === 'source'} onClick={() => editorRef.current?.redo()} title={`やり直す (${platformShortcut('Shift+Z')})`} aria-label="文書の変更をやり直す"><Redo2 size={18}/></button>
+      <span className="text-xs text-slate-600" role="status" aria-live="polite">{labels[state]}</span>
+      <span className="text-xs text-slate-500">{cloudState}</span>
+      {state === 'error' && <><button className="text-sm text-rose-700 underline" onClick={() => void flush().catch(() => {})}>保存を再試行</button><button className="text-sm underline" onClick={() => void downloadBlob(new Blob([body]), `${label}.下書き.md`)}>下書きを書き出す</button><button className="text-sm underline" onClick={() => void reloadFromDisk()}>外部の変更を読み込む</button></>}
+      {(cloudState.includes('失敗') || cloudState.includes('未送信')) && <button className="text-sm underline" onClick={() => void saveCloud(body)}>クラウドへ再送信</button>}
+      <button className="ml-auto inline-flex items-center gap-1 text-sm" onClick={() => setViewMode(mode => mode === 'preview' ? 'source' : 'preview')}>{viewMode === 'preview' ? <><Code2 size={15}/>ソース編集</> : <><Eye size={15}/>プレビュー</>}</button>
     </div>
-  );
-}
-
-function ToolbarBtn({
-  disabled,
-  onClick,
-  title,
-  children,
-}: {
-  disabled?: boolean;
-  onClick: () => void;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      title={title}
-      disabled={disabled}
-      onClick={onClick}
-      className={`flex h-7 w-7 items-center justify-center rounded transition ${
-        disabled
-          ? 'cursor-not-allowed text-slate-300'
-          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-      }`}
-    >
-      {children}
-    </button>
-  );
+    {rootName && onNavigate && <Breadcrumb segments={[...breadcrumb,label]} rootLabel={rootName} onNavigate={onNavigate}/>}
+    {draft !== null && <div className="flex flex-wrap items-center gap-3 bg-amber-50 p-3 text-sm" role="status">未保存の下書きがあります。<button className="underline" onClick={() => { handleChange(draft); setEditorRevision(n=>n+1); setDraft(null); }}>下書きを復元</button><button className="underline" onClick={() => { void del(draftKey); setDraft(null); }}>下書きを破棄</button></div>}
+    {cloudConflict && <div className="flex flex-wrap gap-3 bg-blue-50 p-3 text-sm"><span>クラウドに別の版があります。自動上書きを停止しています。</span><button className="underline" onClick={() => void downloadBlob(new Blob([cloudConflict.content]), `${label}.クラウド版.md`)}>クラウド版を確認</button><button className="underline" onClick={() => { conflictRef.current = null; const content = cloudConflict.content; setCloudConflict(null); handleChange(content); setEditorRevision(n=>n+1); }}>クラウド版を採用</button><button className="underline" onClick={() => { conflictRef.current = null; setCloudConflict(null); void saveCloud(body); }}>端末の版をクラウドへ保存</button></div>}
+    <div className="relative flex-1 overflow-auto px-6 py-6 md:px-10">
+      {loading ? <p role="status">読み込み中…</p> : loadError ? <div role="alert" className="space-y-4 text-rose-700"><p>{loadError}</p><button onClick={() => setReload(n => n + 1)} className="underline">読み込みを再試行</button></div> : viewMode === 'source' ? <textarea ref={sourceRef} aria-label={`${label}のMarkdownソース`} className="markdown-source h-full min-h-80 w-full font-mono text-sm leading-relaxed" value={body} onChange={event => handleChange(event.target.value)} spellCheck={false}/> : <MarkdownEditor key={`${documentIdentity}:${reload}:${editorRevision}`} ref={editorRef} resetKey={`${documentIdentity}:${reload}:${editorRevision}`} initialValue={body} onChange={handleChange} onHistoryChange={setHistory}/>}
+    </div>
+  </div>;
 }

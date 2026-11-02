@@ -1,3 +1,7 @@
+import { Modal } from '../../../components/ui/Modal';
+import { collectDeadlines } from '../../../lib/deadlines';
+import { useToday } from '../../../hooks/useToday';
+import { localDateKey } from '../../../lib/cellValues';
 import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSheet, getActiveSheet } from '../../lib/store';
@@ -9,8 +13,11 @@ export interface DeadlineEntry {
   rowId: string;
   company: string;
   kind: string;
+  columnId: string;
   date: Date;
 }
+
+interface GridCell { date: Date; outOfMonth: boolean; }
 
 const WEEK_LABEL = ['日', '月', '火', '水', '木', '金', '土'];
 
@@ -36,7 +43,12 @@ export function MonthCalendar() {
     [sheet.rows, sheet.columns, search, fIndustry, fStatus],
   );
 
-  const today = new Date();
+  const todayKey = useToday();
+  const today = new Date(todayKey + 'T00:00');
+  const [includeCompleted,setIncludeCompleted]=useState(false);
+  const [adding,setAdding]=useState<string|null>(null);
+  const [company,setCompany]=useState('');
+  const [dateColumn,setDateColumn]=useState('es_deadline');
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
   const [popoverDate, setPopoverDate] = useState<Date | null>(null);
@@ -47,7 +59,7 @@ export function MonthCalendar() {
     date: Date;
   } | null>(null);
 
-  const entries = useMemo(() => collectDeadlines(filtered), [filtered]);
+  const entries = useMemo(() => collectDeadlines(filtered,sheet.columns,includeCompleted), [filtered,sheet.columns,includeCompleted,todayKey]);
   const grid = useMemo(() => buildMonthGrid(year, month), [year, month]);
 
   const byDate = useMemo(() => {
@@ -84,24 +96,17 @@ export function MonthCalendar() {
   };
 
   const addOnDate = (date: Date, kind: 'es' | 'web' | 'interview') => {
-    const id = addRow();
-    const iso = date.toISOString().slice(0, 10);
-    if (kind === 'es') updateCell(id, 'es_deadline', iso);
-    if (kind === 'web') updateCell(id, 'webtest_deadline', iso);
-    if (kind === 'interview') {
-      const t = `${iso}T10:00`;
-      updateCell(id, 'interview_at', t);
-    }
+    setAdding(localDateKey(date));
+    setDateColumn(kind==='es'?'es_deadline':kind==='web'?'webtest_deadline':'interview_at');
     setContextMenu(null);
-    setView('sheet');
-    const colId = sheet.columns[0]?.id;
-    if (colId) setSelection({ rowId: id, colId });
+
   };
 
   return (
-    <div className="flex flex-1 flex-col bg-gradient-to-b from-white to-slate-50 p-4">
+    <div className="flex flex-1 flex-col overflow-auto bg-gradient-to-b from-white to-slate-50 p-4">
       <div className="mb-3 flex items-center gap-2">
         <button
+          aria-label="前の月"
           onClick={prev}
           className="rounded-full p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
         >
@@ -111,6 +116,7 @@ export function MonthCalendar() {
           {year}年 {month + 1}月
         </div>
         <button
+          aria-label="次の月"
           onClick={next}
           className="rounded-full p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
         >
@@ -123,6 +129,7 @@ export function MonthCalendar() {
           今日
         </button>
       </div>
+      <div className="mb-3 flex flex-wrap items-center gap-4 text-sm"><button className="rounded border bg-white px-3 py-2" onClick={()=>setAdding(localDateKey(new Date()))}>予定を追加</button><label className="flex items-center gap-2"><input type="checkbox" checked={includeCompleted} onChange={e=>setIncludeCompleted(e.target.checked)}/>完了した選考の予定も表示</label></div>
       <div className="grid grid-cols-7 overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm">
         {WEEK_LABEL.map((w, i) => (
           <div
@@ -151,8 +158,12 @@ export function MonthCalendar() {
           return (
             <div
               key={idx}
+              role="button"
+              tabIndex={0}
+              aria-label={`${cell.date.getMonth()+1}月${cell.date.getDate()}日、${items.length}件の予定`}
+              onKeyDown={event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();const rect=event.currentTarget.getBoundingClientRect();if(items.length){setPopoverDate(cell.date);setPopoverPos({x:rect.left,y:rect.top});}else setAdding(localDateKey(cell.date));}}}
               onClick={(e) => {
-                if (items.length === 0) return;
+                if (items.length === 0) { setAdding(localDateKey(cell.date)); return; }
                 setPopoverDate(cell.date);
                 setPopoverPos({ x: e.clientX, y: e.clientY });
               }}
@@ -179,7 +190,7 @@ export function MonthCalendar() {
                 {items.slice(0, 4).map((e, i) => (
                   <div
                     key={i}
-                    className="truncate rounded-md bg-rose-50 px-1 text-[10px] text-rose-700"
+                    className={`truncate rounded-md px-1 text-xs ${e.columnId==='interview_at'?'bg-violet-50 text-violet-800':e.columnId==='webtest_deadline'?'bg-amber-50 text-amber-900':'bg-blue-50 text-blue-800'}`}
                     title={`${e.company} (${e.kind})`}
                   >
                     {e.company} {e.kind}
@@ -205,6 +216,7 @@ export function MonthCalendar() {
         />
       )}
 
+      {adding && <Modal open onClose={()=>setAdding(null)} ariaLabel="予定を追加" className="space-y-4"><h2 className="text-lg font-semibold">予定を追加</h2><label className="block text-sm">企業名<input className="mt-1 w-full rounded border p-2" value={company} onChange={e=>setCompany(e.target.value)}/></label><label className="block text-sm">日付<input className="mt-1 w-full rounded border p-2" type="date" value={adding} onChange={e=>setAdding(e.target.value)}/></label><label className="block text-sm">予定の種類<select className="mt-1 w-full rounded border p-2" value={sheet.columns.some(c=>c.id===dateColumn)?dateColumn:sheet.columns.find(c=>c.type==='date'||c.type==='datetime')?.id??''} onChange={e=>setDateColumn(e.target.value)}>{sheet.columns.filter(c=>c.type==='date'||c.type==='datetime').map(c=><option value={c.id} key={c.id}>{c.name}</option>)}</select></label><button className="rounded bg-indigo-700 px-4 py-2 text-white disabled:opacity-40" disabled={!company.trim()||!adding||!sheet.columns.some(c=>c.type==='date'||c.type==='datetime')} onClick={()=>{const column=sheet.columns.find(c=>c.id===dateColumn)??sheet.columns.find(c=>c.type==='date'||c.type==='datetime');if(!column)return;const id=addRow();updateCell(id,'company',company.trim());updateCell(id,column.id,adding+(column.type==='datetime'?'T10:00':''));setAdding(null);setCompany('');setView('sheet');setSelection({rowId:id,colId:column.id});}}>予定を追加</button></Modal>}
       {contextMenu && (
         <div
           className="fixed inset-0 z-50"
@@ -246,33 +258,6 @@ export function MonthCalendar() {
       )}
     </div>
   );
-}
-
-function collectDeadlines(rows: Row[]): DeadlineEntry[] {
-  const out: DeadlineEntry[] = [];
-  const fields: { key: string; label: string }[] = [
-    { key: 'es_deadline', label: 'ES' },
-    { key: 'webtest_deadline', label: 'Web' },
-    { key: 'interview_at', label: '面接' },
-  ];
-  for (const r of rows) {
-    const company = String(r.cells['company'] ?? '(無題)');
-    for (const f of fields) {
-      const v = r.cells[f.key];
-      if (typeof v === 'string' && v) {
-        const d = new Date(v);
-        if (!isNaN(d.getTime())) {
-          out.push({ rowId: r.id, company, kind: f.label, date: d });
-        }
-      }
-    }
-  }
-  return out;
-}
-
-interface GridCell {
-  date: Date;
-  outOfMonth: boolean;
 }
 
 function buildMonthGrid(year: number, month: number): GridCell[] {

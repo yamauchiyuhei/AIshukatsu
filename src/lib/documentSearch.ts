@@ -11,7 +11,6 @@
  * hand-rolled search style (normalize + substring, capped results). The index
  * is built lazily and lives only for the session; see useDocumentSearch.
  */
-import matter from 'gray-matter';
 import { getFileKind } from './fileKind';
 import { buildSnippet, matchRank, normalize } from './textMatch';
 import type { Workspace, WorkspaceNode } from '../types';
@@ -96,7 +95,8 @@ export function collectSearchableFiles(workspace: Workspace): SearchableFile[] {
     });
   }
 
-  return out;
+  const seen = new Set<string>();
+  return out.filter(file => { const path = [...file.breadcrumb, file.label].join('/').normalize('NFC'); if (seen.has(path)) return false; seen.add(path); return true; });
 }
 
 /** Read a file's searchable body. Markdown has its front-matter stripped. */
@@ -106,7 +106,7 @@ async function readBody(file: SearchableFile): Promise<string> {
     const text = await (await file.handle.getFile()).text();
     if (getFileKind(file.label) === 'markdown') {
       try {
-        return matter(text).content;
+        return text.replace(/^---\r?\n[\s\S]*?\r?\n(?:---|\.\.\.)[ \t]*(?:\r?\n|$)/, '');
       } catch {
         return text; // malformed front-matter → search the raw text
       }

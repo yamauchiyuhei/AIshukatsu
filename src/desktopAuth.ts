@@ -120,7 +120,7 @@ async function startSignIn(auth: Auth) {
     await signInWithRedirect(auth, provider);
     // Browser navigates away here; nothing after this runs.
   } catch (err) {
-    console.error(err);
+    console.warn('Desktop sign-in failed');
     const msg = err instanceof Error ? err.message : String(err);
     setError(`サインインに失敗しました: ${msg}`);
     setStatus('下のボタンを押して Google アカウントでサインインしてください。');
@@ -141,7 +141,7 @@ async function main() {
       return;
     }
   } catch (err) {
-    console.error(err);
+    console.warn('Desktop sign-in failed');
     const msg = err instanceof Error ? err.message : String(err);
     setError(`リダイレクト結果の取得に失敗しました: ${msg}`);
     return;

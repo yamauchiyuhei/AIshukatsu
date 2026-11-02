@@ -10,6 +10,7 @@ export interface SelectedCompany {
 }
 
 interface Props {
+  onSkip?: () => void;
   industries: string[];
   selected: SelectedCompany[];
   onToggle: (pick: SelectedCompany) => void;
@@ -27,6 +28,7 @@ export function CompanySelectScreen({
   onClearAllFor,
   onBack,
   onSubmit,
+  onSkip,
 }: Props) {
   const [query, setQuery] = useState('');
 
@@ -48,7 +50,7 @@ export function CompanySelectScreen({
   const canSubmit = selected.length > 0;
 
   return (
-    <OnboardingShell step={4} total={4}>
+    <OnboardingShell step={3} total={4}>
       <h1 className="text-2xl font-bold text-slate-900">
         気になる企業を選んでください
       </h1>
@@ -128,6 +130,7 @@ export function CompanySelectScreen({
           {selected.length} 社のフォルダを作成
         </button>
       </div>
+      {onSkip && <button className="mt-4 text-sm text-slate-600 underline" onClick={onSkip}>あとで設定する</button>}
     </OnboardingShell>
   );
 }

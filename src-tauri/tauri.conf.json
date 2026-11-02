@@ -1,13 +1,13 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "AIshukatsu",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "identifier": "com.aisyuukatsu.app",
   "build": {
-    "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:5173",
-    "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist"
+    "beforeDevCommand": "npm run dev:desktop",
+    "devUrl": "http://localhost:5173/desktop.html",
+    "beforeBuildCommand": "npm run build:desktop",
+    "frontendDist": "../dist-desktop"
   },
   "app": {
     "windows": [
@@ -22,12 +22,15 @@
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: http://asset.localhost blob: data: https:; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://github.com https://api.github.com https://objects.githubusercontent.com https://release-assets.githubusercontent.com; frame-src 'self' blob: https://*.firebaseapp.com; object-src 'none'; base-uri 'self'; form-action 'none'; worker-src 'self' blob:"
     }
   },
   "bundle": {
     "active": true,
-    "targets": ["app", "nsis"],
+    "targets": [
+      "app",
+      "nsis"
+    ],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -54,11 +57,17 @@
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDU0QkM4MjlGODQ4MTVCODYKUldTR1c0R0VuNEs4Vk9GMWt6R1kramMyckFNd2N3TFFHVHFpS2ppVWtOUkpIRXNYTFUwSHJKV1UK",
       "endpoints": [
         "https://github.com/yamauchiyuhei/AIshukatsu/releases/latest/download/latest.json"
-      ]
+      ],
+      "requireSignedVersion": true,
+      "windows": {
+        "installMode": "passive"
+      }
     },
     "deep-link": {
       "desktop": {
-        "schemes": ["aisyuukatsu"]
+        "schemes": [
+          "aisyuukatsu"
+        ]
       }
     }
   }

@@ -34,7 +34,6 @@ export function ConfirmDialog({
     <Modal
       open={open}
       onClose={onCancel}
-      onEnter={onConfirm}
       ariaLabel={title}
     >
       <h3 className="text-base font-semibold text-slate-900">{title}</h3>
@@ -42,14 +41,13 @@ export function ConfirmDialog({
         {message}
       </p>
       <div className="mt-5 flex justify-end gap-2">
-        <Button variant="outline" size="sm" onClick={onCancel}>
+        <Button variant="outline" size="sm" onClick={onCancel} autoFocus>
           {cancelLabel}
         </Button>
         <Button
           variant={destructive ? 'destructive' : 'default'}
           size="sm"
           onClick={onConfirm}
-          autoFocus
         >
           {confirmLabel}
         </Button>

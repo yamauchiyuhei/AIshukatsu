@@ -1,3 +1,4 @@
+import { sanitizeHtml } from '../lib/safeHtml';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Menu, Sun, Lock } from 'lucide-react';
 import { BottomNav } from './components/BottomNav';
@@ -177,7 +178,7 @@ export function McKinseyPage({ password, onLock }: Props) {
         {!loading && !err && current && (
           <article
             className="mckinsey-prose text-slate-800"
-            dangerouslySetInnerHTML={{ __html: current.html }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(current.html) }}
           />
         )}
       </main>

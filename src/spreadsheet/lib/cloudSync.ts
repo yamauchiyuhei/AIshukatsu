@@ -1,4 +1,5 @@
 import { doc, getDoc, setDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { isSecretColumn } from '../../lib/cellValues';
 import { db } from './firebase';
 import { Workbook, Sheet, Row, CellValue, Column } from '../types/sheet';
 import {
@@ -45,7 +46,7 @@ async function mapPasswordCells(
   const sheets: Sheet[] = [];
   for (const sheet of wb.sheets) {
     const passwordColIds = new Set(
-      sheet.columns.filter((c: Column) => c.type === 'password').map((c) => c.id),
+      sheet.columns.filter((c: Column) => isSecretColumn(c)).map((c) => c.id),
     );
     const rows: Row[] = [];
     for (const row of sheet.rows) {
@@ -74,7 +75,6 @@ export async function encryptWorkbookForCloud(
 ): Promise<Workbook> {
   if (!passphrase) return wb;
   return mapPasswordCells(wb, async (plain) => {
-    if (isEncrypted(plain)) return plain;
     return encryptString(plain, passphrase, salt);
   });
 }
@@ -141,7 +141,7 @@ export async function pullWorkbook(
   // Detect whether any password cell looks encrypted (so caller can prompt for passphrase)
   let hadEncrypted = false;
   for (const sheet of wb.sheets ?? []) {
-    const passCols = (sheet.columns ?? []).filter((c) => c.type === 'password');
+    const passCols = (sheet.columns ?? []).filter(isSecretColumn);
     for (const r of sheet.rows ?? []) {
       for (const c of passCols) {
         if (isEncrypted(r.cells?.[c.id])) {

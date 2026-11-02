@@ -77,6 +77,8 @@ export const STATUS_VALUES = [
   '最終面接',
   '内定',
   'お祈り',
+  '辞退',
+  '保留',
 ] as const;
 
 export type StatusValue = (typeof STATUS_VALUES)[number];
@@ -109,6 +111,8 @@ export const STATUS_ACCENT: Record<StatusValue, string> = {
   '最終面接': 'bg-amber-500',
   '内定': 'bg-emerald-500',
   'お祈り': 'bg-rose-400',
+  '辞退': 'bg-slate-400',
+  '保留': 'bg-amber-300',
 };
 
 export type ViewMode = 'sheet' | 'kanban' | 'calendar';

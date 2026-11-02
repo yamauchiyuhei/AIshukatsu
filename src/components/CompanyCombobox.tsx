@@ -16,6 +16,7 @@ interface Props {
   onSelect?: (name: string) => void;
   /** Called when the input loses focus. */
   onBlur?: () => void;
+  onCancel?: () => void;
   /** Override the default rounded-modal input styling for inline / cell use. */
   inputClassName?: string;
   /** Override the dropdown list styling. */
@@ -73,6 +74,7 @@ export function CompanyCombobox({
   autoFocus,
   onSelect,
   onBlur,
+  onCancel,
   inputClassName,
   listClassName,
 }: Props) {
@@ -123,6 +125,7 @@ export function CompanyCombobox({
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (!open) {
@@ -150,7 +153,7 @@ export function CompanyCombobox({
         e.preventDefault();
         setOpen(false);
       } else {
-        onBlur?.();
+        (onCancel ?? onBlur)?.();
       }
     } else if (e.key === 'Tab') {
       setOpen(false);
@@ -160,6 +163,10 @@ export function CompanyCombobox({
   return (
     <div ref={containerRef} className="relative">
       <input
+        role="combobox"
+        aria-expanded={open && filtered.length > 0}
+        aria-autocomplete="list"
+        aria-label={placeholder ?? "企業名"}
         type="text"
         value={value}
         onChange={(e) => {

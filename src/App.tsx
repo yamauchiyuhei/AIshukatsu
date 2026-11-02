@@ -1,8 +1,15 @@
+import { SaveStatus } from './components/SaveStatus';
+import { WorkspaceSettings } from './components/WorkspaceSettings';
+import { WorkspaceHome } from './components/WorkspaceHome';
+import { WorkspaceErrorBoundary } from './components/WorkspaceErrorBoundary';
+import { flushAllSaves } from './lib/saveQueue';
+import { isLocalMode, usePreferences, updatePreferences, setPreferenceOwner } from './lib/preferences';
+import { moveToWorkspaceTrash } from './lib/workspaceTrash';
+import { ToastHost, ConfirmHost, toast } from './spreadsheet/components/Toast';
 import { useEffect, useMemo, useState } from 'react';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
 import { LoginScreen } from './components/onboarding/LoginScreen';
-import { LandingPage } from './components/LandingPage';
 import { isOnboarded } from './lib/onboardingState';
 import { isTauri } from './lib/tauriFsaShim';
 import { UpdateBanner } from './components/UpdateBanner';
@@ -20,7 +27,6 @@ import { useRootDirectory } from './hooks/useRootDirectory';
 import { useWorkspace } from './hooks/useWorkspace';
 import { useOpenTabs } from './hooks/useOpenTabs';
 import { useCompanyMaster } from './hooks/useCompanyMaster';
-import { addCompanyToMaster } from './lib/companyMasterSync';
 import { SpreadsheetRoot } from './spreadsheet/SpreadsheetRoot';
 import { firebaseEnabled, watchAuth } from './spreadsheet/lib/firebase';
 import { useSheet } from './spreadsheet/lib/store';
@@ -75,10 +81,17 @@ function findNodeKind(
   return null;
 }
 
-export default function App() {
+export default function App(){return <div className="flex h-dvh flex-col overflow-hidden"><div className="min-h-0 flex-1 overflow-auto"><WorkspaceApp/></div><UpdateBanner/></div>;}
+
+function WorkspaceApp() {
   // Reactive auth state from the spreadsheet store. Drives the top-level
   // auth gate below so that signing out (which flips store.user to null)
   // immediately routes the user back to the LoginScreen.
+  const preferences = usePreferences();
+  const [showSettings, setShowSettings] = useState(false);
+  const [homeVisible, setHomeVisible] = useState(true);
+  const [, refreshOnboarding] = useState(0);
+  const [creationLocation, setCreationLocation] = useState<TargetLocation>({ path: [] });
   const authUser = useSheet((s) => s.user);
   // `authChecked` becomes true once Firebase's onAuthStateChanged has fired
   // at least once. Without this we'd flash the LoginScreen for a moment on
@@ -87,8 +100,9 @@ export default function App() {
   // gate is skipped entirely.
   const [authChecked, setAuthChecked] = useState(!firebaseEnabled);
 
-  const { handle, status, pick, adopt, requestPermission, reset } =
-    useRootDirectory(authUser?.uid ?? null);
+  const workspaceOwner = authUser?.uid ?? (isLocalMode() || !firebaseEnabled ? 'local-guest' : null);
+  const { handle, status, pick, adopt, requestPermission, reset, error: rootError } = useRootDirectory(workspaceOwner);
+  useEffect(() => { setPreferenceOwner(workspaceOwner ?? 'local-guest'); }, [workspaceOwner]);
   const root = status === 'ready' ? handle : null;
   const { workspace, loading, error, refresh } = useWorkspace(root);
 
@@ -99,7 +113,9 @@ export default function App() {
     useSheet.getState().setRootHandle(root);
   }, [root]);
 
-  const tabs = useOpenTabs();
+  const tabs = useOpenTabs(workspace, workspaceOwner ?? 'signed-out');
+  useEffect(()=>{const failed=()=>toast.error('ダウンロードできませんでした。保存先と空き容量を確認してください。');window.addEventListener('aishukatsu-download-error',failed);return()=>window.removeEventListener('aishukatsu-download-error',failed);},[]);
+  useEffect(() => { const open = () => setShowSettings(true); window.addEventListener('aishukatsu-open-settings', open); return () => window.removeEventListener('aishukatsu-open-settings', open); }, []);
   const [showAdd, setShowAdd] = useState(false);
   const [showAddFolder, setShowAddFolder] = useState(false);
   const [showAddFile, setShowAddFile] = useState(false);
@@ -174,13 +190,8 @@ export default function App() {
   // clicking "サインアウト"), require re-authentication before showing any
   // local workspace UI. Root handle and onboarding flag are preserved, so
   // signing back in restores the previous state instantly.
-  if (firebaseEnabled && !authUser) {
-    // Desktop app → show the compact login screen (no marketing LP).
-    // Browser → show the full landing page with download links etc.
-    if (isTauri()) {
-      return <LoginScreen variant="gate" user={null} onNext={() => {}} />;
-    }
-    return <LandingPage onSignIn={() => {}} />;
+  if (firebaseEnabled && !authUser && !isLocalMode()) {
+    return <LoginScreen variant="gate" user={null} onNext={() => {}} showWebsiteLinks={!isTauri()} />;
   }
   if (status === 'loading') {
     return (
@@ -189,15 +200,16 @@ export default function App() {
       </div>
     );
   }
-  if (status === 'no-handle' && authUser && !isOnboarded(authUser.uid)) {
+  if ((status === 'no-handle' || status === 'ready') && workspaceOwner && !isOnboarded(workspaceOwner)) {
     // First-time visitor → show the guided onboarding flow. Once finished,
     // we adopt the created "AI就活" subfolder as the root and fall through
     // to the normal MainLayout.
     return (
       <OnboardingFlow
-        uid={authUser.uid}
+        uid={workspaceOwner}
+        initialRoot={status === 'ready' ? handle : null}
         onComplete={(created) => {
-          void adopt(created);
+          void adopt(created); refreshOnboarding(n => n + 1); void refresh();
         }}
       />
     );
@@ -206,7 +218,8 @@ export default function App() {
     return (
       <WelcomeScreen
         needsPermission={status === 'needs-permission'}
-        onPick={() => void pick()}
+        showWebsiteLinks={!isTauri()}
+        onPick={() => void pick().catch(error => { if (!(error instanceof DOMException && error.name === 'AbortError')) alert('保存先を開けません。権限を確認してください。'); })}
         onRequestPermission={requestPermission}
       />
     );
@@ -225,7 +238,7 @@ export default function App() {
           <p className="mb-1 font-medium">フォルダの読み込みに失敗しました</p>
           <p className="text-sm text-slate-500">
             {error ??
-              '以前選択した AI就活 フォルダが見つかりません。Finder で移動・削除されていないか確認してください。'}
+              '以前選択した就活フォルダが見つかりません。移動されている場合は、同じフォルダを選び直してください。'}
           </p>
         </div>
         <div className="flex gap-2">
@@ -249,35 +262,12 @@ export default function App() {
   }
 
   const handleAddCompany = async (parentPath: string[], companyName: string) => {
-    const industry = lookupIndustry(companyName);
-    let parent: FileSystemDirectoryHandle;
-    if (industry) {
-      // 業界フォルダを自動作成（既存なら再利用）
-      parent = await createSubdirectory(handle, industry);
-      // 業界研究.md を書き込み（未作成の場合のみ）
-      try {
-        if (!(await fileExists(parent, '業界研究.md'))) {
-          const content = await pullIndustryResearch(industry);
-          if (content) {
-            await writeTextFile(parent, '業界研究.md', content);
-          }
-        }
-      } catch (e) {
-        console.warn('[addCompany] industry research failed', e);
-      }
-    } else {
-      // 未登録企業 → 従来通りユーザー選択の親フォルダ
-      parent = resolveNodeByPath(workspace, parentPath);
-    }
+    await flushAllSaves();
+    const parent = resolveNodeByPath(workspace, parentPath);
     await writeCompanyFolder(handle, parent, companyName);
     await refresh();
     setShowAdd(false);
-    // Fire-and-forget: append to the global Firestore master so future
-    // sessions (any user) get this name as a suggestion. We do not await or
-    // surface errors — folder creation already succeeded.
-    void addCompanyToMaster(companyName).catch((e) => {
-      console.warn('[addCompanyToMaster] failed', e);
-    });
+
   };
 
   const handleAddFolder = async (
@@ -320,23 +310,21 @@ export default function App() {
   const handleCtxCreateFile = (target: ContextMenuTarget) => {
     // Reuse the existing AddFileModal by pre-pointing it at this folder.
     // The modal's LocationPicker still lets the user change target.
+    setCreationLocation({ path: target.path });
     setShowAddFile(true);
   };
 
   const handleCtxCreateFolder = (target: ContextMenuTarget) => {
+    setCreationLocation({ path: target.path });
     setShowAddFolder(true);
   };
 
   const performDelete = async () => {
     if (!deleteTarget) return;
     try {
-      const parentPath = deleteTarget.path.slice(0, -1);
-      const parent = resolveNodeByPath(workspace, parentPath);
-      if (deleteTarget.kind === 'file') {
-        await deleteFileEntry(parent, deleteTarget.name);
-      } else {
-        await deleteFolderEntry(parent, deleteTarget.name);
-      }
+      await flushAllSaves();
+      await moveToWorkspaceTrash(handle, deleteTarget.path, deleteTarget.kind);
+      toast.success('ゴミ箱へ移動しました。設定から復元できます。');
       await refresh();
     } catch (e) {
       console.error('[delete] failed', e);
@@ -350,6 +338,7 @@ export default function App() {
 
   const performRename = async (newName: string) => {
     if (!renameTarget) return;
+    await flushAllSaves();
     const parentPath = renameTarget.path.slice(0, -1);
     const parent = resolveNodeByPath(workspace, parentPath);
     if (renameTarget.kind === 'file') {
@@ -357,12 +346,17 @@ export default function App() {
     } else {
       await renameFolderEntry(parent, renameTarget.name, newName);
     }
+    await tabs.remapPrefix(renameTarget.path, [...parentPath, newName], async path => {
+      let dir = handle; for (const part of path.slice(0,-1)) dir = await dir.getDirectoryHandle(part);
+      return dir.getFileHandle(path.at(-1)!);
+    });
     await refresh();
     setRenameTarget(null);
   };
 
   const handleMoveNode = async (sourcePath: string[], destFolderPath: string[]) => {
     try {
+      await flushAllSaves();
       const sourceParentPath = sourcePath.slice(0, -1);
       const sourceName = sourcePath[sourcePath.length - 1];
       const sourceParent = resolveNodeByPath(workspace, sourceParentPath);
@@ -374,6 +368,7 @@ export default function App() {
       } else if (kind === 'folder') {
         await moveFolderEntry(sourceParent, sourceName, destParent);
       }
+      await tabs.remapPrefix(sourcePath,[...destFolderPath,sourceName],async path=>{let dir=handle;for(const part of path.slice(0,-1))dir=await dir.getDirectoryHandle(part);return dir.getFileHandle(path.at(-1)!);});
       await refresh();
     } catch (e) {
       console.error('[move] failed', e);
@@ -394,29 +389,34 @@ export default function App() {
   const fileTabActive = tabs.activeTab != null;
 
   return (
-    <div className="flex h-screen flex-col bg-slate-50">
-      <UpdateBanner />
+    <div className={`workspace-app flex h-full flex-col bg-slate-50 ${preferences.density === 'compact' ? 'workspace-compact' : 'workspace-comfortable'} ${preferences.textSize === 'large' ? 'workspace-large-text' : ''}`}>
+      <header className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b bg-white px-3 py-2 text-sm">
+        <div className="flex items-center gap-2"><button className="rounded border px-3 py-2" aria-label={preferences.sidebarCollapsed ? 'フォルダ一覧を開く' : 'フォルダ一覧を閉じる'} aria-expanded={!preferences.sidebarCollapsed} onClick={() => updatePreferences({ sidebarCollapsed: !preferences.sidebarCollapsed })}>フォルダ</button><button className="rounded px-3 py-2 font-semibold" onClick={() => { void flushAllSaves().then(() => { void tabs.activate(null); setHomeVisible(true); }).catch(() => window.dispatchEvent(new Event('aishukatsu-save-error'))); }}>AI就活 ホーム</button><span className="hidden text-slate-500 sm:inline">{handle.name}</span></div>
+        <div className="flex items-center gap-2"><button className="rounded border px-3 py-2" onClick={() => setShowSettings(true)}>設定とバックアップ</button>{!isTauri() && <a href="/magazine/" className="px-2 text-slate-600">マガジン</a>}</div>
+      </header>
+      {(error||rootError)&&<div role="alert" className="flex flex-wrap items-center gap-3 border-b bg-amber-50 px-4 py-2 text-sm text-amber-900"><span>{rootError||'フォルダの表示を更新できませんでした。権限や保存先を確認してください。'}</span><button className="underline" onClick={()=>void refresh()}>表示を再試行</button></div>}
+      <SaveStatus onSettings={() => setShowSettings(true)} />
       <div className="flex flex-1 overflow-hidden">
-      <FileTree
+      {!preferences.sidebarCollapsed && <div className="relative h-full shrink-0" style={{width: preferences.sidebarWidth}}><FileTree
         workspace={workspace}
         activeFileKey={tabs.activeKey}
         rootName={handle.name}
         spreadsheetActive={!fileTabActive}
-        onOpenFile={tabs.openFile}
-        onOpenSpreadsheet={() => tabs.activate(null)}
+        onOpenFile={(file) => { setHomeVisible(false); void tabs.openFile(file); }}
+        onOpenSpreadsheet={() => { setHomeVisible(false); void tabs.activate(null); }}
         onAddCompany={() => setShowAdd(true)}
-        onAddFolder={() => setShowAddFolder(true)}
-        onAddFile={() => setShowAddFile(true)}
+        onAddFolder={() => { setCreationLocation({path:[]}); setShowAddFolder(true); }}
+        onAddFile={() => { setCreationLocation({path:[]}); setShowAddFile(true); }}
         onRefresh={refresh}
         onChangeFolder={async () => {
-          await reset();
+          try { await flushAllSaves(); await reset(); } catch { window.dispatchEvent(new Event('aishukatsu-save-error')); }
         }}
         onContextMenu={handleContextMenu}
         onMoveNode={handleMoveNode}
         onReorderChildren={handleReorderChildren}
-      />
+      /><div role="separator" aria-label="フォルダ一覧の幅" aria-orientation="vertical" tabIndex={0} className="absolute right-0 top-0 z-30 h-full w-2 cursor-col-resize hover:bg-indigo-200 focus:bg-indigo-200" onKeyDown={event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();updatePreferences({sidebarWidth:Math.max(200,Math.min(400,preferences.sidebarWidth+(event.key==='ArrowRight'?20:-20)))});}}} onPointerDown={event=>{event.currentTarget.setPointerCapture(event.pointerId);}} onPointerMove={event=>{if(event.currentTarget.hasPointerCapture(event.pointerId))updatePreferences({sidebarWidth:Math.max(200,Math.min(400,event.clientX))});}} onPointerUp={event=>{if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);}}/></div>}
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <TabBar
           tabs={tabs.tabs}
           activeKey={tabs.activeKey}
@@ -424,7 +424,7 @@ export default function App() {
           onClose={tabs.close}
         />
 
-        <div className="flex-1 overflow-hidden">
+        <div className="min-h-0 flex-1 overflow-hidden" role={tabs.activeTab ? 'tabpanel' : undefined} aria-label={tabs.activeTab?.label}><WorkspaceErrorBoundary key={tabs.activeKey ?? (homeVisible ? 'home' : 'sheet')}>
           {tabs.activeTab ? (
             <TabViewer
               tab={tabs.activeTab}
@@ -436,10 +436,10 @@ export default function App() {
                 if (index === -1) tabs.activate(null);
               }}
             />
-          ) : (
+          ) : homeVisible ? <WorkspaceHome onSettings={() => setShowSettings(true)} onAdd={() => { void flushAllSaves().then(() => { const state=useSheet.getState();state.setSearch('');state.setFilterIndustry(null);state.setFilterStatus(null);const id=state.addRow();state.setSelection({rowId:id,colId:'company'});setHomeVisible(false); }).catch(()=>window.dispatchEvent(new Event('aishukatsu-save-error'))); }} onOpen={(sheetId,rowId)=>{void flushAllSaves().then(()=>{const state=useSheet.getState();state.switchSheet(sheetId);state.setSearch('');state.setFilterIndustry(null);state.setFilterStatus(null);state.setView('sheet');state.setSelection({rowId,colId:'company'});setHomeVisible(false);}).catch(()=>window.dispatchEvent(new Event('aishukatsu-save-error')));}} /> : (
             <SpreadsheetRoot active={!fileTabActive} rootHandle={handle} onRestoreComplete={refresh} />
           )}
-        </div>
+        </WorkspaceErrorBoundary></div>
       </div>
 
       {showAdd && (
@@ -452,6 +452,7 @@ export default function App() {
       )}
       {showAddFolder && (
         <AddFolderModal
+          initialLocation={creationLocation}
           workspace={workspace}
           onClose={() => setShowAddFolder(false)}
           onSubmit={handleAddFolder}
@@ -459,6 +460,7 @@ export default function App() {
       )}
       {showAddFile && (
         <AddFileModal
+          initialLocation={creationLocation}
           workspace={workspace}
           onClose={() => setShowAddFile(false)}
           onSubmit={handleAddFile}
@@ -481,10 +483,10 @@ export default function App() {
           deleteTarget
             ? `「${deleteTarget.name}」を${
                 deleteTarget.kind === 'folder' ? 'フォルダごと' : ''
-              }完全に削除します。\nこの操作は取り消せません。`
+              }ゴミ箱へ移動します。\n設定から元の場所へ復元できます。クラウドのバックアップは保持されます。`
             : ''
         }
-        confirmLabel="削除"
+        confirmLabel="ゴミ箱へ移動"
         destructive
         onConfirm={() => void performDelete()}
         onCancel={() => setDeleteTarget(null)}
@@ -496,6 +498,8 @@ export default function App() {
         onCancel={() => setRenameTarget(null)}
         onSubmit={performRename}
       />
+      {showSettings && <WorkspaceSettings root={handle} onClose={() => setShowSettings(false)} onRefresh={() => void refresh()} />}
+      <ToastHost/><ConfirmHost/>
       </div>
     </div>
   );

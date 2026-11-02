@@ -13,6 +13,9 @@ interface Props {
   failures: GenerationFailure[];
   done: boolean;
   onFinish: () => void;
+  interrupted?: boolean;
+  onCancel?: () => void;
+  onRetry?: () => void;
 }
 
 export function GeneratingScreen({
@@ -22,17 +25,18 @@ export function GeneratingScreen({
   failures,
   done,
   onFinish,
+  interrupted, onCancel, onRetry,
 }: Props) {
-  const pct = total === 0 ? 0 : Math.round((progress / total) * 100);
+  const pct = total === 0 ? (done ? 100 : 0) : Math.round((progress / total) * 100);
 
   return (
     <OnboardingShell step={4} total={4}>
       <h1 className="text-2xl font-bold text-slate-900">
-        {done ? 'セットアップ完了' : 'フォルダを作成しています…'}
+        {interrupted ? 'セットアップを中断しました' : done && failures.length ? '一部の作成が完了していません' : done ? 'セットアップ完了' : 'フォルダを作成しています…'}
       </h1>
       <p className="mt-3 text-sm text-slate-600">
         {done
-          ? `${progress - failures.length} 社分のフォルダとテンプレートを作成しました。`
+          ? `${Math.max(0, progress - failures.filter(f => f.industry !== '共通').length)} 社分のフォルダとテンプレートを作成しました。`
           : `${progress} / ${total} 社`}
       </p>
 
@@ -63,6 +67,8 @@ export function GeneratingScreen({
         </div>
       )}
 
+      {!done && onCancel && <button className="mt-4 text-sm underline" onClick={onCancel}>ここまで保存して中断</button>}
+      {done && (interrupted || failures.length > 0) && onRetry && <button className="mt-4 rounded border px-4 py-2 text-sm" onClick={onRetry}>未作成の項目を再試行</button>}
       {done && (
         <div className="mt-8">
           <button

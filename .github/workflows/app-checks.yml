@@ -1,0 +1,31 @@
+name: App regression checks
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+permissions:
+  contents: read
+jobs:
+  app:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ./src-tauri -> target
+      - run: npm ci
+      - run: npm run test:app
+      - run: npm run test:updater
+      - run: npm run test:routing
+      - run: npm run test:analytics
+      - run: npm run build:desktop
+      - run: cargo check --manifest-path src-tauri/Cargo.toml --locked

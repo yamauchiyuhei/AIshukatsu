@@ -1,7 +1,8 @@
+import { Modal } from '../../components/ui/Modal';
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { ColumnType } from '../types/sheet';
-import { useSheet } from '../lib/store';
+import { useSheet, getActiveSheet } from '../lib/store';
 
 const TYPE_LABELS: Record<ColumnType, string> = {
   text: '短いテキスト',
@@ -17,20 +18,13 @@ const TYPE_LABELS: Record<ColumnType, string> = {
 
 export function ColumnAddModal({ onClose }: { onClose: () => void }) {
   const addColumn = useSheet((s) => s.addColumn);
+  const columns=useSheet(s=>getActiveSheet(s).columns);
   const [name, setName] = useState('');
   const [type, setType] = useState<ColumnType>('text');
   const [optionsText, setOptionsText] = useState('');
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
-
   const submit = () => {
-    if (!name.trim()) return;
+    if (!name.trim() || columns.some(c=>c.name===name.trim())) return;
     const options =
       type === 'select'
         ? optionsText
@@ -43,18 +37,12 @@ export function ColumnAddModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 backdrop-blur-md"
-      onClick={onClose}
-    >
-      <div
-        className="w-[420px] overflow-hidden rounded-2xl bg-white shadow-2xl animate-pop-in"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Modal open onClose={onClose} ariaLabel="列を追加" className="max-w-lg">
         <div className="flex items-center justify-between px-5 pb-2 pt-5">
           <h2 className="text-base font-semibold tracking-tight text-slate-900">列を追加</h2>
           <button
             onClick={onClose}
+            aria-label="閉じる"
             className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
           >
             <X size={16} />
@@ -67,7 +55,7 @@ export function ColumnAddModal({ onClose }: { onClose: () => void }) {
               autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && submit()}
+              onKeyDown={(e) => {if (!e.nativeEvent.isComposing && e.keyCode!==229 && e.key==='Enter')submit();}}
               className="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-sm outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-100"
               placeholder="例: OB訪問"
             />
@@ -101,9 +89,11 @@ export function ColumnAddModal({ onClose }: { onClose: () => void }) {
             </label>
           )}
         </div>
+        {columns.some(c=>c.name===name.trim())&&<p role="alert" className="px-5 text-sm text-rose-700">同じ列名があります。別の名前を入力してください。</p>}
         <div className="flex justify-end gap-2 border-t border-slate-100 bg-slate-50/40 px-5 py-3">
           <button
             onClick={onClose}
+            aria-label="閉じる"
             className="rounded-full px-4 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100"
           >
             キャンセル
@@ -111,12 +101,11 @@ export function ColumnAddModal({ onClose }: { onClose: () => void }) {
           <button
             onClick={submit}
             className="rounded-full bg-indigo-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:bg-slate-300"
-            disabled={!name.trim()}
+            disabled={!name.trim()||columns.some(c=>c.name===name.trim())}
           >
             追加
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }

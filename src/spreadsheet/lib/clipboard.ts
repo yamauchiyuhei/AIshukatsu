@@ -1,3 +1,4 @@
+import { normalizeCell } from '../../lib/cellValues';
 import { CellCoord, CellValue, Column, Row, SelectionRange, Sheet } from '../types/sheet';
 
 /** Build a TSV string from the cells inside a range. */
@@ -67,15 +68,7 @@ export function buildPasteUpdates(
 }
 
 function coerce(raw: string, col: Column): CellValue {
-  if (raw === '') return '';
-  if (col.type === 'rating') {
-    const n = Number(raw);
-    return Number.isFinite(n) ? n : 0;
-  }
-  if (col.type === 'checkbox') {
-    return raw === 'true' || raw === '1' || raw === '✓';
-  }
-  return raw;
+  return normalizeCell(raw, col);
 }
 
 function stringifyCell(v: CellValue): string {

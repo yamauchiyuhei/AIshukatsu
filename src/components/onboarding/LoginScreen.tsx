@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { enableLocalMode } from '../../lib/preferences';
+import { isTauri } from '../../lib/tauriFsaShim';
+import { useState, useRef, useEffect } from 'react';
 import { LogIn } from 'lucide-react';
 import { signInWithGoogle, firebaseEnabled } from '../../spreadsheet/lib/firebase';
 import type { User } from '../../spreadsheet/lib/firebase';
@@ -15,22 +17,26 @@ interface Props {
    * step indicator hidden.
    */
   variant?: 'onboarding' | 'gate';
+  showWebsiteLinks?: boolean;
 }
 
-export function LoginScreen({ user, onNext, variant = 'onboarding' }: Props) {
+export function LoginScreen({ user, onNext, variant = 'onboarding', showWebsiteLinks = false }: Props) {
+  const controller = useRef<AbortController | null>(null);
+  useEffect(() => () => controller.current?.abort(), []);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [legal, setLegal] = useState<'terms' | 'privacy' | null>(null);
 
   const handleLogin = async () => {
+    controller.current = new AbortController();
     setBusy(true);
     setError(null);
     try {
-      await signInWithGoogle();
+      await signInWithGoogle(controller.current.signal);
       // Auth listener in App.tsx will flip `user` to non-null; onNext is
       // invoked by the OnboardingFlow effect once that happens.
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      if (!(e instanceof DOMException && e.name === 'AbortError')) setError('ログインできませんでした。接続とブラウザのポップアップ設定を確認し、もう一度お試しください。');
     } finally {
       setBusy(false);
     }
@@ -47,11 +53,11 @@ export function LoginScreen({ user, onNext, variant = 'onboarding' }: Props) {
       </div>
       <h1 className="text-2xl font-bold text-slate-900">AI就活へようこそ</h1>
       <p className="mt-3 text-sm text-slate-600">
-        まずは Google アカウントでログインしてください。
+        Google接続は任意です。この端末だけでも利用できます。
         <br />
         データは引き続きあなたの PC に保存されます。
         <br />
-        ログインはスプレッドシート同期のために利用します。
+        ログインすると任意のクラウドバックアップを利用できます。
       </p>
 
       {!firebaseEnabled ? (
@@ -88,12 +94,15 @@ export function LoginScreen({ user, onNext, variant = 'onboarding' }: Props) {
             <LogIn size={18} />
             {busy ? 'ログイン中…' : 'Google でログイン'}
           </button>
+          {busy && isTauri() && <button className="ml-3 text-sm underline" onClick={() => controller.current?.abort()}>ログインをキャンセル</button>}
           {error && (
             <p className="mt-3 text-xs text-rose-600">{error}</p>
           )}
         </div>
       )}
 
+      {!user && <button type="button" className="mt-5 text-sm text-indigo-700 underline" onClick={enableLocalMode}>ログインせず、この端末だけで使う</button>}
+      {!isTauri() && typeof window.showDirectoryPicker !== 'function' && <p role="alert" className="mt-4 text-sm text-amber-800">保存フォルダの操作にはChrome・Edge、またはデスクトップ版が必要です。<a href="/#download" className="underline">ダウンロード案内</a></p>}
       <p className="mt-6 text-xs leading-relaxed text-slate-500">
         ログインすることで、
         <button
@@ -113,6 +122,8 @@ export function LoginScreen({ user, onNext, variant = 'onboarding' }: Props) {
         </button>
         に同意したものとみなされます。
       </p>
+
+      {showWebsiteLinks && <nav aria-label="サイトへのリンク" className="mt-6 flex justify-center gap-6 text-xs text-slate-600"><a href="/" className="underline underline-offset-4 hover:text-slate-900">サイト紹介に戻る</a><a href="/magazine/" className="underline underline-offset-4 hover:text-slate-900">マガジンを読む</a></nav>}
 
       {legal === 'terms' && (
         <LegalModal
@@ -144,8 +155,8 @@ export function OnboardingShell({
   total: number;
 }) {
   return (
-    <div className="flex h-screen items-center justify-center bg-slate-50 px-6">
-      <div className="w-full max-w-xl rounded-2xl bg-white p-10 text-center shadow-lg ring-1 ring-slate-200">
+    <div className="flex min-h-dvh items-center justify-center overflow-auto bg-slate-50 px-4 py-8">
+      <div className="w-full max-w-xl rounded-2xl bg-white p-6 sm:p-8 text-center shadow-lg ring-1 ring-slate-200">
         {step !== null && <StepIndicator step={step} total={total} />}
         {children}
       </div>
@@ -155,7 +166,7 @@ export function OnboardingShell({
 
 function StepIndicator({ step, total }: { step: number; total: number }) {
   return (
-    <div className="mb-6 flex items-center justify-center gap-2">
+    <div className="mb-6 flex items-center justify-center gap-2" aria-label={`セットアップ ${step} / ${total}`} role="status">
       {Array.from({ length: total }).map((_, i) => (
         <div
           key={i}

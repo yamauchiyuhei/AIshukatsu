@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { withTimeout } from '../../lib/async';
+import { saveRootHandle } from '../../lib/handleStore';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { LoginScreen } from './LoginScreen';
 import { DesktopSetupScreen } from './DesktopSetupScreen';
 import { IndustrySelectScreen } from './IndustrySelectScreen';
@@ -40,24 +42,26 @@ type Step = 'login' | 'desktop' | 'industry' | 'company' | 'generating';
 interface Props {
   /** Firebase uid of the signed-in user. */
   uid: string;
+  initialRoot?: FileSystemDirectoryHandle | null;
   /** Called once the user has finished the flow (root handle adopted, files written). */
   onComplete: (handle: FileSystemDirectoryHandle) => void;
 }
 
-export function OnboardingFlow({ uid, onComplete }: Props) {
+export function OnboardingFlow({ uid, onComplete, initialRoot }: Props) {
   // App.tsx provides a top-level auth gate that guarantees the user is
   // already signed in (when firebaseEnabled) before this flow mounts, so we
   // can always start at 'desktop'. The 'login' step is kept in the state
   // machine as a safety fallback but is no longer the default entry.
-  const [step, setStep] = useState<Step>('desktop');
+  const [step, setStep] = useState<Step>(initialRoot ? 'industry' : 'desktop');
   const [user, setUser] = useState<User | null>(null);
   const [rootHandle, setRootHandle] = useState<FileSystemDirectoryHandle | null>(
-    null,
+    initialRoot ?? null,
   );
-  const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
-  const [selectedCompanies, setSelectedCompanies] = useState<SelectedCompany[]>(
-    [],
-  );
+  const [selectedIndustries, setSelectedIndustries] = useState<string[]>(() => { try { return JSON.parse(localStorage.getItem(`aishukatsu-setup:${uid}`) ?? '{}').industries ?? []; } catch { return []; } });
+  const [selectedCompanies, setSelectedCompanies] = useState<SelectedCompany[]>(() => { try { return (JSON.parse(localStorage.getItem(`aishukatsu-setup:${uid}`) ?? '{}').companies ?? []).filter((pick:SelectedCompany) => INDUSTRY_COMPANIES[pick.industry]?.includes(pick.name)); } catch { return []; } });
+  const cancelled = useRef(false);
+  const [interrupted,setInterrupted] = useState(false);
+  useEffect(() => { try { localStorage.setItem(`aishukatsu-setup:${uid}`, JSON.stringify({industries:selectedIndustries,companies:selectedCompanies})); } catch {} }, [uid,selectedIndustries,selectedCompanies]);
 
   const [genProgress, setGenProgress] = useState(0);
   const [genCurrent, setGenCurrent] = useState<string | null>(null);
@@ -114,13 +118,16 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
     );
   };
 
-  const handleDesktopReady = (handle: FileSystemDirectoryHandle) => {
+  const handleDesktopReady = (handle: FileSystemDirectoryHandle, existing = false) => {
+    if (existing) { markOnboarded(uid); onComplete(handle); return; }
+    void saveRootHandle(uid, handle);
     setRootHandle(handle);
     setStep('industry');
   };
 
-  const startGeneration = async () => {
+  const startGeneration = async (picks = selectedCompanies) => {
     if (!rootHandle) return;
+    cancelled.current = false; setInterrupted(false);
     setStep('generating');
     setGenProgress(0);
     setGenFailures([]);
@@ -137,7 +144,7 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
 
     // Group picks by industry so we only create each category folder once.
     const grouped = new Map<string, string[]>();
-    for (const pick of selectedCompanies) {
+    for (const pick of picks) {
       const arr = grouped.get(pick.industry) ?? [];
       arr.push(pick.name);
       grouped.set(pick.industry, arr);
@@ -147,6 +154,7 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
     let done = 0;
 
     for (const [industry, companies] of grouped) {
+      if (cancelled.current) break;
       let categoryDir: FileSystemDirectoryHandle;
       try {
         categoryDir = await createSubdirectory(rootHandle, industry);
@@ -167,7 +175,7 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
       // Write 業界研究.md from Firestore if available
       try {
         if (!(await fileExists(categoryDir, '業界研究.md'))) {
-          const researchContent = await pullIndustryResearch(industry);
+          const researchContent = await withTimeout(pullIndustryResearch(industry));
           if (researchContent) {
             await writeTextFile(categoryDir, '業界研究.md', researchContent);
           }
@@ -177,14 +185,9 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
       }
 
       for (const name of companies) {
+        if (cancelled.current) break;
         setGenCurrent(name);
         try {
-          if (await subdirectoryExists(categoryDir, name)) {
-            // Already present → treat as success, skip writing.
-            done += 1;
-            setGenProgress(done);
-            continue;
-          }
           // writeCompanyFolder tries Firestore first, falls back to the
           // preloaded empty templates on miss/error.
           await writeCompanyFolder(
@@ -192,6 +195,7 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
             categoryDir,
             name,
             fallbackTemplates,
+            true,
           );
         } catch (e) {
           failures.push({
@@ -204,6 +208,8 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
         setGenProgress(done);
       }
     }
+
+    if (cancelled.current) { setInterrupted(true); setGenDone(true); setGenFailures(failures); return; }
 
     // ── Generate 自己分析/ folder + templates ───────────────────
     setGenCurrent('自己分析フォルダ');
@@ -221,6 +227,7 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
       }
     } catch (e) {
       console.warn('[onboarding] self-analysis folder creation failed', e);
+      failures.push({industry:'共通',name:'自己分析',reason:'作成できませんでした。権限を確認して再試行してください。'});
     }
 
     // ── Generate エントリーシート/ folder ──────────────────────
@@ -232,6 +239,7 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
       }
     } catch (e) {
       console.warn('[onboarding] entry-sheet folder creation failed', e);
+      failures.push({industry:'共通',name:'エントリーシート',reason:'作成できませんでした。権限を確認して再試行してください。'});
     }
 
     // ── Generate root CLAUDE.md + README.md + 使い方ガイド ─────
@@ -248,6 +256,7 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
       }
     } catch (e) {
       console.warn('[onboarding] root file creation failed', e);
+      failures.push({industry:'共通',name:'使い方ガイド',reason:'作成できませんでした。権限を確認して再試行してください。'});
     }
 
     setGenCurrent(null);
@@ -257,7 +266,7 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
 
   const handleFinish = () => {
     if (!rootHandle) return;
-    markOnboarded(uid);
+    markOnboarded(uid); localStorage.removeItem(`aishukatsu-setup:${uid}`);
     onComplete(rootHandle);
   };
 
@@ -277,6 +286,8 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
       <IndustrySelectScreen
         selected={selectedIndustries}
         onToggle={toggleIndustry}
+        onBack={() => setStep('desktop')}
+        onSkip={() => void startGeneration([])}
         onNext={() => setStep('company')}
       />
     );
@@ -290,7 +301,8 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
         onSelectAllFor={selectAllFor}
         onClearAllFor={clearAllFor}
         onBack={() => setStep('industry')}
-        onSubmit={startGeneration}
+        onSkip={() => void startGeneration([])}
+        onSubmit={() => void startGeneration()}
       />
     );
   }
@@ -301,6 +313,9 @@ export function OnboardingFlow({ uid, onComplete }: Props) {
       currentName={genCurrent}
       failures={genFailures}
       done={genDone}
+      interrupted={interrupted}
+      onCancel={() => { cancelled.current = true; }}
+      onRetry={() => void startGeneration()}
       onFinish={handleFinish}
     />
   );

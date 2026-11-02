@@ -1,3 +1,4 @@
+import { sanitizeHtml } from '../../lib/safeHtml';
 import { useEffect, useState } from 'react';
 import { ViewerShell, downloadFile } from './ViewerShell';
 
@@ -30,6 +31,7 @@ export function DocxViewer({ handle, label, breadcrumb, rootName, onNavigate }: 
     (async () => {
       try {
         const file = await handle.getFile();
+        if(file.size>20*1024*1024)throw new Error('大きいファイルはダウンロードして専用アプリで開いてください。');
         if (cancelled) return;
         setFileRef(file);
         // Vite picks up mammoth's `browser` field so the Node-specific
@@ -46,7 +48,7 @@ export function DocxViewer({ handle, label, breadcrumb, rootName, onNavigate }: 
         );
       } catch (e) {
         console.error('[DocxViewer] load failed', e);
-        if (!cancelled) setError('Word ファイルを読み込めませんでした');
+        if (!cancelled) setError(e instanceof Error?e.message:'Word ファイルを読み込めませんでした');
       }
     })();
     return () => {
@@ -78,7 +80,7 @@ export function DocxViewer({ handle, label, breadcrumb, rootName, onNavigate }: 
           )}
           <div
             className="docx-preview prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: html }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(html) }}
           />
         </div>
       ) : (

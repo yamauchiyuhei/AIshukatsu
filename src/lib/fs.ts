@@ -61,8 +61,9 @@ export async function fileExists(
   try {
     await dir.getFileHandle(name);
     return true;
-  } catch {
-    return false;
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'NotFoundError') return false;
+    throw error;
   }
 }
 
@@ -129,8 +130,9 @@ export async function subdirectoryExists(
   try {
     await root.getDirectoryHandle(name);
     return true;
-  } catch {
-    return false;
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'NotFoundError') return false;
+    throw error;
   }
 }
 

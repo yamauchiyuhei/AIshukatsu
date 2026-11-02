@@ -1,70 +1,46 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { SaveQueue, announceSaves, registerWriter } from '../lib/saveQueue';
+export type { SaveState } from '../lib/saveQueue';
 
-export type SaveState = 'idle' | 'dirty' | 'saving' | 'saved' | 'error';
-
-interface Options {
-  delayMs?: number;
-  onSave: (value: string) => Promise<void>;
-}
-
-export function useAutoSave({ delayMs = 1000, onSave }: Options) {
-  const [state, setState] = useState<SaveState>('idle');
-  const timerRef = useRef<number | null>(null);
-  const pendingValueRef = useRef<string | null>(null);
-  const onSaveRef = useRef(onSave);
-
+export function useAutoSave({ delayMs = 1000, onSave, onBeforeSave, documentKey, documentLabel, owner }: { onBeforeSave?:()=>void; owner?:string; documentLabel?:string; documentKey?:string; delayMs?: number; onSave: (value: string) => Promise<void> }) {
+  const [, render] = useState(0);
+  const mounted = useRef(true);
+  const beforeRef=useRef(onBeforeSave);beforeRef.current=onBeforeSave;
+  const saveRef = useRef(onSave);
+  saveRef.current = onSave;
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const queue = useRef<SaveQueue>();
+  if (!queue.current) queue.current = new SaveQueue(value => saveRef.current(value), () => {
+    if (mounted.current) render(n => n + 1);
+    announceSaves();
+  });
+  const writer = queue.current;
+  writer.prepare=()=>beforeRef.current?.();
+  writer.resourceKey=documentKey;writer.documentLabel=documentLabel;writer.owner=owner;
+  const flush = useCallback(() => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = null;
+    return writer.flush();
+  }, [writer]);
+  const schedule = useCallback((value: string) => {
+    writer.set(value);
+    if (timer.current) clearTimeout(timer.current);
+    if(!mounted.current)return;
+    timer.current = setTimeout(() => { void flush().catch(() => {}); }, delayMs);
+  }, [delayMs, flush, writer]);
   useEffect(() => {
-    onSaveRef.current = onSave;
-  }, [onSave]);
-
-  const flush = useCallback(async () => {
-    if (timerRef.current) {
-      window.clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-    if (pendingValueRef.current === null) return;
-    const value = pendingValueRef.current;
-    pendingValueRef.current = null;
-    setState('saving');
-    try {
-      await onSaveRef.current(value);
-      setState('saved');
-    } catch (e) {
-      console.error('save error:', e);
-      setState('error');
-    }
-  }, []);
-
-  const schedule = useCallback(
-    (value: string) => {
-      pendingValueRef.current = value;
-      setState('dirty');
-      if (timerRef.current) window.clearTimeout(timerRef.current);
-      timerRef.current = window.setTimeout(() => {
-        flush();
-      }, delayMs);
-    },
-    [delayMs, flush],
-  );
-
-  // Cleanup on unmount: flush pending writes
-  useEffect(() => {
+    mounted.current = true;
+    const unregister = registerWriter(writer);
+    const hide = () => { if (document.visibilityState === 'hidden') void flush().catch(() => {}); };
+    document.addEventListener('visibilitychange', hide);
     return () => {
-      if (pendingValueRef.current !== null) {
-        // best-effort sync flush attempt
-        flush();
-      }
+      mounted.current = false;
+      if (timer.current) clearTimeout(timer.current);
+      document.removeEventListener('visibilitychange', hide);
+      unregister();
     };
-  }, [flush]);
-
-  const reset = useCallback(() => {
-    if (timerRef.current) {
-      window.clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-    pendingValueRef.current = null;
-    setState('idle');
-  }, []);
-
-  return { state, schedule, flush, reset };
+  }, [flush, writer]);
+  const reset = useCallback(() => writer.reset(), [writer]);
+  const discard = useCallback(async () => { if (timer.current) clearTimeout(timer.current); timer.current = null; await writer.discard(); }, [writer]);
+  return { state: writer.state, schedule, flush, reset, discard };
 }

@@ -42,3 +42,19 @@ scripts/_*.ts
 /*.xlsx
 /*.xlsx.bak
 
+# Generated publication assets; manuscripts live in content/magazine/
+/public/magazine/articles/
+/.cache/
+/content/editorial/production-work/
+
+# Python editorial tool caches
+__pycache__/
+
+# Local company-manuscript evidence, model transcripts, previews and exports
+/content/editorial/company-analysis-1000/production-work/
+/content/editorial/company-analysis-1000/verified-source-pages/
+/content/editorial/company-analysis-1000/*.png
+/content/editorial/company-analysis-1000/*.zip
+/content/editorial/company-analysis-1000/run.lock
+
+dist-desktop/

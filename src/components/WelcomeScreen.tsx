@@ -1,3 +1,4 @@
+import { isTauri } from '../lib/tauriFsaShim';
 import { motion } from 'framer-motion';
 import { FolderOpen, Sparkles } from 'lucide-react';
 import { Particles } from './ui/Particles';
@@ -8,6 +9,7 @@ interface Props {
   needsPermission: boolean;
   onPick: () => void;
   onRequestPermission: () => void;
+  showWebsiteLinks?: boolean;
 }
 
 /**
@@ -18,9 +20,10 @@ export function WelcomeScreen({
   needsPermission,
   onPick,
   onRequestPermission,
+  showWebsiteLinks = false,
 }: Props) {
   return (
-    <div className="relative flex h-screen items-center justify-center overflow-hidden bg-slate-950 px-6 text-slate-100">
+    <div className="relative flex min-h-dvh items-center justify-center overflow-auto py-8 bg-slate-950 px-6 text-slate-100">
       {/* Ambient glows */}
       <div className="pointer-events-none absolute -left-32 top-1/4 h-72 w-72 rounded-full bg-indigo-500/25 blur-[120px]" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-[120px]" />
@@ -83,8 +86,9 @@ export function WelcomeScreen({
         </div>
 
         <p className="mt-8 text-xs text-slate-500">
-          ※ Chrome / Edge など Chromium 系ブラウザで動作します。
+          {isTauri() ? 'この端末の保存済みフォルダを選択してください。' : 'Web版はChrome / Edgeに対応しています。新しいドメインでは、同じフォルダを選び直してください。'}
         </p>
+        {showWebsiteLinks && <nav aria-label="サイトへのリンク" className="mt-6 flex justify-center gap-6 text-xs text-slate-300"><a href="/" className="underline underline-offset-4 hover:text-white">サイト紹介に戻る</a><a href="/magazine/" className="underline underline-offset-4 hover:text-white">マガジンを読む</a></nav>}
       </motion.div>
     </div>
   );

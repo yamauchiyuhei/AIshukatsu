@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { Workspace } from '../types';
 import { loadWorkspace } from '../lib/workspace';
 
@@ -7,14 +7,17 @@ export function useWorkspace(root: FileSystemDirectoryHandle | null) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const generation = useRef(0);
   const refresh = useCallback(async () => {
-    if (!root) return;
+    const request = ++generation.current;
+    if (!root) { setWorkspace(null); setLoading(false); setError(null); return; }
     setLoading(true);
     setError(null);
     try {
       const ws = await loadWorkspace(root);
-      setWorkspace(ws);
+      if (request === generation.current) setWorkspace(ws);
     } catch (e) {
+      if (request !== generation.current) return;
       // eslint-disable-next-line no-console
       console.error('[useWorkspace] loadWorkspace failed:', e);
       let msg: string;
@@ -29,7 +32,7 @@ export function useWorkspace(root: FileSystemDirectoryHandle | null) {
       }
       setError(msg || '読み込みに失敗しました (詳細不明)');
     } finally {
-      setLoading(false);
+      if (request === generation.current) setLoading(false);
     }
   }, [root]);
 
@@ -37,5 +40,5 @@ export function useWorkspace(root: FileSystemDirectoryHandle | null) {
     refresh();
   }, [refresh]);
 
-  return { workspace, loading, error, refresh };
+  return { workspace: workspace?.root === root ? workspace : null, loading: loading || (!!root && workspace?.root !== root && !error), error, refresh };
 }

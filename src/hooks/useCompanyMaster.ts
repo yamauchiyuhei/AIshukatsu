@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useSheet } from '../spreadsheet/lib/store';
 import {
   pullCompanyMaster,
-  seedCompanyMaster,
 } from '../lib/companyMasterSync';
 import bundledMaster from '../data/companyMaster.json';
 
@@ -84,12 +83,6 @@ export function useCompanyMaster(): { names: string[]; loading: boolean } {
       try {
         let remote = await pullCompanyMaster();
 
-        // First-time setup — seed with the bundled list.
-        if (remote === null) {
-          await seedCompanyMaster(bundledMaster as string[]);
-          remote = await pullCompanyMaster();
-        }
-
         if (remote && remote.length > 0 && !cancelled) {
           setNames(remote);
           writeCache(remote);
@@ -112,5 +105,7 @@ export function useCompanyMaster(): { names: string[]; loading: boolean } {
     };
   }, [user]);
 
-  return { names, loading };
+  const workbook=useSheet(s=>s.workbook);
+  const suggestions=useMemo(()=>[...new Set([...names,...workbook.sheets.flatMap(sheet=>sheet.rows.map(row=>String(row.cells.company??'')).filter(Boolean))])],[names,workbook]);
+  return { names:suggestions, loading };
 }

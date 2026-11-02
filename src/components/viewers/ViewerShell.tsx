@@ -1,3 +1,4 @@
+import { downloadBlob } from '../../lib/download';
 import { useEffect, useState, type ReactNode } from 'react';
 import { Download, Maximize2, Minimize2 } from 'lucide-react';
 import { Breadcrumb } from '../Breadcrumb';
@@ -122,14 +123,6 @@ export function ViewerShell({
  * Trigger a browser download for the given File object (obtained from a
  * FileSystemFileHandle.getFile()). Used by viewers' download buttons.
  */
-export function downloadFile(file: File, suggestedName?: string) {
-  const url = URL.createObjectURL(file);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = suggestedName ?? file.name;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  // Revoke on next tick so the browser has time to start the download.
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+export async function downloadFile(file: File, suggestedName?: string) {
+  try { await downloadBlob(new Blob([await file.arrayBuffer()], { type: file.type }), suggestedName ?? file.name); } catch { window.dispatchEvent(new CustomEvent('aishukatsu-download-error')); }
 }

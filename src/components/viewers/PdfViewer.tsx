@@ -32,6 +32,7 @@ export function PdfViewer({ handle, label, breadcrumb, rootName, onNavigate }: P
         const blob = new Blob([await file.arrayBuffer()], {
           type: 'application/pdf',
         });
+        if (cancelled) return;
         objectUrl = URL.createObjectURL(blob);
         setUrl(objectUrl);
         setFileRef(file);
@@ -56,6 +57,7 @@ export function PdfViewer({ handle, label, breadcrumb, rootName, onNavigate }: P
       breadcrumbRootLabel={rootName}
       onNavigate={onNavigate}
     >
+      <p className="border-b bg-slate-50 px-4 py-2 text-xs text-slate-600">表示されない場合は、上の「ダウンロード」で保存してPDFアプリで開いてください。</p>
       {error ? (
         <div className="flex h-full items-center justify-center">
           <p className="text-sm text-rose-600">{error}</p>

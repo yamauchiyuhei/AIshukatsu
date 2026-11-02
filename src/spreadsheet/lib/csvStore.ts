@@ -20,6 +20,7 @@ import {
   writeTextFile,
 } from '../../lib/fs';
 import { parseCsv, serializeCsv } from './csv';
+import { clampRating } from '../../lib/cellValues';
 
 export const DATA_DIR = 'データ';
 export const CSV_NAME = 'エントリー一覧.csv';
@@ -28,7 +29,10 @@ export const SIDECAR_NAME = '.エントリー一覧.meta.json';
  *  saveToCsv persist 2nd+ sheet / credential / pin edits even when the CSV
  *  text is unchanged — otherwise those edits never reach disk and are dropped
  *  on the next reload. */
-let lastSidecarHash: string | null = null;
+const ROW_ID = '__aishukatsu_row_id';
+const JOURNAL = '.エントリー一覧.pending.json';
+const RECOVERY = '.エントリー一覧.recovery.json';
+const writeQueues = new WeakMap<FileSystemDirectoryHandle, Promise<unknown>>();
 /** Human-facing path used in UI copy. */
 export const CSV_DISPLAY_PATH = `${DATA_DIR}/${CSV_NAME}`;
 
@@ -38,7 +42,8 @@ function isSecret(col: Column): boolean {
 }
 
 interface Sidecar {
-  version: 1;
+  version: 1 | 2;
+  pinnedRowIds?: string[];
   primarySheetId: string;
   primarySheetName: string;
   primarySheetColor?: string;
@@ -48,7 +53,7 @@ interface Sidecar {
   /** 企業名 of pinned rows. */
   pinnedCompanies: string[];
   /** Credential cell values, keyed by 企業名 (never written to the CSV). */
-  secrets: { company: string; cells: Record<string, CellValue> }[];
+  secrets: { rowId?: string; company: string; cells: Record<string, CellValue> }[];
   /** 2nd+ sheets, stored in full (local-only, so secrets may be inline). */
   extraSheets: Sheet[];
   lastWriteHash: string;
@@ -92,7 +97,7 @@ function coerceCell(raw: string, type: ColumnType): CellValue {
   if (type === 'checkbox') return /^true$/i.test(s.trim());
   if (type === 'rating') {
     const n = Number(s);
-    return Number.isFinite(n) ? n : 0;
+    return clampRating(n);
   }
   return s;
 }
@@ -114,25 +119,37 @@ async function getDataDir(
   root: FileSystemDirectoryHandle,
   create: boolean,
 ): Promise<FileSystemDirectoryHandle | null> {
-  try {
-    if (create) return await createSubdirectory(root, DATA_DIR);
-    if (!(await subdirectoryExists(root, DATA_DIR))) return null;
-    return await root.getDirectoryHandle(DATA_DIR);
-  } catch {
-    return null;
-  }
+  if (create) return await createSubdirectory(root, DATA_DIR);
+  if (!(await subdirectoryExists(root, DATA_DIR))) return null;
+  return await root.getDirectoryHandle(DATA_DIR);
 }
 
-async function readSidecar(
-  dataDir: FileSystemDirectoryHandle,
-): Promise<Sidecar | null> {
-  try {
-    if (!(await fileExists(dataDir, SIDECAR_NAME))) return null;
-    const obj = JSON.parse(await readTextFile(dataDir, SIDECAR_NAME));
-    return obj && obj.version === 1 ? (obj as Sidecar) : null;
-  } catch {
-    return null;
+async function readSidecar(dataDir: FileSystemDirectoryHandle): Promise<Sidecar | null> {
+  if (!(await fileExists(dataDir, SIDECAR_NAME))) return null;
+  const obj = JSON.parse(await readTextFile(dataDir, SIDECAR_NAME));
+  if (!obj || ![1, 2].includes(obj.version) || !Array.isArray(obj.columns) || !Array.isArray(obj.extraSheets)) {
+    throw new Error('保存情報を読み込めません。バックアップから復元してください。元のファイルは変更していません。');
   }
+  return obj as Sidecar;
+}
+
+async function pairSignature(dir: FileSystemDirectoryHandle) {
+  const csv = await fileExists(dir, CSV_NAME) ? await readTextFile(dir, CSV_NAME) : '';
+  const meta = await fileExists(dir, SIDECAR_NAME) ? await readTextFile(dir, SIDECAR_NAME) : '';
+  return computeHash(JSON.stringify([csv, meta]));
+}
+async function recoverPending(dir: FileSystemDirectoryHandle) {
+  if (!(await fileExists(dir, JOURNAL))) return;
+  const journal = JSON.parse(await readTextFile(dir, JOURNAL));
+  if (typeof journal.csv !== 'string' || typeof journal.meta !== 'string') throw new Error('保存途中の情報を読み込めません。バックアップから復元してください。');
+  const csv = await fileExists(dir, CSV_NAME) ? await readTextFile(dir, CSV_NAME) : '';
+  const meta = await fileExists(dir, SIDECAR_NAME) ? await readTextFile(dir, SIDECAR_NAME) : '';
+  if (![journal.previousCsv, journal.csv].includes(csv) || ![journal.previousMeta, journal.meta].includes(meta)) {
+    throw new Error('保存途中に外部で変更されています。上書きせず停止しました。バックアップから復元してください。');
+  }
+  await writeTextFile(dir, CSV_NAME, journal.csv);
+  await writeTextFile(dir, SIDECAR_NAME, journal.meta);
+  await dir.removeEntry(JOURNAL);
 }
 
 /* ----------------------- column reconstruction ------------------------- */
@@ -146,7 +163,7 @@ async function readSidecar(
 function resolvePrimaryColumns(headers: string[], sidecar: Sidecar | null): Column[] {
   if (sidecar?.columns?.length) {
     const cols = sidecar.columns.map((c) => ({ ...c }));
-    for (const h of headers) {
+    for (const h of headers.filter(h => h !== ROW_ID)) {
       if (h && !cols.some((c) => c.name === h)) {
         cols.push({ id: genId('c'), name: h, type: 'text', width: 130 });
       }
@@ -156,7 +173,7 @@ function resolvePrimaryColumns(headers: string[], sidecar: Sidecar | null): Colu
   // Degraded path (sidecar missing): rebuild from presets by header name.
   const presets = createPresetColumns();
   const cols: Column[] = [];
-  for (const h of headers) {
+  for (const h of headers.filter(h => h !== ROW_ID)) {
     const match = presets.find((c) => c.name === h);
     cols.push(match ? { ...match } : { id: genId('c'), name: h || `列${cols.length + 1}`, type: 'text', width: 130 });
   }
@@ -179,12 +196,14 @@ export async function loadFromCsv(
 ): Promise<{ workbook: Workbook; signature: string } | null> {
   try {
     const dataDir = await getDataDir(root, false);
-    if (!dataDir || !(await fileExists(dataDir, CSV_NAME))) return null;
-
+    if (!dataDir) return null;
+    await recoverPending(dataDir);
+    if (!await fileExists(dataDir, CSV_NAME)) { if(await fileExists(dataDir,SIDECAR_NAME))throw new Error('保存情報はありますが、一覧のCSVが見つかりません。バックアップから復元してください。'); return null; }
     const csvText = await readTextFile(dataDir, CSV_NAME);
     const { headers, rows } = parseCsv(csvText);
+    if(new Set(headers).size!==headers.length)throw new Error('CSVの列名が重複しています。元のファイルを確認してください。');
     const sidecar = await readSidecar(dataDir);
-    lastSidecarHash = null;
+
 
     const columns = resolvePrimaryColumns(headers, sidecar);
     // CSV header index → colId (non-secret columns only; secret-named headers
@@ -195,8 +214,15 @@ export async function loadFromCsv(
     });
 
     const companyColId = companyColIdOf(columns);
-    const secretsByCompany = new Map<string, Record<string, CellValue>>();
-    for (const s of sidecar?.secrets ?? []) secretsByCompany.set(s.company, s.cells);
+    const secretsById = new Map((sidecar?.secrets ?? []).filter(s => s.rowId).map(s => [s.rowId!, s.cells]));
+    const legacySecrets = new Map<string, Record<string, CellValue>[]>();
+    for (const secret of sidecar?.secrets ?? []) {
+      if (secret.rowId) continue;
+      const entries = legacySecrets.get(secret.company) ?? [];
+      entries.push(secret.cells); legacySecrets.set(secret.company, entries);
+    }
+    const rowIds = new Set<string>();
+    const idIndex = headers.indexOf(ROW_ID);
     const pinned = new Set((sidecar?.pinnedCompanies ?? []).filter(Boolean));
 
     const sheetRows: Row[] = [];
@@ -211,10 +237,13 @@ export async function loadFromCsv(
         cells[colId] = coerceCell(arr[j] ?? '', col.type);
       }
       const company = String(cells[companyColId] ?? '');
-      const sec = secretsByCompany.get(company);
+      const storedId = idIndex >= 0 ? arr[idIndex] : '';
+      const id = storedId && !rowIds.has(storedId) ? storedId : genId('r');
+      rowIds.add(id);
+      const sec = secretsById.get(id) ?? legacySecrets.get(company)?.shift();
       if (sec) for (const [k, v] of Object.entries(sec)) cells[k] = v;
-      const row: Row = { id: genId('r'), cells };
-      if (company && pinned.has(company)) row.pinned = true;
+      const row: Row = { id, cells };
+      if (sidecar?.version === 2 ? sidecar.pinnedRowIds?.includes(id) : company && pinned.has(company)) row.pinned = true;
       sheetRows.push(row);
     }
 
@@ -233,17 +262,16 @@ export async function loadFromCsv(
 
     return {
       workbook: { version: 2, sheets, activeSheetId },
-      signature: await computeHash(csvText),
+      signature: await pairSignature(dataDir),
     };
   } catch (e) {
-    console.error('[csvStore] loadFromCsv failed', e);
-    return null;
+    throw new Error('エントリー一覧を読み込めません。元のデータは変更していません。' + (e instanceof Error ? ' ' + e.message : ''));
   }
 }
 
 /* -------------------------------- save --------------------------------- */
 
-export async function saveToCsv(
+async function commitToCsv(
   root: FileSystemDirectoryHandle,
   workbook: Workbook,
   prevSignature?: string | null,
@@ -254,22 +282,22 @@ export async function saveToCsv(
     const cols = primary.columns;
     const visible = cols.filter((c) => !isSecret(c));
 
-    const headers = visible.map((c) => c.name);
+    const headers = [...visible.map((c) => c.name), ROW_ID];
     const rows = primary.rows.map((r) =>
-      visible.map((c) => stringifyCell(r.cells[c.id], c.type)),
+      [...visible.map((c) => stringifyCell(r.cells[c.id], c.type)), r.id],
     );
     const csvText = serializeCsv(headers, rows);
     const signature = await computeHash(csvText);
     // Idempotency: never rewrite identical content (avoids needless disk I/O
     // and spurious git diffs when only non-persisted UI state changed).
-    const csvUnchanged = !!prevSignature && signature === prevSignature;
+
 
     const companyColId = companyColIdOf(cols);
     const secretCols = cols.filter(isSecret);
     const secrets: Sidecar['secrets'] = [];
     for (const r of primary.rows) {
       const company = String(r.cells[companyColId] ?? '');
-      if (!company) continue;
+
       const cells: Record<string, CellValue> = {};
       let any = false;
       for (const sc of secretCols) {
@@ -279,11 +307,12 @@ export async function saveToCsv(
           any = true;
         }
       }
-      if (any) secrets.push({ company, cells });
+      if (any) secrets.push({ rowId: r.id, company, cells });
     }
 
     const sidecarBody: Omit<Sidecar, 'lastWriteHash' | 'lastWriteAt'> = {
-      version: 1,
+      version: 2,
+      pinnedRowIds: primary.rows.filter(r => r.pinned).map(r => r.id),
       primarySheetId: primary.id,
       primarySheetName: primary.name,
       ...(primary.color ? { primarySheetColor: primary.color } : {}),
@@ -296,26 +325,44 @@ export async function saveToCsv(
       secrets,
       extraSheets: workbook.sheets.slice(1),
     };
-    // The sidecar carries state the CSV does not (2nd+ sheets, credentials,
-    // pins). Skip only when *both* are unchanged.
-    const sidecarHash = await computeHash(JSON.stringify(sidecarBody));
-    const sidecarUnchanged = lastSidecarHash !== null && sidecarHash === lastSidecarHash;
-    if (csvUnchanged && sidecarUnchanged) return { signature, skipped: true };
-    const sidecar: Sidecar = {
-      ...sidecarBody,
-      lastWriteHash: signature,
-      lastWriteAt: new Date().toISOString(),
-    };
-
+    const sidecar: Sidecar = { ...sidecarBody, lastWriteHash: signature, lastWriteAt: new Date().toISOString() };
     const dataDir = await createSubdirectory(root, DATA_DIR);
-    if (!csvUnchanged) await writeTextFile(dataDir, CSV_NAME, csvText);
-    await writeTextFile(dataDir, SIDECAR_NAME, JSON.stringify(sidecar, null, 2));
-    lastSidecarHash = sidecarHash;
-    return { signature };
+    await recoverPending(dataDir);
+    const before = await pairSignature(dataDir);
+    const previousCsv = await fileExists(dataDir, CSV_NAME) ? await readTextFile(dataDir, CSV_NAME) : '';
+    const previousMeta = await fileExists(dataDir, SIDECAR_NAME) ? await readTextFile(dataDir, SIDECAR_NAME) : '';
+    // Compare logical contents, excluding the write timestamp.
+    const old = previousMeta ? JSON.parse(previousMeta) : null;
+    if (previousCsv === csvText && old && JSON.stringify({ ...old, lastWriteHash: undefined, lastWriteAt: undefined }) === JSON.stringify({ ...sidecar, lastWriteHash: undefined, lastWriteAt: undefined })) return { signature: before, skipped: true };
+    if (prevSignature && before !== prevSignature) throw new Error('外部の変更を検出しました。保存前に再読み込みするか、バックアップを確認してください。');
+
+    if (previousCsv || previousMeta) await writeTextFile(dataDir, RECOVERY, JSON.stringify({ csv: previousCsv, meta: previousMeta }));
+    const meta = JSON.stringify(sidecar, null, 2);
+    await writeTextFile(dataDir, JOURNAL, JSON.stringify({ csv: csvText, meta, previousCsv, previousMeta }));
+    await writeTextFile(dataDir, CSV_NAME, csvText);
+    await writeTextFile(dataDir, SIDECAR_NAME, meta);
+    await dataDir.removeEntry(JOURNAL);
+    return { signature: await pairSignature(dataDir) };
   } catch (e) {
-    console.error('[csvStore] saveToCsv failed', e);
-    return null;
+    throw new Error(e instanceof Error ? e.message : '保存できませんでした。再試行してください。');
   }
+}
+
+export function saveToCsv(root: FileSystemDirectoryHandle, workbook: Workbook, prevSignature?: string | null) {
+  const previous = writeQueues.get(root) ?? Promise.resolve();
+  const current = previous.catch(() => {}).then(() => commitToCsv(root, workbook, prevSignature));
+  writeQueues.set(root, current);
+  return current;
+}
+
+export async function restoreCsvRecovery(root: FileSystemDirectoryHandle) {
+  const dir = await getDataDir(root, false);
+  if (!dir) throw new Error('復旧用データがありません。');
+  const data = JSON.parse(await readTextFile(dir, RECOVERY));
+  if (typeof data.csv !== 'string' || typeof data.meta !== 'string') throw new Error('復旧用データが壊れています。');
+  await writeTextFile(dir, CSV_NAME, data.csv);
+  await writeTextFile(dir, SIDECAR_NAME, data.meta);
+  if (await fileExists(dir, JOURNAL)) await dir.removeEntry(JOURNAL);
 }
 
 /* ----------------------- external-change detection --------------------- */
@@ -325,11 +372,7 @@ export async function saveToCsv(
 export async function readCsvSignature(
   root: FileSystemDirectoryHandle,
 ): Promise<string | null> {
-  try {
-    const dataDir = await getDataDir(root, false);
-    if (!dataDir || !(await fileExists(dataDir, CSV_NAME))) return null;
-    return await computeHash(await readTextFile(dataDir, CSV_NAME));
-  } catch {
-    return null;
-  }
+  const dataDir = await getDataDir(root, false);
+  if (!dataDir || !(await fileExists(dataDir, CSV_NAME))) return null;
+  return pairSignature(dataDir);
 }

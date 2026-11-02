@@ -38,6 +38,8 @@ type IndexState =
 export function DocumentSearch({ workspace, onOpenFile, children }: Props) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [contentVersion, setContentVersion] = useState(0);
+  useEffect(() => { const changed = () => { indexRef.current = { status: 'idle' }; setContentVersion(n => n + 1); }; window.addEventListener('aishukatsu-document-saved', changed); return () => window.removeEventListener('aishukatsu-document-saved', changed); }, []);
   const indexRef = useRef<IndexState>({ status: 'idle' });
   const [, force] = useState(0);
 
@@ -81,7 +83,7 @@ export function DocumentSearch({ workspace, onOpenFile, children }: Props) {
       cancelled = true;
       clearTimeout(t);
     };
-  }, [query, searching, workspace]);
+  }, [query, searching, workspace, contentVersion]);
 
   const building = indexRef.current.status === 'building';
   const countLabel = useMemo(() => {

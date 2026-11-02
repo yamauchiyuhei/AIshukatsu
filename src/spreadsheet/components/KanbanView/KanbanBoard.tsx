@@ -1,3 +1,6 @@
+import { isClosedStatus } from '../../../lib/deadlines';
+import { useToday } from '../../../hooks/useToday';
+import { clampRating } from '../../../lib/cellValues';
 import { useMemo, useState } from 'react';
 import { useSheet, getActiveSheet } from '../../lib/store';
 import { STATUS_ACCENT, STATUS_VALUES, StatusValue } from '../../types/sheet';
@@ -6,6 +9,7 @@ import { urgencyForDate, URGENCY_TEXT } from '../../lib/conditionalFormat';
 import { KanbanDetailDrawer } from './KanbanDetailDrawer';
 
 export function KanbanBoard() {
+  const today = useToday();
   const sheet = useSheet((s) => getActiveSheet(s));
   const search = useSheet((s) => s.searchQuery);
   const fIndustry = useSheet((s) => s.filterIndustry);
@@ -28,7 +32,7 @@ export function KanbanBoard() {
     const m = new Map<string, typeof sheet.rows>();
     for (const s of STATUS_VALUES) m.set(s, []);
     for (const r of filtered) {
-      const s = String(r.cells['status'] ?? '未応募');
+      const s = String(r.cells['status'] || '未応募');
       if (!m.has(s)) m.set(s, []);
       m.get(s)!.push(r);
     }
@@ -46,7 +50,7 @@ export function KanbanBoard() {
     <div className="flex flex-1 overflow-hidden">
       <div className="flex-1 overflow-auto bg-gradient-to-b from-white to-slate-50 p-4">
         <div className="flex gap-4">
-          {STATUS_VALUES.map((status) => {
+          {Array.from(groups.keys()).map((status) => {
             const items = groups.get(status) ?? [];
             const accent = STATUS_ACCENT[status as StatusValue] ?? 'bg-slate-300';
             const isDropTarget = draggingFrom !== null && draggingFrom !== status;
@@ -80,14 +84,18 @@ export function KanbanBoard() {
                   {items.map((row) => {
                     const company = String(row.cells['company'] ?? '(無題)');
                     const industry = String(row.cells['industry'] ?? '');
-                    const rating = Number(row.cells['rating'] ?? 0);
+                    const rating = clampRating(row.cells['rating']);
                     const esDeadline = row.cells['es_deadline'];
-                    const completed = status === '内定' || status === 'お祈り';
+                    const completed = isClosedStatus(status);
                     const u = urgencyForDate(esDeadline, completed);
                     return (
                       <div
                         key={row.id}
                         draggable
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`${company}の選考詳細`}
+                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setDrawerRowId(row.id); } }}
                         onDragStart={(e) => {
                           e.dataTransfer.setData('text/plain', row.id);
                           setDraggingFrom(status);

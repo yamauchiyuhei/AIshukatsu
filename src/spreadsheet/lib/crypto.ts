@@ -78,7 +78,7 @@ export async function decryptString(
   if (!cipher.startsWith(ENC_PREFIX)) return cipher;
   const body = cipher.slice(ENC_PREFIX.length);
   const [ivB64, ctB64] = body.split(':');
-  if (!ivB64 || !ctB64) return cipher;
+  if (!ivB64 || !ctB64) throw new Error('暗号化データの形式が不正です。');
   try {
     const key = await deriveKey(passphrase, saltB64);
     const iv = b64ToBytes(ivB64);
@@ -90,7 +90,7 @@ export async function decryptString(
     );
     return dec.decode(pt);
   } catch {
-    return ''; // wrong passphrase or tampered
+    throw new Error('合言葉が一致しないか、暗号化データが壊れています。上書きせず停止しました。');
   }
 }
 

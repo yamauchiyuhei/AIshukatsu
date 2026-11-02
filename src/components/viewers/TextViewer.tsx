@@ -24,6 +24,7 @@ export function TextViewer({ handle, label, breadcrumb, rootName, onNavigate }: 
     (async () => {
       try {
         const file = await handle.getFile();
+        if(file.size>5*1024*1024)throw new Error('大きいファイルはダウンロードして専用アプリで開いてください。');
         if (cancelled) return;
         const content = await file.text();
         if (cancelled) return;
@@ -31,7 +32,7 @@ export function TextViewer({ handle, label, breadcrumb, rootName, onNavigate }: 
         setFileRef(file);
       } catch (e) {
         console.error('[TextViewer] load failed', e);
-        if (!cancelled) setError('ファイルを読み込めませんでした');
+        if (!cancelled) setError(e instanceof Error?e.message:'ファイルを読み込めませんでした');
       }
     })();
     return () => {

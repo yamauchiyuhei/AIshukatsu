@@ -1,0 +1,2 @@
+/** Bound remote reads. Writes must remain serialized until they settle. */
+export async function withTimeout<T>(operation:Promise<T>, milliseconds=12000):Promise<T>{let timer:ReturnType<typeof setTimeout>|undefined;try{return await Promise.race([operation,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('接続がタイムアウトしました。')),milliseconds);})]);}finally{if(timer)clearTimeout(timer);}}

@@ -1,3 +1,4 @@
+import { validateFileName } from '../lib/fileNames';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
@@ -62,8 +63,9 @@ export function RenameDialog({
       onCancel();
       return;
     }
-    if (/[\\/:*?"<>|]/.test(trimmed)) {
-      setError('使用できない文字が含まれています');
+    const invalid = validateFileName(value);
+    if (invalid) {
+      setError(invalid);
       return;
     }
     try {
@@ -86,6 +88,7 @@ export function RenameDialog({
           setError(null);
         }}
         onKeyDown={(e) => {
+          if (e.nativeEvent.isComposing || submitting) return;
           if (e.key === 'Enter') {
             e.preventDefault();
             void doSubmit();

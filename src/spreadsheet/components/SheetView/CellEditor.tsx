@@ -3,7 +3,6 @@ import { Eye, EyeOff, Star, X } from 'lucide-react';
 import { CellValue, Column } from '../../types/sheet';
 import { CompanyCombobox } from '../../../components/CompanyCombobox';
 import { useCompanyMaster } from '../../../hooks/useCompanyMaster';
-import { addCompanyToMaster } from '../../../lib/companyMasterSync';
 import { lookupIndustry } from '../../../lib/companyIndustryMap';
 import { getActiveSheet, useSheet } from '../../lib/store';
 
@@ -12,11 +11,12 @@ interface Props {
   value: CellValue;
   onChange: (v: CellValue) => void;
   onBlur?: () => void;
+  onCancel?: () => void;
   autoFocus?: boolean;
   inline?: boolean;
 }
 
-export function CellEditor({ column, value, onChange, onBlur, autoFocus, inline }: Props) {
+export function CellEditor({ column, value, onChange, onBlur, onCancel, autoFocus, inline }: Props) {
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -39,6 +39,7 @@ export function CellEditor({ column, value, onChange, onBlur, autoFocus, inline 
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        onCancel={onCancel}
         autoFocus={autoFocus}
         inputClassName={baseInput}
       />
@@ -54,13 +55,15 @@ export function CellEditor({ column, value, onChange, onBlur, autoFocus, inline 
           <textarea
             ref={(el) => (inputRef.current = el)}
             className={`${baseInput} resize-none`}
+            aria-label={column.name}
             rows={3}
             value={String(value ?? '')}
             onChange={(e) => onChange(e.target.value)}
             onBlur={onBlur}
             onKeyDown={(e) => {
+              if (e.nativeEvent.isComposing || e.keyCode === 229) return;
               if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) onBlur?.();
-              if (e.key === 'Escape') onBlur?.();
+              if (e.key === 'Escape') { e.stopPropagation(); (onCancel ?? onBlur)?.(); }
             }}
           />
         );
@@ -69,32 +72,38 @@ export function CellEditor({ column, value, onChange, onBlur, autoFocus, inline 
         <input
           ref={(el) => (inputRef.current = el)}
           className={baseInput}
+          aria-label={column.name}
           type={column.type === 'url' ? 'url' : 'text'}
           value={String(value ?? '')}
           onChange={(e) => onChange(e.target.value)}
           onBlur={onBlur}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === 'Escape') onBlur?.();
+              if (e.nativeEvent.isComposing || e.keyCode === 229) return;
+            if (e.key === 'Escape') { e.stopPropagation(); (onCancel ?? onBlur)?.(); }
+            else if (e.key === 'Enter') { e.stopPropagation(); onBlur?.(); }
           }}
           placeholder={column.type === 'url' ? 'https://...' : ''}
         />
       );
 
     case 'password':
-      return <PasswordEditor value={value} onChange={onChange} onBlur={onBlur} />;
+      return <PasswordEditor value={value} onChange={onChange} onBlur={onBlur} onCancel={onCancel} />;
 
     case 'date':
       return (
         <div className="flex items-center gap-1">
           <input
             ref={(el) => (inputRef.current = el)}
+            aria-label={column.name}
             type="date"
             className={baseInput}
             value={String(value ?? '')}
             onChange={(e) => onChange(e.target.value)}
             onBlur={onBlur}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === 'Escape') onBlur?.();
+              if (e.nativeEvent.isComposing || e.keyCode === 229) return;
+              if (e.key === 'Escape') { e.stopPropagation(); (onCancel ?? onBlur)?.(); }
+            else if (e.key === 'Enter') { e.stopPropagation(); onBlur?.(); }
             }}
           />
           {value && (
@@ -115,13 +124,16 @@ export function CellEditor({ column, value, onChange, onBlur, autoFocus, inline 
         <div className="flex items-center gap-1">
           <input
             ref={(el) => (inputRef.current = el)}
+            aria-label={column.name}
             type="datetime-local"
             className={baseInput}
             value={String(value ?? '')}
             onChange={(e) => onChange(e.target.value)}
             onBlur={onBlur}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === 'Escape') onBlur?.();
+              if (e.nativeEvent.isComposing || e.keyCode === 229) return;
+              if (e.key === 'Escape') { e.stopPropagation(); (onCancel ?? onBlur)?.(); }
+            else if (e.key === 'Enter') { e.stopPropagation(); onBlur?.(); }
             }}
           />
           {value && (
@@ -140,6 +152,7 @@ export function CellEditor({ column, value, onChange, onBlur, autoFocus, inline 
     case 'select':
       return (
         <select
+          aria-label={column.name}
           className={baseInput}
           value={String(value ?? '')}
           onChange={(e) => {
@@ -149,8 +162,10 @@ export function CellEditor({ column, value, onChange, onBlur, autoFocus, inline 
           }}
           onBlur={onBlur}
           autoFocus={autoFocus}
+          onKeyDown={e=>{if(!e.nativeEvent.isComposing&&e.key==='Escape'){e.stopPropagation();(onCancel??onBlur)?.();}}}
         >
           <option value=""></option>
+          {value && !(column.options??[]).includes(String(value)) && <option value={String(value)}>{String(value)}</option>}
           {(column.options ?? []).map((o) => (
             <option key={o} value={o}>
               {o}
@@ -165,6 +180,7 @@ export function CellEditor({ column, value, onChange, onBlur, autoFocus, inline 
     case 'checkbox':
       return (
         <input
+          aria-label={column.name}
           type="checkbox"
           className="h-4 w-4"
           checked={!!value}
@@ -184,63 +200,20 @@ function CompanyCellCombobox({
   value,
   onChange,
   onBlur,
+  onCancel,
   autoFocus,
   inputClassName,
 }: {
   value: CellValue;
   onChange: (v: CellValue) => void;
   onBlur?: () => void;
+  onCancel?: () => void;
   autoFocus?: boolean;
   inputClassName?: string;
 }) {
   const { names } = useCompanyMaster();
   const text = String(value ?? '');
 
-  /**
-   * If the company name maps to a known industry AND the current row's
-   * `industry` cell is empty, auto-fill it. Manual selections are never
-   * overwritten. Uses the store directly because the active row is
-   * whichever one the user selected to enter edit mode (invariant:
-   * editing cell == selection).
-   */
-  const maybeAutoFillIndustry = (companyName: string) => {
-    const hit = lookupIndustry(companyName);
-    if (!hit) return;
-    const state = useSheet.getState();
-    const selection = state.selection;
-    if (!selection) return;
-    const sheet = getActiveSheet(state);
-    const row = sheet.rows.find((r) => r.id === selection.rowId);
-    if (!row) return;
-    const hasIndustryColumn = sheet.columns.some((c) => c.id === 'industry');
-    if (!hasIndustryColumn) return;
-    const current = row.cells['industry'];
-    if (current != null && String(current).trim() !== '') return; // preserve user choice
-    state.updateCell(row.id, 'industry', hit);
-  };
-
-  const handleSelect = (picked: string) => {
-    maybeAutoFillIndustry(picked);
-  };
-
-  const handleBlur = () => {
-    const trimmed = text.trim();
-    if (trimmed) {
-      // Auto-fill industry on blur too, so that free-typing (not just
-      // picking from the dropdown) also benefits when the typed name
-      // matches a known entry.
-      maybeAutoFillIndustry(trimmed);
-      if (!names.includes(trimmed)) {
-        // New name → append to global master in the background. Errors are
-        // logged but never blocked the user (the cell value is already saved
-        // locally / to the workbook).
-        void addCompanyToMaster(trimmed).catch((e) => {
-          console.warn('[addCompanyToMaster] (cell) failed', e);
-        });
-      }
-    }
-    onBlur?.();
-  };
 
   return (
     <CompanyCombobox
@@ -249,8 +222,8 @@ function CompanyCellCombobox({
       suggestions={names}
       autoFocus={autoFocus}
       inputClassName={inputClassName}
-      onBlur={handleBlur}
-      onSelect={handleSelect}
+      onBlur={onBlur}
+      onCancel={onCancel}
     />
   );
 }
@@ -259,22 +232,29 @@ function PasswordEditor({
   value,
   onChange,
   onBlur,
+  onCancel,
 }: {
   value: CellValue;
   onChange: (v: CellValue) => void;
   onBlur?: () => void;
+  onCancel?: () => void;
 }) {
   const [reveal, setReveal] = useState(false);
   return (
     <div className="flex items-center gap-1">
       <input
+        autoFocus
+        aria-label="パスワード"
+        autoComplete="off"
         type={reveal ? 'text' : 'password'}
         className="w-full bg-white border border-indigo-300 rounded px-1.5 py-1 text-xs outline-none focus:ring-2 focus:ring-indigo-200"
         value={String(value ?? '')}
         onChange={(e) => onChange(e.target.value)}
         onBlur={onBlur}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === 'Escape') onBlur?.();
+              if (e.nativeEvent.isComposing || e.keyCode === 229) return;
+          if (e.key === 'Escape') { e.stopPropagation(); (onCancel ?? onBlur)?.(); }
+            else if (e.key === 'Enter') { e.stopPropagation(); onBlur?.(); }
         }}
       />
       <button

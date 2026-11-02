@@ -1,3 +1,4 @@
+import { platformShortcut } from '../lib/preferences';
 import { useEffect, useRef, useState } from 'react';
 import {
   Bold,
@@ -223,14 +224,14 @@ export function BubbleMenu({ view, anchor, visible }: Props) {
 
       <ToolbarButton
         active={activeMarks.strong}
-        title="太字 (⌘B)"
+        title={`太字 (${platformShortcut('B')})`}
         onClick={() => dispatchMark('strong')}
       >
         <Bold size={14} />
       </ToolbarButton>
       <ToolbarButton
         active={activeMarks.emphasis}
-        title="斜体 (⌘I)"
+        title={`斜体 (${platformShortcut('I')})`}
         onClick={() => dispatchMark('emphasis')}
       >
         <Italic size={14} />
@@ -267,7 +268,7 @@ export function BubbleMenu({ view, anchor, visible }: Props) {
 
       <div className="mx-1 h-5 w-px bg-slate-200" />
 
-      <ToolbarButton active={activeMarks.link} title="リンク (⌘K)" onClick={addLink}>
+      <ToolbarButton active={activeMarks.link} title={`リンク (${platformShortcut('K')})`} onClick={addLink}>
         <LinkIcon size={14} />
       </ToolbarButton>
     </div>

@@ -1,3 +1,5 @@
+import { Modal } from '../../components/ui/Modal';
+import { platformShortcut } from '../../lib/preferences';
 import { useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
@@ -13,7 +15,6 @@ import {
   Upload,
 } from 'lucide-react';
 import { useSheet, getActiveSheet } from '../lib/store';
-import { exportToCsv, exportToXlsx } from '../lib/importExport';
 import { toast } from './Toast';
 
 interface Cmd {
@@ -89,7 +90,7 @@ export function CommandPalette({ onClose }: Props) {
       {
         id: 'undo',
         label: '元に戻す',
-        hint: '⌘Z',
+        hint: platformShortcut('Z'),
         Icon: Undo2,
         run: () => {
           if (undo()) toast.info('元に戻しました');
@@ -99,7 +100,7 @@ export function CommandPalette({ onClose }: Props) {
       {
         id: 'redo',
         label: 'やり直し',
-        hint: '⌘⇧Z',
+        hint: platformShortcut('Shift+Z'),
         Icon: Redo2,
         run: () => {
           if (redo()) toast.info('やり直しました');
@@ -112,8 +113,7 @@ export function CommandPalette({ onClose }: Props) {
         hint: '出力',
         Icon: Download,
         run: () => {
-          const a = getActiveSheet(useSheet.getState());
-          exportToXlsx({ columns: a.columns, rows: a.rows });
+          window.dispatchEvent(new CustomEvent('aishukatsu-export',{detail:{format:'xlsx'}}));
         },
       },
       {
@@ -122,8 +122,7 @@ export function CommandPalette({ onClose }: Props) {
         hint: '出力',
         Icon: Download,
         run: () => {
-          const a = getActiveSheet(useSheet.getState());
-          exportToCsv({ columns: a.columns, rows: a.rows });
+          window.dispatchEvent(new CustomEvent('aishukatsu-export',{detail:{format:'csv'}}));
         },
       },
       {
@@ -179,6 +178,7 @@ export function CommandPalette({ onClose }: Props) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.isComposing || (e.target as HTMLElement)?.tagName !== 'INPUT') return;
       if (e.key === 'Escape') {
         e.preventDefault();
         close();
@@ -205,20 +205,14 @@ export function CommandPalette({ onClose }: Props) {
   }, [filtered, active, close]);
 
   return (
-    <div
-      className="fixed inset-0 z-[9000] flex items-start justify-center bg-slate-900/30 pt-24 backdrop-blur-md"
-      onClick={close}
-    >
-      <div
-        className="w-[560px] overflow-hidden rounded-2xl bg-white shadow-2xl animate-pop-in"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Modal open onClose={close} ariaLabel="コマンドを検索" className="max-w-xl p-0">
         <div className="flex items-center gap-2 border-b border-slate-200/70 px-4 py-3">
           <Search size={16} className="text-slate-400" />
           <input
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            aria-label="コマンドを検索"
             placeholder="コマンドを入力..."
             className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
           />
@@ -257,7 +251,6 @@ export function CommandPalette({ onClose }: Props) {
             </div>
           )}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }

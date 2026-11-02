@@ -1,3 +1,5 @@
+import { validateFileName } from '../lib/fileNames';
+import { Modal } from './ui/Modal';
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import { Workspace } from '../types';
@@ -5,6 +7,7 @@ import { LocationPicker, TargetLocation } from './LocationPicker';
 
 interface Props {
   workspace: Workspace;
+  initialLocation?: TargetLocation;
   onClose: () => void;
   onSubmit: (location: TargetLocation, folderName: string) => Promise<void>;
 }
@@ -20,8 +23,8 @@ function validateName(name: string): string | null {
   return null;
 }
 
-export function AddFolderModal({ workspace, onClose, onSubmit }: Props) {
-  const [location, setLocation] = useState<TargetLocation>({ path: [] });
+export function AddFolderModal({ workspace, onClose, onSubmit, initialLocation }: Props) {
+  const [location, setLocation] = useState<TargetLocation>(initialLocation ?? { path: [] });
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -32,7 +35,7 @@ export function AddFolderModal({ workspace, onClose, onSubmit }: Props) {
       setError('作成先を選択してください');
       return;
     }
-    const v = validateName(name);
+    const v = validateFileName(name);
     if (v) {
       setError(v);
       return;
@@ -48,8 +51,7 @@ export function AddFolderModal({ workspace, onClose, onSubmit }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+    <Modal open onClose={onClose} ariaLabel="フォルダを追加" className="max-w-md p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold">フォルダを追加</h2>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
@@ -96,7 +98,6 @@ export function AddFolderModal({ workspace, onClose, onSubmit }: Props) {
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </Modal>
   );
 }

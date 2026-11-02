@@ -18,7 +18,7 @@
  */
 
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../spreadsheet/lib/firebase';
+import { db, auth } from '../spreadsheet/lib/firebase';
 
 const COLLECTION = 'industryResearch';
 
@@ -29,7 +29,7 @@ const COLLECTION = 'industryResearch';
 export async function pullIndustryResearch(
   industryName: string,
 ): Promise<string | null> {
-  if (!db) return null;
+  if (!db || !auth?.currentUser || (typeof navigator!=='undefined' && navigator.onLine===false)) return null;
   const trimmed = industryName.trim();
   if (!trimmed) return null;
 

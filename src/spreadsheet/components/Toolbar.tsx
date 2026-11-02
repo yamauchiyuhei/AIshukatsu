@@ -1,3 +1,7 @@
+import { lazy, Suspense, useEffect } from 'react';
+const ImportDialog=lazy(()=>import('./TransferDialogs').then(module=>({default:module.ImportDialog})));
+const ExportDialog=lazy(()=>import('./TransferDialogs').then(module=>({default:module.ExportDialog})));
+import { platformShortcut } from '../../lib/preferences';
 import { useRef, useState } from 'react';
 import {
   BookmarkPlus,
@@ -13,7 +17,6 @@ import {
 } from 'lucide-react';
 import { useSheet, getActiveSheet } from '../lib/store';
 import { ViewMode } from '../types/sheet';
-import { exportToCsv, exportToXlsx, importFromFile } from '../lib/importExport';
 import { ColumnAddModal } from './ColumnAddModal';
 import { confirmDialog, toast } from './Toast';
 import { AuthButton } from './AuthButton';
@@ -35,7 +38,6 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
   const fStatus = useSheet((s) => s.filterStatus);
   const setFStatus = useSheet((s) => s.setFilterStatus);
   const sheet = useSheet((s) => getActiveSheet(s));
-  const replaceActiveSheet = useSheet((s) => s.replaceActiveSheet);
 
   const savedViews = useSheet((s) => s.savedViews);
   const activeViewId = useSheet((s) => s.activeViewId);
@@ -43,32 +45,18 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
   const saveCurrentAsView = useSheet((s) => s.saveCurrentAsView);
   const deleteSavedView = useSheet((s) => s.deleteSavedView);
 
+  const [importFile, setImportFile] = useState<File | null>(null);
+  const [exportFormat,setExportFormat]=useState<'xlsx'|'csv'>('xlsx');
+  useEffect(()=>{const open=(event:Event)=>{setExportFormat((event as CustomEvent).detail?.format==='csv'?'csv':'xlsx');setShowExport(true);};window.addEventListener('aishukatsu-export',open);return()=>window.removeEventListener('aishukatsu-export',open);},[]);
+  const [showExport, setShowExport] = useState(false);
   const [showAddCol, setShowAddCol] = useState(false);
-  const [exportOpen, setExportOpen] = useState(false);
   const [viewsOpen, setViewsOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const viewsBtnRef = useRef<HTMLButtonElement>(null);
-  const exportBtnRef = useRef<HTMLButtonElement>(null);
 
   const industryOptions = (sheet.columns.find((c) => c.id === 'industry')?.options ??
     []) as string[];
   const statusOptions = (sheet.columns.find((c) => c.id === 'status')?.options ?? []) as string[];
-
-  const onImport = async (file: File) => {
-    try {
-      const data = await importFromFile(file, sheet.columns);
-      const ok = await confirmDialog(
-        `${data.rows.length} 行をインポートします。現在の ${sheet.rows.length} 行は置き換えられます。`,
-        { title: 'インポート', okLabel: 'インポート', destructive: true },
-      );
-      if (ok) {
-        replaceActiveSheet(data);
-        toast.success(`${data.rows.length} 行をインポートしました`);
-      }
-    } catch (e) {
-      toast.error(`インポートに失敗: ${e instanceof Error ? e.message : String(e)}`);
-    }
-  };
 
   const handleSaveView = async () => {
     const name = window.prompt('ビュー名を入力');
@@ -93,7 +81,8 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="検索..."
+                placeholder="エントリーを検索"
+                aria-label="エントリー内を検索"
                 className="w-44 bg-transparent text-xs outline-none placeholder:text-slate-400"
               />
               {search && (
@@ -102,7 +91,7 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
                   onClick={() => setSearch('')}
                   className="shrink-0 text-slate-400 hover:text-slate-700"
                 >
-                  <X size={12} />
+                  <X size={12} aria-label="検索条件をクリア" />
                 </button>
               )}
             </div>
@@ -113,7 +102,7 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
               className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-slate-200/70 bg-white px-3 py-1.5 text-[11px] text-slate-500 shadow-sm hover:text-slate-800"
               title="コマンドパレット"
             >
-              <span>⌘K</span>
+              <span>{platformShortcut('K')}</span>
             </button>
           </div>
 
@@ -155,6 +144,7 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
               ))}
             </select>
 
+            {(search||fIndustry||fStatus)&&<button className="shrink-0 rounded border px-3 py-1.5 text-xs" onClick={()=>{setSearch('');setFIndustry(null);setFStatus(null);}}>絞り込みを解除</button>}
             {/* Saved Views (Popover — portaled to body, unaffected by overflow) */}
             <button
               ref={viewsBtnRef}
@@ -243,51 +233,26 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
               className="hidden"
               onChange={(e) => {
                 const f = e.target.files?.[0];
-                if (f) onImport(f);
+                if (f) setImportFile(f);
                 e.target.value = '';
               }}
             />
 
             <button
-              ref={exportBtnRef}
               type="button"
-              onClick={() => setExportOpen((v) => !v)}
+              onClick={() => setShowExport(true)}
               className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-slate-200/70 bg-white px-3 py-1.5 text-xs text-slate-700 shadow-sm hover:bg-slate-50"
               title="エクスポート"
             >
               <Download size={12} /> エクスポート
             </button>
-            <Popover
-              open={exportOpen}
-              onClose={() => setExportOpen(false)}
-              triggerRef={exportBtnRef}
-              align="right"
-            >
-              <div className="w-40 overflow-hidden rounded-xl border border-slate-200/70 bg-white py-1 text-xs shadow-xl animate-pop-in">
-                <button
-                  className="block w-full whitespace-nowrap px-3 py-1.5 text-left hover:bg-slate-50"
-                  onClick={() => {
-                    exportToXlsx({ columns: sheet.columns, rows: sheet.rows });
-                    setExportOpen(false);
-                  }}
-                >
-                  .xlsx (Excel)
-                </button>
-                <button
-                  className="block w-full whitespace-nowrap px-3 py-1.5 text-left hover:bg-slate-50"
-                  onClick={() => {
-                    exportToCsv({ columns: sheet.columns, rows: sheet.rows });
-                    setExportOpen(false);
-                  }}
-                >
-                  .csv
-                </button>
-              </div>
-            </Popover>
+
           </div>
         </div>
       </div>
 
+      {importFile && <Suspense fallback={<p role="status">取込画面を読み込み中…</p>}><ImportDialog file={importFile} onClose={() => setImportFile(null)}/></Suspense>}
+      {showExport && <Suspense fallback={<p role="status">書出画面を読み込み中…</p>}><ExportDialog initialFormat={exportFormat} onClose={() => setShowExport(false)}/></Suspense>}
       {showAddCol && <ColumnAddModal onClose={() => setShowAddCol(false)} />}
     </>
   );
@@ -305,6 +270,7 @@ function ViewToggle({ view, onChange }: { view: ViewMode; onChange: (v: ViewMode
         <button
           key={v}
           type="button"
+          aria-pressed={view === v}
           onClick={() => onChange(v)}
           className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-medium transition ${
             view === v

@@ -1,8 +1,9 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db, firebaseEnabled, signInWithGoogle } from '../spreadsheet/lib/firebase';
+import { db, firebaseEnabled } from '../spreadsheet/lib/firebase';
 import { LegalModal } from './onboarding/LegalModal';
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../data/legal';
+import { LandingMagazine } from '../magazine/LandingMagazine';
 
 const CONTACT_EMAIL = 'yamatomo.inc@gmail.com';
 const CONTACT_RATE_LIMIT_MS = 60_000;
@@ -12,7 +13,8 @@ const CONTACT_RATE_LIMIT_KEY = 'aishukatsu-contact-last-submit';
 const GITHUB_RELEASE =
   'https://github.com/yamauchiyuhei/AIshukatsu/releases/latest';
 const DL_MACOS = `${GITHUB_RELEASE}/download/AIshukatsu_universal.app.tar.gz`;
-const DL_WINDOWS = GITHUB_RELEASE;
+const DL_WINDOWS = `${GITHUB_RELEASE}/download/AIshukatsu_0.2.17_x64-setup.exe`;
+const DL_WINDOWS_ARM64 = `${GITHUB_RELEASE}/download/AIshukatsu_0.2.17_arm64-setup.exe`;
 const APP_VERSION = 'v0.2.17';
 
 // ───────────────────────── theme tokens ─────────────────────────
@@ -79,6 +81,7 @@ const LandingStyles = () => (
     .landing-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
     .landing-serif { font-family: 'Instrument Serif', ui-serif, serif; font-style: italic; }
     .landing-sans-jp { font-family: 'Noto Sans JP', 'Inter', system-ui, sans-serif; }
+    .landing-page section[id], .landing-page #demo { scroll-margin-top: 110px; }
     .landing-grid-bg {
       background-image:
         linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
@@ -229,7 +232,7 @@ function Logo(_: { theme: ThemeKey }) {
 }
 
 // ───────────────────────── Nav ─────────────────────────
-function Nav({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignIn: () => void }) {
+function Nav({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpenApp: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -250,12 +253,14 @@ function Nav({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignIn
             <a href="#views" className="hover:opacity-100 opacity-80">選考管理</a>
             <a href="#ai" className="hover:opacity-100 opacity-80">AI連携</a>
             <a href="#stories" className="hover:opacity-100 opacity-80">ストーリー</a>
+            <a href="/magazine/" className="hover:opacity-100 opacity-80">マガジン</a>
             <a href="#faq" className="hover:opacity-100 opacity-80">FAQ</a>
           </div>
           <div className="flex items-center gap-2">
+            <a href="/magazine/" className={'md:hidden rounded-full px-3 py-1.5 text-xs transition ' + t.btnGhost}>マガジン</a>
             <button
               type="button"
-              onClick={onSignIn}
+              onClick={onOpenApp}
               className={'hidden sm:inline-flex rounded-full px-4 py-1.5 text-sm font-medium transition ' + t.btn}
             >
               Web版を使う
@@ -268,7 +273,7 @@ function Nav({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignIn
 }
 
 // ───────────────────────── Hero ─────────────────────────
-function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignIn: () => void }) {
+function Hero({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpenApp: () => void }) {
   return (
     <section className={'relative overflow-hidden pt-40 pb-24 ' + t.bg}>
       <div className={'absolute inset-0 ' + t.grid} />
@@ -318,7 +323,7 @@ function Hero({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignI
             </a>
             <button
               type="button"
-              onClick={onSignIn}
+              onClick={onOpenApp}
               className={'inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition ' + t.btnGhost}
             >
               Web版を無料で使う
@@ -978,7 +983,7 @@ function Stories({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
 }
 
 // ───────────────────────── Download ─────────────────────────
-function DownloadSection({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeKey; onSignIn: () => void }) {
+function DownloadSection({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpenApp: () => void }) {
   return (
     <section id="download" className={'relative py-32 overflow-hidden ' + t.bg}>
       <div className="absolute inset-0 pointer-events-none">
@@ -1017,9 +1022,13 @@ function DownloadSection({ t, theme, onSignIn }: { t: ThemeTokens; theme: ThemeK
             </div>
           </a>
         </div>
+        <div className={'mx-auto mt-4 max-w-2xl text-sm leading-7 ' + t.textMuted}>
+          <a className="underline" href={DL_WINDOWS_ARM64}>Windows ARM64版をダウンロード</a>
+          <details className="mt-3 text-left"><summary className="cursor-pointer text-center">インストール方法・対応環境</summary><p>Mac：ダウンロードしたtar.gzを展開し、AIshukatsu.appをアプリケーションへ移動してください。Apple Silicon・Intel両対応です。OSで開けない場合は、配布ページの署名状況と案内を確認してください。</p><p>Windows 10 / 11：通常はx64版、ARM搭載PCではARM64版のセットアップを実行してください。</p><p>更新前にはフォルダ全体のバックアップを作成できます。インストーラーの公開状況・変更点は<a className="underline" href={GITHUB_RELEASE}>リリースページ</a>で確認できます。</p></details>
+        </div>
         <div className={'mt-4 text-xs ' + t.textDim}>
           ブラウザ版は Chrome / Edge で{' '}
-          <button type="button" onClick={onSignIn} className="underline">こちら</button>
+          <button type="button" onClick={onOpenApp} className="underline">こちら</button>
         </div>
 
         <div className={'mt-12 inline-flex items-center gap-2 landing-mono text-[11px] ' + t.textDim}>
@@ -1081,6 +1090,12 @@ type FooterLink = { label: string; href?: string; onClick?: () => void };
 function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const [legal, setLegal] = useState<'terms' | 'privacy' | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
+  useEffect(() => {
+    const openPrivacy = () => { if (window.location.hash === '#privacy') setLegal('privacy'); };
+    openPrivacy();
+    window.addEventListener('hashchange', openPrivacy);
+    return () => window.removeEventListener('hashchange', openPrivacy);
+  }, []);
 
   const columns: { h: string; l: FooterLink[] }[] = [
     {
@@ -1089,7 +1104,7 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
     },
     {
       h: 'リソース',
-      l: ['ドキュメント', 'テンプレート', 'リリースノート', '変更履歴'].map((label) => ({ label })),
+      l: [{ label: '就活マガジン', href: '/magazine/' }, ...['ドキュメント', 'テンプレート', 'リリースノート', '変更履歴'].map((label) => ({ label }))],
     },
     {
       h: '法務',
@@ -1155,7 +1170,7 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 landing-pulse-dot" />
             <span>all systems operational</span>
             <span>·</span>
-            <span>aisyuukatsu-30fdd.web.app</span>
+            <span>aishukatsu.net</span>
           </div>
         </div>
       </div>
@@ -1452,12 +1467,12 @@ function ThemeToggle({ theme, setTheme }: { theme: ThemeKey; setTheme: (t: Theme
 
 // ───────────────────────── Entry ─────────────────────────
 interface Props {
-  onSignIn: () => void;
+  onOpenApp: () => void;
 }
 
 const THEME_STORAGE_KEY = 'aishukatsu-landing-theme';
 
-export function LandingPage({ onSignIn }: Props) {
+export function LandingPage({ onOpenApp }: Props) {
   const [theme, setThemeState] = useState<ThemeKey>(() => {
     if (typeof window === 'undefined') return 'dark';
     const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
@@ -1500,26 +1515,32 @@ export function LandingPage({ onSignIn }: Props) {
     return () => obs.disconnect();
   }, []);
 
-  const handleSignIn = async () => {
-    try {
-      await signInWithGoogle();
-      onSignIn();
-    } catch (e) {
-      console.error('Sign-in failed', e);
-    }
-  };
+  useEffect(() => {
+    let frame = 0;
+    const scrollToSection = () => {
+      try {
+        const id = decodeURIComponent(window.location.hash.slice(1));
+        if (!['features', 'views', 'ai', 'stories', 'magazine', 'download', 'faq', 'demo'].includes(id)) return;
+        frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'instant' }));
+      } catch { /* an invalid fragment does not block the public website */ }
+    };
+    if (document.readyState === 'complete') scrollToSection();
+    else window.addEventListener('load', scrollToSection, { once: true });
+    return () => { window.removeEventListener('load', scrollToSection); cancelAnimationFrame(frame); };
+  }, []);
 
   return (
-    <div className={'min-h-screen overflow-x-hidden ' + t.bg + ' ' + t.text}>
+    <div className={'landing-page min-h-screen overflow-x-hidden ' + t.bg + ' ' + t.text}>
       <LandingStyles />
-      <Nav t={t} theme={theme} onSignIn={handleSignIn} />
-      <Hero t={t} theme={theme} onSignIn={handleSignIn} />
+      <Nav t={t} theme={theme} onOpenApp={onOpenApp} />
+      <Hero t={t} theme={theme} onOpenApp={onOpenApp} />
       <LogoStrip t={t} />
       <AISection t={t} theme={theme} />
       <Features t={t} theme={theme} />
       <ViewsSection t={t} theme={theme} />
       <Stories t={t} theme={theme} />
-      <DownloadSection t={t} theme={theme} onSignIn={handleSignIn} />
+      <LandingMagazine theme={theme} />
+      <DownloadSection t={t} theme={theme} onOpenApp={onOpenApp} />
       <FAQ t={t} theme={theme} />
       <Footer t={t} theme={theme} />
       <ThemeToggle theme={theme} setTheme={setTheme} />

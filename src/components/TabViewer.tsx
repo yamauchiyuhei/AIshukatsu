@@ -37,7 +37,8 @@ export function TabViewer({ tab, rootName, onNavigate }: Props) {
     case 'markdown':
       return (
         <MarkdownPage
-          key={tab.key}
+          key={tab.instanceId ?? tab.key}
+          documentIdentity={tab.instanceId ?? tab.key}
           fileHandle={tab.handle}
           fileKey={tab.key}
           label={tab.label}
@@ -47,17 +48,17 @@ export function TabViewer({ tab, rootName, onNavigate }: Props) {
         />
       );
     case 'image':
-      return <ImageViewer handle={tab.handle} label={tab.label} {...shellProps} />;
+      return <ImageViewer key={tab.key} handle={tab.handle} label={tab.label} {...shellProps} />;
     case 'pdf':
-      return <PdfViewer handle={tab.handle} label={tab.label} {...shellProps} />;
+      return <PdfViewer key={tab.key} handle={tab.handle} label={tab.label} {...shellProps} />;
     case 'text':
-      return <TextViewer handle={tab.handle} label={tab.label} {...shellProps} />;
+      return <TextViewer key={tab.key} handle={tab.handle} label={tab.label} {...shellProps} />;
     case 'sheet':
-      return <SheetPreviewer handle={tab.handle} label={tab.label} {...shellProps} />;
+      return <SheetPreviewer key={tab.key} handle={tab.handle} label={tab.label} {...shellProps} />;
     case 'docx':
-      return <DocxViewer handle={tab.handle} label={tab.label} {...shellProps} />;
+      return <DocxViewer key={tab.key} handle={tab.handle} label={tab.label} {...shellProps} />;
     case 'unsupported':
     default:
-      return <UnsupportedFallback handle={tab.handle} label={tab.label} {...shellProps} />;
+      return <UnsupportedFallback key={tab.key} handle={tab.handle} label={tab.label} {...shellProps} />;
   }
 }

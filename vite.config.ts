@@ -10,8 +10,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        desktopAuth: resolve(__dirname, 'desktop-auth.html'),
+        main: resolve(import.meta.dirname, 'index.html'),
+        desktopAuth: resolve(import.meta.dirname, 'desktop-auth.html'),
+        desktopAuthV2: resolve(import.meta.dirname, 'desktop-auth-v2.html'),
       },
     },
   },

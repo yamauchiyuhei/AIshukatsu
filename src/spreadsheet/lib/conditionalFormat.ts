@@ -1,3 +1,4 @@
+import { parseLocalDate, isClosedStatus } from '../../lib/deadlines';
 import { CellValue, COMPLETED_STATUSES, REJECTED_STATUSES, Row } from '../types/sheet';
 
 export type Urgency = 'overdue' | 'today' | 'soon' | 'week' | 'normal' | 'done';
@@ -21,9 +22,7 @@ export function urgencyForDate(value: CellValue, completed: boolean): Urgency {
 
 export function parseDate(s: string): Date | null {
   if (!s) return null;
-  const d = new Date(s);
-  if (isNaN(d.getTime())) return null;
-  return d;
+  return parseLocalDate(s);
 }
 
 export const URGENCY_BG: Record<Urgency, string> = {

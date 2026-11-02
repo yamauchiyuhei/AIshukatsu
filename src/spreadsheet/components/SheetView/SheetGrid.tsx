@@ -1,3 +1,4 @@
+import { isTextInput } from '../../../lib/cellValues';
 import { useEffect, useMemo, useRef, useState, KeyboardEvent } from 'react';
 import {
   ArrowDown,
@@ -92,6 +93,13 @@ export function SheetGrid() {
     });
   }, [sheet.columns]);
 
+  useEffect(() => {
+    if (!selection || !gridRef.current) return;
+    const cell = gridRef.current.querySelector<HTMLElement>(`[data-row-id="${CSS.escape(selection.rowId)}"][data-col-id="${CSS.escape(selection.colId)}"]`);
+    cell?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if(!editingNow&&!isTextInput(document.activeElement)&&!document.querySelector('[role=dialog]'))cell?.focus({preventScroll:true});
+  }, [selection,editingNow]);
+
   /* ----------- Column resize ----------- */
   const resizeRef = useRef<{ colId: string; startX: number; startW: number } | null>(
     null,
@@ -130,11 +138,11 @@ export function SheetGrid() {
   /* ----------- Copy / paste / fill ----------- */
   useEffect(() => {
     const onCopy = async (e: ClipboardEvent) => {
-      if (editingNow) return;
+      if (editingNow || isTextInput(e.target) || !gridRef.current?.contains(document.activeElement)) return;
       const sel = useSheet.getState().selection;
       const range = useSheet.getState().selectionRange;
       const s = useSheet.getState();
-      const active = getActiveSheet(s);
+      const active = { ...getActiveSheet(s), rows: orderedRows };
       let text = '';
       if (range) {
         text = rangeToTsv(active, range);
@@ -147,7 +155,7 @@ export function SheetGrid() {
       e.clipboardData?.setData('text/plain', text);
     };
     const onPaste = async (e: ClipboardEvent) => {
-      if (editingNow) return;
+      if (editingNow || isTextInput(e.target) || !gridRef.current?.contains(document.activeElement)) return;
       const sel = useSheet.getState().selection;
       if (!sel) return;
       const text = e.clipboardData?.getData('text/plain') ?? '';
@@ -155,7 +163,7 @@ export function SheetGrid() {
       e.preventDefault();
       const values = parseTsv(text);
       const s = useSheet.getState();
-      const active = getActiveSheet(s);
+      const active = { ...getActiveSheet(s), rows: orderedRows };
       const updates = buildPasteUpdates(active, sel, values).updates;
       if (updates.length) {
         applyCellUpdates(updates);
@@ -168,11 +176,11 @@ export function SheetGrid() {
       document.removeEventListener('copy', onCopy);
       document.removeEventListener('paste', onPaste);
     };
-  }, [applyCellUpdates, editingNow]);
+  }, [applyCellUpdates, editingNow, orderedRows]);
 
   /* ----------- Keyboard navigation ----------- */
   const onGridKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (editingNow) return;
+    if (editingNow || e.nativeEvent.isComposing || isTextInput(e.target)) return;
     const meta = e.metaKey || e.ctrlKey;
 
     if (meta && e.key.toLowerCase() === 'd') {
@@ -180,7 +188,7 @@ export function SheetGrid() {
       e.preventDefault();
       const sel = useSheet.getState().selection;
       if (!sel) return;
-      const active = getActiveSheet(useSheet.getState());
+      const active = { ...getActiveSheet(useSheet.getState()), rows: orderedRows };
       const u = fillDownUpdate(active, sel);
       if (u) {
         updateCell(u.rowId, u.colId, u.value);
@@ -214,7 +222,7 @@ export function SheetGrid() {
       // Tab at end-of-grid → add new row
       const sel = useSheet.getState().selection;
       if (sel) {
-        const active = getActiveSheet(useSheet.getState());
+        const active = { ...getActiveSheet(useSheet.getState()), rows: orderedRows };
         const lastRow = active.rows[active.rows.length - 1];
         const lastCol = active.columns[active.columns.length - 1];
         if (sel.rowId === lastRow?.id && sel.colId === lastCol?.id && !e.shiftKey) {
@@ -226,9 +234,11 @@ export function SheetGrid() {
       moveSelection(e.shiftKey ? -1 : 1, 0);
       return;
     }
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' || e.key === 'F2') {
+      if((e.target as HTMLElement).closest('button,a'))return;
       e.preventDefault();
-      moveSelection(0, e.shiftKey ? -1 : 1);
+      const selection=useSheet.getState().selection;
+      if(selection){const cell=gridRef.current?.querySelector<HTMLElement>(`[data-row-id="${CSS.escape(selection.rowId)}"][data-col-id="${CSS.escape(selection.colId)}"]`);cell?.querySelector<HTMLButtonElement>('button')?.click();}
       return;
     }
     if (e.key === 'Escape') {
@@ -254,14 +264,14 @@ export function SheetGrid() {
         ref={gridRef}
         tabIndex={0}
         onKeyDown={onGridKeyDown}
-        className="flex-1 overflow-auto rounded-tl-2xl bg-white outline-none"
+        className="flex-1 overflow-auto rounded-tl-2xl bg-white outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
         onPointerMove={onResizeMove}
         onPointerUp={onResizeUp}
       >
-        <table className="min-w-full border-separate border-spacing-0 text-xs">
+        <table aria-label="エントリー一覧" className="min-w-full border-separate border-spacing-0 text-xs">
           <thead className="sticky top-0 z-20">
             <tr>
-              <th className="sticky left-0 z-30 w-10 border-b border-r border-slate-200/60 bg-white/80 px-1 py-2 text-center text-[10px] font-medium text-slate-500 backdrop-blur">
+              <th style={{ minWidth: 40, width: 40 }} className="sticky left-0 z-30 w-10 border-b border-r border-slate-200/60 bg-white/80 px-1 py-2 text-center text-[10px] font-medium text-slate-500 backdrop-blur">
                 #
               </th>
               {sheet.columns.map((col) => {
@@ -279,7 +289,8 @@ export function SheetGrid() {
                 return (
                   <th
                     key={col.id}
-                    style={{ minWidth: w, width: w }}
+                    aria-sort={sortColumnId === col.id ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
+                    style={{ minWidth: w, width: w, ...(col.id === 'company' ? { position: 'sticky', left: 40, zIndex: 35, background: 'white' } : {}) }}
                     className="relative border-b border-r border-slate-200/60 bg-white/80 px-2 py-2 text-left text-[11px] font-semibold text-slate-700 backdrop-blur"
                   >
                     <div className="flex items-center gap-1">
@@ -295,6 +306,7 @@ export function SheetGrid() {
                       <div className="relative">
                         <button
                           type="button"
+                          aria-label={`${col.name}の列メニュー`}
                           onClick={() => setOpenColMenu(openColMenu === col.id ? null : col.id)}
                           className="rounded-full p-0.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
                         >
@@ -319,10 +331,12 @@ export function SheetGrid() {
                             <button
                               type="button"
                               className="block w-full px-3 py-1.5 text-left text-rose-600 hover:bg-rose-50"
+                              disabled={col.id === 'company' || col.id === 'status'}
+                              title={col.id === 'company' || col.id === 'status' ? '企業名とステータスは管理に必要な列です' : undefined}
                               onClick={async () => {
                                 setOpenColMenu(null);
                                 const ok = await confirmDialog(
-                                  `列「${col.name}」を削除します。データも消えます。`,
+                                  `列「${col.name}」を削除します。元に戻す操作で復元できます。`,
                                   { title: '列を削除', destructive: true, okLabel: '削除' },
                                 );
                                 if (ok) deleteColumn(col.id);
@@ -376,7 +390,12 @@ export function SheetGrid() {
                     return (
                       <td
                         key={col.id}
-                        style={{ minWidth: w, width: w }}
+                        data-row-id={row.id}
+                        data-col-id={col.id}
+                        tabIndex={isSelected ? 0 : -1}
+                        aria-selected={!!isSelected}
+                        aria-label={`${String(row.cells.company ?? '企業名未入力')}、${col.name}`}
+                        style={{ minWidth: w, width: w, ...(col.id === 'company' ? { position: 'sticky', left: 40, zIndex: 15, background: 'white' } : {}) }}
                         className={`relative border-b border-r border-slate-200/60 bg-white p-0 align-top transition group-hover:bg-indigo-50/30 ${
                           isSelected ? 'ring-2 ring-inset ring-indigo-500/70' : ''
                         }`}
@@ -396,7 +415,7 @@ export function SheetGrid() {
                     );
                   })}
                   <td className="border-b border-slate-200/60 bg-white px-1 align-middle group-hover:bg-indigo-50/30">
-                    <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100">
+                    <div className="flex items-center gap-0.5 opacity-100 sm:opacity-30 sm:group-hover:opacity-100 focus-within:opacity-100">
                       <button
                         type="button"
                         onClick={() => togglePinRow(row.id)}

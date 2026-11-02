@@ -130,37 +130,14 @@ export async function loadWorkbook(uid: string): Promise<Workbook | null> {
   try {
     // 1. Try per-user key first
     const wb = await get<Workbook>(keyWorkbook(uid));
-    if (wb && wb.sheets?.length) {
-      if (isSeedWorkbook(wb)) {
-        // Seed-only data — likely a failed migration artifact. Try shared key.
-        console.log('[persistence] per-user key has only seed data, attempting recovery from shared key');
-      } else {
-        // Has real data. Check the migration flag to determine ownership.
-        // This flag was set to the original owner's UID when they first
-        // migrated from the shared key (v0.2.7+).
-        const owner = await get<string>(KEY_MIGRATION_DONE);
-        if (owner && owner !== uid) {
-          // Another UID owns the shared data. This per-user key is a
-          // v0.2.3 mis-copy. Ignore it and start fresh.
-          console.log(`[persistence] ignoring mis-copied data for ${uid} (owner: ${owner})`);
-          // Fall through → return null → hydrate creates empty seed
-        } else {
-          // Owner matches, or flag is not set yet (first run).
-          // If flag is unset, set it now to claim ownership.
-          if (!owner) {
-            await set(KEY_MIGRATION_DONE, uid);
-            console.log(`[persistence] claimed ownership for ${uid}`);
-          }
-          return wb;
-        }
-      }
-    }
+    // A UID-scoped workbook belongs to this UID. The legacy migration flag
+    // must never invalidate a different user's legitimate saved workbook.
+    if (wb && wb.sheets?.length && !isSeedWorkbook(wb)) return wb;
 
     // 2. Try to migrate from shared key
     return await migrateSharedToUser(uid);
   } catch (e) {
-    console.error('loadWorkbook failed', e);
-    return null;
+    throw new Error('端末内のデータを読み込めません。保存領域や空き容量を確認してください。');
   }
 }
 
@@ -182,7 +159,7 @@ export async function saveWorkbook(uid: string, wb: Workbook): Promise<void> {
   try {
     await set(keyWorkbook(uid), wb);
   } catch (e) {
-    console.error('saveWorkbook failed', e);
+    throw new Error('端末内の保存領域へ書き込めません。空き容量を確認してください。');
   }
 }
 
@@ -193,7 +170,7 @@ export function createInitialWorkbook(): Workbook {
 /* ----------- Auto backups (per-user) ----------- */
 
 function todayKey(): string {
-  return new Date().toISOString().slice(0, 10);
+  return new Date().toLocaleDateString('en-CA');
 }
 
 export async function maybeAutoBackup(uid: string, wb: Workbook): Promise<void> {
@@ -266,4 +243,9 @@ export async function saveCloudSyncedAt(
   } catch (e) {
     console.error('saveCloudSyncedAt failed', e);
   }
+}
+
+export async function createManualBackup(uid: string, workbook: Workbook) {
+  const list = await listBackups(uid);
+  await set(keyBackups(uid), [{ id: genId('bk'), createdAt: new Date().toISOString(), workbook }, ...list].slice(0, MAX_BACKUPS));
 }

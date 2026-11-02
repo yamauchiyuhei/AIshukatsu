@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { create } from 'zustand';
 import { CheckCircle2, Info, AlertTriangle, XCircle, X } from 'lucide-react';
 
@@ -54,7 +54,7 @@ export function ToastHost() {
   const toasts = useToastStore((s) => s.toasts);
   const dismiss = useToastStore((s) => s.dismiss);
   return (
-    <div className="pointer-events-none fixed bottom-4 right-4 z-[9999] flex flex-col gap-2">
+    <div aria-live="polite" aria-relevant="additions" className="pointer-events-none fixed bottom-4 right-4 z-[9999] flex flex-col gap-2">
       {toasts.map((t) => {
         const Icon = ICONS[t.kind];
         return (
@@ -105,6 +105,7 @@ const useConfirmStore = create<{
   },
   ask: (opts) =>
     new Promise<boolean>((resolve) => {
+      get().state.resolver?.(false);
       set({
         state: {
           open: true,
@@ -133,43 +134,5 @@ export function ConfirmHost() {
   const state = useConfirmStore((s) => s.state);
   const resolve = useConfirmStore((s) => s.resolve);
 
-  useEffect(() => {
-    if (!state.open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') resolve(false);
-      if (e.key === 'Enter') resolve(true);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [state.open, resolve]);
-
-  if (!state.open) return null;
-  return (
-    <div className="fixed inset-0 z-[9998] flex items-center justify-center bg-slate-900/30 backdrop-blur-sm">
-      <div className="w-[360px] rounded-2xl bg-white p-5 shadow-2xl animate-pop-in">
-        <h3 className="mb-1 text-sm font-semibold text-slate-900">{state.title}</h3>
-        <p className="mb-4 whitespace-pre-wrap text-xs leading-5 text-slate-600">
-          {state.message}
-        </p>
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={() => resolve(false)}
-            className="rounded-full px-4 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100"
-          >
-            {state.cancelLabel}
-          </button>
-          <button
-            onClick={() => resolve(true)}
-            className={`rounded-full px-4 py-1.5 text-xs font-semibold text-white shadow-sm ${
-              state.destructive
-                ? 'bg-rose-600 hover:bg-rose-700'
-                : 'bg-indigo-600 hover:bg-indigo-700'
-            }`}
-          >
-            {state.okLabel}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  return <ConfirmDialog open={state.open} title={state.title} message={state.message} confirmLabel={state.okLabel} cancelLabel={state.cancelLabel} destructive={state.destructive} onConfirm={() => resolve(true)} onCancel={() => resolve(false)} />;
 }

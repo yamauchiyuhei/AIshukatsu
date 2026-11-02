@@ -25,13 +25,14 @@ export function ImageViewer({ handle, label, breadcrumb, rootName, onNavigate }:
     (async () => {
       try {
         const file = await handle.getFile();
+        if(file.size>50*1024*1024)throw new Error('大きいファイルはダウンロードして専用アプリで開いてください。');
         if (cancelled) return;
         objectUrl = URL.createObjectURL(file);
         setUrl(objectUrl);
         setFileRef(file);
       } catch (e) {
         console.error('[ImageViewer] load failed', e);
-        if (!cancelled) setError('画像を読み込めませんでした');
+        if (!cancelled) setError(e instanceof Error?e.message:'画像を読み込めませんでした');
       }
     })();
     return () => {

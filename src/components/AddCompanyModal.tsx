@@ -1,3 +1,5 @@
+import { validateFileName } from '../lib/fileNames';
+import { Modal } from './ui/Modal';
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import { Workspace } from '../types';
@@ -69,7 +71,7 @@ export function AddCompanyModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const v = validateName(name);
+    const v = validateFileName(name);
     if (v) {
       setError(v);
       return;
@@ -85,8 +87,7 @@ export function AddCompanyModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+    <Modal open onClose={onClose} ariaLabel="企業を追加" className="max-w-md p-6">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold">企業を追加</h2>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
@@ -134,7 +135,6 @@ export function AddCompanyModal({
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </Modal>
   );
 }

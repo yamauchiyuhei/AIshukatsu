@@ -1,3 +1,4 @@
+import { sanitizeHtml } from '../../lib/safeHtml';
 import { useEffect, useState } from 'react';
 import { ViewerShell, downloadFile } from './ViewerShell';
 import { extOf } from '../../lib/fileKind';
@@ -37,6 +38,7 @@ export function SheetPreviewer({ handle, label, breadcrumb, rootName, onNavigate
     (async () => {
       try {
         const file = await handle.getFile();
+        if(file.size>20*1024*1024)throw new Error('大きいファイルはダウンロードして専用アプリで開いてください。');
         if (cancelled) return;
         setFileRef(file);
         // Dynamic import keeps xlsx out of the initial bundle. It's already
@@ -56,7 +58,7 @@ export function SheetPreviewer({ handle, label, breadcrumb, rootName, onNavigate
         setActive(names[0] ?? null);
       } catch (e) {
         console.error('[SheetPreviewer] load failed', e);
-        if (!cancelled) setError('スプレッドシートを読み込めませんでした');
+        if (!cancelled) setError(e instanceof Error?e.message:'スプレッドシートを読み込めませんでした');
       }
     })();
     return () => {
@@ -100,7 +102,7 @@ export function SheetPreviewer({ handle, label, breadcrumb, rootName, onNavigate
           )}
           <div
             className="sheet-preview flex-1 overflow-auto px-6 py-4"
-            dangerouslySetInnerHTML={{ __html: data.html[active] }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.html[active]) }}
           />
         </div>
       ) : (

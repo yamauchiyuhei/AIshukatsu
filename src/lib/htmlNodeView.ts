@@ -1,26 +1,7 @@
 import { $prose } from '@milkdown/utils';
 import { Plugin } from '@milkdown/prose/state';
 
-/**
- * Minimal sanitizer: strips `<script>` blocks and `on*` attributes that would
- * open XSS holes when we use `innerHTML` to render raw HTML from markdown.
- * We intentionally keep things like `<span style>`, `<br>`, `<details>`,
- * `<kbd>`, etc.
- */
-function sanitizeHtml(raw: string): string {
-  return raw
-    // strip <script>…</script>
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '')
-    // strip standalone <script ... /> or <script>
-    .replace(/<\/?script\b[^>]*>/gi, '')
-    // strip on* handlers on any tag
-    .replace(/\s+on[a-z]+\s*=\s*"[^"]*"/gi, '')
-    .replace(/\s+on[a-z]+\s*=\s*'[^']*'/gi, '')
-    .replace(/\s+on[a-z]+\s*=\s*[^\s"'>]+/gi, '')
-    // strip javascript: URIs inside href/src
-    .replace(/(href|src)\s*=\s*"javascript:[^"]*"/gi, '$1="#"')
-    .replace(/(href|src)\s*=\s*'javascript:[^']*'/gi, "$1='#'");
-}
+import { sanitizeHtml } from './safeHtml';
 
 /**
  * Override the rendering of Milkdown's built-in `html` atom node so that raw

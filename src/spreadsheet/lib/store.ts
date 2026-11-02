@@ -1,4 +1,8 @@
+import { lookupIndustry } from '../../lib/companyIndustryMap';
 import { create } from 'zustand';
+import { SaveQueue, registerWriter, announceSaves } from '../../lib/saveQueue';
+import { normalizeCell, localDateKey } from '../../lib/cellValues';
+import { applyFilters } from './filtering';
 import {
   CellCoord,
   CellValue,
@@ -39,6 +43,8 @@ interface SheetState {
   workbook: Workbook;
   view: ViewMode;
   hydrated: boolean;
+  localStatus: 'idle' | 'loading' | 'dirty' | 'saving' | 'saved' | 'error';
+  localError: string | null;
 
   // selection
   selection: CellCoord | null;
@@ -78,8 +84,8 @@ interface SheetState {
   setPassphrase: (p: string | null) => void;
   signInGoogle: () => Promise<void>;
   signOutCloud: () => Promise<void>;
-  pullFromCloud: () => Promise<void>;
-  pushToCloud: () => Promise<void>;
+  pullFromCloud: () => Promise<boolean>;
+  pushToCloud: () => Promise<boolean>;
 
   /* ----------- lifecycle ----------- */
   hydrate: (uid: string) => Promise<void>;
@@ -91,6 +97,7 @@ interface SheetState {
   setRootHandle: (h: FileSystemDirectoryHandle | null) => void;
   /** Re-read the CSV from disk (picks up external edits, e.g. by Claude). */
   reloadFromCsv: () => Promise<void>;
+  discardLocalChangesAndReload: () => Promise<void>;
   /** Flush any pending CSV write immediately (used on blur / unload). */
   flushCsvNow: () => Promise<void>;
   /** Compare the on-disk CSV against what we last wrote/read. If it changed
@@ -164,6 +171,9 @@ let csvSaveTimer: ReturnType<typeof setTimeout> | null = null;
 let lastCsvSignature: string | null = null;
 /** Tracks which UID was last hydrated to avoid redundant re-loads. */
 let lastHydratedUid: string | null = null;
+let sessionEpoch = 0;
+let localWriter: SaveQueue | null = null;
+let unregisterLocalWriter: (() => void) | null = null;
 
 /** True if `wb` is just the initial seed (empty, or the single sample row). */
 function isSeedWorkbook(wb: Workbook): boolean {
@@ -185,51 +195,48 @@ function isSeedWorkbook(wb: Workbook): boolean {
  *     false "conflict" on the next sign-in.
  */
 function getUid(): string | null {
-  return useSheet.getState().user?.uid ?? null;
+  return useSheet.getState().user?.uid ?? 'local-guest';
 }
 
+function bindLocalWriter() {
+  unregisterLocalWriter?.();
+  const root = useSheet.getState().rootHandle;
+  const owner = getUid()!;
+  const epoch = sessionEpoch;
+  let signature = lastCsvSignature;
+  let writer: SaveQueue;
+  writer = new SaveQueue(async value => {
+    const wb = JSON.parse(value) as Workbook;
+    const savedValue = value;
+    // Cache every edit under the owner captured at the time of this writer.
+    if (root) {
+      const result = await saveToCsv(root, wb, signature);
+      if (result) { signature = result.signature; if (epoch === sessionEpoch) lastCsvSignature = signature; }
+      try { await saveWorkbook(owner, wb); } catch { /* Disk remains authoritative when the cache is full. */ }
+    } else await saveWorkbook(owner, wb);
+    if (epoch === sessionEpoch && JSON.stringify(useSheet.getState().workbook) === savedValue) {
+      useSheet.setState({ workbookUpdatedAt: null });
+      await saveLocalUpdatedAt(owner, null);
+    }
+  }, () => {
+    if (epoch === sessionEpoch) useSheet.setState({ localStatus: writer.state, localError: writer.state === 'error' ? '保存できませんでした。外部の変更・保存先の権限・空き容量を確認し、再試行してください。' : null });
+    announceSaves();
+  });
+  localWriter = writer;
+  unregisterLocalWriter = registerWriter(writer);
+}
 function scheduleSave(wb: Workbook, opts: { markDirty?: boolean } = {}) {
-  const markDirty = opts.markDirty !== false;
-  if (markDirty) {
+  const owner = getUid()!;
+  if (opts.markDirty !== false) {
     const iso = new Date().toISOString();
     useSheet.setState({ workbookUpdatedAt: iso });
-    const u = getUid();
-    if (u) void saveLocalUpdatedAt(u, iso);
+    void saveLocalUpdatedAt(owner, iso);
   }
-  // IndexedDB write — the primary store in legacy mode, a cache in csvMode.
-  if (saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    const u = getUid();
-    if (u) saveWorkbook(u, wb);
-  }, 400);
-
-  const root = useSheet.getState().rootHandle;
-  if (root) {
-    // CSV is the source of truth → write the file (debounced). Do NOT auto-push
-    // to the cloud: a second writer would re-introduce the divergence this
-    // whole change exists to remove. (Cloud stays a manual backup target.)
-    if (csvSaveTimer) clearTimeout(csvSaveTimer);
-    csvSaveTimer = setTimeout(() => {
-      void saveToCsv(root, wb, lastCsvSignature).then((res) => {
-        if (res) {
-          lastCsvSignature = res.signature;
-          // Local is now persisted to disk → clears the "dirty" flag the
-          // focus-reload conflict check reads.
-          useSheet.setState({ workbookUpdatedAt: null });
-        }
-      });
-    }, 700);
-    return;
-  }
-
-  // No file backing (degraded web) → cloud push, longer debounce to batch.
-  if (cloudTimer) clearTimeout(cloudTimer);
-  cloudTimer = setTimeout(() => {
-    const s = useSheet.getState();
-    if (s.user && firebaseEnabled) {
-      void s.pushToCloud();
-    }
-  }, 1500);
+  if (!localWriter) bindLocalWriter();
+  localWriter!.set(JSON.stringify(wb));
+  if (csvSaveTimer) clearTimeout(csvSaveTimer);
+  const writer = localWriter!;
+  csvSaveTimer = setTimeout(() => { void writer.flush().catch(() => {}); }, 350);
 }
 
 function uid(prefix: string) {
@@ -285,6 +292,8 @@ export const useSheet = create<SheetState>((set, get) => {
     workbook: createInitialWorkbook(),
     view: 'sheet',
     hydrated: false,
+    localStatus: 'idle',
+    localError: null,
     rootHandle: null,
 
     selection: null,
@@ -314,25 +323,29 @@ export const useSheet = create<SheetState>((set, get) => {
     hydrate: async (userUid: string) => {
       // Skip if already hydrated for this exact UID (setUser + SpreadsheetRoot
       // may both call hydrate — only the first one needs to run).
-      if (lastHydratedUid === userUid && get().hydrated) return;
+      if (lastHydratedUid === userUid && (get().hydrated || get().localStatus === 'loading')) return;
       lastHydratedUid = userUid;
-
+      const epoch = ++sessionEpoch;
+      set({ hydrated: false, localStatus: 'loading', localError: null });
+      try {
       const root = get().rootHandle;
       let wb: Workbook;
 
       if (root) {
         // ── CSV-backed (normal desktop/local case) ──────────────────────
         const res = await loadFromCsv(root);
+        if (epoch !== sessionEpoch) return;
         if (res) {
           wb = res.workbook;
           lastCsvSignature = res.signature;
-          await saveWorkbook(userUid, wb); // mirror into the IndexedDB cache
+          await saveWorkbook(userUid, wb).catch(() => {}); // disk remains authoritative
         } else {
           // No CSV file yet → migrate existing IndexedDB data once (never wipe
           // it), or seed an empty workbook. We avoid the 株式会社サンプル seed
           // here because the cloud seed-recovery logic keys off it.
           const idb = await loadWorkbook(userUid);
           wb = idb && !isSeedWorkbook(idb) ? idb : createInitialWorkbook();
+          if (epoch !== sessionEpoch) return;
           const saved = await saveToCsv(root, wb);
           if (saved) lastCsvSignature = saved.signature;
           await saveWorkbook(userUid, wb);
@@ -351,7 +364,7 @@ export const useSheet = create<SheetState>((set, get) => {
           seed.cells['kubun'] = '本選考';
           seed.cells['rating'] = 5;
           seed.cells['status'] = 'ES提出済';
-          seed.cells['es_deadline'] = new Date().toISOString().slice(0, 10);
+          seed.cells['es_deadline'] = localDateKey(new Date());
           seed.cells['memo'] = 'まずはここを編集してみてください';
           const sheet: Sheet = { id: uid('s'), name: '本選考', columns: cols, rows: [seed] };
           wb = { version: 2, sheets: [sheet], activeSheetId: sheet.id };
@@ -361,26 +374,37 @@ export const useSheet = create<SheetState>((set, get) => {
 
       const userViews = await loadSavedViews(userUid);
       const localUpdatedAt = await loadLocalUpdatedAt(userUid);
+      if (epoch !== sessionEpoch || userUid !== getUid() || root !== get().rootHandle) return;
+      bindLocalWriter();
       set({
         workbook: wb,
         hydrated: true,
+        localStatus: 'saved',
         savedViews: mergeWithBuiltins(userViews),
         workbookUpdatedAt: localUpdatedAt,
       });
-      maybeAutoBackup(userUid, wb);
+      void maybeAutoBackup(userUid, wb);
+      } catch (error) {
+        if (epoch !== sessionEpoch) return;
+        lastHydratedUid = null;
+        set({ hydrated: false, localStatus: 'error', localError: error instanceof Error ? error.message : '読み込みに失敗しました。再試行してください。' });
+      }
     },
 
     /* ----------- csv (file-backed source of truth) ----------- */
     setRootHandle: (h) => {
       const prev = get().rootHandle;
       if (h === prev) return;
-      set({ rootHandle: h });
+      ++sessionEpoch;
+      if (csvSaveTimer) clearTimeout(csvSaveTimer);
+      unregisterLocalWriter?.(); localWriter = null; unregisterLocalWriter = null;
+      set({ rootHandle: h, hydrated: false });
       // Gaining (or switching) a root handle → (re)hydrate from the CSV so the
       // file becomes the source of truth, even if we already hydrated from
       // IndexedDB before the handle finished loading.
       if (h) {
         lastCsvSignature = null;
-        const u = get().user?.uid;
+        const u = getUid();
         if (u) {
           lastHydratedUid = null;
           void get().hydrate(u);
@@ -388,11 +412,19 @@ export const useSheet = create<SheetState>((set, get) => {
       }
     },
 
+    discardLocalChangesAndReload: async () => {
+      if (csvSaveTimer) {clearTimeout(csvSaveTimer);csvSaveTimer=null;}
+      await localWriter?.discard();
+      await get().reloadFromCsv();
+      bindLocalWriter();
+      set({localError:null,localStatus:'saved'});
+    },
     reloadFromCsv: async () => {
       const root = get().rootHandle;
       if (!root) return;
+      const epoch=sessionEpoch;
       const res = await loadFromCsv(root);
-      if (!res) return;
+      if (!res || epoch!==sessionEpoch || root!==get().rootHandle) return;
       historyStack.clear();
       lastCsvSignature = res.signature;
       set({
@@ -407,17 +439,8 @@ export const useSheet = create<SheetState>((set, get) => {
     },
 
     flushCsvNow: async () => {
-      const root = get().rootHandle;
-      if (!root) return;
-      if (csvSaveTimer) {
-        clearTimeout(csvSaveTimer);
-        csvSaveTimer = null;
-      }
-      const res = await saveToCsv(root, get().workbook, lastCsvSignature);
-      if (res) {
-        lastCsvSignature = res.signature;
-        set({ workbookUpdatedAt: null });
-      }
+      if (csvSaveTimer) { clearTimeout(csvSaveTimer); csvSaveTimer = null; }
+      await localWriter?.flush();
     },
 
     checkExternalCsvChange: async () => {
@@ -463,7 +486,9 @@ export const useSheet = create<SheetState>((set, get) => {
         }
         return;
       }
-      const ri = sheet.rows.findIndex((r) => r.id === sel.rowId);
+      const filtered = applyFilters(sheet.rows, sheet.columns, { query: state.searchQuery, industry: state.filterIndustry, status: state.filterStatus, sortColumnId: state.sortColumnId, sortDir: state.sortDir });
+      const rows = [...filtered.filter(r => r.pinned), ...filtered.filter(r => !r.pinned)];
+      const ri = rows.findIndex((r) => r.id === sel.rowId);
       const ci = sheet.columns.findIndex((c) => c.id === sel.colId);
       if (ri < 0 || ci < 0) return;
       let nr = ri + dy;
@@ -476,9 +501,9 @@ export const useSheet = create<SheetState>((set, get) => {
         nc = sheet.columns.length - 1;
         nr -= 1;
       }
-      if (nr < 0 || nr >= sheet.rows.length) return;
+      if (nr < 0 || nr >= rows.length) return;
       set({
-        selection: { rowId: sheet.rows[nr].id, colId: sheet.columns[nc].id },
+        selection: { rowId: rows[nr].id, colId: sheet.columns[nc].id },
         selectionRange: null,
       });
     },
@@ -501,15 +526,17 @@ export const useSheet = create<SheetState>((set, get) => {
       }
       if (mode === 'range') {
         const sheet = getActiveSheet(state);
+        const ordered = applyFilters(sheet.rows, sheet.columns, { query: state.searchQuery, industry: state.filterIndustry, status: state.filterStatus, sortColumnId: state.sortColumnId, sortDir: state.sortDir });
+        const visible = [...ordered.filter(r=>r.pinned), ...ordered.filter(r=>!r.pinned)];
         const last = cur[cur.length - 1];
-        const lastIdx = last ? sheet.rows.findIndex((r) => r.id === last) : -1;
-        const targetIdx = sheet.rows.findIndex((r) => r.id === rowId);
+        const lastIdx = last ? visible.findIndex((r) => r.id === last) : -1;
+        const targetIdx = visible.findIndex((r) => r.id === rowId);
         if (lastIdx < 0 || targetIdx < 0) {
           set({ selectedRowIds: [rowId] });
           return;
         }
         const [a, b] = lastIdx < targetIdx ? [lastIdx, targetIdx] : [targetIdx, lastIdx];
-        set({ selectedRowIds: sheet.rows.slice(a, b + 1).map((r) => r.id) });
+        set({ selectedRowIds: visible.slice(a, b + 1).map((r) => r.id) });
       }
     },
 
@@ -545,12 +572,7 @@ export const useSheet = create<SheetState>((set, get) => {
     },
 
     updateCell: (rowId, colId, value) => {
-      mutateActiveSheet((s) => ({
-        ...s,
-        rows: s.rows.map((r) =>
-          r.id === rowId ? { ...r, cells: { ...r.cells, [colId]: value } } : r,
-        ),
-      }));
+      get().applyCellUpdates([{rowId,colId,value}]);
     },
 
     applyCellUpdates: (updates) => {
@@ -559,13 +581,14 @@ export const useSheet = create<SheetState>((set, get) => {
         const byRow = new Map<string, Record<string, CellValue>>();
         for (const u of updates) {
           if (!byRow.has(u.rowId)) byRow.set(u.rowId, {});
-          byRow.get(u.rowId)![u.colId] = u.value;
+          byRow.get(u.rowId)![u.colId] = normalizeCell(u.value, s.columns.find(c => c.id === u.colId) ?? { id: u.colId, name: u.colId, type: 'text' });
         }
         return {
           ...s,
           rows: s.rows.map((r) => {
             const patch = byRow.get(r.id);
             if (!patch) return r;
+            if (patch.company && !(patch.industry ?? r.cells.industry) && s.columns.some(c=>c.id==='industry')) { const industry=lookupIndustry(String(patch.company)); if(industry)patch.industry=industry; }
             return { ...r, cells: { ...r.cells, ...patch } };
           }),
         };
@@ -585,6 +608,7 @@ export const useSheet = create<SheetState>((set, get) => {
 
     /* ----------- column mutations ----------- */
     addColumn: (col) => {
+      if(!col.name.trim()||getActiveSheet(get()).columns.some(c=>c.name===col.name.trim()))return;
       mutateActiveSheet((s) => {
         const newCol: Column = { id: uid('c'), ...col };
         const rows = s.rows.map((r) => ({
@@ -596,6 +620,7 @@ export const useSheet = create<SheetState>((set, get) => {
     },
 
     deleteColumn: (colId) => {
+      if (colId === 'company' || colId === 'status') return;
       mutateActiveSheet((s) => {
         const columns = s.columns.filter((c) => c.id !== colId);
         const rows = s.rows.map((r) => {
@@ -607,6 +632,7 @@ export const useSheet = create<SheetState>((set, get) => {
     },
 
     renameColumn: (colId, name) => {
+      name=name.trim();if(!name||getActiveSheet(get()).columns.some(c=>c.id!==colId&&c.name===name))return;
       mutateActiveSheet((s) => ({
         ...s,
         columns: s.columns.map((c) => (c.id === colId ? { ...c, name } : c)),
@@ -797,57 +823,28 @@ export const useSheet = create<SheetState>((set, get) => {
 
     /* ----------- cloud / auth ----------- */
     setUser: (u) => {
-      set({ user: u });
+      if (get().user?.uid === u?.uid) return;
+      ++sessionEpoch;
+      if (csvSaveTimer) clearTimeout(csvSaveTimer);
+      unregisterLocalWriter?.(); unregisterLocalWriter = null; localWriter = null;
+      lastHydratedUid = null; lastCsvSignature = null;
+      historyStack.clear(); clearCryptoCache();
+      set({ user: u, rootHandle: null, hydrated: false, workbook: createInitialWorkbook(),
+        selection: null, selectionRange: null, selectedRowIds: [], searchQuery: '', filterIndustry: null, filterStatus: null,
+        passphrase: null, cloudSalt: null, cloudLastSyncedAt: null, workbookUpdatedAt: null,
+        cloudStatus: firebaseEnabled ? 'idle' : 'offline', cloudError: null, localStatus: 'idle', localError: null });
       if (u) {
-        // Try to restore passphrase from sessionStorage (per-tab cache)
-        try {
-          const stash = sessionStorage.getItem(`shukatsu-passphrase-${u.uid}`);
-          if (stash) set({ passphrase: stash });
-        } catch {}
-        // Hydrate the per-user workbook FIRST, then restore cloud sync
-        // state and pull. This ensures the UID-scoped data (including
-        // migration from the shared key) is loaded before any cloud
-        // operations compare local vs remote.
-        void (async () => {
-          await get().hydrate(u.uid);
-          const iso = await loadCloudSyncedAt(u.uid);
-          set({ cloudLastSyncedAt: iso ? new Date(iso) : null });
-          await get().pullFromCloud();
-          // The seed-recovery below targets the IndexedDB/cloud world only;
-          // in csvMode the CSV file is authoritative, so skip it.
-          if (get().rootHandle) return;
-          // Recovery: if after hydrate + cloud pull the workbook is still
-          // the empty seed (1 row with "株式会社サンプル"), this user may
-          // be the real owner whose data was lost by the v0.2.5 cleanup
-          // bug. Reset the migration flag and retry from the shared key.
-          const wb = get().workbook;
-          const isSeed =
-            wb.sheets.length === 1 &&
-            wb.sheets[0].rows.length <= 1 &&
-            wb.sheets[0].rows[0]?.cells?.['company'] === '株式会社サンプル';
-          if (isSeed) {
-            await resetMigrationFlag();
-            lastHydratedUid = null; // allow re-hydrate
-            await get().hydrate(u.uid);
-          }
-        })();
-      } else {
-        set({
-          passphrase: null,
-          cloudSalt: null,
-          cloudLastSyncedAt: null,
-          cloudStatus: firebaseEnabled ? 'idle' : 'offline',
-        });
-        clearCryptoCache();
+        try { set({ passphrase: sessionStorage.getItem(`shukatsu-passphrase-${u.uid}`) }); } catch {}
       }
     },
 
     setPassphrase: (p) => {
       const state = get();
       set({ passphrase: p });
-      if (p && state.user) {
+      if (state.user) {
         try {
-          sessionStorage.setItem(`shukatsu-passphrase-${state.user.uid}`, p);
+          if (p) sessionStorage.setItem(`shukatsu-passphrase-${state.user.uid}`, p);
+          else sessionStorage.removeItem(`shukatsu-passphrase-${state.user.uid}`);
         } catch {}
       }
     },
@@ -867,6 +864,9 @@ export const useSheet = create<SheetState>((set, get) => {
     },
 
     signOutCloud: async () => {
+      await get().flushCsvNow();
+      const owner = get().user?.uid;
+      if (owner) sessionStorage.removeItem(`shukatsu-passphrase-${owner}`);
       await fbSignOut();
       set({
         user: null,
@@ -879,32 +879,34 @@ export const useSheet = create<SheetState>((set, get) => {
 
     pullFromCloud: async () => {
       const state = get();
-      if (!state.user) return;
+      if (!state.user) return false;
       // CSV mode: the file is the source of truth — never let a cloud pull
       // overwrite it. (The cloud remains available only as a manual backup.)
-      if (state.rootHandle) return;
-      if (state.cloudStatus === 'syncing') return; // Guard: prevent concurrent sync
+      if (state.rootHandle) throw new Error('この一覧は端末のフォルダに保存されています。クラウドの取得はバックアップ画面から別シートへ復元してください。');
+      if (state.cloudStatus === 'syncing') return false; // Guard: prevent concurrent sync
       try {
         set({ cloudStatus: 'syncing', cloudError: null });
+        const epoch = sessionEpoch;
         const result = await pullWorkbook(state.user.uid, state.passphrase);
+        if (epoch !== sessionEpoch || get().user?.uid !== state.user.uid) return false;
 
         // A root handle may have arrived while the network call was in flight.
         if (get().rootHandle) {
-          set({ cloudStatus: 'synced' });
-          return;
+          set({ cloudStatus: 'idle' });
+          return false;
         }
 
         // No cloud doc yet → push current local as initial.
         if (!result) {
-          await get().pushToCloud();
-          return;
+          set({ cloudStatus: 'idle' });
+          return get().pushToCloud();
         }
 
         // Does the local workbook have edits that have not yet been pushed?
         const localDirty =
-          state.workbookUpdatedAt != null &&
+          get().workbookUpdatedAt != null &&
           (!state.cloudLastSyncedAt ||
-            new Date(state.workbookUpdatedAt) > state.cloudLastSyncedAt);
+            new Date(get().workbookUpdatedAt!) > state.cloudLastSyncedAt);
 
         // Has the cloud document changed since the last time we synced
         // with it on this device?
@@ -923,14 +925,14 @@ export const useSheet = create<SheetState>((set, get) => {
             cloudError:
               'ローカルとクラウドの両方に変更があります。手動で解決するまでクラウド同期を一時停止します。',
           });
-          return;
+          return false;
         }
 
         if (localDirty) {
           // Local is ahead of cloud → push it.
           set({ cloudSalt: result.salt });
-          await get().pushToCloud();
-          return;
+          set({ cloudStatus: 'idle' });
+          return get().pushToCloud();
         }
 
         if (cloudChanged) {
@@ -952,46 +954,55 @@ export const useSheet = create<SheetState>((set, get) => {
           scheduleSave(result.workbook, { markDirty: false });
           await saveCloudSyncedAt(state.user.uid, syncedAt.toISOString());
           await saveLocalUpdatedAt(state.user.uid, null);
-          return;
+          return true;
         }
 
         // Everything is already in sync.
         set({ cloudSalt: result.salt, cloudStatus: 'synced' });
+        return true;
       } catch (e) {
         set({
           cloudStatus: 'error',
           cloudError: e instanceof Error ? e.message : String(e),
         });
+        return false;
       }
     },
 
     pushToCloud: async () => {
       const state = get();
-      if (!state.user) return;
-      if (state.cloudStatus === 'syncing') return; // Guard: prevent concurrent sync
+      if (!state.user) return false;
+      if (state.cloudStatus === 'syncing') return false; // Guard: prevent concurrent sync
       try {
         set({ cloudStatus: 'syncing', cloudError: null });
-        const { salt } = await pushWorkbook(state.user.uid, state.workbook, {
+        const epoch = sessionEpoch;
+        await get().flushCsvNow();
+        const uploading = get().workbook;
+        if (uploading.sheets.some(sheet => sheet.columns.some(column => (column.type === 'password' || column.id === 'login_id') && sheet.rows.some(row => row.cells[column.id]))) && !state.passphrase) throw new Error('認証情報を保護するため、先に暗号化の合言葉を設定してください。');
+        const { salt } = await pushWorkbook(state.user.uid, uploading, {
           passphrase: state.passphrase,
           salt: state.cloudSalt,
         });
+        if (epoch !== sessionEpoch || get().user?.uid !== state.user.uid) return false;
         const now = new Date();
         set({
           cloudSalt: salt,
           cloudStatus: 'synced',
           cloudLastSyncedAt: now,
-          workbookUpdatedAt: null,
+          workbookUpdatedAt: get().workbook === uploading ? null : get().workbookUpdatedAt,
         });
         // Persist the successful-sync markers so that the next page load
         // (or sign-in on this device) knows local is already clean and
         // matches the cloud at `now`.
         await saveCloudSyncedAt(state.user.uid, now.toISOString());
-        await saveLocalUpdatedAt(state.user.uid, null);
+        if (get().workbook === uploading) await saveLocalUpdatedAt(state.user.uid, null);
+        return true;
       } catch (e) {
         set({
           cloudStatus: 'error',
           cloudError: e instanceof Error ? e.message : String(e),
         });
+        return false;
       }
     },
   };

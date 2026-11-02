@@ -11,6 +11,7 @@ import {
   rootCtx,
   defaultValueCtx,
   remarkPluginsCtx,
+  serializerCtx,
 } from '@milkdown/core';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { gfm } from '@milkdown/preset-gfm';
@@ -30,6 +31,7 @@ import { linkClickHandler } from '../lib/linkClickHandler';
 export interface MarkdownEditorHandle {
   undo: () => void;
   redo: () => void;
+  flushChanges:()=>void;
 }
 
 interface Props {
@@ -65,6 +67,7 @@ const MarkdownEditorInner = forwardRef<MarkdownEditorHandle, InnerProps>(
     const onChangeRef = useRef(onChange);
     const onHistoryChangeRef = useRef(onHistoryChange);
     const viewRef = useRef<EditorView | null>(null);
+    const captureRef=useRef<()=>void>(()=>{});
     const lastHistoryStateRef = useRef<{ canUndo: boolean; canRedo: boolean }>({
       canUndo: false,
       canRedo: false,
@@ -109,6 +112,7 @@ const MarkdownEditorInner = forwardRef<MarkdownEditorHandle, InnerProps>(
     useImperativeHandle(
       ref,
       () => ({
+        flushChanges:()=>captureRef.current(),
         undo: () => {
           const v = viewRef.current;
           if (!v) return;
@@ -200,6 +204,8 @@ const MarkdownEditorInner = forwardRef<MarkdownEditorHandle, InnerProps>(
             editor.action((ctx) => {
               const v = ctx.get(editorViewCtx);
               viewRef.current = v;
+              let observed=v.state.doc;
+              captureRef.current=()=>{if(viewRef.current&&!viewRef.current.state.doc.eq(observed)){observed=viewRef.current.state.doc;onChangeRef.current(ctx.get(serializerCtx)(observed));}};
               setView(v);
               // Initialise history state for this fresh editor
               lastHistoryStateRef.current = { canUndo: false, canRedo: false };
@@ -263,6 +269,7 @@ const MarkdownEditorInner = forwardRef<MarkdownEditorHandle, InnerProps>(
 
       return () => {
         destroyed = true;
+        captureRef.current=()=>{};
         viewRef.current = null;
         setView(null);
         setMenuVisible(false);
