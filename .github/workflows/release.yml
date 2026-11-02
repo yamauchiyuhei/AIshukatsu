@@ -1,7 +1,5 @@
 name: Release Desktop App
 on:
-  push:
-    tags: ['v*.*.*']
   workflow_dispatch:
     inputs:
       release_tag:
@@ -13,10 +11,28 @@ on:
         type: boolean
         default: false
 concurrency:
-  group: desktop-release-${{ github.event.inputs.release_tag || github.ref_name }}
+  group: desktop-release-${{ inputs.release_tag }}
   cancel-in-progress: false
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_TAG: ${{ inputs.release_tag }}
+    steps:
+      - name: Refuse changes to an already published release
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" --json isDraft > "$RUNNER_TEMP/release-state.json"; then
+            node -e "const fs=require('node:fs');if(!JSON.parse(fs.readFileSync(process.argv[1])).isDraft)throw Error('Published release artifacts are immutable; choose a new version')" "$RUNNER_TEMP/release-state.json"
+            gh release edit "$RELEASE_TAG" --target "$GITHUB_SHA"
+          fi
   build:
+    needs: prepare
     permissions:
       contents: write
     strategy:
@@ -47,7 +63,7 @@ jobs:
           workspaces: ./src-tauri -> target
       - name: Validate release version
         env:
-          RELEASE_TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
         run: node -e "const p=require('./package.json'),t=require('./src-tauri/tauri.conf.json');if(!/^v\d+\.\d+\.\d+$/.test(process.env.RELEASE_TAG)||process.env.RELEASE_TAG!=='v'+p.version||t.version!==p.version)throw Error('Release versions do not match')"
       - run: npm ci
       - name: Regression checks
@@ -71,8 +87,8 @@ jobs:
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
-          tagName: ${{ github.event.inputs.release_tag || github.ref_name }}
-          releaseName: 'AI就活 ${{ github.event.inputs.release_tag || github.ref_name }}'
+          tagName: ${{ inputs.release_tag }}
+          releaseName: 'AI就活 ${{ inputs.release_tag }}'
           releaseCommitish: ${{ github.sha }}
           releaseDraft: true
           prerelease: false
@@ -96,7 +112,7 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_REPO: ${{ github.repository }}
-      RELEASE_TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
+      RELEASE_TAG: ${{ inputs.release_tag }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -113,5 +129,5 @@ jobs:
           node scripts/updater-release.mjs "$update_dir" "${RELEASE_TAG#v}"
           gh release upload "$RELEASE_TAG" "$update_dir/latest.json" --clobber
       - name: Publish the complete verified update
-        if: github.event_name == 'push' || inputs.publish == true
+        if: inputs.publish == true
         run: gh release edit "$RELEASE_TAG" --draft=false --latest
