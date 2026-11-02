@@ -44,3 +44,42 @@ test('a missing CSV with surviving metadata is a recovery error, never an empty 
 test('flush captures editor contents even before its delayed change callback runs',async()=>{const writes:string[]=[];const writer=new SaveQueue(async value=>{writes.push(value);});let observed='';writer.prepare=()=>{if(observed!=='latest editor text'){observed='latest editor text';writer.set(observed);}};const unregister=registerWriter(writer);assert.equal(writer.dirty,false);await flushAllSaves();assert.deepEqual(writes,['latest editor text']);unregister();});
 test('unmount captures final editor text before deciding a writer is clean',async()=>{let saved='';const writer=new SaveQueue(async value=>{saved=value;});let captured=false;writer.prepare=()=>{if(!captured){captured=true;writer.set('final input');}};const unregister=registerWriter(writer);unregister();await flushAllSaves();assert.equal(saved,'final input');});
 test('quit also waits for an already-started native file export',async()=>{const {trackFileOperation}=await import('../src/lib/saveQueue');let release!:()=>void;const gate=new Promise<void>(resolve=>release=resolve);let finished=false;const exportFile=trackFileOperation(async()=>{await gate;finished=true;});const quitting=flushAllSaves();await tick();assert.equal(finished,false);release();await Promise.all([exportFile,quitting]);assert.equal(finished,true);});
+
+test('dialogs stay visible and close immediately when animation frames are suspended', async () => {
+  const React = await import('react');
+  const { act } = React;
+  const { createRoot } = await import('react-dom/client');
+  const { Modal } = await import('../src/components/ui/Modal');
+  const host = document.getElementById('root')!;
+  const opener = document.createElement('button');
+  document.body.append(opener);
+  opener.focus();
+  const previousFrame = globalThis.requestAnimationFrame;
+  const previousCancel = globalThis.cancelAnimationFrame;
+  const previousWindowFrame = window.requestAnimationFrame;
+  const previousWindowCancel = window.cancelAnimationFrame;
+  Object.assign(globalThis, { requestAnimationFrame: () => 1, cancelAnimationFrame: () => {} });
+  Object.assign(window, { requestAnimationFrame: () => 1, cancelAnimationFrame: () => {} });
+  const root = createRoot(host);
+  const render = (open: boolean) => root.render(React.createElement(Modal, {
+    open, onClose: () => {}, ariaLabel: '更新の確認',
+    children: React.createElement('button', null, '閉じる'),
+  }));
+  try {
+    await act(async () => render(true));
+    const dialog = document.querySelector<HTMLElement>('[role="dialog"]')!;
+    assert.ok(dialog);
+    assert.notEqual(getComputedStyle(dialog).opacity, '0');
+    assert.notEqual(getComputedStyle(dialog.firstElementChild!).opacity, '0');
+    assert.equal(host.inert, true);
+    await act(async () => render(false));
+    assert.equal(document.querySelector('[role="dialog"]'), null);
+    assert.ok(!host.inert);
+    assert.equal(document.activeElement, opener);
+  } finally {
+    await act(async () => root.unmount());
+    Object.assign(globalThis, { requestAnimationFrame: previousFrame, cancelAnimationFrame: previousCancel });
+    Object.assign(window, { requestAnimationFrame: previousWindowFrame, cancelAnimationFrame: previousWindowCancel });
+    opener.remove();
+  }
+});

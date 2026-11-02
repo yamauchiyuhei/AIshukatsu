@@ -1,5 +1,4 @@
 import { usePreferences } from '../../lib/preferences';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../lib/cn';
@@ -20,16 +19,9 @@ interface ModalProps {
 }
 
 /**
- * Animated modal surface shared by the app's dialogs.
- *
- * - Dims the background, centers a rounded card, and animates in/out with
- *   Framer Motion.
- * - Escape cancels by default; callers can override via `onEscape`.
- * - Enter is only intercepted when `onEnter` is supplied (so inputs behave
- *   normally in child forms unless explicitly wired).
- *
- * Designed as a drop-in replacement for the previous hand-rolled modal
- * wrappers in ConfirmDialog / RenameDialog while preserving behaviour.
+ * Shared dialog with immediate visibility, focus containment, and focus restoration.
+ * Do not gate visibility or removal on animation frames: background WKWebViews
+ * may suspend them while native update and download work continues.
  */
 export function Modal({
   open,
@@ -77,38 +69,27 @@ export function Modal({
   }, [open]);
 
   return createPortal(
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          key="backdrop"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.14 }}
-          className={`workspace-app ${preferences.textSize==='large'?'workspace-large-text':''} fixed inset-0 z-[10000] flex items-center justify-center bg-slate-900/40 backdrop-blur-[2px] p-4`}
-          onClick={onClose}
-          role="dialog"
-          aria-modal="true"
-          aria-label={ariaLabel}
+    open ? (
+      <div
+        className={`workspace-app ${preferences.textSize === 'large' ? 'workspace-large-text' : ''} fixed inset-0 z-[10000] flex items-center justify-center bg-slate-900/40 backdrop-blur-[2px] p-4`}
+        onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        aria-label={ariaLabel}
+      >
+        <div
+          ref={panelRef}
+          tabIndex={-1}
+          className={cn(
+            'max-h-[90dvh] overflow-auto w-full max-w-sm rounded-lg border border-slate-200 bg-white p-5 shadow-2xl',
+            className,
+          )}
+          onClick={(event) => event.stopPropagation()}
         >
-          <motion.div
-            key="panel"
-            ref={panelRef}
-            tabIndex={-1}
-            initial={{ opacity: 0, scale: 0.96, y: 6 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 4 }}
-            transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-            className={cn(
-              'max-h-[90dvh] overflow-auto w-full max-w-sm rounded-lg border border-slate-200 bg-white p-5 shadow-2xl',
-              className,
-            )}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {children}
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>, document.body
+          {children}
+        </div>
+      </div>
+    ) : null,
+    document.body,
   );
 }
