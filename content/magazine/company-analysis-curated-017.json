@@ -1,0 +1,131 @@
+{
+  "slug": "company-analysis-curated-017",
+  "status": "published",
+  "title": "日本マイクロソフトの企業分析｜クラウド・業務ソフト・AIを支える職種を整理",
+  "category": "company-research",
+  "author": "AI就活編集部",
+  "writingAssistance": "AIを活用して原稿を作成し、公式資料との照合・編集を行っています。",
+  "description": "日本マイクロソフトのAzure、Microsoft 365、Copilotを、クラウド構成の提案と日本郵船の導入事例から解説。営業、技術営業、カスタマーサクセス、技術サポートの違いを整理します。",
+  "lead": "日本マイクロソフトの仕事を調べるときは、Azureを使うシステムの構成を考える仕事と、Microsoft 365やCopilotを社員の業務に導入する仕事を分けてみましょう。クラウド、業務ソフト、AIがどう使われるのかを、技術営業の仕事と日本の導入事例から整理します。",
+  "tags": [
+    "日本マイクロソフト",
+    "企業研究",
+    "クラウド・AI"
+  ],
+  "sections": [
+    {
+      "id": "ms-japan-corporate-and-products",
+      "heading": "日本法人の役割と製品の使われ方を分ける",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "日本マイクロソフト株式会社の会社概要は、ソフトウェア、クラウドサービス、デバイスの営業・マーケティングを事業内容に掲げています。グローバルな製品の開発や提供について書かれた資料を読むときも、日本法人の事業内容や国内の顧客支援の事例、募集職種を別に確認すると、入社後に関わりたい仕事を考えやすくなります。"
+        },
+        {
+          "type": "paragraph",
+          "text": "製品の違いは、顧客が何をしようとしているかで整理できます。Azureは業務システムを構成するために使うクラウド基盤です。Microsoft 365は日々の共同作業に関わる業務サービス群で、Microsoft 365 Copilotはその業務にAIを取り入れるために使われます。クラウドの構成を検討する技術者と、会議や文書作成でAIを使う社員では、利用場面と導入時の課題が異なります。"
+        }
+      ]
+    },
+    {
+      "id": "azure-architecture-and-partners",
+      "heading": "Azure：顧客の要望を構成案と技術検証に落とす",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "日本マイクロソフトの社員紹介には、Azureの構成を提案し、技術面から相談に乗り、実現を妨げる条件を検証で見つける技術営業の例があります。顧客が「クラウドに移したい」と考えている段階と、どの機能をどの構成に移せるかを検証する段階では、必要な情報が違います。製品の説明だけでなく、顧客の要件を技術の判断材料に変える仕事として見ると、営業との違いを理解しやすくなります。"
+        },
+        {
+          "type": "paragraph",
+          "text": "顧客への提供には他社との協業もあります。日本マイクロソフトとソフトバンクは、Microsoft 365、Azure、Azure OpenAI Serviceなどと、ソフトバンクの通信サービスなどを組み合わせた提案を目指す戦略的提携を発表しました。外部パートナーとの仕事を調べるなら、誰がクラウドの設計や機能を提案し、誰が通信環境を提供するかという役割の違いに注目できます。"
+        }
+      ]
+    },
+    {
+      "id": "microsoft-365-copilot-adoption",
+      "heading": "Microsoft 365 Copilot：導入後に社員が使えるよう支援する",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "日本郵船の事例では、Microsoft 365 Copilotを全社に導入し、Teams会議の議事録、英文の翻訳、調査などに活用したと紹介されています。機能を使えるように設定することと、社員が日々の業務のどの場面で試すかを決めることは別の課題です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "同事例では、企業向けサポートサービスのMicrosoft Unifiedを活用し、日本マイクロソフトは技術支援に加え、社内向けの「Copilot ラジオ」への出演、他社事例の共有、イベントの調整などにも関わりました。導入後の支援に関心があるなら、問い合わせに答える仕事と、顧客の社員が使い方を見つける機会をつくる仕事の両方を調べられます。"
+        },
+        {
+          "type": "paragraph",
+          "text": "日本郵船では、AIの使い方を分かりやすく紹介する社内向けの施策に加え、他社との情報交換会も開きました。会議の記録と英文翻訳では、入力する情報も出力の確かめ方も違います。導入事例を読む際は、使う機能だけでなく、どの部署のどの作業を取り上げ、その使い方を他の社員にどう共有したかまで確認すると、活用支援の仕事が具体的になります。"
+        }
+      ]
+    },
+    {
+      "id": "ms-japan-job-roles-and-value-creation",
+      "heading": "職種は、提案・技術検証・活用支援・問い合わせ対応で比べる",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "日本マイクロソフトの新卒向け職種紹介では、営業と連携して顧客の要望を技術的に具体化する技術営業、顧客のビジネスやITの意思決定者と活用を支える職種例としてクラウドソリューションアーキテクト、電話やメールで技術支援を行うテクニカルサポートエンジニアなどを挙げています。営業は顧客やパートナーとの調整、技術営業は構成や検証、サポートは具体的な技術課題の解決というように、同じ製品を扱っても仕事の入口が違います。"
+        },
+        {
+          "type": "paragraph",
+          "text": "職種紹介や社員事例は業務を理解するための資料です。応募時は当該年度の新卒募集で法人・対象職種・条件を確認し、グローバルな職種紹介や日本の中途求人と区別してください。"
+        }
+      ]
+    },
+    {
+      "id": "ms-japan-questions-for-sessions",
+      "heading": "経験を使って、どの段階の支援に関心があるかを示す",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "自分の経験を振り返るなら、実際にツールを導入した際、利用者がどこでつまずき、設定、手順、説明のどれを見直したかを整理してみましょう。システムを試作して条件を検証した経験ならAzureの構成を提案する仕事、手順書を作り利用者に使い方を伝えた経験ならCopilotの導入後の支援と結びつけて考えられます。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "技術営業への質問例：既存システムをAzureへ移す構成を検討するとき、技術検証で確かめる条件を顧客とどう決めますか。",
+            "活用支援への質問例：日本郵船のようにMicrosoft 365 Copilotを全社に広げる場合、技術的な問い合わせへの対応と、使い方の紹介や社内イベントの支援はどの職種が担当しますか。"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "日本マイクロソフト株式会社の会社概要",
+      "url": "https://news.microsoft.com/ja-jp/cp/outline/"
+    },
+    {
+      "title": "日本マイクロソフト新卒採用：Azureの技術営業の社員紹介",
+      "url": "https://www.microsoft.com/ja-jp/mscorp/college/mskk-recruit-work-yuki"
+    },
+    {
+      "title": "日本マイクロソフトとソフトバンクのクラウド・生成AI分野での提携",
+      "url": "https://news.microsoft.com/ja-jp/2023/08/02/230802-boost-business-dx-in-japan-with-cloud-and-generative-ai-partnerships/"
+    },
+    {
+      "title": "マイクロソフト：日本郵船のMicrosoft 365 Copilot導入事例",
+      "url": "https://www.microsoft.com/ja-jp/customers/story/26275-nippon-yusen-kabushiki-kaisha-azure"
+    },
+    {
+      "title": "日本マイクロソフト新卒採用：職種紹介",
+      "url": "https://www.microsoft.com/ja-jp/mscorp/college/mskk-recruit-work"
+    }
+  ],
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "cover": {
+    "src": "/magazine/covers/company-analysis-curated-017-61f7c08c3b9a.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-017-61f7c08c3b9a-card.webp",
+    "alt": "日本マイクロソフトの企業研究（企業ロゴ）",
+    "width": 1280,
+    "height": 720,
+    "source": "official-logo",
+    "attribution": {
+      "title": "日本マイクロソフト 公式サイト",
+      "url": "https://www.microsoft.com/ja-jp/mscorp/college/mskk-recruit-work-yuki"
+    }
+  },
+  "editorialId": "C0131"
+}

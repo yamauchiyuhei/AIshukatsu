@@ -39,6 +39,45 @@ test('covers require safe local paths and dimensions, and exclude private genera
   for (const src of ['https://external.example/image.webp', '/magazine/covers/../../secret.png', '/magazine/covers/image.svg', '/magazine/covers/image.webp?private=1']) assert.ok(validate({ ...article, cover: { ...cover, src } }).length);
   for (const width of [0, -1, 1.5, 99999, '1280']) assert.ok(validate({ ...article, cover: { ...cover, width } }).length);
 });
+test('official logos require safe attribution and keep only public source metadata', () => {
+  const attribution = { title: '企業の公式ロゴ配布ページ', url: 'https://example.com/brand/', privateLicenseNotes: 'PRIVATE-NOTE' };
+  const cover = { src: '/magazine/covers/company-logo.webp', thumbnail: '/magazine/covers/company-logo-card.webp', alt: '企業ロゴ', width: 1280, height: 720, source: 'official-logo', attribution };
+  assert.deepEqual(validate({ ...fixture(), cover }), []);
+  assert.deepEqual(articleSummary({ ...fixture(), cover }).cover.attribution, { title: attribution.title, url: attribution.url });
+  assert.equal(JSON.stringify(articleSummary({ ...fixture(), cover })).includes('PRIVATE'), false);
+  assert.ok(validate({ ...fixture(), cover: { ...cover, attribution: undefined } }).length);
+  for (const url of ['javascript:alert(1)', 'http://example.com/logo', 'https://user:secret@example.com/logo', 'https://example.com/ logo']) {
+    assert.ok(validate({ ...fixture(), cover: { ...cover, attribution: { ...attribution, url } } }).length);
+  }
+  assert.ok(validate({ ...fixture(), cover: { ...cover, source: 'unknown' } }).length);
+  assert.deepEqual(validate({ ...fixture(), cover: { ...cover, source: 'editorial-design', attribution: undefined } }), []);
+});
+test('reader captions identify logos, editorial designs and generated images accurately', () => {
+  const covers = ['ai-generated', 'official-logo', 'editorial-design'].map(source => ({
+    src: '/magazine/covers/company-logo.webp', thumbnail: '/magazine/covers/company-logo-card.webp',
+    alt: '企業研究の図版', width: 1280, height: 720, source,
+    ...(source === 'official-logo' ? { attribution: { title: '公式配布元', url: 'https://example.com/brand/' } } : {}),
+  }));
+  const script = `
+    import React from 'react';
+    import { renderToStaticMarkup } from 'react-dom/server';
+    import { MagazineView } from './src/magazine/MagazineView.tsx';
+    const fixture = ${JSON.stringify(fixture())};
+    const covers = ${JSON.stringify(covers)};
+    process.stdout.write(JSON.stringify(covers.map(cover => renderToStaticMarkup(
+      React.createElement(MagazineView, { articles: [], article: { ...fixture, cover }, page: 'article' })
+    ))));
+  `;
+  const html = JSON.parse(execFileSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', script], {
+    cwd: fileURLToPath(new URL('../', import.meta.url)), encoding: 'utf8',
+  }));
+  assert.ok(html[0].includes('AI生成のイメージ画像'));
+  assert.ok(html[1].includes('ロゴの出典'));
+  assert.ok(html[1].includes('href="https://example.com/brand/" target="_blank" rel="noopener noreferrer"'));
+  assert.equal(html[1].includes('AI生成のイメージ画像'), false);
+  assert.ok(html[2].includes('AI就活編集部による図版'));
+  assert.equal(html[2].includes('AI生成のイメージ画像'), false);
+});
 test('calendar date is based on Tokyo at the UTC date boundary', () => {
   assert.equal(todayInTokyo(new Date('2026-10-22T15:00:00Z')), '2026-10-23');
   assert.equal(todayInTokyo(new Date('2026-10-22T14:59:59Z')), '2026-10-22');

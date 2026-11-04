@@ -25,55 +25,61 @@
     }
   },
   {
-    "slug": "backup-rules-for-job-hunting-data-drafts-and-selection-records",
-    "title": "就活データをバックアップする方法｜原稿・選考記録を失わない保存ルール",
-    "description": "端末故障やサービス障害に備えて、ESの原稿・選考記録・企業情報メモを復元できる形で保存するための具体的なバックアップルールを解説します。2か所保存・わかりやすい命名・定期確認の3つの習慣で、大切なデータを守りましょう。",
-    "category": "ai",
+    "slug": "company-analysis-1301",
+    "title": "極洋の企業分析｜水産商材の調達・加工・販売をつなぐ仕事",
+    "description": "極洋の水産事業を、原料の買い付けと漁獲・養殖、工場での加工、外食や小売への販売から解説します。",
+    "category": "company-research",
     "author": "AI就活編集部",
-    "datePublished": "2026-10-27",
-    "dateModified": "2026-10-27",
+    "datePublished": "2026-11-04",
+    "dateModified": "2026-11-04",
     "tags": [
-      "就活",
-      "データ管理",
-      "バックアップ",
-      "ES原稿",
-      "選考記録"
+      "極洋",
+      "水産業",
+      "食品メーカー",
+      "総合食品",
+      "企業分析"
     ],
-    "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
-    "readingMinutes": 6,
+    "writingAssistance": "AIを活用して原稿を作成し、公式資料との照合・編集を行っています。",
+    "readingMinutes": 5,
     "cover": {
-      "src": "/magazine/covers/backup-rules-for-job-hunting-data-drafts-and-selection-records-f9433d95e2.webp",
-      "thumbnail": "/magazine/covers/backup-rules-for-job-hunting-data-drafts-and-selection-records-f9433d95e2-card.webp",
-      "alt": "机でノートパソコンに外付けSSDを接続し就活データを保存する学生",
+      "src": "/magazine/covers/company-analysis-1301-5fde5092e6f6.webp",
+      "thumbnail": "/magazine/covers/company-analysis-1301-5fde5092e6f6-card.webp",
+      "alt": "極洋の企業研究（企業ロゴ）",
       "width": 1280,
       "height": 720,
-      "source": "ai-generated"
+      "source": "official-logo",
+      "attribution": {
+        "title": "極洋 公式サイト",
+        "url": "https://www.kyokuyo.co.jp/"
+      }
     }
   },
   {
-    "slug": "c-gab-test-center-day-flow-and-checklist",
-    "title": "C-GABをテストセンターで受けるときの当日の流れと持ち物",
-    "description": "C-GABの物理的なテストセンター会場で受検するときの当日の流れと持ち物を整理します。受付から用具返却までのステップと、事前に確認しておきたいポイントをまとめました。",
-    "category": "schedule",
+    "slug": "company-analysis-1332",
+    "title": "ニッスイの企業分析｜水産資源と食品をつなぐ事業の強み",
+    "description": "ニッスイが水産資源を食品につなぐ仕組みを、養殖研究、三つの温度帯での商品展開、食品を届ける職種から整理します。",
+    "category": "company-research",
     "author": "AI就活編集部",
-    "datePublished": "2026-10-27",
-    "dateModified": "2026-10-27",
+    "datePublished": "2026-11-04",
+    "dateModified": "2026-11-04",
     "tags": [
-      "C-GAB",
-      "テストセンター",
-      "就活準備",
-      "適性検査",
-      "当日の流れ"
+      "ニッスイ",
+      "企業研究",
+      "食品・水産"
     ],
-    "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
+    "writingAssistance": "AIを活用して原稿を作成し、公式資料との照合・編集を行っています。",
     "readingMinutes": 5,
     "cover": {
-      "src": "/magazine/covers/c-gab-test-center-day-flow-and-checklist-b5afa47723.webp",
-      "thumbnail": "/magazine/covers/c-gab-test-center-day-flow-and-checklist-b5afa47723-card.webp",
-      "alt": "受検会場を想定した受付で持ち物と予約票を確認する学生",
+      "src": "/magazine/covers/company-analysis-1332-b85058c89445.webp",
+      "thumbnail": "/magazine/covers/company-analysis-1332-b85058c89445-card.webp",
+      "alt": "ニッスイの企業研究（企業ロゴ）",
       "width": 1280,
       "height": 720,
-      "source": "ai-generated"
+      "source": "official-logo",
+      "attribution": {
+        "title": "ニッスイ 公式サイト",
+        "url": "https://www.nissui.co.jp/"
+      }
     }
   }
 ]

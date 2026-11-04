@@ -167,7 +167,11 @@ function ArticleReader({ article, articles }: { article: Article; articles: Arti
     <nav className="mag-breadcrumbs" aria-label="パンくずリスト"><a href="/">ホーム</a><span>/</span><a href="/magazine/">マガジン</a><span>/</span><span>{categoryOf(article).label}</span></nav>
     <article ref={ref}>
       <header className="mag-article-header"><a className="mag-category" href={'/magazine/?category=' + article.category}>{categoryOf(article).label}</a><div className="mag-byline"><a href="/magazine/#editorial">{article.author}</a><time dateTime={article.datePublished}>{formatDate(article.datePublished)} 公開</time>{article.dateModified !== article.datePublished && <time dateTime={article.dateModified}>{formatDate(article.dateModified)} 更新</time>}<span><Clock3 size={14} />約{article.readingMinutes}分</span></div><h1>{article.title}</h1></header>
-      <figure className="mag-article-cover"><ArticleCover article={article} large />{article.cover && <figcaption>AI生成のイメージ画像</figcaption>}</figure>
+      <figure className="mag-article-cover"><ArticleCover article={article} large />{article.cover && <figcaption>
+        {article.cover.source === 'ai-generated' && 'AI生成のイメージ画像'}
+        {article.cover.source === 'editorial-design' && 'AI就活編集部による図版'}
+        {article.cover.source === 'official-logo' && article.cover.attribution && <>ロゴの出典　<a href={article.cover.attribution.url} target="_blank" rel="noopener noreferrer">{article.cover.attribution.title}</a></>}
+      </figcaption>}</figure>
       <div className="mag-reading-layout"><div className="mag-body"><p className="mag-lead">{article.lead}</p><details className="mag-mobile-toc"><summary>この記事の目次<ChevronDown size={17} /></summary><TableOfContents article={article} active={active} /></details>
         {article.sections.map(section => <section id={'section-' + section.id} key={section.id}><h2>{section.heading}</h2>{section.blocks.map((block, i) => block.type === 'list' ? <ul key={i}>{block.items!.map((item, j) => <li key={j}>{item}</li>)}</ul> : block.type === 'note' ? <aside className="mag-note" key={i}>{block.text}</aside> : block.type === 'quote' ? <blockquote key={i}>{block.text}</blockquote> : <p key={i}>{block.text}</p>)}</section>)}
         {article.sources.length > 0 && <section className="mag-sources"><h2>参考資料</h2><ul>{article.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}<ArrowUpRight size={14} /></a></li>)}</ul></section>}

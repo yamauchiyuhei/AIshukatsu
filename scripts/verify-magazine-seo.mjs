@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { pageSize, magazinePagePath } from '../src/magazine/schema.mjs';
+import { pageSize, magazinePagePath, validateArticle } from '../src/magazine/schema.mjs';
 import { PUBLIC_ORIGIN } from '../src/lib/publicAnalytics.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -27,6 +27,7 @@ assert.ok(index.includes(`<link rel="canonical" href="${site.origin}/magazine/">
 assert.equal((index.match(/<h1\b/g) || []).length, 1);
 for (const article of catalog) {
   const body = JSON.parse(await read(`public/magazine/articles/${article.slug}.json`));
+  assert.deepEqual(validateArticle(body), [], article.slug + ': public article schema');
   const html = await read(`dist/magazine/${article.slug}/index.html`);
   const visibleHtml = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '');
   assert.ok(visibleHtml.includes(escapeHtml(article.title)), article.slug + ': title');
@@ -41,12 +42,31 @@ for (const article of catalog) {
     assert.equal(schema[0].image.url, site.origin + article.cover.src, article.slug + ': image schema');
     assert.ok(html.includes(`property="og:image" content="${site.origin}${article.cover.src}"`), article.slug + ': social image');
     assert.ok(visibleHtml.includes(`src="${article.cover.src}"`), article.slug + ': visible cover');
-    assert.ok(visibleHtml.includes('AI生成のイメージ画像'), article.slug + ': image disclosure');
-    assert.deepEqual(Object.keys(body.cover).sort(), ['src', 'thumbnail', 'alt', 'width', 'height', 'source'].sort(), article.slug + ': public cover fields');
+    const figure = visibleHtml.match(/<figure class="mag-article-cover">([\s\S]*?)<\/figure>/)?.[1];
+    assert.ok(figure, article.slug + ': cover figure');
+    const caption = figure.match(/<figcaption>([\s\S]*?)<\/figcaption>/)?.[1]?.replace(/&#x27;/g, '&#39;');
+    const coverFields = ['src', 'thumbnail', 'alt', 'width', 'height', 'source'];
+    if (article.cover.attribution) {
+      coverFields.push('attribution');
+      assert.deepEqual(Object.keys(body.cover.attribution).sort(), ['title', 'url'], article.slug + ': public attribution fields');
+      assert.deepEqual(body.cover.attribution, article.cover.attribution, article.slug + ': catalog attribution');
+    }
+    assert.deepEqual(Object.keys(body.cover).sort(), coverFields.sort(), article.slug + ': public cover fields');
+    assert.deepEqual(body.cover, article.cover, article.slug + ': catalog cover');
+    if (article.cover.source === 'official-logo') {
+      const attribution = article.cover.attribution;
+      assert.ok(attribution, article.slug + ': official logo attribution');
+      assert.equal(caption, `ロゴの出典　<a href="${escapeHtml(attribution.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(attribution.title)}</a>`, article.slug + ': linked logo attribution');
+    } else {
+      const captions = { 'ai-generated': 'AI生成のイメージ画像', 'editorial-design': 'AI就活編集部による図版' };
+      assert.ok(Object.hasOwn(captions, article.cover.source), article.slug + ': recognized cover type');
+      assert.equal(caption, captions[article.cover.source], article.slug + ': image disclosure');
+    }
   }
   const payload = JSON.parse(html.match(/<script type="application\/json" id="magazine-article-data">([\s\S]*?)<\/script>/)[1]);
   assert.equal(payload.article.slug, article.slug);
   assert.equal(payload.article.dateModified, article.dateModified);
+  assert.deepEqual(payload.article.cover, body.cover, article.slug + ': embedded public cover');
   assert.ok(payload.related.length <= 3, article.slug + ': small article payload');
   assert.ok(sitemap.includes(`<loc>${site.origin}/magazine/${article.slug}/</loc><lastmod>${article.dateModified}</lastmod>`));
   assert.ok(html.includes(`property="article:modified_time" content="${article.dateModified}"`));

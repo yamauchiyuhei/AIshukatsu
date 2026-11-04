@@ -1,0 +1,141 @@
+{
+  "slug": "company-analysis-curated-038",
+  "status": "published",
+  "title": "LINE WORKSの企業分析｜ビジネスコミュニケーションを支える事業と職種",
+  "category": "company-research",
+  "author": "AI就活編集部",
+  "writingAssistance": "AIを活用して原稿を作成し、公式資料との照合・編集を行っています。",
+  "description": "LINE WORKS株式会社の事業内容と現場向けビジネスチャットツール「LINE WORKS」の提供価値を解説。店舗や施工現場等の働き方を変えるソリューション、プリセールス、カスタマーサクセス、開発職の具体的仕事と研究メモをまとめています。",
+  "lead": "LINE WORKS株式会社の企業研究記事です。親会社（NAVER Cloud等）との関係性を明確にしつつ、現場・店舗・地方でのIT活用を促進する「LINE WORKS」事業の構造、顧客課題へのアプローチ、社内職種の具体的役割と価値創造を解説します。",
+  "tags": [
+    "LINE WORKS",
+    "企業研究",
+    "IT・SaaS"
+  ],
+  "sections": [
+    {
+      "id": "corporate-entity-and-parent-relationship",
+      "heading": "法人格の整理とLINE WORKS株式会社の位置づけ",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "LINE WORKS株式会社を企業分析する際は、親会社であるNAVER Cloudをバックボーンに持つ日本法人であり、2023年4月にLINE株式会社のAI事業「LINE CLOVA」を吸収統合して事業を行う単一の事業会社であることを正しく捉える必要があります。なお、同社はLINEヤフー株式会社とは資本関係が異なり、公式サイトでも「LINEとLINE WORKSはアプリも運営会社も異なります」と明記されています。"
+        },
+        {
+          "type": "paragraph",
+          "text": "同社は、一般消費者向けの「LINE」と親和性の高いUI/UXを持ちながら、企業に必要なセキュリティや管理機能を備えたビジネス現場向けコミュニケーションツール「LINE WORKS」の企画・開発・販売・運用を一貫して手掛けています。"
+        }
+      ]
+    },
+    {
+      "id": "product-features-and-target-customers",
+      "heading": "「LINE WORKS」のプロダクト機能と現場特化の顧客像",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "「LINE WORKS」は、チャット（トーク）機能に加え、カレンダー、掲示板、アンケート、タスク管理、アドレス帳、ファイル共有などを統合したクラウド型ビジネスコミュニケーションプラットフォームです。"
+        },
+        {
+          "type": "paragraph",
+          "text": "主な対象顧客は、デスクワーク中心の大企業にとどまらず、店舗、建設現場、医療・介護施設、物流拠点、地方の小規模事業者など「これまでPCや高度なITツールが活用されにくかった現場」で働く人々です。誰でも直感的に操作できるLINE風の操作感と、外部のLINEユーザー（顧客・患者等）と直接メッセージ交換できる機能を備えている点が特徴です。"
+        }
+      ]
+    },
+    {
+      "id": "saas-monetization-and-value-creation",
+      "heading": "SaaSサブスクリプションによる収益モデルと対価構造",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "同社の収益構造は、利用ユーザー数および利用可能なセキュリティ・管理機能に応じた月額・年額定額制の「SaaSサブスクリプションモデル」によって成り立っています。"
+        },
+        {
+          "type": "paragraph",
+          "text": "顧客企業は「現場と本部間のリアルタイム情報共有による業務効率化」「電話・紙連絡の削減」「外部LINE連携による顧客からの予約・問い合わせ対応の迅速化」「個人の私用チャット利用（シャドーIT）の防止とセキュリティ向上」という対価価値に対して利用料を支払います。"
+        }
+      ]
+    },
+    {
+      "id": "operational-job-roles-in-line-works",
+      "heading": "LINE WORKSにおける主な仕事内容と創出価値",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "公開されている採用職種情報に基づき、同社で担われている代表的な職種と具体的な業務成果を整理します。"
+        },
+        {
+          "type": "list",
+          "items": [
+            "テリトリーアカウントマネージャー（営業）：地方企業や特定業界の顧客に対し、代理店パートナーと連携しながら課題解決型の直販・パートナー営業を行う（s2にテリトリーアカウントマネージャー、パートナーセールス、テリトリーセールスとして掲載）。",
+            "プリセールスエンジニア（Solution & Pre-Sales Engineer）：導入を検討する企業に対し、技術面での課題整理・提案支援を行い、契約締結を後押しする（s2に正社員として掲載）。",
+            "カスタマーサクセス ハイタッチCSM：導入後の企業に対して定期的なコンタクトや活用支援を実施し、社内定着・利活用促進・解約防止を導く（s2に正社員として掲載）。なお、s3のパートナーアワード事例でもKDDI等が解約防止・利活用促進に取り組む様子が確認できる。",
+            "プロダクトマネージャー（PM／AIプロダクトマネージャー）：ユーザー要望を集約し、新機能の仕様定義やAI技術を組み込んだ機能のロードマップを策定する（s2にプロダクトマネジメント、AIプロダクトマネージャーとして掲載）。",
+            "サーバサイドエンジニア／SREエンジニア：大容量メッセージ処理を支える高信頼なバックエンドシステムの開発・保守・信頼性向上を行う（s2にサーバサイドエンジニア、SREエンジニアとして掲載）。",
+            "サービスオペレーション担当者：問い合わせ対応や障害発生時の迅速な復旧運用を行い、サービス全体の稼働品質を維持する（s2に正社員として掲載）。"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "competitive-analysis-perspectives-line-works",
+      "heading": "ビジネスチャット・SaaS市場における比較観点",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "競合するビジネスチャットやコラボレーションツール（Slack、Microsoft Teams、Chatwork等）と比較を行う際は、ターゲット層の違いが重要なポイントとなります。"
+        },
+        {
+          "type": "paragraph",
+          "text": "競合するビジネスチャットやコラボレーションツール（Slack、Microsoft Teams、Chatwork等）との比較を行う際は、ターゲット層の違いが重要なポイントとなります。LINE WORKSの公式サイトでは「店舗や現場や地方のような、ITが活用しにくい企業・職場・地域の人」を主な対象と明示しており、「仕事でも使える（仕事用なのに使いやすい）＋誰でも使える（ITスキルを問わない）」という方針が打ち出されています。競合との優位性の断定は避けつつ、このターゲット設定の違いを軸に各ツールを比較検討することが、客観的な企業分析につながります。"
+        }
+      ]
+    },
+    {
+      "id": "briefing-questions-and-notes-line-works",
+      "heading": "説明会の質問例と企業研究メモ記入例",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "選考対策に活用できる説明会質問例と研究メモの記入例です。"
+        },
+        {
+          "type": "paragraph",
+          "text": "【説明会での質問例】\n「ITツールになじみの薄い店舗や建設現場の顧客に対し、カスタマーサクセス担当者はどのように初期導入の心理的ハードルを下げ、社内定着化を図っているのでしょうか。」"
+        },
+        {
+          "type": "paragraph",
+          "text": "【企業研究メモ記入例】\n・企業像：NAVER Cloud傘下の日本法人で、LINE CLOVAのAI技術を吸収統合した事業体。\n・主力事業：現場向けビジネスコミュニケーションツール「LINE WORKS」のSaaS提供。\n・顧客用途：店舗・現場・小規模事業者の業務連絡、外部LINE顧客とのトーク、タスク・スケジュール管理。\n・主要仕事：アカウント営業、プリセールスエンジニア、カスタマーサクセス、プロダクトマネージャー、開発職。"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "title": "会社紹介 - LINE WORKS（ラインワークス）",
+      "url": "https://line-works.com/aboutus/"
+    },
+    {
+      "title": "募集職種 | 採用情報 - LINE WORKS",
+      "url": "https://line-works.com/careers/professionals/"
+    },
+    {
+      "title": "LINE WORKS Partner Award 2024 - LINE WORKS",
+      "url": "https://line-works.com/blog/corporate/line-works-partner-award-2024/"
+    }
+  ],
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-04",
+  "cover": {
+    "src": "/magazine/covers/company-analysis-curated-038-d3edc7143c98.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-038-d3edc7143c98-card.webp",
+    "alt": "LINE WORKSの企業研究（企業ロゴ）",
+    "width": 1280,
+    "height": 720,
+    "source": "official-logo",
+    "attribution": {
+      "title": "LINE WORKS 公式サイト",
+      "url": "https://line-works.com/"
+    }
+  },
+  "editorialId": "C0111"
+}

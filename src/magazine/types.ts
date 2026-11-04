@@ -18,7 +18,8 @@ export interface ArticleCoverImage {
   alt: string;
   width: number;
   height: number;
-  source: 'ai-generated';
+  source: 'ai-generated' | 'official-logo' | 'editorial-design';
+  attribution?: { title: string; url: string };
 }
 
 export interface ArticleSummary {
