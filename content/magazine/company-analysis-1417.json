@@ -148,12 +148,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-1417-e8d3f21c6a54.webp",
-    "thumbnail": "/magazine/covers/company-analysis-1417-e8d3f21c6a54-card.webp",
-    "alt": "ミライト・ワンの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-1417-9eb7fa86a472.webp",
+    "thumbnail": "/magazine/covers/company-analysis-1417-9eb7fa86a472-card.webp",
+    "alt": "ミライト・ワンの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ミライト・ワン 公式サイト",
+      "url": "https://www.mirait-one.com/"
+    }
   },
   "editorialId": "C0365"
 }

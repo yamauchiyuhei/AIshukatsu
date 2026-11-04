@@ -161,12 +161,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4633-fc1af048cbf1.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4633-fc1af048cbf1-card.webp",
-    "alt": "サカタインクスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4633-e9bfd0e32801.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4633-e9bfd0e32801-card.webp",
+    "alt": "サカタインクスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "サカタインクス 公式サイト",
+      "url": "https://www.inx.co.jp/"
+    }
   },
   "editorialId": "C0683"
 }

@@ -106,12 +106,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9861-c3fa6bdde4b0.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9861-c3fa6bdde4b0-card.webp",
-    "alt": "吉野家ホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9861-8e8db73879c6.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9861-8e8db73879c6-card.webp",
+    "alt": "吉野家ホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "吉野家ホールディングス 公式サイト",
+      "url": "https://www.yoshinoya-holdings.com/"
+    }
   },
   "editorialId": "C0355"
 }

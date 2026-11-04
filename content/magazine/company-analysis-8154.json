@@ -111,12 +111,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8154-cb845c0042d6.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8154-cb845c0042d6-card.webp",
-    "alt": "加賀電子の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8154-0bf46b30a1c8.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8154-0bf46b30a1c8-card.webp",
+    "alt": "加賀電子の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "加賀電子 ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Kaga_Electronics_logo.svg"
+    }
   },
   "editorialId": "C0737"
 }

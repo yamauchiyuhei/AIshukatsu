@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9621-4467ece236ad.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9621-4467ece236ad-card.webp",
-    "alt": "建設技術研究所の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9621-a2967179aad4.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9621-a2967179aad4-card.webp",
+    "alt": "建設技術研究所の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "建設技術研究所 公式サイト",
+      "url": "https://www.ctie.co.jp/"
+    }
   },
   "editorialId": "C0660"
 }

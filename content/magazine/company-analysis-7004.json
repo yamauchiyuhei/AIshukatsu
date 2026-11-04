@@ -114,12 +114,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7004-7daaf3a8b241.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7004-7daaf3a8b241-card.webp",
-    "alt": "カナデビアの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7004-a29e083717a2.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7004-a29e083717a2-card.webp",
+    "alt": "カナデビアの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "カナデビア 公式サイト",
+      "url": "https://www.kanadevia.com/employ/job/"
+    }
   },
   "editorialId": "C0825"
 }

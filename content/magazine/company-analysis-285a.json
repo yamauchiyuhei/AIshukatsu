@@ -125,12 +125,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-285a-aa854d390b55.webp",
-    "thumbnail": "/magazine/covers/company-analysis-285a-aa854d390b55-card.webp",
-    "alt": "キオクシアホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-285a-c89c92d57abd.webp",
+    "thumbnail": "/magazine/covers/company-analysis-285a-c89c92d57abd-card.webp",
+    "alt": "キオクシアホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "キオクシアホールディングス ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Kioxia.svg"
+    }
   },
   "editorialId": "C0519"
 }

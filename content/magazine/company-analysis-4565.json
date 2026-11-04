@@ -209,12 +209,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4565-1d08ce095918.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4565-1d08ce095918-card.webp",
-    "alt": "ネクセラファーマの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4565-97e68d03c4b2.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4565-97e68d03c4b2-card.webp",
+    "alt": "ネクセラファーマの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ネクセラファーマ 公式サイト",
+      "url": "https://www.nxera.life/"
+    }
   },
   "editorialId": "C0710"
 }

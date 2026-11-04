@@ -184,12 +184,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9274-75f5188a423f.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9274-75f5188a423f-card.webp",
-    "alt": "KPPグループホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9274-2bb35e3a2b13.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9274-2bb35e3a2b13-card.webp",
+    "alt": "KPPグループホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "KPPグループホールディングス（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000003.000186326.html"
+    }
   },
   "editorialId": "C0716"
 }

@@ -185,12 +185,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-5726-b34b61aa6227.webp",
-    "thumbnail": "/magazine/covers/company-analysis-5726-b34b61aa6227-card.webp",
-    "alt": "大阪チタニウムテクノロジーズの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-5726-70e438d23d8d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-5726-70e438d23d8d-card.webp",
+    "alt": "大阪チタニウムテクノロジーズの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "大阪チタニウムテクノロジーズ 公式サイト",
+      "url": "https://www.osaka-ti.co.jp/"
+    }
   },
   "editorialId": "C0982"
 }

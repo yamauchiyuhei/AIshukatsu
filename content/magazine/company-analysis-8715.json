@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8715-710a1fb603cc.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8715-710a1fb603cc-card.webp",
-    "alt": "アニコム ホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8715-b90f57d19c2e.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8715-b90f57d19c2e-card.webp",
+    "alt": "アニコム ホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "アニコム ホールディングス 公式サイト",
+      "url": "https://www.anicom.co.jp/"
+    }
   },
   "editorialId": "C0675"
 }

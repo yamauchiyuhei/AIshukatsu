@@ -121,12 +121,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4922-4f733d472705.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4922-4f733d472705-card.webp",
-    "alt": "コーセーホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4922-14471b822de9.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4922-14471b822de9-card.webp",
+    "alt": "コーセーホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "コーセーホールディングス 公式サイト",
+      "url": "https://koseholdings.co.jp/ja/ir/faq/"
+    }
   },
   "editorialId": "C0272"
 }

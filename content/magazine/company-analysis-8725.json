@@ -122,12 +122,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8725-5176a4444626.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8725-5176a4444626-card.webp",
-    "alt": "MS&ADインシュアランスグループホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8725-f6402300a1f3.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8725-f6402300a1f3-card.webp",
+    "alt": "MS&ADインシュアランスグループホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "MS&ADインシュアランスグループホールディングス ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:MS%26AD_Insurance_Group_logo.svg"
+    }
   },
   "editorialId": "C0057"
 }

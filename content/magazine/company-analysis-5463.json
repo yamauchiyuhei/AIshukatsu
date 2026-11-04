@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-5463-125e1cc06788.webp",
-    "thumbnail": "/magazine/covers/company-analysis-5463-125e1cc06788-card.webp",
-    "alt": "丸一鋼管の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-5463-6d3001317332.webp",
+    "thumbnail": "/magazine/covers/company-analysis-5463-6d3001317332-card.webp",
+    "alt": "丸一鋼管の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "丸一鋼管（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000001.000158955.html"
+    }
   },
   "editorialId": "C0472"
 }

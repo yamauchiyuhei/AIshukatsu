@@ -170,7 +170,11 @@ function ArticleReader({ article, articles }: { article: Article; articles: Arti
       <figure className="mag-article-cover"><ArticleCover article={article} large />{article.cover && <figcaption>
         {article.cover.source === 'ai-generated' && 'AI生成のイメージ画像'}
         {article.cover.source === 'editorial-design' && 'AI就活編集部による図版'}
-        {article.cover.source === 'official-logo' && article.cover.attribution && <>ロゴの出典　<a href={article.cover.attribution.url} target="_blank" rel="noopener noreferrer">{article.cover.attribution.title}</a></>}
+        {article.cover.source === 'official-logo' && article.cover.attribution && <>ロゴの出典　<a href={article.cover.attribution.url} target="_blank" rel="noopener noreferrer">{article.cover.attribution.title}</a>
+          {article.cover.attribution.author && <> ／ {article.cover.attribution.author}</>}
+          {article.cover.attribution.license && <> ／ <a href={article.cover.attribution.license.url} target="_blank" rel="noopener noreferrer">{article.cover.attribution.license.title}</a></>}
+          {article.cover.attribution.modifications && <> ／ {article.cover.attribution.modifications}</>}
+        </>}
       </figcaption>}</figure>
       <div className="mag-reading-layout"><div className="mag-body"><p className="mag-lead">{article.lead}</p><details className="mag-mobile-toc"><summary>この記事の目次<ChevronDown size={17} /></summary><TableOfContents article={article} active={active} /></details>
         {article.sections.map(section => <section id={'section-' + section.id} key={section.id}><h2>{section.heading}</h2>{section.blocks.map((block, i) => block.type === 'list' ? <ul key={i}>{block.items!.map((item, j) => <li key={j}>{item}</li>)}</ul> : block.type === 'note' ? <aside className="mag-note" key={i}>{block.text}</aside> : block.type === 'quote' ? <blockquote key={i}>{block.text}</blockquote> : <p key={i}>{block.text}</p>)}</section>)}

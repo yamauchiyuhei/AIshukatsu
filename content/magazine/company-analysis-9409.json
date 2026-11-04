@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9409-68c397e1508b.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9409-68c397e1508b-card.webp",
-    "alt": "テレビ朝日ホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9409-686aef946806.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9409-686aef946806-card.webp",
+    "alt": "テレビ朝日ホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "テレビ朝日ホールディングス 公式サイト",
+      "url": "https://www.tv-asahihd.co.jp/"
+    }
   },
   "editorialId": "C0600"
 }

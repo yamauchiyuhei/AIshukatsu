@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2327-724b393ce092.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2327-724b393ce092-card.webp",
-    "alt": "日鉄ソリューションズの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2327-31bdf702982a.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2327-31bdf702982a-card.webp",
+    "alt": "日鉄ソリューションズの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日鉄ソリューションズ 公式サイト",
+      "url": "https://www.nssol.nipponsteel.com/"
+    }
   },
   "editorialId": "C0208"
 }

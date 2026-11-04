@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-075-af0283ffac5b.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-075-af0283ffac5b-card.webp",
-    "alt": "博報堂の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-075-6f65428e50c6.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-075-6f65428e50c6-card.webp",
+    "alt": "博報堂の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "博報堂 ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Hakuhodo_Logos.2026.png"
+    }
   },
   "editorialId": "C0151"
 }

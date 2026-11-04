@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8354-707c11ac1d21.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8354-707c11ac1d21-card.webp",
-    "alt": "ふくおかフィナンシャルグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8354-dd2529e23216.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8354-dd2529e23216-card.webp",
+    "alt": "ふくおかフィナンシャルグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ふくおかフィナンシャルグループ ロゴ（PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000393.000029076.html"
+    }
   },
   "editorialId": "C0482"
 }

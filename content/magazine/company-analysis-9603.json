@@ -107,12 +107,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9603-db886bd8bdcb.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9603-db886bd8bdcb-card.webp",
-    "alt": "エイチ・アイ・エスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9603-ac9afc80a6f8.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9603-ac9afc80a6f8-card.webp",
+    "alt": "エイチ・アイ・エスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "エイチ・アイ・エス 公式サイト",
+      "url": "https://www.his.co.jp/"
+    }
   },
   "editorialId": "C0642"
 }

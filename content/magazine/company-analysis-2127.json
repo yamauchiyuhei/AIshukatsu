@@ -117,12 +117,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2127-4e774319c273.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2127-4e774319c273-card.webp",
-    "alt": "日本M&Aセンターホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2127-802303d7dc09.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2127-802303d7dc09-card.webp",
+    "alt": "日本M&Aセンターホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日本M&Aセンターホールディングス 公式サイト",
+      "url": "https://www.nihon-ma.co.jp/groups/"
+    }
   },
   "editorialId": "C0246"
 }

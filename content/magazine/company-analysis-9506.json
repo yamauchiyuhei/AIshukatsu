@@ -137,12 +137,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9506-e269dc191c57.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9506-e269dc191c57-card.webp",
-    "alt": "東北電力の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9506-20b9d11db5de.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9506-20b9d11db5de-card.webp",
+    "alt": "東北電力の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "東北電力 公式サイト",
+      "url": "https://www.tohoku-epco.co.jp/"
+    }
   },
   "editorialId": "C0504"
 }

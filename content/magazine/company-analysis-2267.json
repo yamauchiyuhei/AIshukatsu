@@ -137,12 +137,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2267-2edde1e9ea59.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2267-2edde1e9ea59-card.webp",
-    "alt": "ヤクルト本社の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2267-bd836ed2868d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2267-bd836ed2868d-card.webp",
+    "alt": "ヤクルト本社の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ヤクルト本社 公式サイト",
+      "url": "https://www.yakult.co.jp/maintenance/"
+    }
   },
   "editorialId": "C0559"
 }

@@ -181,12 +181,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7730-9f831e750c55.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7730-9f831e750c55-card.webp",
-    "alt": "マニーの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7730-950211677530.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7730-950211677530-card.webp",
+    "alt": "マニーの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "マニー 公式サイト",
+      "url": "https://mani.co.jp/"
+    }
   },
   "editorialId": "C0856"
 }

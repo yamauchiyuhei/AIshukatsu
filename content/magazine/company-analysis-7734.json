@@ -187,12 +187,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7734-12a46b989725.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7734-12a46b989725-card.webp",
-    "alt": "理研計器の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7734-057dcb421ad8.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7734-057dcb421ad8-card.webp",
+    "alt": "理研計器の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "理研計器 公式サイト",
+      "url": "https://www.rikenkeiki.co.jp/"
+    }
   },
   "editorialId": "C0861"
 }

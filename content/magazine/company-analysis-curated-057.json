@@ -120,12 +120,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-057-dd7b58ba3a6f.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-057-dd7b58ba3a6f-card.webp",
-    "alt": "みずほ銀行の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-057-44332371866a.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-057-44332371866a-card.webp",
+    "alt": "みずほ銀行の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "みずほ銀行 ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Mizuho_Bank_logo.svg"
+    }
   },
   "editorialId": "C0011"
 }

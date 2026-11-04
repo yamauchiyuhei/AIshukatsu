@@ -175,12 +175,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3186-149c19345119.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3186-149c19345119-card.webp",
-    "alt": "ネクステージの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3186-7ff69dfc1d87.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3186-7ff69dfc1d87-card.webp",
+    "alt": "ネクステージの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ネクステージ 公式サイト",
+      "url": "https://ir.nextage.jp/"
+    }
   },
   "editorialId": "C0777"
 }

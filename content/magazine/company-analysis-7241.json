@@ -115,12 +115,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7241-d419792b69d5.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7241-d419792b69d5-card.webp",
-    "alt": "フタバ産業の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7241-0a75d09dae60.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7241-0a75d09dae60-card.webp",
+    "alt": "フタバ産業の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "フタバ産業 提供ロゴ（PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000004.000181723.html"
+    }
   },
   "editorialId": "C0882"
 }

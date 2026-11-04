@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8086-78e60daf123b.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8086-78e60daf123b-card.webp",
-    "alt": "ニプロの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8086-e6be54497b4a.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8086-e6be54497b4a-card.webp",
+    "alt": "ニプロの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ニプロ 公式サイト",
+      "url": "https://www.nipro.co.jp/"
+    }
   },
   "editorialId": "C0412"
 }

@@ -117,12 +117,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-1925-8b5860425959.webp",
-    "thumbnail": "/magazine/covers/company-analysis-1925-8b5860425959-card.webp",
-    "alt": "大和ハウス工業の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-1925-ef974ec7bf0b.webp",
+    "thumbnail": "/magazine/covers/company-analysis-1925-ef974ec7bf0b-card.webp",
+    "alt": "大和ハウス工業の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "大和ハウス工業 ロゴ（PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000002734.000002296.html"
+    }
   },
   "editorialId": "C0072"
 }

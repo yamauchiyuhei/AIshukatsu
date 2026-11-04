@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4704-6f948962ab76.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4704-6f948962ab76-card.webp",
-    "alt": "トレンドマイクロの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4704-e7bba0c45c96.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4704-e7bba0c45c96-card.webp",
+    "alt": "トレンドマイクロの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "トレンドマイクロ 公式サイト",
+      "url": "https://www.trendmicro.com/ja_jp/business.html"
+    }
   },
   "editorialId": "C0198"
 }

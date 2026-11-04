@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-1944-280186b4b95e.webp",
-    "thumbnail": "/magazine/covers/company-analysis-1944-280186b4b95e-card.webp",
-    "alt": "きんでんの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-1944-ae66d9105740.webp",
+    "thumbnail": "/magazine/covers/company-analysis-1944-ae66d9105740-card.webp",
+    "alt": "きんでんの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "きんでん 公式サイト",
+      "url": "https://www.kinden.co.jp/"
+    }
   },
   "editorialId": "C0359"
 }

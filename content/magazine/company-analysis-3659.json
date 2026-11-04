@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3659-3db63213c55c.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3659-3db63213c55c-card.webp",
-    "alt": "ネクソンの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3659-f3db3cff97b4.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3659-f3db3cff97b4-card.webp",
+    "alt": "ネクソンの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ネクソン 公式サイト",
+      "url": "https://www.nexon.co.jp:443/"
+    }
   },
   "editorialId": "C0199"
 }

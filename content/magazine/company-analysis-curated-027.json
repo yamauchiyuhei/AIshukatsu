@@ -116,12 +116,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-027-a9a033d9d7eb.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-027-a9a033d9d7eb-card.webp",
-    "alt": "Skyの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-027-797fbbdc6aa1.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-027-797fbbdc6aa1-card.webp",
+    "alt": "Skyの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "Sky 公式サイト",
+      "url": "https://www.skygroup.jp/"
+    }
   },
   "editorialId": "C0119"
 }

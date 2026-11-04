@@ -109,12 +109,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-023-5bfd0eaff914.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-023-5bfd0eaff914-card.webp",
-    "alt": "シスコシステムズの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-023-5a2225d92c0e.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-023-5a2225d92c0e-card.webp",
+    "alt": "シスコシステムズの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "シスコシステムズ 公式サイト",
+      "url": "https://blogs.cisco.com/"
+    }
   },
   "editorialId": "C0123"
 }

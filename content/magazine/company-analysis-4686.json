@@ -109,12 +109,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4686-8cb5d1671909.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4686-8cb5d1671909-card.webp",
-    "alt": "ジャストシステムの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4686-5f88d4a388cc.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4686-5f88d4a388cc-card.webp",
+    "alt": "ジャストシステムの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ジャストシステム 公式サイト",
+      "url": "https://www.justsystems.com/jp/"
+    }
   },
   "editorialId": "C0596"
 }

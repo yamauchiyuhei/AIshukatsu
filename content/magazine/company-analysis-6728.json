@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6728-7f26149d7f14.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6728-7f26149d7f14-card.webp",
-    "alt": "アルバックの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6728-4399438d8dae.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6728-4399438d8dae-card.webp",
+    "alt": "アルバックの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "アルバック 公式サイト",
+      "url": "https://www.ulvac.co.jp/"
+    }
   },
   "editorialId": "C0512"
 }

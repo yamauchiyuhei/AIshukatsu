@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9759-c3ce653cd497.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9759-c3ce653cd497-card.webp",
-    "alt": "NSDの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9759-630f5045ecc2.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9759-630f5045ecc2-card.webp",
+    "alt": "NSDの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "NSD 提供ロゴ（PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000037.000050275.html"
+    }
   },
   "editorialId": "C0186"
 }

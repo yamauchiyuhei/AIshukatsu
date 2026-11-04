@@ -112,12 +112,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7013-36a6da3f7ba1.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7013-36a6da3f7ba1-card.webp",
-    "alt": "IHIの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7013-dfcfab1027c5.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7013-dfcfab1027c5-card.webp",
+    "alt": "IHIの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "IHI 公式サイト",
+      "url": "https://www.ihi.co.jp/"
+    }
   },
   "editorialId": "C0381"
 }

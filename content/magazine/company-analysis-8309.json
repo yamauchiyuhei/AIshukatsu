@@ -155,12 +155,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8309-b92979bf81d8.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8309-b92979bf81d8-card.webp",
-    "alt": "三井住友トラストグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8309-a0ee9b28ff1c.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8309-a0ee9b28ff1c-card.webp",
+    "alt": "三井住友トラストグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "三井住友トラストグループ 公式サイト",
+      "url": "https://www.smtg.jp/-/media/tg/img/logo/img-logo-tg_sp.svg"
+    }
   },
   "editorialId": "C0096"
 }

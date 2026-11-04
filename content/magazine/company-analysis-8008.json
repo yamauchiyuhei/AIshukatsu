@@ -203,12 +203,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8008-6aff380cd6e9.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8008-6aff380cd6e9-card.webp",
-    "alt": "ヨンドシーホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8008-30067fe9bdc9.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8008-30067fe9bdc9-card.webp",
+    "alt": "ヨンドシーホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ヨンドシーホールディングス 公式サイト",
+      "url": "https://yondoshi.co.jp/"
+    }
   },
   "editorialId": "C0787"
 }

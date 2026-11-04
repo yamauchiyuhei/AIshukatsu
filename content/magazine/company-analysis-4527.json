@@ -124,12 +124,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4527-4d145c8344f5.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4527-4d145c8344f5-card.webp",
-    "alt": "ロート製薬の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4527-a3db7140eeca.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4527-a3db7140eeca-card.webp",
+    "alt": "ロート製薬の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ロート製薬 公式サイト",
+      "url": "https://www.rohto.co.jp/en/"
+    }
   },
   "editorialId": "C0305"
 }

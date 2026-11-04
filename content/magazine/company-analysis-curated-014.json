@@ -117,12 +117,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-014-970699d09e26.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-014-970699d09e26-card.webp",
-    "alt": "マーシュ・マーサー・ジャパンの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-014-1e600643320f.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-014-1e600643320f-card.webp",
+    "alt": "マーシュ・マーサー・ジャパンの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "マーシュ・マーサー・ジャパン ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Mercer_h_rgb_c.svg"
+    }
   },
   "editorialId": "C0149"
 }

@@ -121,12 +121,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4680-654683a33361.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4680-654683a33361-card.webp",
-    "alt": "ラウンドワンの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4680-5b9135c0e1f6.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4680-5b9135c0e1f6-card.webp",
+    "alt": "ラウンドワンの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ラウンドワン 公式サイト",
+      "url": "https://www.round1.co.jp/"
+    }
   },
   "editorialId": "C0241"
 }

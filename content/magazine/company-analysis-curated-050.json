@@ -114,12 +114,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-050-719ec08e25dc.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-050-719ec08e25dc-card.webp",
-    "alt": "日本生命保険の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-050-35eb4d5df2da.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-050-35eb4d5df2da-card.webp",
+    "alt": "日本生命保険の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日本生命保険 公式サイト",
+      "url": "https://www.nissay.co.jp/"
+    }
   },
   "editorialId": "C0157"
 }

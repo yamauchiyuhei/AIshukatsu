@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2749-a3f2b02d5c84.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2749-a3f2b02d5c84-card.webp",
-    "alt": "JPホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2749-0c6a180e370c.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2749-0c6a180e370c-card.webp",
+    "alt": "JPホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "JPホールディングス 公式サイト",
+      "url": "https://www.jp-holdings.co.jp/"
+    }
   },
   "editorialId": "C0635"
 }

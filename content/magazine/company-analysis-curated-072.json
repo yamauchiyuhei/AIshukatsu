@@ -122,12 +122,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-072-fcf20c8ef14f.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-072-fcf20c8ef14f-card.webp",
-    "alt": "日本経済新聞社の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-072-96a188e6a336.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-072-96a188e6a336-card.webp",
+    "alt": "日本経済新聞社の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日本経済新聞社 公式サイト",
+      "url": "https://www.nikkei.com/"
+    }
   },
   "editorialId": "C0132"
 }

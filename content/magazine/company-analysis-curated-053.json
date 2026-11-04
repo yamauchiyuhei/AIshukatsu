@@ -117,12 +117,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-053-f081fd057755.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-053-f081fd057755-card.webp",
-    "alt": "アフラック生命保険の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-053-429bc9e658f1.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-053-429bc9e658f1-card.webp",
+    "alt": "アフラック生命保険の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "アフラック生命保険 公式サイト",
+      "url": "https://www.aflac.co.jp/"
+    }
   },
   "editorialId": "C0155"
 }

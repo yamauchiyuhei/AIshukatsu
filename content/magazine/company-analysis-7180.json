@@ -109,12 +109,22 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7180-8f4e13643a9b.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7180-8f4e13643a9b-card.webp",
-    "alt": "九州フィナンシャルグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7180-513abacebe6c.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7180-513abacebe6c-card.webp",
+    "alt": "九州フィナンシャルグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "九州フィナンシャルグループ ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Kyushu_financial_group_logo.svg",
+      "author": "Kyushu Financial Group,Inc.",
+      "license": {
+        "title": "CC BY 2.5",
+        "url": "https://creativecommons.org/licenses/by/2.5/"
+      },
+      "modifications": "ロゴの原形を保ち、サイズと配置を調整"
+    }
   },
   "editorialId": "C0487"
 }

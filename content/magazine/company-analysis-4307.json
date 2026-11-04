@@ -139,12 +139,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4307-2b5615a91466.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4307-2b5615a91466-card.webp",
-    "alt": "野村総合研究所の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4307-cf0f14727b10.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4307-cf0f14727b10-card.webp",
+    "alt": "野村総合研究所の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "野村総合研究所 公式サイト",
+      "url": "https://www.nri.com/jp/"
+    }
   },
   "editorialId": "C0008"
 }

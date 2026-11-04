@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2587-ff6bf7e55b64.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2587-ff6bf7e55b64-card.webp",
-    "alt": "サントリービバレッジ&フードの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2587-bc1c4ae226f1.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2587-bc1c4ae226f1-card.webp",
+    "alt": "サントリービバレッジ&フードの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "サントリービバレッジ＆フードが使用するSUNTORYブランドロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:SUNTORY_logo.svg"
+    }
   },
   "editorialId": "C0556"
 }

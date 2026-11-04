@@ -167,12 +167,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6920-a12a2b82f94b.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6920-a12a2b82f94b-card.webp",
-    "alt": "レーザーテックの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6920-4ed38e92b2ee.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6920-4ed38e92b2ee-card.webp",
+    "alt": "レーザーテックの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "レーザーテック 公式サイト",
+      "url": "https://www.lasertec.co.jp/"
+    }
   },
   "editorialId": "C0102"
 }

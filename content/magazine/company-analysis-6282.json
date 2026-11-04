@@ -118,12 +118,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6282-39bc8347f2ba.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6282-39bc8347f2ba-card.webp",
-    "alt": "オイレス工業の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6282-945a3ae247f2.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6282-945a3ae247f2-card.webp",
+    "alt": "オイレス工業の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "オイレス工業 公式サイト",
+      "url": "https://www.oiles.co.jp/"
+    }
   },
   "editorialId": "C0823"
 }

@@ -129,12 +129,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3993-2ec25efb360e.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3993-2ec25efb360e-card.webp",
-    "alt": "PKSHA Technologyの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3993-d7635348ba1e.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3993-d7635348ba1e-card.webp",
+    "alt": "PKSHA Technologyの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "PKSHA Technology 公式サイト",
+      "url": "https://www.pkshatech.com"
+    }
   },
   "editorialId": "C0579"
 }

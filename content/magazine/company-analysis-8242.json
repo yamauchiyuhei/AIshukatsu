@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8242-6b1d2a92f551.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8242-6b1d2a92f551-card.webp",
-    "alt": "エイチ・ツー・オー リテイリングの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8242-a46e783e232d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8242-a46e783e232d-card.webp",
+    "alt": "エイチ・ツー・オー リテイリングの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "エイチ・ツー・オー リテイリング 公式サイト",
+      "url": "https://www.h2o-retailing.co.jp/ja/index.html"
+    }
   },
   "editorialId": "C0336"
 }

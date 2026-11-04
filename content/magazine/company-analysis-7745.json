@@ -169,12 +169,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7745-80f645c9bcfe.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7745-80f645c9bcfe-card.webp",
-    "alt": "A&Dホロンホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7745-49021d8fec40.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7745-49021d8fec40-card.webp",
+    "alt": "A&Dホロンホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "A&Dホロンホールディングス 公式サイト",
+      "url": "https://andholon.com/"
+    }
   },
   "editorialId": "C0851"
 }

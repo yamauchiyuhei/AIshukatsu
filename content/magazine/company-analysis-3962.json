@@ -110,12 +110,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3962-2165bd814114.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3962-2165bd814114-card.webp",
-    "alt": "チェンジホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3962-0a9263f3f10c.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3962-0a9263f3f10c-card.webp",
+    "alt": "チェンジホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "チェンジホールディングス 公式サイト",
+      "url": "https://www.changeholdings.co.jp/"
+    }
   },
   "editorialId": "C0598"
 }

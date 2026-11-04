@@ -102,12 +102,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4819-c02546f4d97a.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4819-c02546f4d97a-card.webp",
-    "alt": "デジタルガレージの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4819-0318e8b983a8.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4819-0318e8b983a8-card.webp",
+    "alt": "デジタルガレージの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "デジタルガレージ 公式サイト",
+      "url": "https://www.garage.co.jp/"
+    }
   },
   "editorialId": "C0603"
 }

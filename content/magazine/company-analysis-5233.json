@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-5233-13d66701e20f.webp",
-    "thumbnail": "/magazine/covers/company-analysis-5233-13d66701e20f-card.webp",
-    "alt": "太平洋セメントの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-5233-84ec12263c77.webp",
+    "thumbnail": "/magazine/covers/company-analysis-5233-84ec12263c77-card.webp",
+    "alt": "太平洋セメントの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "太平洋セメント 公式サイト",
+      "url": "https://www.taiheiyo-cement.co.jp/"
+    }
   },
   "editorialId": "C0223"
 }

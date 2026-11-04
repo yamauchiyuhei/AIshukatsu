@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2201-8c83fbcae839.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2201-8c83fbcae839-card.webp",
-    "alt": "森永製菓の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2201-24e205c2197c.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2201-24e205c2197c-card.webp",
+    "alt": "森永製菓の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "森永製菓 / Wikimedia Commons（PD-textlogo）",
+      "url": "https://commons.wikimedia.org/wiki/File:Morinaga_logo.svg"
+    }
   },
   "editorialId": "C0571"
 }

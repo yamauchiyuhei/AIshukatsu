@@ -182,12 +182,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3167-ef074dfb42de.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3167-ef074dfb42de-card.webp",
-    "alt": "TOKAIホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3167-560fba657473.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3167-560fba657473-card.webp",
+    "alt": "TOKAIホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "TOKAIホールディングス 公式サイト",
+      "url": "https://www.tokaiholdings.co.jp/"
+    }
   },
   "editorialId": "C0717"
 }

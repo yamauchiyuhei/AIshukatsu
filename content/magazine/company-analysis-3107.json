@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3107-441003a07ada.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3107-441003a07ada-card.webp",
-    "alt": "ダイワボウホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3107-9d269a5cc26d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3107-9d269a5cc26d-card.webp",
+    "alt": "ダイワボウホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ダイワボウホールディングス 公式サイト",
+      "url": "https://www.daiwabo-holdings.com/ja/index.html"
+    }
   },
   "editorialId": "C0317"
 }

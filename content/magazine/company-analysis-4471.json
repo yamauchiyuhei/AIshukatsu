@@ -175,12 +175,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4471-534dcd4cd1aa.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4471-534dcd4cd1aa-card.webp",
-    "alt": "三洋化成工業の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4471-218d9ef90fcf.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4471-218d9ef90fcf-card.webp",
+    "alt": "三洋化成工業の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "三洋化成工業 公式サイト",
+      "url": "https://www.sanyo-chemical.co.jp/"
+    }
   },
   "editorialId": "C0691"
 }

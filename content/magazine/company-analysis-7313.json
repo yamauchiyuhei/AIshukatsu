@@ -118,12 +118,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7313-18575ec02e6c.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7313-18575ec02e6c-card.webp",
-    "alt": "テイ・エス テックの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7313-0bd01323fff6.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7313-0bd01323fff6-card.webp",
+    "alt": "テイ・エス テックの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "テイ・エス テック（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000024.000039997.html"
+    }
   },
   "editorialId": "C0427"
 }

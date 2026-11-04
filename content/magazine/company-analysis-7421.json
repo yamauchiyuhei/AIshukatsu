@@ -184,12 +184,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7421-315a849a4bbf.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7421-315a849a4bbf-card.webp",
-    "alt": "カッパ・クリエイトの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7421-a5366f3f78ca.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7421-a5366f3f78ca-card.webp",
+    "alt": "カッパ・クリエイトの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "カッパ・クリエイト 公式サイト",
+      "url": "https://career.kappa-create.co.jp/"
+    }
   },
   "editorialId": "C0762"
 }

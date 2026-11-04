@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3105-3703b93f78e4.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3105-3703b93f78e4-card.webp",
-    "alt": "日清紡ホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3105-6bf04ef14106.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3105-6bf04ef14106-card.webp",
+    "alt": "日清紡ホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日清紡ホールディングス ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Nisshinbo_logo.svg"
+    }
   },
   "editorialId": "C0541"
 }

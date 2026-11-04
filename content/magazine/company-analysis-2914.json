@@ -114,12 +114,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2914-14db1a68af81.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2914-14db1a68af81-card.webp",
-    "alt": "日本たばこ産業の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2914-751364be7534.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2914-751364be7534-card.webp",
+    "alt": "日本たばこ産業の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日本たばこ産業 公式サイト",
+      "url": "https://www.jti.co.jp/"
+    }
   },
   "editorialId": "C0047"
 }

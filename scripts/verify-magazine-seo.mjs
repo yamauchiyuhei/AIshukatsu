@@ -48,7 +48,8 @@ for (const article of catalog) {
     const coverFields = ['src', 'thumbnail', 'alt', 'width', 'height', 'source'];
     if (article.cover.attribution) {
       coverFields.push('attribution');
-      assert.deepEqual(Object.keys(body.cover.attribution).sort(), ['title', 'url'], article.slug + ': public attribution fields');
+      const attributionKeys = ['title', 'url', 'author', 'license', 'modifications'].filter(key => article.cover.attribution[key] !== undefined);
+      assert.deepEqual(Object.keys(body.cover.attribution).sort(), attributionKeys.sort(), article.slug + ': public attribution fields');
       assert.deepEqual(body.cover.attribution, article.cover.attribution, article.slug + ': catalog attribution');
     }
     assert.deepEqual(Object.keys(body.cover).sort(), coverFields.sort(), article.slug + ': public cover fields');
@@ -56,7 +57,12 @@ for (const article of catalog) {
     if (article.cover.source === 'official-logo') {
       const attribution = article.cover.attribution;
       assert.ok(attribution, article.slug + ': official logo attribution');
-      assert.equal(caption, `ロゴの出典　<a href="${escapeHtml(attribution.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(attribution.title)}</a>`, article.slug + ': linked logo attribution');
+      let expected = `ロゴの出典　<a href="${escapeHtml(attribution.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(attribution.title)}</a>`;
+      if (attribution.author) expected += ` ／ ${escapeHtml(attribution.author)}`;
+      if (attribution.license) expected += ` ／ <a href="${escapeHtml(attribution.license.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(attribution.license.title)}</a>`;
+      if (attribution.modifications) expected += ` ／ ${escapeHtml(attribution.modifications)}`;
+      // React SSR inserts empty boundaries between adjacent text nodes.
+      assert.equal(caption.replaceAll('<!-- -->', ''), expected, article.slug + ': linked logo attribution');
     } else {
       const captions = { 'ai-generated': 'AI生成のイメージ画像', 'editorial-design': 'AI就活編集部による図版' };
       assert.ok(Object.hasOwn(captions, article.cover.source), article.slug + ': recognized cover type');

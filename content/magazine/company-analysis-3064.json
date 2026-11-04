@@ -109,12 +109,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3064-a545477c0e6e.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3064-a545477c0e6e-card.webp",
-    "alt": "MonotaROの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3064-92124fb93245.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3064-92124fb93245-card.webp",
+    "alt": "MonotaROの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "MonotaRO 公式サイト",
+      "url": "https://corp.monotaro.com/"
+    }
   },
   "editorialId": "C0331"
 }

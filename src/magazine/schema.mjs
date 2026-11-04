@@ -52,6 +52,10 @@ export function validateArticle(article, { today = todayInTokyo() } = {}) {
       || !['ai-generated', 'official-logo', 'editorial-design'].includes(image.source)) errors.push('表紙には公開用画像・説明・実寸・画像の種類が必要です');
     if (image?.source === 'official-logo' && !safeSource(image.attribution)) errors.push('企業ロゴには公開HTTPSの出典情報が必要です');
     else if (image?.attribution !== undefined && !safeSource(image.attribution)) errors.push('画像の出典には資料名と公開HTTPSリンクが必要です');
+    if (image?.attribution?.license !== undefined && !safeSource(image.attribution.license)) errors.push('画像ライセンスには名称と公開HTTPSリンクが必要です');
+    for (const key of ['author', 'modifications']) {
+      if (image?.attribution?.[key] !== undefined && !text(image.attribution[key])) errors.push(`画像の${key}は空でないテキストが必要です`);
+    }
   }
   if (!Array.isArray(article.sources) || !article.sources.every(safeSource)) errors.push('sources には公開HTTPSリンクを指定してください');
   if (!Array.isArray(article.sections) || article.sections.length === 0) errors.push('本文のセクションが必要です');
@@ -83,6 +87,13 @@ export function articleSummary(article) {
     result.cover = Object.fromEntries(['src', 'thumbnail', 'alt', 'width', 'height', 'source'].map(key => [key, article.cover[key]]));
     if (article.cover.attribution) {
       result.cover.attribution = { title: article.cover.attribution.title, url: article.cover.attribution.url };
+      for (const key of ['author', 'modifications']) {
+        if (article.cover.attribution[key] !== undefined) result.cover.attribution[key] = article.cover.attribution[key];
+      }
+      if (article.cover.attribution.license) {
+        const { title, url } = article.cover.attribution.license;
+        result.cover.attribution.license = { title, url };
+      }
     }
   }
   return result;

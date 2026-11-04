@@ -133,12 +133,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6674-e57a6ae9ffbb.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6674-e57a6ae9ffbb-card.webp",
-    "alt": "ジーエス・ユアサ コーポレーションの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6674-f61c654945b2.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6674-f61c654945b2-card.webp",
+    "alt": "ジーエス・ユアサ コーポレーションの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ジーエス・ユアサ コーポレーション 公式サイト",
+      "url": "https://www.gs-yuasa.com/jp/"
+    }
   },
   "editorialId": "C0524"
 }

@@ -125,12 +125,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6143-dbe2c94705b5.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6143-dbe2c94705b5-card.webp",
-    "alt": "ソディックの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6143-46238fbcfb45.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6143-46238fbcfb45-card.webp",
+    "alt": "ソディックの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ソディック 公式サイト",
+      "url": "https://www.sodick.co.jp/"
+    }
   },
   "editorialId": "C0827"
 }

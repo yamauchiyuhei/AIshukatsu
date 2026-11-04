@@ -109,12 +109,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6724-ce1b80b81fb4.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6724-ce1b80b81fb4-card.webp",
-    "alt": "セイコーエプソンの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6724-3aea9f04facd.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6724-3aea9f04facd-card.webp",
+    "alt": "セイコーエプソンの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "セイコーエプソン ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Epson_logo.svg"
+    }
   },
   "editorialId": "C0526"
 }

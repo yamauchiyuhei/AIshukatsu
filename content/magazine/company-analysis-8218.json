@@ -195,12 +195,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8218-a1ce3e4e2202.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8218-a1ce3e4e2202-card.webp",
-    "alt": "コメリの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8218-9debb9697876.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8218-9debb9697876-card.webp",
+    "alt": "コメリの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "コメリ（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000881.000079052.html"
+    }
   },
   "editorialId": "C0768"
 }

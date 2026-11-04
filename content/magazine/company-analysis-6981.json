@@ -109,12 +109,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6981-2bbcb702765f.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6981-2bbcb702765f-card.webp",
-    "alt": "村田製作所の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6981-18657ab12d9d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6981-18657ab12d9d-card.webp",
+    "alt": "村田製作所の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "村田製作所 公式サイト",
+      "url": "https://www.murata.com/ja-jp"
+    }
   },
   "editorialId": "C0106"
 }

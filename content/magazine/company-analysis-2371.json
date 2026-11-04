@@ -109,12 +109,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2371-86829f446a96.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2371-86829f446a96-card.webp",
-    "alt": "カカクコムの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2371-b93968b5aba8.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2371-b93968b5aba8-card.webp",
+    "alt": "カカクコムの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "カカクコム 公式サイト",
+      "url": "https://corporate.kakaku.com/"
+    }
   },
   "editorialId": "C0233"
 }

@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9602-6eea5bed31a2.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9602-6eea5bed31a2-card.webp",
-    "alt": "東宝の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9602-e8a5ddf7212c.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9602-e8a5ddf7212c-card.webp",
+    "alt": "東宝の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "東宝 公式サイト",
+      "url": "https://www.saiyo-info.net/toho/business/"
+    }
   },
   "editorialId": "C0209"
 }

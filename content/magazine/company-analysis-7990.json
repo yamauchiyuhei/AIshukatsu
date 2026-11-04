@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7990-053ce581d44e.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7990-053ce581d44e-card.webp",
-    "alt": "グローブライドの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7990-013e530a28c2.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7990-013e530a28c2-card.webp",
+    "alt": "グローブライドの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "グローブライド 公式サイト",
+      "url": "https://www.globeride.co.jp"
+    }
   },
   "editorialId": "C0616"
 }

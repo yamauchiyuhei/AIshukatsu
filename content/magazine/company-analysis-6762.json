@@ -143,12 +143,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6762-64d616aba20c.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6762-64d616aba20c-card.webp",
-    "alt": "TDKの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6762-0e6fdd2295ae.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6762-0e6fdd2295ae-card.webp",
+    "alt": "TDKの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "TDK ロゴ（PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000025.000059698.html"
+    }
   },
   "editorialId": "C0097"
 }

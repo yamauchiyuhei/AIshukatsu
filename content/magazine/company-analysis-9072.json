@@ -130,12 +130,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9072-03284b1eb525.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9072-03284b1eb525-card.webp",
-    "alt": "ニッコンホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9072-f2569d70faf4.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9072-f2569d70faf4-card.webp",
+    "alt": "ニッコンホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ニッコンホールディングス 公式サイト",
+      "url": "https://www.nikkon-hd.co.jp/"
+    }
   },
   "editorialId": "C0453"
 }

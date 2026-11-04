@@ -124,12 +124,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6902-79c0bd3011ad.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6902-79c0bd3011ad-card.webp",
-    "alt": "デンソーの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6902-aac941c3d0bc.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6902-aac941c3d0bc-card.webp",
+    "alt": "デンソーの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "デンソー 公式サイト",
+      "url": "https://careers.denso.com/"
+    }
   },
   "editorialId": "C0088"
 }

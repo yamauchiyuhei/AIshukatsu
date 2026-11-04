@@ -99,12 +99,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7981-6932e059f5cf.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7981-6932e059f5cf-card.webp",
-    "alt": "タカラスタンダードの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7981-d8030d1b477b.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7981-d8030d1b477b-card.webp",
+    "alt": "タカラスタンダードの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "タカラスタンダード（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000001.000088261.html"
+    }
   },
   "editorialId": "C0617"
 }

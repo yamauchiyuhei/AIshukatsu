@@ -200,12 +200,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2270-40c60ea4d246.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2270-40c60ea4d246-card.webp",
-    "alt": "雪印メグミルクの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2270-c601a85a899a.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2270-c601a85a899a-card.webp",
+    "alt": "雪印メグミルクの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "雪印メグミルク 公式サイト",
+      "url": "https://www.meg-snow.com"
+    }
   },
   "editorialId": "C0996"
 }

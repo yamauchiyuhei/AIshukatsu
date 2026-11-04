@@ -198,12 +198,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-5949-8d921648e920.webp",
-    "thumbnail": "/magazine/covers/company-analysis-5949-8d921648e920-card.webp",
-    "alt": "ユニプレスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-5949-55fc3c8ae2f7.webp",
+    "thumbnail": "/magazine/covers/company-analysis-5949-55fc3c8ae2f7-card.webp",
+    "alt": "ユニプレスの企業研究（企業ロゴを含む紹介画像）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ユニプレスの紹介画像（株式会社iCARE提供 / PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000194.000022826.html"
+    }
   },
   "editorialId": "C0884"
 }

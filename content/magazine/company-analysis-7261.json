@@ -119,12 +119,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7261-895105ce5b00.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7261-895105ce5b00-card.webp",
-    "alt": "マツダの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7261-adfa9b512e7e.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7261-adfa9b512e7e-card.webp",
+    "alt": "マツダの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "マツダ 公式サイト",
+      "url": "https://www.mazda.com/en/"
+    }
   },
   "editorialId": "C0429"
 }

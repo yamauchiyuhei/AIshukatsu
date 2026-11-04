@@ -93,12 +93,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2146-3c4f9b5f99e6.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2146-3c4f9b5f99e6-card.webp",
-    "alt": "UTグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2146-8be1752e9dce.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2146-8be1752e9dce-card.webp",
+    "alt": "UTグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "UTグループ ロゴ（タレントアンドアセスメント提供の共同発表資料 / PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000023.000011421.html"
+    }
   },
   "editorialId": "C0639"
 }

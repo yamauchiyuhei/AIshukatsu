@@ -213,12 +213,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6814-111dd80c5ab4.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6814-111dd80c5ab4-card.webp",
-    "alt": "古野電気の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6814-0a7caf9191aa.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6814-0a7caf9191aa-card.webp",
+    "alt": "古野電気の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "古野電気（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000158.000089783.html"
+    }
   },
   "editorialId": "C0966"
 }

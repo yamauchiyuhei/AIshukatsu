@@ -127,12 +127,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3407-7b31c6bb9110.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3407-7b31c6bb9110-card.webp",
-    "alt": "旭化成の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3407-23f4bf70f5ff.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3407-23f4bf70f5ff-card.webp",
+    "alt": "旭化成の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "旭化成 公式サイト",
+      "url": "https://www.asahi-kasei.com/jp"
+    }
   },
   "editorialId": "C0063"
 }

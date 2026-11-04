@@ -157,12 +157,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6326-64cdf04a90c9.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6326-64cdf04a90c9-card.webp",
-    "alt": "クボタの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6326-6204254e1d9f.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6326-6204254e1d9f-card.webp",
+    "alt": "クボタの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "クボタ ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Kubota_Logo.svg"
+    }
   },
   "editorialId": "C0075"
 }

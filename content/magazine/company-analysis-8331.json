@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8331-c5068b6df0a4.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8331-c5068b6df0a4-card.webp",
-    "alt": "千葉銀行の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8331-4aa139ea6622.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8331-4aa139ea6622-card.webp",
+    "alt": "千葉銀行の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "千葉銀行 公式サイト",
+      "url": "https://www.chibabank.co.jp/s/special/job/work/"
+    }
   },
   "editorialId": "C0490"
 }

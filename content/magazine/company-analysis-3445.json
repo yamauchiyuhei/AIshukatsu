@@ -176,12 +176,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3445-3e273287bcb2.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3445-3e273287bcb2-card.webp",
-    "alt": "RS Technologiesの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3445-82e1f0e3e9e6.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3445-82e1f0e3e9e6-card.webp",
+    "alt": "RS Technologiesの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "RS Technologies 公式サイト",
+      "url": "https://www.rs-tec.jp/"
+    }
   },
   "editorialId": "C0890"
 }

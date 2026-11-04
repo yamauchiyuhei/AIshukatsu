@@ -108,12 +108,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-006-94d26a6381b6.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-006-94d26a6381b6-card.webp",
-    "alt": "PwCコンサルティングの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-006-54705b2e9b7a.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-006-54705b2e9b7a-card.webp",
+    "alt": "PwCコンサルティングの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "PwCコンサルティング 公式サイト",
+      "url": "https://www.pwc.com/jp/ja.html"
+    }
   },
   "editorialId": "C0143"
 }

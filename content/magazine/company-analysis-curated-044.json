@@ -121,12 +121,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-044-09ec24797dbc.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-044-09ec24797dbc-card.webp",
-    "alt": "YKKの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-044-f10f16994cfd.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-044-f10f16994cfd-card.webp",
+    "alt": "YKKの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "YKK 公式サイト",
+      "url": "https://www.ykk.com/english/"
+    }
   },
   "editorialId": "C0139"
 }

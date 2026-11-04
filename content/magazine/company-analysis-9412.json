@@ -111,12 +111,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9412-c6f5ec47f4b4.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9412-c6f5ec47f4b4-card.webp",
-    "alt": "スカパーJSATの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9412-9ebca3f068ff.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9412-9ebca3f068ff-card.webp",
+    "alt": "スカパーJSATの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "スカパーJSAT（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000038.000043483.html"
+    }
   },
   "editorialId": "C0597"
 }

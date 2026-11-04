@@ -111,12 +111,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7611-b8ca8d089bb7.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7611-b8ca8d089bb7-card.webp",
-    "alt": "ハイデイ日高の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7611-9509a8fbb49f.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7611-9509a8fbb49f-card.webp",
+    "alt": "ハイデイ日高の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ハイデイ日高 ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Hiday_hidaka.svg"
+    }
   },
   "editorialId": "C0779"
 }

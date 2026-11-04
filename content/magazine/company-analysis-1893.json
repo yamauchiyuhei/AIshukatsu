@@ -119,12 +119,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-1893-e2222b31d05a.webp",
-    "thumbnail": "/magazine/covers/company-analysis-1893-e2222b31d05a-card.webp",
-    "alt": "五洋建設の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-1893-18be5eb17273.webp",
+    "thumbnail": "/magazine/covers/company-analysis-1893-18be5eb17273-card.webp",
+    "alt": "五洋建設の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "五洋建設 / Wikimedia Commons（PD-textlogo）",
+      "url": "https://commons.wikimedia.org/wiki/File:Penta-Ocean_Construction_Co.%2C_Ltd._logo.svg"
+    }
   },
   "editorialId": "C0366"
 }

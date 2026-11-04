@@ -206,12 +206,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2585-c9a4278f4dc5.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2585-c9a4278f4dc5-card.webp",
-    "alt": "ライフドリンク カンパニーの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2585-ac717bc75a3e.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2585-ac717bc75a3e-card.webp",
+    "alt": "ライフドリンク カンパニーの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ライフドリンク カンパニー 公式サイト",
+      "url": "https://www.ld-company.com/"
+    }
   },
   "editorialId": "C0992"
 }

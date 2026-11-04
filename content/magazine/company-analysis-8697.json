@@ -138,12 +138,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8697-96fdec8baad1.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8697-96fdec8baad1-card.webp",
-    "alt": "日本取引所グループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8697-6565861db2a2.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8697-6565861db2a2-card.webp",
+    "alt": "日本取引所グループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日本取引所グループ 公式サイト",
+      "url": "https://www.jpx.co.jp/"
+    }
   },
   "editorialId": "C0090"
 }

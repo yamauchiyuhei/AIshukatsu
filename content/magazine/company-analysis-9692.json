@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9692-806a6d58827e.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9692-806a6d58827e-card.webp",
-    "alt": "シーイーシーの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9692-0ca8f577c144.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9692-0ca8f577c144-card.webp",
+    "alt": "シーイーシーの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "シーイーシー 公式サイト",
+      "url": "https://www.cec-ltd.co.jp/"
+    }
   },
   "editorialId": "C0595"
 }

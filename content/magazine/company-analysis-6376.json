@@ -106,12 +106,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6376-0e73d2ac53b3.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6376-0e73d2ac53b3-card.webp",
-    "alt": "日機装の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6376-9473fce1a9cc.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6376-9473fce1a9cc-card.webp",
+    "alt": "日機装の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日機装 公式サイト",
+      "url": "https://www.nikkiso.co.jp/"
+    }
   },
   "editorialId": "C0859"
 }

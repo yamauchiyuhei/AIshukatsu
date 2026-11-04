@@ -117,12 +117,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9843-d6418e5a3def.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9843-d6418e5a3def-card.webp",
-    "alt": "ニトリホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9843-05cba6ac6676.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9843-05cba6ac6676-card.webp",
+    "alt": "ニトリホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ニトリホールディングス ロゴ（PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000001722.000073913.html"
+    }
   },
   "editorialId": "C0347"
 }

@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8418-115f8221d373.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8418-115f8221d373-card.webp",
-    "alt": "山口フィナンシャルグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8418-ea2dfc935265.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8418-ea2dfc935265-card.webp",
+    "alt": "山口フィナンシャルグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "山口フィナンシャルグループ公式サイト",
+      "url": "https://www.ymfg.co.jp/"
+    }
   },
   "editorialId": "C0491"
 }

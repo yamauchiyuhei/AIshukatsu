@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9069-bf9cf0509a57.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9069-bf9cf0509a57-card.webp",
-    "alt": "センコーグループホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9069-289e87ec6bef.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9069-289e87ec6bef-card.webp",
+    "alt": "センコーグループホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "センコーグループホールディングス ロゴ（公式グループ会社サイト）",
+      "url": "https://hanshinsenko.com/"
+    }
   },
   "editorialId": "C0452"
 }

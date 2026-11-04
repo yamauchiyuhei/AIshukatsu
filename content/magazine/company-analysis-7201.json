@@ -119,12 +119,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7201-4ba335de95ca.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7201-4ba335de95ca-card.webp",
-    "alt": "日産自動車の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7201-ece45ea34fe9.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7201-ece45ea34fe9-card.webp",
+    "alt": "日産自動車の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日産自動車 公式サイト",
+      "url": "https://www.nissanmotor.jobs/japan/MC/life-at-nissan/field.html"
+    }
   },
   "editorialId": "C0433"
 }

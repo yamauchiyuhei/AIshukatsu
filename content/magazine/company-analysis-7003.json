@@ -117,12 +117,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7003-8a66f52caf91.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7003-8a66f52caf91-card.webp",
-    "alt": "三井E&Sの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7003-252dc09443fb.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7003-252dc09443fb-card.webp",
+    "alt": "三井E&Sの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "三井E&S 公式サイト",
+      "url": "https://www.mes.co.jp/"
+    }
   },
   "editorialId": "C0397"
 }

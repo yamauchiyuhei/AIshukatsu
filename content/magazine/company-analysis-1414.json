@@ -156,12 +156,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-1414-bc196ab2d0ee.webp",
-    "thumbnail": "/magazine/covers/company-analysis-1414-bc196ab2d0ee-card.webp",
-    "alt": "ショーボンドホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-1414-c4fab7cbb4b1.webp",
+    "thumbnail": "/magazine/covers/company-analysis-1414-c4fab7cbb4b1-card.webp",
+    "alt": "ショーボンドホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ショーボンドホールディングス 公式サイト",
+      "url": "https://www.sho-bondhd.jp/"
+    }
   },
   "editorialId": "C0364"
 }

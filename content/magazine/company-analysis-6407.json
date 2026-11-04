@@ -194,12 +194,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6407-cb13ee2dd519.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6407-cb13ee2dd519-card.webp",
-    "alt": "CKDの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6407-ba1b9644787d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6407-ba1b9644787d-card.webp",
+    "alt": "CKDの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "CKD 公式サイト",
+      "url": "https://www.ckd.co.jp/company/recruit/student/company/strength/"
+    }
   },
   "editorialId": "C0819"
 }

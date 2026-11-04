@@ -51,12 +51,20 @@ test('official logos require safe attribution and keep only public source metada
   }
   assert.ok(validate({ ...fixture(), cover: { ...cover, source: 'unknown' } }).length);
   assert.deepEqual(validate({ ...fixture(), cover: { ...cover, source: 'editorial-design', attribution: undefined } }), []);
+  const licensed = { ...attribution, author: 'Logo author', license: { title: 'CC BY 2.5', url: 'https://creativecommons.org/licenses/by/2.5/', privateNote: 'PRIVATE' }, modifications: '配置とサイズを調整' };
+  assert.deepEqual(validate({ ...fixture(), cover: { ...cover, attribution: licensed } }), []);
+  const publicAttribution = articleSummary({ ...fixture(), cover: { ...cover, attribution: licensed } }).cover.attribution;
+  assert.deepEqual(publicAttribution.license, { title: 'CC BY 2.5', url: 'https://creativecommons.org/licenses/by/2.5/' });
+  assert.equal(publicAttribution.author, 'Logo author');
+  assert.equal(publicAttribution.modifications, '配置とサイズを調整');
+  assert.equal(JSON.stringify(publicAttribution).includes('PRIVATE'), false);
+  assert.ok(validate({ ...fixture(), cover: { ...cover, attribution: { ...licensed, license: { title: 'license', url: 'javascript:alert(1)' } } } }).length);
 });
 test('reader captions identify logos, editorial designs and generated images accurately', () => {
   const covers = ['ai-generated', 'official-logo', 'editorial-design'].map(source => ({
     src: '/magazine/covers/company-logo.webp', thumbnail: '/magazine/covers/company-logo-card.webp',
     alt: '企業研究の図版', width: 1280, height: 720, source,
-    ...(source === 'official-logo' ? { attribution: { title: '公式配布元', url: 'https://example.com/brand/' } } : {}),
+    ...(source === 'official-logo' ? { attribution: { title: '配布元', url: 'https://example.com/brand/', author: 'Author & Co.', license: { title: 'CC BY 2.5', url: 'https://creativecommons.org/licenses/by/2.5/' }, modifications: '配置とサイズを調整' } } : {}),
   }));
   const script = `
     import React from 'react';
@@ -74,6 +82,9 @@ test('reader captions identify logos, editorial designs and generated images acc
   assert.ok(html[0].includes('AI生成のイメージ画像'));
   assert.ok(html[1].includes('ロゴの出典'));
   assert.ok(html[1].includes('href="https://example.com/brand/" target="_blank" rel="noopener noreferrer"'));
+  assert.ok(html[1].includes('Author &amp; Co.'));
+  assert.ok(html[1].includes('href="https://creativecommons.org/licenses/by/2.5/"'));
+  assert.ok(html[1].includes('配置とサイズを調整'));
   assert.equal(html[1].includes('AI生成のイメージ画像'), false);
   assert.ok(html[2].includes('AI就活編集部による図版'));
   assert.equal(html[2].includes('AI生成のイメージ画像'), false);

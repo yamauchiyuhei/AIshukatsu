@@ -103,12 +103,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-1852-8881d113fd81.webp",
-    "thumbnail": "/magazine/covers/company-analysis-1852-8881d113fd81-card.webp",
-    "alt": "淺沼組の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-1852-6bee872ced0b.webp",
+    "thumbnail": "/magazine/covers/company-analysis-1852-6bee872ced0b-card.webp",
+    "alt": "淺沼組の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "淺沼組 公式サイト",
+      "url": "https://www.asanuma.co.jp/"
+    }
   },
   "editorialId": "C0817"
 }

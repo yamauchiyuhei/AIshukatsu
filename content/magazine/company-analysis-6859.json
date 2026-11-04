@@ -209,12 +209,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6859-334482a59368.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6859-334482a59368-card.webp",
-    "alt": "エスペックの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6859-6f42ab87e41b.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6859-6f42ab87e41b-card.webp",
+    "alt": "エスペックの企業研究（企業ロゴを含む紹介画像）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "エスペックへのSkillnote導入紹介画像（株式会社Skillnote提供 / PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000052.000088452.html"
+    }
   },
   "editorialId": "C0953"
 }

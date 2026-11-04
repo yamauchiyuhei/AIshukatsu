@@ -209,12 +209,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8600-b41b370997df.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8600-b41b370997df-card.webp",
-    "alt": "トモニホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8600-92d12ba90f76.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8600-92d12ba90f76-card.webp",
+    "alt": "トモニホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "トモニホールディングス 公式サイト",
+      "url": "https://www.tomony-hd.co.jp/company/company.html"
+    }
   },
   "editorialId": "C0924"
 }

@@ -107,12 +107,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8771-64419dd8eda5.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8771-64419dd8eda5-card.webp",
-    "alt": "イー・ギャランティの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8771-b63456b53e7f.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8771-b63456b53e7f-card.webp",
+    "alt": "イー・ギャランティの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "イー・ギャランティ 公式サイト",
+      "url": "https://www.eguarantee.co.jp/"
+    }
   },
   "editorialId": "C0898"
 }

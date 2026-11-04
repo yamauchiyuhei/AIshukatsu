@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6141-0dbfbf5193e3.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6141-0dbfbf5193e3-card.webp",
-    "alt": "DMG森精機の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6141-783f3c5e2546.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6141-783f3c5e2546-card.webp",
+    "alt": "DMG森精機の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "DMG森精機 公式サイト",
+      "url": "https://www.dmgmori.co.jp/"
+    }
   },
   "editorialId": "C0379"
 }

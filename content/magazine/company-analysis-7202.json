@@ -122,12 +122,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7202-1a15ea3586f7.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7202-1a15ea3586f7-card.webp",
-    "alt": "いすゞ自動車の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7202-40838b96b199.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7202-40838b96b199-card.webp",
+    "alt": "いすゞ自動車の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "いすゞ自動車 ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Isuzu_wordmark.svg"
+    }
   },
   "editorialId": "C0425"
 }

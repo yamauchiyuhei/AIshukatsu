@@ -109,12 +109,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6473-d26c7291e7e0.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6473-d26c7291e7e0-card.webp",
-    "alt": "ジェイテクトの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6473-d98a4401a2c9.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6473-d98a4401a2c9-card.webp",
+    "alt": "ジェイテクトの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ジェイテクト（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000609.000028729.html"
+    }
   },
   "editorialId": "C0390"
 }

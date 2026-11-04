@@ -181,12 +181,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6458-ae9c0892672f.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6458-ae9c0892672f-card.webp",
-    "alt": "新晃工業の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6458-c1bcedce8449.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6458-c1bcedce8449-card.webp",
+    "alt": "新晃工業の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "新晃工業 公式サイト",
+      "url": "https://www.sinko.co.jp/"
+    }
   },
   "editorialId": "C0838"
 }

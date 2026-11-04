@@ -133,12 +133,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8359-ba1ab02f0b9a.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8359-ba1ab02f0b9a-card.webp",
-    "alt": "八十二長野銀行の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8359-047be519e7b8.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8359-047be519e7b8-card.webp",
+    "alt": "八十二長野銀行の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "八十二長野銀行公式サイト",
+      "url": "https://bank.82group.jp/"
+    }
   },
   "editorialId": "C0489"
 }

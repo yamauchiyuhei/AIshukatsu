@@ -103,12 +103,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6727-f65c08b921b8.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6727-f65c08b921b8-card.webp",
-    "alt": "ワコムの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6727-38b071ef292e.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6727-38b071ef292e-card.webp",
+    "alt": "ワコムの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ワコム 公式サイト",
+      "url": "https://www.wacom.com/ja-jp"
+    }
   },
   "editorialId": "C0964"
 }

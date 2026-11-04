@@ -106,12 +106,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4182-2915d2ac87ae.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4182-2915d2ac87ae-card.webp",
-    "alt": "三菱瓦斯化学の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4182-740f4ceda4c3.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4182-740f4ceda4c3-card.webp",
+    "alt": "三菱瓦斯化学の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "三菱瓦斯化学 公式サイト",
+      "url": "https://www.mgc.co.jp/"
+    }
   },
   "editorialId": "C0282"
 }

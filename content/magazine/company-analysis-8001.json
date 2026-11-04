@@ -137,12 +137,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8001-61e8af729fcd.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8001-61e8af729fcd-card.webp",
-    "alt": "伊藤忠商事の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8001-69cce02c6856.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8001-69cce02c6856-card.webp",
+    "alt": "伊藤忠商事の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "伊藤忠商事 公式サイト",
+      "url": "https://www.itochu.co.jp/ja/"
+    }
   },
   "editorialId": "C0006"
 }

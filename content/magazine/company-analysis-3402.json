@@ -128,12 +128,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3402-17e33e10bf5d.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3402-17e33e10bf5d-card.webp",
-    "alt": "東レの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3402-f11b23bf54b0.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3402-f11b23bf54b0-card.webp",
+    "alt": "東レの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "東レ 公式サイト",
+      "url": "https://www.toray.co.jp/"
+    }
   },
   "editorialId": "C0419"
 }

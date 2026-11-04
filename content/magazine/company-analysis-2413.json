@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2413-7d3a8d153036.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2413-7d3a8d153036-card.webp",
-    "alt": "エムスリーの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2413-0292ff3eca96.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2413-0292ff3eca96-card.webp",
+    "alt": "エムスリーの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "エムスリー 公式サイト",
+      "url": "https://corporate.m3.com/"
+    }
   },
   "editorialId": "C0232"
 }

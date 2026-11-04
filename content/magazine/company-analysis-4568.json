@@ -111,12 +111,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4568-07cc8d0dec41.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4568-07cc8d0dec41-card.webp",
-    "alt": "第一三共の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4568-f0bd1e8c5318.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4568-f0bd1e8c5318-card.webp",
+    "alt": "第一三共の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "第一三共 公式サイト",
+      "url": "https://www.daiichisankyo.co.jp/"
+    }
   },
   "editorialId": "C0033"
 }

@@ -102,12 +102,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6770-0c7876a95445.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6770-0c7876a95445-card.webp",
-    "alt": "アルプスアルパインの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6770-787e2da30e97.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6770-787e2da30e97-card.webp",
+    "alt": "アルプスアルパインの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "アルプスアルパイン 公式サイト",
+      "url": "https://www.alpsalpine.com/j/"
+    }
   },
   "editorialId": "C0513"
 }

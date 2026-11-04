@@ -193,12 +193,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8707-617efad582d9.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8707-617efad582d9-card.webp",
-    "alt": "岩井コスモホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8707-e69dad5bf186.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8707-e69dad5bf186-card.webp",
+    "alt": "岩井コスモホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "岩井コスモホールディングス 公式サイト",
+      "url": "https://www.iwaicosmo-hd.jp"
+    }
   },
   "editorialId": "C0871"
 }

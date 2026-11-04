@@ -135,12 +135,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7167-04a621465f26.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7167-04a621465f26-card.webp",
-    "alt": "めぶきフィナンシャルグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7167-63c137ad8441.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7167-63c137ad8441-card.webp",
+    "alt": "めぶきフィナンシャルグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "めぶきフィナンシャルグループ 公式サイト",
+      "url": "https://www.mebuki-fg.co.jp/"
+    }
   },
   "editorialId": "C0484"
 }

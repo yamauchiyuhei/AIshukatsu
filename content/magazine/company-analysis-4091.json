@@ -119,12 +119,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4091-46f093d0d28b.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4091-46f093d0d28b-card.webp",
-    "alt": "日本酸素ホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4091-89f30d56711f.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4091-89f30d56711f-card.webp",
+    "alt": "日本酸素ホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日本酸素ホールディングス（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000011.000118246.html"
+    }
   },
   "editorialId": "C0291"
 }

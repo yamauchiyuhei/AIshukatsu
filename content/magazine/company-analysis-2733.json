@@ -103,12 +103,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2733-d4783be4ff9d.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2733-d4783be4ff9d-card.webp",
-    "alt": "あらたの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2733-e92d9b0eedd5.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2733-e92d9b0eedd5-card.webp",
+    "alt": "あらたの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "あらた 公式サイト",
+      "url": "https://www.arata-gr.jp/"
+    }
   },
   "editorialId": "C0720"
 }

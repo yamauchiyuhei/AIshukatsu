@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4612-f4eb73b9888c.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4612-f4eb73b9888c-card.webp",
-    "alt": "日本ペイントホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4612-3c879ede33c3.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4612-3c879ede33c3-card.webp",
+    "alt": "日本ペイントホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "日本ペイントホールディングス 公式サイト",
+      "url": "https://www.nipponpaint-holdings.com/"
+    }
   },
   "editorialId": "C0288"
 }

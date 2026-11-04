@@ -221,12 +221,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-3050-816e5e1da66f.webp",
-    "thumbnail": "/magazine/covers/company-analysis-3050-816e5e1da66f-card.webp",
-    "alt": "DCMホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-3050-b3eef84b13f7.webp",
+    "thumbnail": "/magazine/covers/company-analysis-3050-b3eef84b13f7-card.webp",
+    "alt": "DCMホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "DCMホールディングス 公式サイト",
+      "url": "https://www.dcm-hldgs.co.jp/grp/"
+    }
   },
   "editorialId": "C0748"
 }

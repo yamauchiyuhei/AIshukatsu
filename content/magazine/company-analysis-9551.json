@@ -180,12 +180,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9551-8d6678182070.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9551-8d6678182070-card.webp",
-    "alt": "メタウォーターの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9551-21287703f1a8.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9551-21287703f1a8-card.webp",
+    "alt": "メタウォーターの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "メタウォーター 公式サイト",
+      "url": "https://www.metawater.co.jp/"
+    }
   },
   "editorialId": "C0945"
 }

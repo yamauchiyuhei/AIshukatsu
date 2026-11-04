@@ -106,12 +106,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7383-fc5fe8dcf6e5.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7383-fc5fe8dcf6e5-card.webp",
-    "alt": "ネットプロテクションズホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7383-c694e2d8ba97.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7383-c694e2d8ba97-card.webp",
+    "alt": "ネットプロテクションズホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ネットプロテクションズホールディングス 公式サイト",
+      "url": "https://corp.netprotections.com/en/ir/"
+    }
   },
   "editorialId": "C0900"
 }

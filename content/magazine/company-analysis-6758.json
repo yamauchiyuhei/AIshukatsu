@@ -161,12 +161,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6758-0f6d43815fbb.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6758-0f6d43815fbb-card.webp",
-    "alt": "ソニーグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6758-33bc757a0d7f.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6758-33bc757a0d7f-card.webp",
+    "alt": "ソニーグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ソニーグループ ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Sony_logo.svg"
+    }
   },
   "editorialId": "C0002"
 }

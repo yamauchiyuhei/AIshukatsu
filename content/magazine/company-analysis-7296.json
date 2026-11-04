@@ -178,12 +178,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7296-b7fc3f81687f.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7296-b7fc3f81687f-card.webp",
-    "alt": "エフ・シー・シーの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7296-3ac68552f181.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7296-3ac68552f181-card.webp",
+    "alt": "エフ・シー・シーの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "エフ・シー・シー共通企業ロゴ（FCC North America公式サイト）",
+      "url": "https://fcc-na.com/"
+    }
   },
   "editorialId": "C0879"
 }

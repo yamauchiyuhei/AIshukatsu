@@ -107,12 +107,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7532-a6818631ece1.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7532-a6818631ece1-card.webp",
-    "alt": "パン・パシフィック・インターナショナルホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7532-c9a4e4c05e33.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7532-c9a4e4c05e33-card.webp",
+    "alt": "パン・パシフィック・インターナショナルホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "パン・パシフィック・インターナショナルホールディングス / Wikimedia Commons（PD-textlogo）",
+      "url": "https://commons.wikimedia.org/wiki/File:PPIH_logo.svg"
+    }
   },
   "editorialId": "C0348"
 }

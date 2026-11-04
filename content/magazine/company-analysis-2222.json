@@ -110,12 +110,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2222-73518cb70175.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2222-73518cb70175-card.webp",
-    "alt": "寿スピリッツの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2222-5652c4fd7a5a.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2222-5652c4fd7a5a-card.webp",
+    "alt": "寿スピリッツの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "寿スピリッツ 公式サイト",
+      "url": "https://www.kotobukispirits.co.jp/ja/index.html"
+    }
   },
   "editorialId": "C0563"
 }

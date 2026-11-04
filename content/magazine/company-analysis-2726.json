@@ -115,12 +115,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2726-b46d4bf9e6b0.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2726-b46d4bf9e6b0-card.webp",
-    "alt": "パルグループホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2726-63a1c35a88c3.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2726-63a1c35a88c3-card.webp",
+    "alt": "パルグループホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "パルグループホールディングス 公式サイト",
+      "url": "https://www.palgroup.holdings/"
+    }
   },
   "editorialId": "C0781"
 }

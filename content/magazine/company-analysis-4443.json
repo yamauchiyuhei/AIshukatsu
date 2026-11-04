@@ -101,12 +101,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4443-efccadfe8782.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4443-efccadfe8782-card.webp",
-    "alt": "Sansanの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4443-7d9d83a032b3.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4443-7d9d83a032b3-card.webp",
+    "alt": "Sansanの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "Sansan 公式サイト",
+      "url": "https://ir.corp-sansan.com/ja/index.html"
+    }
   },
   "editorialId": "C0580"
 }

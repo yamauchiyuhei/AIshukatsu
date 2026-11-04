@@ -126,12 +126,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-5929-56b57a681a9c.webp",
-    "thumbnail": "/magazine/covers/company-analysis-5929-56b57a681a9c-card.webp",
-    "alt": "三和ホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-5929-1c8ae886d76d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-5929-1c8ae886d76d-card.webp",
+    "alt": "三和ホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "三和ホールディングス 公式サイト",
+      "url": "https://www.sanwa-hldgs.co.jp/"
+    }
   },
   "editorialId": "C0438"
 }

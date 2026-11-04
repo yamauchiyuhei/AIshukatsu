@@ -115,12 +115,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-5851-4327e00ec987.webp",
-    "thumbnail": "/magazine/covers/company-analysis-5851-4327e00ec987-card.webp",
-    "alt": "リョービの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-5851-e4b48f76cb07.webp",
+    "thumbnail": "/magazine/covers/company-analysis-5851-e4b48f76cb07-card.webp",
+    "alt": "リョービの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "リョービ 公式サイト",
+      "url": "https://www.ryobi-group.co.jp/"
+    }
   },
   "editorialId": "C0979"
 }

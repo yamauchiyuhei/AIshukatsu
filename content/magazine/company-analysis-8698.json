@@ -102,12 +102,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8698-0b9321dc6249.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8698-0b9321dc6249-card.webp",
-    "alt": "マネックスグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8698-e37dc9e31fcb.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8698-e37dc9e31fcb-card.webp",
+    "alt": "マネックスグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "マネックスグループ ロゴ（公式統合報告書2025）",
+      "url": "https://monex-open-disclose.ifis.co.jp/6ef/140120251126509033.pdf"
+    }
   },
   "editorialId": "C0868"
 }

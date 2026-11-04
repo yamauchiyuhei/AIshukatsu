@@ -116,12 +116,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4506-a70f9d080d97.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4506-a70f9d080d97-card.webp",
-    "alt": "住友ファーマの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4506-8870f43d0fb6.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4506-8870f43d0fb6-card.webp",
+    "alt": "住友ファーマの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "住友ファーマ 公式サイト",
+      "url": "https://www.sumitomo-pharma.co.jp/"
+    }
   },
   "editorialId": "C0306"
 }

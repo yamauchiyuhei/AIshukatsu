@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8303-f0bf0af87cc8.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8303-f0bf0af87cc8-card.webp",
-    "alt": "SBI新生銀行の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8303-7cbd981ddd5f.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8303-7cbd981ddd5f-card.webp",
+    "alt": "SBI新生銀行の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "SBI新生銀行 公式サイト",
+      "url": "https://corp.sbishinseibank.co.jp/ja/index.html"
+    }
   },
   "editorialId": "C0476"
 }

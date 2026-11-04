@@ -117,12 +117,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9962-21a7a0981d08.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9962-21a7a0981d08-card.webp",
-    "alt": "ミスミグループ本社の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9962-25c5a9b8e3e3.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9962-25c5a9b8e3e3-card.webp",
+    "alt": "ミスミグループ本社の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ミスミグループ本社 公式サイト",
+      "url": "https://www.misumi.co.jp/"
+    }
   },
   "editorialId": "C0319"
 }

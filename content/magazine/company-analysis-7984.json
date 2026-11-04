@@ -108,12 +108,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-7984-f12308ddd4a9.webp",
-    "thumbnail": "/magazine/covers/company-analysis-7984-f12308ddd4a9-card.webp",
-    "alt": "コクヨの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-7984-3ae163fd4c78.webp",
+    "thumbnail": "/magazine/covers/company-analysis-7984-3ae163fd4c78-card.webp",
+    "alt": "コクヨの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "コクヨ ロゴ（Wikimedia Commons）",
+      "url": "https://commons.wikimedia.org/wiki/File:Kokuyo_logo_2025.svg"
+    }
   },
   "editorialId": "C0211"
 }

@@ -184,12 +184,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2918-89d8808edc50.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2918-89d8808edc50-card.webp",
-    "alt": "わらべや日洋ホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2918-6908365e2d28.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2918-6908365e2d28-card.webp",
+    "alt": "わらべや日洋ホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "わらべや日洋ホールディングス 公式サイト",
+      "url": "https://www.warabeya.co.jp/ja/index.html"
+    }
   },
   "editorialId": "C0986"
 }

@@ -117,12 +117,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4665-3e693de01dc4.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4665-3e693de01dc4-card.webp",
-    "alt": "ダスキンの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4665-e9fc1df6bd05.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4665-e9fc1df6bd05-card.webp",
+    "alt": "ダスキンの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ダスキン 公式サイト",
+      "url": "https://www.duskin.co.jp/"
+    }
   },
   "editorialId": "C0236"
 }

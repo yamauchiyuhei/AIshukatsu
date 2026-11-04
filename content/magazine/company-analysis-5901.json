@@ -109,12 +109,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-5901-20bd71501060.webp",
-    "thumbnail": "/magazine/covers/company-analysis-5901-20bd71501060-card.webp",
-    "alt": "東洋製罐グループホールディングスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-5901-798e67b283bf.webp",
+    "thumbnail": "/magazine/covers/company-analysis-5901-798e67b283bf-card.webp",
+    "alt": "東洋製罐グループホールディングスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "東洋製罐グループホールディングス 公式サイト",
+      "url": "https://www.tskg-hd.com/"
+    }
   },
   "editorialId": "C0440"
 }

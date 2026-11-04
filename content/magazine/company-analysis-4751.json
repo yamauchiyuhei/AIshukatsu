@@ -108,12 +108,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-4751-fc9aee8a408e.webp",
-    "thumbnail": "/magazine/covers/company-analysis-4751-fc9aee8a408e-card.webp",
-    "alt": "サイバーエージェントの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-4751-610c8860bc01.webp",
+    "thumbnail": "/magazine/covers/company-analysis-4751-610c8860bc01-card.webp",
+    "alt": "サイバーエージェントの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "サイバーエージェント 公式サイト",
+      "url": "https://www.cyberagent.co.jp/"
+    }
   },
   "editorialId": "C0234"
 }

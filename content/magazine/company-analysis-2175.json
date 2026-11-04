@@ -110,12 +110,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-2175-8fe39215d8cc.webp",
-    "thumbnail": "/magazine/covers/company-analysis-2175-8fe39215d8cc-card.webp",
-    "alt": "エス・エム・エスの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-2175-5e1deb7e3318.webp",
+    "thumbnail": "/magazine/covers/company-analysis-2175-5e1deb7e3318-card.webp",
+    "alt": "エス・エム・エスの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "エス・エム・エス（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000001.000013298.html"
+    }
   },
   "editorialId": "C0643"
 }

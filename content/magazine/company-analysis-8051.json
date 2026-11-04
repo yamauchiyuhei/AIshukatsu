@@ -211,12 +211,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-8051-a13ead1a22be.webp",
-    "thumbnail": "/magazine/covers/company-analysis-8051-a13ead1a22be-card.webp",
-    "alt": "山善の企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-8051-a82545a9862a.webp",
+    "thumbnail": "/magazine/covers/company-analysis-8051-a82545a9862a-card.webp",
+    "alt": "山善の企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "山善 ロゴ（再春館製薬所提供 / PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000132.000051751.html"
+    }
   },
   "editorialId": "C0738"
 }

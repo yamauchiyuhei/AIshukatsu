@@ -103,12 +103,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-1808-02e93e44e46e.webp",
-    "thumbnail": "/magazine/covers/company-analysis-1808-02e93e44e46e-card.webp",
-    "alt": "長谷工コーポレーションの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-1808-7ae2e63dfdf1.webp",
+    "thumbnail": "/magazine/covers/company-analysis-1808-7ae2e63dfdf1-card.webp",
+    "alt": "長谷工コーポレーションの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "長谷工コーポレーション（PR TIMES提供素材）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000080.000128890.html"
+    }
   },
   "editorialId": "C0375"
 }

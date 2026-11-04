@@ -105,12 +105,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6268-b5e260fa666e.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6268-b5e260fa666e-card.webp",
-    "alt": "ナブテスコの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6268-c6c9a8d57fed.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6268-c6c9a8d57fed-card.webp",
+    "alt": "ナブテスコの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ナブテスコ 公式サイト",
+      "url": "https://www.nabtesco.com/"
+    }
   },
   "editorialId": "C0393"
 }

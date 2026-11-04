@@ -106,12 +106,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-curated-002-449f3bd5f188.webp",
-    "thumbnail": "/magazine/covers/company-analysis-curated-002-449f3bd5f188-card.webp",
-    "alt": "マッキンゼー・アンド・カンパニーの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-curated-002-15728377382d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-curated-002-15728377382d-card.webp",
+    "alt": "マッキンゼー・アンド・カンパニーの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "マッキンゼー・アンド・カンパニー ロゴ（PR TIMES）",
+      "url": "https://prtimes.jp/main/html/rd/p/000000038.000094688.html"
+    }
   },
   "editorialId": "C0013"
 }

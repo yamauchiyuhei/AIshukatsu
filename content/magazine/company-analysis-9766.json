@@ -173,12 +173,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-9766-e8cc3f80312a.webp",
-    "thumbnail": "/magazine/covers/company-analysis-9766-e8cc3f80312a-card.webp",
-    "alt": "コナミグループの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-9766-f9dc0031051b.webp",
+    "thumbnail": "/magazine/covers/company-analysis-9766-f9dc0031051b-card.webp",
+    "alt": "コナミグループの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "コナミグループ 公式サイト",
+      "url": "https://www.konami.com/ja/"
+    }
   },
   "editorialId": "C0194"
 }

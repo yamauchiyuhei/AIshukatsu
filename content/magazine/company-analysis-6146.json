@@ -113,12 +113,16 @@
   "datePublished": "2026-11-04",
   "dateModified": "2026-11-04",
   "cover": {
-    "src": "/magazine/covers/company-analysis-6146-7cc42faee297.webp",
-    "thumbnail": "/magazine/covers/company-analysis-6146-7cc42faee297-card.webp",
-    "alt": "ディスコの企業研究（社名入り図版）",
+    "src": "/magazine/covers/company-analysis-6146-b693e7c90e9d.webp",
+    "thumbnail": "/magazine/covers/company-analysis-6146-b693e7c90e9d-card.webp",
+    "alt": "ディスコの企業研究（企業ロゴ）",
     "width": 1280,
     "height": 720,
-    "source": "editorial-design"
+    "source": "official-logo",
+    "attribution": {
+      "title": "ディスコ 公式サイト",
+      "url": "https://www.disco.co.jp/jp/"
+    }
   },
   "editorialId": "C0076"
 }
