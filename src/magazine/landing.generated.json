@@ -1,0 +1,79 @@
+[
+  {
+    "slug": "find-your-own-career-axis",
+    "title": "自己分析は「強み探し」より、経験をほどくことから。",
+    "description": "特別な実績がなくても大丈夫。ひとつの経験を振り返り、自分が大切にしたい働き方を言葉にするための3つのステップ。",
+    "category": "self-analysis",
+    "author": "AI就活",
+    "datePublished": "2026-10-23",
+    "dateModified": "2026-10-27",
+    "tags": [
+      "自己分析",
+      "就活の軸",
+      "経験の整理"
+    ],
+    "featured": true,
+    "writingAssistance": "AIの補助を用いて作成しています。",
+    "readingMinutes": 2,
+    "cover": {
+      "src": "/magazine/covers/find-your-own-career-axis-9ca623c5df.webp",
+      "thumbnail": "/magazine/covers/find-your-own-career-axis-9ca623c5df-card.webp",
+      "alt": "図書館の窓辺でノートとカードを見ながら経験を振り返る学生",
+      "width": 1280,
+      "height": 720,
+      "source": "ai-generated"
+    }
+  },
+  {
+    "slug": "backup-rules-for-job-hunting-data-drafts-and-selection-records",
+    "title": "就活データをバックアップする方法｜原稿・選考記録を失わない保存ルール",
+    "description": "端末故障やサービス障害に備えて、ESの原稿・選考記録・企業情報メモを復元できる形で保存するための具体的なバックアップルールを解説します。2か所保存・わかりやすい命名・定期確認の3つの習慣で、大切なデータを守りましょう。",
+    "category": "ai",
+    "author": "AI就活編集部",
+    "datePublished": "2026-10-27",
+    "dateModified": "2026-10-27",
+    "tags": [
+      "就活",
+      "データ管理",
+      "バックアップ",
+      "ES原稿",
+      "選考記録"
+    ],
+    "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
+    "readingMinutes": 6,
+    "cover": {
+      "src": "/magazine/covers/backup-rules-for-job-hunting-data-drafts-and-selection-records-f9433d95e2.webp",
+      "thumbnail": "/magazine/covers/backup-rules-for-job-hunting-data-drafts-and-selection-records-f9433d95e2-card.webp",
+      "alt": "机でノートパソコンに外付けSSDを接続し就活データを保存する学生",
+      "width": 1280,
+      "height": 720,
+      "source": "ai-generated"
+    }
+  },
+  {
+    "slug": "c-gab-test-center-day-flow-and-checklist",
+    "title": "C-GABをテストセンターで受けるときの当日の流れと持ち物",
+    "description": "C-GABの物理的なテストセンター会場で受検するときの当日の流れと持ち物を整理します。受付から用具返却までのステップと、事前に確認しておきたいポイントをまとめました。",
+    "category": "schedule",
+    "author": "AI就活編集部",
+    "datePublished": "2026-10-27",
+    "dateModified": "2026-10-27",
+    "tags": [
+      "C-GAB",
+      "テストセンター",
+      "就活準備",
+      "適性検査",
+      "当日の流れ"
+    ],
+    "writingAssistance": "Claude Sonnetを用いて本文を作成し、AIによる校正と編集確認を行っています。文例・練習問題は解説用に作成したものです。",
+    "readingMinutes": 5,
+    "cover": {
+      "src": "/magazine/covers/c-gab-test-center-day-flow-and-checklist-b5afa47723.webp",
+      "thumbnail": "/magazine/covers/c-gab-test-center-day-flow-and-checklist-b5afa47723-card.webp",
+      "alt": "受検会場を想定した受付で持ち物と予約票を確認する学生",
+      "width": 1280,
+      "height": 720,
+      "source": "ai-generated"
+    }
+  }
+]

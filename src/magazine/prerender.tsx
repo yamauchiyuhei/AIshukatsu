@@ -1,5 +1,5 @@
-import { renderToStaticMarkup } from 'react-dom/server';
-import { MagazineView } from './MagazineView';
+import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { MagazineView, relatedArticles } from './MagazineView';
 import { magazineSeo } from './seo';
 import type { Article, ArticleSummary } from './types';
 import { LandingPage } from '../components/LandingPage';
@@ -10,7 +10,9 @@ export function renderLanding() {
 
 export function renderMagazine(article: Article | null, articles: ArticleSummary[], notFound = false, page = 1) {
   return {
-    html: renderToStaticMarkup(<MagazineView articles={articles} article={article} page={notFound ? 'not-found' : article ? 'article' : 'index'} filters={{ category: '', query: '', page }} />),
+    html: renderToString(<MagazineView articles={article ? relatedArticles(article, articles) : articles} article={article} page={notFound ? 'not-found' : article ? 'article' : 'index'} filters={{ category: '', query: '', page }} />),
     seo: magazineSeo(article, articles, notFound, page),
   };
 }
+
+export { relatedArticles };

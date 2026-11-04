@@ -37,10 +37,12 @@ export function MagazineApp() {
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [filters, setFilters] = useState(readFilters);
-  const [theme, setTheme] = useState<MagazineTheme>(() => {
-    try { return localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light'; }
-    catch { return 'light'; }
-  });
+  const [theme, setTheme] = useState<MagazineTheme>('light');
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(THEME_KEY) === 'dark') setTheme('dark');
+    } catch { /* Storage may be unavailable. */ }
+  }, []);
   useEffect(() => {
     if (!summary || article) return;
     const controller = new AbortController();

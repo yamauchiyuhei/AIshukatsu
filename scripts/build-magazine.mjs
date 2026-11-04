@@ -41,6 +41,11 @@ export async function buildMagazine({ contentDir = resolve(root, 'content/magazi
   for (const article of articles) await writeFile(resolve(outputDir, article.slug + '.json'), JSON.stringify(article));
   await mkdir(resolve(catalogFile, '..'), { recursive: true });
   await writeFile(catalogFile, JSON.stringify(articles.map(articleSummary), null, 2) + '\n');
+  if (catalogFile === resolve(root, 'src/magazine/catalog.generated.json')) {
+    const featured = articles.find(article => article.featured);
+    const latest = featured ? [featured, ...articles.filter(article => article !== featured)] : articles;
+    await writeFile(resolve(root, 'src/magazine/landing.generated.json'), JSON.stringify(latest.slice(0, 3).map(articleSummary), null, 2) + '\n');
+  }
   return articles;
 }
 

@@ -16,8 +16,13 @@ await mkdir(resolve(root, '.cache'), { recursive: true });
 const temporary = await mkdtemp(resolve(root, '.cache/magazine-'));
 try {
   await build({ configFile: false, root, plugins: [react()], publicDir: false, logLevel: 'warn', build: { ssr: resolve(root, 'src/magazine/prerender.tsx'), outDir: temporary, rollupOptions: { output: { entryFileNames: 'render.mjs' } } } });
-  const { renderMagazine, renderLanding } = await import(pathToFileURL(resolve(temporary, 'render.mjs')));
+  const { renderMagazine, renderLanding, relatedArticles } = await import(pathToFileURL(resolve(temporary, 'render.mjs')));
   const base = await readFile(resolve(dist, 'index.html'), 'utf8');
+  const manifest = JSON.parse(await readFile(resolve(dist, '.vite/manifest.json'), 'utf8'));
+  const reader = manifest['src/magazine/reader.tsx'];
+  const readerBase = base
+    .replace(/<script type="module"[^>]*><\/script>/, `<script type="module" crossorigin src="/${reader.file}"></script>`)
+    .replace(/\s*<link rel="modulepreload"[^>]*>/g, '');
   // The browser workspace has its own stable entry point. Authentication and
   // directory permissions are resolved there, independently of the public site.
   const workspace = base.replace(/<title>[\s\S]*?<\/title>/, '<title>AI就活 ワークスペース</title>')
@@ -31,7 +36,7 @@ try {
   await writeFile(resolve(dist, 'index.html'), base.replace('content="/logo.png"', `content="${siteOrigin}/logo.png"`).replace('</head>', landingHead + '<noscript><style>[data-reveal],[data-stagger]{opacity:1!important;transform:none!important}</style></noscript>\n</head>').replace('<div id="root"></div>', `<div id="root">${renderLanding()}</div>`));
   async function writePage(path, article, notFound = false, page = 1) {
     const { html, seo } = renderMagazine(article, catalog, notFound, page);
-    let document = base.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(seo.title)}</title>`);
+    let document = (article ? readerBase : base).replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(seo.title)}</title>`);
     document = document.replace(/\s*<meta\s+(?:name="(?:description|twitter:card)"|property="og:[^"]+")[^>]*>/g, '');
     const metadata = [
       `<meta name="description" content="${escapeHtml(seo.description)}">`, `<meta name="robots" content="${seo.robots}">`,
@@ -39,7 +44,7 @@ try {
       `<meta name="twitter:card" content="${article?.cover ? 'summary_large_image' : 'summary'}">`,
       ...(article ? [`<meta property="article:published_time" content="${escapeHtml(article.datePublished)}">`, `<meta property="article:modified_time" content="${escapeHtml(article.dateModified)}">`] : []),
       ...(notFound ? [] : [`<link rel="canonical" href="${escapeHtml(seo.canonical)}">`, `<script type="application/ld+json" id="magazine-structured-data">${json(seo.structuredData)}</script>`]),
-      ...(article ? [`<script type="application/json" id="magazine-article-data">${json(article)}</script>`] : []),
+      ...(article ? [`<script type="application/json" id="magazine-article-data">${json({ article, related: relatedArticles(article, catalog) })}</script>`] : []),
     ].join('\n');
     document = document.replace('</head>', metadata + '\n</head>').replace('<div id="root"></div>', `<div id="root">${html}</div>`);
     const output = resolve(dist, path);

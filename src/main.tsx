@@ -7,7 +7,6 @@ if (typeof g.Buffer === 'undefined') {
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { MagazineApp } from './magazine/MagazineApp';
 import { LandingPage } from './components/LandingPage';
 import { isTauri } from './lib/tauriFsaShim';
 import { resolveSiteRoute } from './lib/siteRoutes.mjs';
@@ -18,6 +17,8 @@ import './magazine/magazine.css';
 
 // Readers do not need the private spreadsheet workspace or password-gated
 // preparation tools. Load those bundles only when their existing route opens.
+const loadMagazine = () => import('./magazine/MagazineApp');
+const MagazineApp = React.lazy(() => loadMagazine().then(module => ({ default: module.MagazineApp })));
 const App = React.lazy(() => import('./App'));
 const UiShowcase = React.lazy(() => import('./UiShowcase').then(module => ({ default: module.UiShowcase })));
 const Dashboard = React.lazy(() => import('./components/Dashboard').then(module => ({ default: module.Dashboard })));
@@ -63,6 +64,14 @@ function SiteRoot() {
   }
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode><React.Suspense fallback={<p role="status">読み込み中…</p>}><SiteRoot /></React.Suspense></React.StrictMode>,
-);
+const root = document.getElementById('root')!;
+if (currentRoute() === 'magazine' && root.querySelector('.mag-index') && !window.location.search) {
+  // Keep the prerendered first paint while the search catalog loads.
+  void loadMagazine().then(({ MagazineApp }) => {
+    ReactDOM.hydrateRoot(root, <MagazineApp />);
+  });
+} else {
+  ReactDOM.createRoot(root).render(
+    <React.StrictMode><React.Suspense fallback={<p role="status">読み込み中…</p>}><SiteRoot /></React.Suspense></React.StrictMode>,
+  );
+}

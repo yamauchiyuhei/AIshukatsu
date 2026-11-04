@@ -26,9 +26,14 @@ const formatDate = (date: string) => new Intl.DateTimeFormat('ja-JP', { year: 'n
 const articleHref = (article: ArticleSummary) => `/magazine/${article.slug}/`;
 const categoryOf = (article: ArticleSummary) => categories.find(category => category.id === article.category)!;
 
-export function ArticleCover({ article, large = false }: { article: ArticleSummary; large?: boolean }) {
+export function relatedArticles(article: Article, articles: ArticleSummary[]) {
+  const score = (item: ArticleSummary) => Number(item.category === article.category) + item.tags.filter(tag => article.tags.includes(tag)).length * 2;
+  return articles.filter(item => item.slug !== article.slug).sort((a, b) => score(b) - score(a)).slice(0, 3);
+}
+
+export function ArticleCover({ article, large = false, priority = large }: { article: ArticleSummary; large?: boolean; priority?: boolean }) {
   if (article.cover) return <div className={`mag-cover mag-cover-photo${large ? ' mag-cover-large' : ''}`}>
-    <img src={large ? article.cover.src : article.cover.thumbnail} srcSet={large ? `${article.cover.thumbnail} 560w, ${article.cover.src} ${article.cover.width}w` : undefined} sizes={large ? '(max-width: 600px) calc(100vw - 36px), 880px' : undefined} alt={large ? article.cover.alt : ''} width={article.cover.width} height={article.cover.height} loading={large ? 'eager' : 'lazy'} fetchPriority={large ? 'high' : undefined} decoding="async" />
+    <img src={large ? article.cover.src : article.cover.thumbnail} srcSet={large ? `${article.cover.thumbnail} 560w, ${article.cover.src} ${article.cover.width}w` : undefined} sizes={large ? '(max-width: 600px) calc(100vw - 36px), 880px' : undefined} alt={large ? article.cover.alt : ''} width={article.cover.width} height={article.cover.height} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : undefined} decoding="async" />
   </div>;
   return <div className={`mag-cover mag-cover-${article.category}${large ? ' mag-cover-large' : ''}`} aria-hidden="true">
     <span className="mag-cover-label">AI SHUKATSU JOURNAL</span>
@@ -38,10 +43,10 @@ export function ArticleCover({ article, large = false }: { article: ArticleSumma
   </div>;
 }
 
-export function ArticleCard({ article }: { article: ArticleSummary }) {
+export function ArticleCard({ article, priority }: { article: ArticleSummary; priority?: boolean }) {
   return <article className="mag-card">
     <a href={articleHref(article)}>
-      <ArticleCover article={article} />
+      <ArticleCover article={article} priority={priority} />
       <div className="mag-card-content"><div className="mag-card-meta"><span className="mag-category">{categoryOf(article).label}</span><time dateTime={article.datePublished}>{formatDate(article.datePublished)}</time></div>
       <h3>{article.title}</h3><p>{article.description}</p>
       <span className="mag-card-foot"><span><Clock3 size={13} />約{article.readingMinutes}分</span><ArrowUpRight size={19} /></span></div>
@@ -49,7 +54,7 @@ export function ArticleCard({ article }: { article: ArticleSummary }) {
   </article>;
 }
 
-function ArticleShelf({ title, articles, href }: { title: string; articles: ArticleSummary[]; href?: string }) {
+function ArticleShelf({ title, articles, href, prioritizeFirst }: { title: string; articles: ArticleSummary[]; href?: string; prioritizeFirst?: boolean }) {
   const track = useRef<HTMLDivElement>(null);
   const move = (direction: number) => {
     const element = track.current;
@@ -59,7 +64,7 @@ function ArticleShelf({ title, articles, href }: { title: string; articles: Arti
     <div className="mag-shelf-header">{href ? <a className="mag-shelf-title" href={href}><h2>{title}</h2><ArrowRight size={18} /></a> : <h2>{title}</h2>}
       <div className="mag-shelf-controls"><button type="button" onClick={() => move(-1)} aria-label={`${title}の前の記事を表示`}><ArrowLeft size={17} /></button><button type="button" onClick={() => move(1)} aria-label={`${title}の次の記事を表示`}><ArrowRight size={17} /></button></div>
     </div>
-    <div ref={track} className="mag-shelf-track" tabIndex={0} role="region" aria-label={`${title}の記事一覧。横にスクロールできます`}>{articles.map(article => <ArticleCard key={article.slug} article={article} />)}</div>
+    <div ref={track} className="mag-shelf-track" tabIndex={0} role="region" aria-label={`${title}の記事一覧。横にスクロールできます`}>{articles.map((article, index) => <ArticleCard key={article.slug} article={article} priority={prioritizeFirst && index === 0} />)}</div>
   </section>;
 }
 
@@ -98,10 +103,10 @@ function MagazineIndex({ articles, filters, onFilterChange }: { articles: Articl
       <nav className="mag-filters" aria-label="記事のカテゴリ">
         {[{ id: '', label: 'すべて' }, ...categories].map(category => <a key={category.id} href={categoryLink(category.id)} aria-current={filters.category === category.id ? 'page' : undefined} onClick={onFilterChange ? event => { if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); onFilterChange({ ...filters, category: category.id, page: 1 }); } : undefined}>{category.label}<span>{category.id ? articles.filter(article => article.category === category.id).length : articles.length}</span></a>)}
       </nav></div>
-      {browse && <div className="mag-shelves"><ArticleShelf title="まず読みたい記事" articles={starters} /><ArticleShelf title="新着記事" articles={articles.slice(0, 10)} />{categories.map(category => <ArticleShelf key={category.id} title={category.label} href={categoryLink(category.id)} articles={articles.filter(article => article.category === category.id).slice(0, 8)} />)}</div>}
+      {browse && <div className="mag-shelves"><ArticleShelf title="まず読みたい記事" articles={starters} prioritizeFirst /><ArticleShelf title="新着記事" articles={articles.slice(0, 10)} />{categories.map(category => <ArticleShelf key={category.id} title={category.label} href={categoryLink(category.id)} articles={articles.filter(article => article.category === category.id).slice(0, 8)} />)}</div>}
       <div className="mag-section-head mag-all-articles"><h2 id="mag-stories-heading">{selectedCategory?.label || (filters.query.trim() ? '検索結果' : 'すべての記事')}<span>{results.length.toLocaleString('ja-JP')}本</span></h2></div>
       <p className="sr-only" role="status" aria-live="polite">{results.length}件の記事が見つかりました</p>
-      {results.length ? <div className="mag-grid">{pagination.items.map(article => <ArticleCard article={article} key={article.slug} />)}</div> : <div className="mag-empty"><Search size={28} strokeWidth={1.2} /><h3>{articles.length ? '記事が見つかりませんでした' : '最初の記事を準備しています'}</h3><p>{articles.length ? 'キーワードやカテゴリを変えて、もう一度お試しください。' : '自己分析や企業研究など、就活に役立つ読みものをお届けします。'}</p>{filtering && <a href="/magazine/" className="mag-text-link" onClick={onFilterChange ? event => { event.preventDefault(); onFilterChange({ category: '', query: '' }); } : undefined}><X size={15} />絞り込みを解除する</a>}</div>}
+      {results.length ? <div className="mag-grid">{pagination.items.map((article, index) => <ArticleCard article={article} key={article.slug} priority={!browse && index === 0} />)}</div> : <div className="mag-empty"><Search size={28} strokeWidth={1.2} /><h3>{articles.length ? '記事が見つかりませんでした' : '最初の記事を準備しています'}</h3><p>{articles.length ? 'キーワードやカテゴリを変えて、もう一度お試しください。' : '自己分析や企業研究など、就活に役立つ読みものをお届けします。'}</p>{filtering && <a href="/magazine/" className="mag-text-link" onClick={onFilterChange ? event => { event.preventDefault(); onFilterChange({ category: '', query: '' }); } : undefined}><X size={15} />絞り込みを解除する</a>}</div>}
       {pagination.pages > 1 && <nav className="mag-pagination" aria-label="記事一覧のページ"><p>{pagination.page} / {pagination.pages} ページ</p><div>{Array.from({ length: pagination.pages }, (_, index) => index + 1).filter(number => number === 1 || number === pagination.pages || Math.abs(number - pagination.page) <= 2).map(number => {
         const params = new URLSearchParams();
         if (filters.category) params.set('category', filters.category);
@@ -156,8 +161,7 @@ function ArticleReader({ article, articles }: { article: Article; articles: Arti
     update();
     return () => { window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule); cancelAnimationFrame(frame); };
   }, [article]);
-  const score = (item: ArticleSummary) => Number(item.category === article.category) + item.tags.filter(tag => article.tags.includes(tag)).length * 2;
-  const related = [...articles].filter(item => item.slug !== article.slug).sort((a, b) => score(b) - score(a)).slice(0, 3);
+  const related = relatedArticles(article, articles);
   return <main id="mag-main" className="mag-shell mag-reader">
     <div className="mag-progress" aria-hidden="true"><span style={{ transform: `scaleX(${progress})` }} /></div>
     <nav className="mag-breadcrumbs" aria-label="パンくずリスト"><a href="/">ホーム</a><span>/</span><a href="/magazine/">マガジン</a><span>/</span><span>{categoryOf(article).label}</span></nav>

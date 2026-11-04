@@ -8,9 +8,11 @@ export default defineConfig({
     port: 5173,
   },
   build: {
+    manifest: true,
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
+        reader: resolve(import.meta.dirname, 'src/magazine/reader.tsx'),
         desktopAuth: resolve(import.meta.dirname, 'desktop-auth.html'),
         desktopAuthV2: resolve(import.meta.dirname, 'desktop-auth-v2.html'),
       },

@@ -1,6 +1,4 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db, firebaseEnabled } from '../spreadsheet/lib/firebase';
 import { LegalModal } from './onboarding/LegalModal';
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../data/legal';
 import { LandingMagazine } from '../magazine/LandingMagazine';
@@ -13,9 +11,6 @@ const CONTACT_RATE_LIMIT_KEY = 'aishukatsu-contact-last-submit';
 const GITHUB_RELEASE =
   'https://github.com/yamauchiyuhei/AIshukatsu/releases/latest';
 const DL_MACOS = `${GITHUB_RELEASE}/download/AIshukatsu_universal.app.tar.gz`;
-const DL_WINDOWS = `${GITHUB_RELEASE}/download/AIshukatsu_0.2.17_x64-setup.exe`;
-const DL_WINDOWS_ARM64 = `${GITHUB_RELEASE}/download/AIshukatsu_0.2.17_arm64-setup.exe`;
-const APP_VERSION = 'v0.2.17';
 
 // ───────────────────────── theme tokens ─────────────────────────
 type ThemeKey = 'dark' | 'light';
@@ -246,7 +241,7 @@ function Nav({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpenA
           <a href="#" className="flex items-center gap-2.5">
             <Logo theme={theme} />
             <span className={'font-bold tracking-tight ' + t.text}>AI就活</span>
-            <span className={'landing-mono text-[10px] px-1.5 py-0.5 rounded ' + t.chip}>{APP_VERSION}</span>
+            <span className={'landing-mono text-[10px] px-1.5 py-0.5 rounded ' + t.chip}>デスクトップ版</span>
           </a>
           <div className={'hidden md:flex items-center gap-7 text-sm ' + t.textMuted}>
             <a href="#features" className="hover:opacity-100 opacity-80">機能</a>
@@ -1010,7 +1005,7 @@ function DownloadSection({ t, theme, onOpenApp }: { t: ThemeTokens; theme: Theme
             </div>
           </a>
           <a
-            href={DL_WINDOWS}
+            href={GITHUB_RELEASE}
             className={'group flex items-center justify-center gap-3 rounded-2xl px-6 py-5 text-base font-semibold transition ' + t.btnGhost}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -1018,12 +1013,12 @@ function DownloadSection({ t, theme, onOpenApp }: { t: ThemeTokens; theme: Theme
             </svg>
             <div className="text-left leading-tight">
               <div className="text-[10px] opacity-60 landing-mono">DOWNLOAD FOR</div>
-              <div>Windows (x64)</div>
+              <div>Windows (x64 / ARM64)</div>
             </div>
           </a>
         </div>
         <div className={'mx-auto mt-4 max-w-2xl text-sm leading-7 ' + t.textMuted}>
-          <a className="underline" href={DL_WINDOWS_ARM64}>Windows ARM64版をダウンロード</a>
+          <a className="underline" href={GITHUB_RELEASE}>Windowsのインストーラーを選ぶ</a>
           <details className="mt-3 text-left"><summary className="cursor-pointer text-center">インストール方法・対応環境</summary><p>Mac：ダウンロードしたtar.gzを展開し、AIshukatsu.appをアプリケーションへ移動してください。Apple Silicon・Intel両対応です。OSで開けない場合は、配布ページの署名状況と案内を確認してください。</p><p>Windows 10 / 11：通常はx64版、ARM搭載PCではARM64版のセットアップを実行してください。</p><p>更新前にはフォルダ全体のバックアップを作成できます。インストーラーの公開状況・変更点は<a className="underline" href={GITHUB_RELEASE}>リリースページ</a>で確認できます。</p></details>
         </div>
         <div className={'mt-4 text-xs ' + t.textDim}>
@@ -1033,7 +1028,7 @@ function DownloadSection({ t, theme, onOpenApp }: { t: ThemeTokens; theme: Theme
 
         <div className={'mt-12 inline-flex items-center gap-2 landing-mono text-[11px] ' + t.textDim}>
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 landing-pulse-dot" />
-          <span>{APP_VERSION} · 自動アップデート対応</span>
+          <span>デスクトップ版 · 自動アップデート対応</span>
           <span className={theme === 'dark' ? 'text-white/20' : 'text-slate-300'}>·</span>
           <span>Tauri 2 / Universal Binary</span>
         </div>
@@ -1085,7 +1080,7 @@ function FAQ({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
 }
 
 // ───────────────────────── Footer ─────────────────────────
-type FooterLink = { label: string; href?: string; onClick?: () => void };
+type FooterLink = { label: string; id?: string; href?: string; onClick?: () => void };
 
 function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const [legal, setLegal] = useState<'terms' | 'privacy' | null>(null);
@@ -1100,17 +1095,17 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const columns: { h: string; l: FooterLink[] }[] = [
     {
       h: 'プロダクト',
-      l: ['機能', '選考管理', 'AI連携', 'ダウンロード', 'ロードマップ'].map((label) => ({ label })),
+      l: [{ label: '機能', href: '#features' }, { label: '選考管理', href: '#views' }, { label: 'AI連携', href: '#ai' }, { label: 'ダウンロード', href: '#download' }],
     },
     {
       h: 'リソース',
-      l: [{ label: '就活マガジン', href: '/magazine/' }, ...['ドキュメント', 'テンプレート', 'リリースノート', '変更履歴'].map((label) => ({ label }))],
+      l: [{ label: '就活マガジン', href: '/magazine/' }, { label: 'リリースノート', href: GITHUB_RELEASE }, { label: 'よくある質問', href: '#faq' }],
     },
     {
       h: '法務',
       l: [
         { label: '利用規約', onClick: () => setLegal('terms') },
-        { label: 'プライバシーポリシー', onClick: () => setLegal('privacy') },
+        { label: 'プライバシーポリシー', id: 'privacy', onClick: () => setLegal('privacy') },
         { label: 'お問い合わせ', onClick: () => setContactOpen(true) },
       ],
     },
@@ -1141,6 +1136,7 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
                     {x.onClick ? (
                       <button
                         type="button"
+                        id={x.id}
                         onClick={x.onClick}
                         className="opacity-80 transition hover:opacity-100"
                       >
@@ -1251,11 +1247,6 @@ function ContactForm({
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (website) return; // bot caught — silently ignore
-    if (!firebaseEnabled || !db) {
-      setErrorMsg(`お問い合わせ機能が一時的に利用できません。お手数ですが ${CONTACT_EMAIL} までメールでご連絡ください。`);
-      setStatus('error');
-      return;
-    }
     const last = Number(localStorage.getItem(CONTACT_RATE_LIMIT_KEY) || 0);
     if (Date.now() - last < CONTACT_RATE_LIMIT_MS) {
       setErrorMsg('連続送信は 60 秒空けてください。');
@@ -1265,6 +1256,11 @@ function ContactForm({
     setStatus('sending');
     setErrorMsg(null);
     try {
+      const [{ addDoc, collection, serverTimestamp }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../spreadsheet/lib/firebase'),
+      ]);
+      if (!db) throw new Error('Contact service unavailable');
       await addDoc(collection(db, 'contactInquiries'), {
         name: name.trim().slice(0, 100),
         email: email.trim().slice(0, 200),
