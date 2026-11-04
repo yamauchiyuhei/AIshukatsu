@@ -286,7 +286,7 @@ function Hero({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpen
             <span>Mac / Windows 対応</span>
           </div>
 
-          <h1 className={'landing-rise-in landing-rise-d2 landing-sans-jp mt-6 text-[clamp(44px,7.5vw,104px)] font-bold leading-[0.95] tracking-tight ' + t.text}>
+          <h1 className={'landing-sans-jp mt-6 text-[clamp(44px,7.5vw,104px)] font-bold leading-[0.95] tracking-tight ' + t.text}>
             <span className="whitespace-nowrap">就活を、</span><br />
             <span className={'whitespace-nowrap ' + t.heading}>AIと一緒に、</span><br />
             <span className="whitespace-nowrap">
