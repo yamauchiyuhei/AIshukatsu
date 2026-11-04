@@ -1,3 +1,5 @@
+import './entry.css';
+import './magazine.css';
 import { useEffect, useState } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { createPublicAnalytics } from '../lib/publicAnalytics.mjs';

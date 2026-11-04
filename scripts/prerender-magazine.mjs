@@ -19,10 +19,33 @@ try {
   const { renderMagazine, renderLanding, relatedArticles } = await import(pathToFileURL(resolve(temporary, 'render.mjs')));
   const base = await readFile(resolve(dist, 'index.html'), 'utf8');
   const manifest = JSON.parse(await readFile(resolve(dist, '.vite/manifest.json'), 'utf8'));
-  const reader = manifest['src/magazine/reader.tsx'];
-  const readerBase = base
-    .replace(/<script type="module"[^>]*><\/script>/, `<script type="module" crossorigin src="/${reader.file}"></script>`)
-    .replace(/\s*<link rel="modulepreload"[^>]*>/g, '');
+  // Each public entry includes only its own styles and static dependencies.
+  // Reusing main's head would load workspace CSS and the landing/desktop runtime.
+  function publicEntryBase(key) {
+    const entry = manifest[key];
+    if (!entry) throw new Error(`Missing public entry: ${key}`);
+    const css = new Set();
+    const imports = new Set();
+    function visit(chunk) {
+      for (const dependency of chunk.imports || []) {
+        if (imports.has(dependency)) continue;
+        imports.add(dependency);
+        visit(manifest[dependency]);
+      }
+      for (const path of chunk.css || []) css.add(path);
+    }
+    visit(entry);
+    const head = [
+      ...[...imports].map(key => `<link rel="modulepreload" crossorigin href="/${manifest[key].file}">`),
+      ...[...css].map(path => `<link rel="stylesheet" crossorigin href="/${path}">`),
+    ].join('\n');
+    return base
+      .replace(/<script type="module"[^>]*><\/script>/, `<script type="module" crossorigin src="/${entry.file}"></script>`)
+      .replace(/\s*<link rel="(?:modulepreload|stylesheet)"[^>]*>/g, '')
+      .replace('</head>', head + '\n</head>');
+  }
+  const readerBase = publicEntryBase('src/magazine/reader.tsx');
+  const listingBase = publicEntryBase('src/magazine/listing.tsx');
   // The browser workspace has its own stable entry point. Authentication and
   // directory permissions are resolved there, independently of the public site.
   const workspace = base.replace(/<title>[\s\S]*?<\/title>/, '<title>AI就活 ワークスペース</title>')
@@ -33,10 +56,10 @@ try {
   // engines and readers can discover the magazine without executing the app.
   const siteOrigin = JSON.parse(await readFile(resolve(root, 'src/magazine/site.json'), 'utf8')).origin;
   const landingHead = `<link rel="canonical" href="${siteOrigin}/"><meta property="og:url" content="${siteOrigin}/"><meta name="robots" content="index,follow,max-image-preview:large">`;
-  await writeFile(resolve(dist, 'index.html'), base.replace('content="/logo.png"', `content="${siteOrigin}/logo.png"`).replace('</head>', landingHead + '<noscript><style>[data-reveal],[data-stagger]{opacity:1!important;transform:none!important}</style></noscript>\n</head>').replace('<div id="root"></div>', `<div id="root">${renderLanding()}</div>`));
+  await writeFile(resolve(dist, 'index.html'), base.replace('content="/logo.png"', `content="${siteOrigin}/logo.png"`).replace('</head>', landingHead + '<noscript><style>[data-reveal],[data-stagger],[data-stagger]>*{opacity:1!important;transform:none!important}</style></noscript>\n</head>').replace('<div id="root"></div>', `<div id="root">${renderLanding()}</div>`));
   async function writePage(path, article, notFound = false, page = 1) {
     const { html, seo } = renderMagazine(article, catalog, notFound, page);
-    let document = (article ? readerBase : base).replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(seo.title)}</title>`);
+    let document = (article ? readerBase : listingBase).replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(seo.title)}</title>`);
     document = document.replace(/\s*<meta\s+(?:name="(?:description|twitter:card)"|property="og:[^"]+")[^>]*>/g, '');
     const metadata = [
       `<meta name="description" content="${escapeHtml(seo.description)}">`, `<meta name="robots" content="${seo.robots}">`,

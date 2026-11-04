@@ -72,7 +72,7 @@ const themes: Record<ThemeKey, ThemeTokens> = {
 
 // ───────────────────────── inline CSS (scoped to landing) ─────────────────────────
 const LandingStyles = () => (
-  <style>{`
+  <style dangerouslySetInnerHTML={{ __html: `
     .landing-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
     .landing-serif { font-family: 'Instrument Serif', ui-serif, serif; font-style: italic; }
     .landing-sans-jp { font-family: 'Noto Sans JP', 'Inter', system-ui, sans-serif; }
@@ -209,7 +209,7 @@ const LandingStyles = () => (
       .landing-icon-chip,
       .landing-cta-arrow { transition: none !important; }
     }
-  `}</style>
+  ` }} />
 );
 
 // ───────────────────────── Logo ─────────────────────────
@@ -1469,11 +1469,14 @@ interface Props {
 const THEME_STORAGE_KEY = 'aishukatsu-landing-theme';
 
 export function LandingPage({ onOpenApp }: Props) {
-  const [theme, setThemeState] = useState<ThemeKey>(() => {
-    if (typeof window === 'undefined') return 'dark';
-    const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
-    return saved === 'light' || saved === 'dark' ? saved : 'dark';
-  });
+  // Match the prerendered theme during hydration, then restore the preference.
+  const [theme, setThemeState] = useState<ThemeKey>('dark');
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
+      if (saved === 'light' || saved === 'dark') setThemeState(saved);
+    } catch { /* The landing page also works when storage is unavailable. */ }
+  }, []);
 
   const setTheme = (v: ThemeKey) => {
     setThemeState(v);

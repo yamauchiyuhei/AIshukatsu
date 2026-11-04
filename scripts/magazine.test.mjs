@@ -93,6 +93,23 @@ test('calendar date is based on Tokyo at the UTC date boundary', () => {
   assert.equal(todayInTokyo(new Date('2026-10-22T15:00:00Z')), '2026-10-23');
   assert.equal(todayInTokyo(new Date('2026-10-22T14:59:59Z')), '2026-10-22');
 });
+test('structured image captions describe the actual cover instead of claiming every image is AI-generated', () => {
+  const covers = [
+    { source: 'official-logo', alt: '企業の公式ロゴ' },
+    { source: 'editorial-design', alt: '企業名とアプリロゴの図版' },
+    { source: 'ai-generated', alt: '経験をノートに整理する学生のイメージ' },
+  ].map(cover => ({ ...cover, src: '/magazine/covers/example.webp', thumbnail: '/magazine/covers/example-card.webp', width: 1280, height: 720 }));
+  const script = `
+    import { magazineSeo } from './src/magazine/seo.ts';
+    const article = ${JSON.stringify(fixture())};
+    const covers = ${JSON.stringify(covers)};
+    process.stdout.write(JSON.stringify(covers.map(cover => magazineSeo({ ...article, cover }, []).structuredData[0].image.caption)));
+  `;
+  const captions = JSON.parse(execFileSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', script], {
+    cwd: fileURLToPath(new URL('../', import.meta.url)), encoding: 'utf8',
+  }));
+  assert.deepEqual(captions, covers.map(cover => cover.alt));
+});
 test('search combines category with normalized, case-insensitive terms', () => {
   const items = [articleSummary(fixture()), { ...articleSummary(fixture()), slug: 'ai-note', category: 'ai', title: 'AIで経験を整理', description: 'AIとの対話を準備する', tags: ['AI'] }];
   assert.equal(filterArticles(items, { query: 'ｅｓ 経験' }).length, 1);

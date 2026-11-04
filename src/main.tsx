@@ -45,7 +45,7 @@ function subscribeToRoute(onChange: () => void) {
 }
 
 function SiteRoot() {
-  const route = React.useSyncExternalStore(subscribeToRoute, currentRoute);
+  const route = React.useSyncExternalStore(subscribeToRoute, currentRoute, currentRoute);
   React.useEffect(() => {
     if (route === 'website') {
       document.title = HOME_TITLE;
@@ -53,19 +53,18 @@ function SiteRoot() {
     } else if (route !== 'magazine') publicAnalytics.suspend();
     return () => publicAnalytics.suspend();
   }, [route]);
-  switch (route) {
-    case 'website': return <LandingPage onOpenApp={() => window.location.assign('/app/')} />;
-    case 'workspace': return <App />;
-    case 'ui': return <UiShowcase />;
-    case 'dashboard': return <Dashboard />;
-    case 'tgweb': return <TgWebApp />;
-    case 'mckinsey': return <McKinseyApp />;
-    default: return <MagazineApp />;
-  }
+  if (route === 'website') return <LandingPage onOpenApp={() => window.location.assign('/app/')} />;
+  const page = route === 'workspace' ? <App /> : route === 'ui' ? <UiShowcase />
+    : route === 'dashboard' ? <Dashboard /> : route === 'tgweb' ? <TgWebApp />
+    : route === 'mckinsey' ? <McKinseyApp /> : <MagazineApp />;
+  return <React.Suspense fallback={<p role="status">読み込み中…</p>}>{page}</React.Suspense>;
 }
 
 const root = document.getElementById('root')!;
-if (currentRoute() === 'magazine' && root.querySelector('.mag-index') && !window.location.search) {
+if (currentRoute() === 'website' && root.querySelector('.landing-page')) {
+  // Attach interactions without discarding the server-rendered first paint.
+  ReactDOM.hydrateRoot(root, <SiteRoot />);
+} else if (currentRoute() === 'magazine' && root.querySelector('.mag-index') && !window.location.search) {
   // Keep the prerendered first paint while the search catalog loads.
   void loadMagazine().then(({ MagazineApp }) => {
     ReactDOM.hydrateRoot(root, <MagazineApp />);

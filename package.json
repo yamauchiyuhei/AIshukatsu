@@ -28,7 +28,9 @@
     "dev:desktop": "vite --config vite.desktop.config.ts",
     "build:desktop": "tsc -b && vite build --config vite.desktop.config.ts",
     "test:app": "node --import tsx --test scripts/app-safety.test.ts",
-    "test:updater": "node --import tsx --test scripts/updater.test.ts"
+    "test:updater": "node --import tsx --test scripts/updater.test.ts",
+    "test:site:links": "python3 scripts/audit-site-links.py",
+    "test:public-entries": "node --test scripts/public-entrypoints.test.mjs"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.9.0",

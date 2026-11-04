@@ -1,11 +1,11 @@
-import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import { MagazineView, relatedArticles } from './MagazineView';
 import { magazineSeo } from './seo';
 import type { Article, ArticleSummary } from './types';
 import { LandingPage } from '../components/LandingPage';
 
 export function renderLanding() {
-  return renderToStaticMarkup(<LandingPage onOpenApp={() => {}} />);
+  return renderToString(<LandingPage onOpenApp={() => {}} />);
 }
 
 export function renderMagazine(article: Article | null, articles: ArticleSummary[], notFound = false, page = 1) {

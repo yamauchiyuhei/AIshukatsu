@@ -19,7 +19,7 @@ export function magazineSeo(article: Article | null, articles: ArticleSummary[],
       '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description,
       mainEntityOfPage: canonical, url: canonical, inLanguage: 'ja', datePublished: article.datePublished + 'T00:00:00+09:00', dateModified: article.dateModified + 'T00:00:00+09:00',
       author: { '@type': 'Organization', name: article.author, url: site.origin + '/magazine/#editorial' }, publisher: { '@type': 'Organization', name: 'AI就活', url: site.origin },
-      ...(article.cover ? { image: { '@type': 'ImageObject', url: image, width: article.cover.width, height: article.cover.height, caption: 'AI生成のイメージ画像' } } : {}),
+      ...(article.cover ? { image: { '@type': 'ImageObject', url: image, width: article.cover.width, height: article.cover.height, caption: article.cover.alt } } : {}),
       articleBody: [article.lead, ...article.sections.flatMap(section => [section.heading, ...section.blocks.flatMap(block => block.type === 'list' ? block.items! : [block.text!])])].join('\n\n'),
     } : {
       '@context': 'https://schema.org', '@type': 'CollectionPage', name: site.name, description, url: canonical, inLanguage: 'ja',
