@@ -25,7 +25,8 @@ for (const [kind, path] of [['listing', 'magazine/index.html'], ['reader', 'maga
     assert.ok(css.reduce((size, path) => size + statSync(resolve(dist, path)).size, 0) < 40000, 'Public CSS must not include workspace/editor utilities');
     for (const chunk of chunks.slice(1)) assert.ok(html.includes(`rel="modulepreload" crossorigin href="/${chunk.file}"`), chunk.file);
     assert.ok(!chunks.some(chunk => chunk.name === 'main' || chunk.name === 'App'), 'No landing or private workspace runtime');
-    if (kind === 'reader') assert.ok(!chunks.some(chunk => chunk.name === 'MagazineApp'), 'Reader must not download the complete search catalog');
+    assert.ok(!chunks.some(chunk => chunk.name === 'MagazineApp'), 'The search catalog must not block the initial image preload queue');
+    if (kind === 'listing') assert.ok(chunks[0].dynamicImports?.some(key => manifest[key].name === 'MagazineApp'), 'Listing search catalog still loads dynamically');
   });
 }
 
