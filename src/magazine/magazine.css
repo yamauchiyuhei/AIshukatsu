@@ -117,33 +117,43 @@
 .mag-skip { position:fixed; top:-100px; left:20px; z-index:200; background:var(--mag-button); color:var(--mag-button-text)!important; padding:12px; }
 .mag-skip:focus { top:12px; }
 .mag-breadcrumbs { display:flex; flex-wrap:wrap; gap:10px; padding:24px 0; color:var(--mag-muted); font-size:12px; }
-.mag-article-header { max-width:720px; margin:26px auto 30px; padding-inline:24px; }
-.mag-article-header h1 { margin:20px 0 0; font-size:clamp(26px,3.4vw,34px); font-weight:750; line-height:1.6; letter-spacing:.015em; text-wrap:balance; }
-.mag-byline { display:flex; flex-wrap:wrap; align-items:center; gap:7px 17px; color:var(--mag-muted); margin-top:14px; font-size:12px; }
+.mag-article-header { max-width:760px; margin:26px auto 36px; padding-inline:24px; }
+.mag-article-header h1 { margin:20px 0 0; font-size:clamp(27px,3.4vw,36px); font-weight:750; line-height:1.6; letter-spacing:.015em; text-wrap:balance; }
+.mag-byline { display:flex; flex-wrap:wrap; align-items:center; gap:7px 17px; color:var(--mag-muted); margin-top:14px; font-size:13px; }
 .mag-byline>span:last-child { display:inline-flex; align-items:center; gap:5px; }
 .mag-article-cover { max-width:880px; margin:0 auto 48px; }
 .mag-article-cover .mag-cover { border-radius:6px; aspect-ratio:16/9; }
 .mag-article-cover figcaption { font-size:11px; color:var(--mag-muted); margin-top:9px; text-align:right; }
-.mag-reading-layout { position:relative; max-width:680px; margin:0 auto; padding-inline:24px; }
-.mag-body { min-width:0; font-size:17px; line-height:2; letter-spacing:.035em; overflow-wrap:anywhere; }
+.mag-reading-layout { position:relative; max-width:720px; margin:0 auto; padding-inline:24px; }
+.mag-body { min-width:0; font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic Medium',Meiryo,sans-serif; font-size:18px; line-height:2; letter-spacing:.04em; font-feature-settings:normal; overflow-wrap:anywhere; }
 .mag-body p { white-space:pre-line; margin:0 0 32px; }
-.mag-body .mag-lead { font-size:17px; line-height:2; margin:0 0 48px; }
-.mag-body>section { margin:0 0 54px; scroll-margin-top:32px; }
-.mag-body h2 { font-size:24px; font-weight:750; line-height:1.6; letter-spacing:.015em; margin:0 0 23px; padding:2px 0 2px 16px; border-left:4px solid var(--mag-accent); }
-.mag-body ul { padding-left:1.5em; margin:0 0 28px; }
-.mag-body li { list-style-type:'・ '; padding-left:0; margin:0 0 12px; }
+.mag-body .mag-lead { font-size:inherit; line-height:inherit; margin:0 0 56px; }
+.mag-body>section { margin:0 0 64px; scroll-margin-top:32px; }
+.mag-body h2 { font-size:26px; font-weight:700; line-height:1.6; letter-spacing:.01em; margin:0 0 24px; padding:4px 0 4px 18px; border-left:4px solid var(--mag-accent); }
+.mag-body ul { padding-left:1.4em; margin:0 0 32px; }
+.mag-body li { list-style-type:disc; padding-left:.25em; margin:0 0 18px; }
 .mag-body li::marker { color:var(--mag-accent); font-weight:650; }
-.mag-note { padding:17px 21px; margin:28px 0; background:var(--mag-panel); border-radius:6px; font-size:15px; line-height:1.9; white-space:pre-line; }
+.mag-note { border-left:3px solid var(--mag-accent); padding:20px 24px; margin:28px 0; background:var(--mag-panel); border-radius:6px; font-size:16px; line-height:1.95; white-space:pre-line; }
 .mag-body blockquote { border-left:3px solid var(--mag-line); padding:3px 0 3px 21px; margin:32px 0; font-size:16px; line-height:1.95; color:var(--mag-muted); white-space:pre-line; overflow-wrap:anywhere; }
-.mag-desktop-toc { position:absolute; left:calc(100% + 32px); top:0; height:100%; width:208px; }
+.mag-desktop-toc { position:absolute; left:calc(100% + 24px); top:0; height:100%; width:208px; }
 .mag-desktop-toc nav { position:sticky; top:28px; border-left:1px solid var(--mag-line); padding-left:19px; max-height:82vh; overflow:auto; }
 .mag-desktop-toc .mag-eyebrow { margin-bottom:15px; font-size:12px; font-family:inherit; font-weight:650; letter-spacing:.02em; }
-.mag-desktop-toc ol,.mag-mobile-toc ol { list-style:none; padding:0; margin:0; }
-.mag-desktop-toc li,.mag-mobile-toc li { list-style:none; margin:0; padding:0; }
-.mag-desktop-toc a,.mag-mobile-toc li a { display:flex; gap:10px; font-size:12px; line-height:1.8; padding:8px 0; color:var(--mag-muted); }
-.mag-desktop-toc a>span,.mag-mobile-toc a>span { font:400 10px/2.1 'Inter',sans-serif; }
-.mag-desktop-toc a[aria-current],.mag-mobile-toc a[aria-current] { color:var(--mag-accent); font-weight:600; }
-.mag-mobile-toc { display:none; }
+.mag-desktop-toc ol,.mag-inline-toc ol { list-style:none; padding:0; margin:0; }
+.mag-desktop-toc li,.mag-inline-toc li { list-style:none; margin:0; padding:0; }
+.mag-desktop-toc a,.mag-inline-toc li a { display:flex; gap:10px; font-size:12px; line-height:1.8; padding:8px 0; color:var(--mag-muted); }
+.mag-desktop-toc a>span,.mag-inline-toc a>span { font:400 10px/2.1 'Inter',sans-serif; }
+.mag-desktop-toc a[aria-current],.mag-inline-toc a[aria-current] { color:var(--mag-accent); font-weight:600; }
+.mag-inline-toc { padding:24px 28px; background:var(--mag-panel); border:1px solid var(--mag-line); border-radius:8px; margin:0 0 48px; }
+.mag-inline-toc summary { display:flex; justify-content:space-between; align-items:center; cursor:pointer; list-style:none; font-size:16px; font-weight:700; letter-spacing:.02em; }
+.mag-inline-toc summary::-webkit-details-marker { display:none; }
+.mag-inline-toc[open] summary { padding-bottom:14px; margin-bottom:6px; border-bottom:1px solid var(--mag-line); }
+.mag-inline-toc[open] summary svg { transform:rotate(180deg); }
+.mag-inline-toc li a { font-size:15px; line-height:1.8; padding:10px 0; color:var(--mag-text); }
+.mag-inline-toc a>span { flex-shrink:0; min-width:24px; font-size:12px; color:var(--mag-accent); }
+.mag-label-emphasis { font-weight:700; background:linear-gradient(transparent 65%,#e6b65b44 65%); box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.magazine-site[data-theme=dark] .mag-label-emphasis { background:linear-gradient(transparent 65%,#e6b65b33 65%); }
+.mag-article-cover figcaption a { text-decoration:underline; text-underline-offset:3px; }
+.mag-body a:hover { color:var(--mag-accent); }
 .mag-body .mag-writing-credit { font-size:12px; line-height:1.8; color:var(--mag-muted); padding-top:24px; border-top:1px solid var(--mag-line); }
 .mag-sources { padding-top:28px; border-top:1px solid var(--mag-line); }
 .mag-sources h2 { font-size:19px; }
@@ -165,13 +175,8 @@
 .mag-landing-teaser { min-height:0; background:transparent; padding:80px 0; }
 .mag-teaser-description { font-size:14px; color:var(--mag-muted); margin:-5px 0 32px; }
 .mag-landing-teaser .mag-section-head h2 { font-size:30px; }
-@media(max-width:1250px) {
+@media(max-width:1439px) {
   .mag-desktop-toc { display:none; }
-  .mag-mobile-toc { display:block; padding:15px 18px; background:var(--mag-panel); border:1px solid var(--mag-line); border-radius:6px; margin-bottom:40px; }
-  .mag-mobile-toc summary { display:flex; justify-content:space-between; align-items:center; cursor:pointer; list-style:none; font-size:13px; letter-spacing:.01em; }
-  .mag-mobile-toc summary::-webkit-details-marker { display:none; }
-  .mag-mobile-toc[open] summary { margin-bottom:10px; }
-  .mag-mobile-toc[open] summary svg { transform:rotate(180deg); }
 }
 @media(max-width:900px) {
   .mag-header nav { gap:18px; }
@@ -233,16 +238,18 @@
   .mag-breadcrumbs { gap:8px; font-size:10px; padding:20px 0; }
   .mag-article-header { padding:0; margin:14px 0 25px; }
   .mag-article-header h1 { font-size:26px; line-height:1.6; }
-  .mag-byline { gap:6px 13px; font-size:11px; }
+  .mag-byline { gap:8px 13px; font-size:12px; }
   .mag-article-cover { margin-bottom:32px; }
   .mag-article-cover .mag-cover { border-radius:4px; }
   .mag-article-cover figcaption { font-size:10px; }
   .mag-reading-layout { padding:0 3px; }
-  .mag-body,.mag-body .mag-lead { font-size:16px; line-height:2; }
+  .mag-body,.mag-body .mag-lead { font-size:17px; line-height:2; letter-spacing:.03em; }
   .mag-body p { margin-bottom:28px; }
-  .mag-body h2 { font-size:21px; padding-left:13px; }
-  .mag-body>section { margin-bottom:43px; }
-  .mag-note { font-size:14px; padding:15px 17px; }
+  .mag-body h2 { font-size:23px; padding-left:14px; }
+  .mag-body>section { margin-bottom:52px; }
+  .mag-inline-toc { padding:18px 20px; margin-bottom:36px; }
+  .mag-inline-toc li a { font-size:14px; min-height:44px; }
+  .mag-note { font-size:16px; padding:17px 19px; }
   .mag-body blockquote { font-size:15px; padding-left:17px; }
   .mag-article-cover .mag-cover-words { font-size:44px; }
   .mag-related .mag-text-link { font-size:11px; }

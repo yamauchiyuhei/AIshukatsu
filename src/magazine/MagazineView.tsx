@@ -138,6 +138,13 @@ function TableOfContents({ article, active }: { article: Article; active: string
   return <ol>{article.sections.map((section, index) => <li key={section.id}><a href={'#section-' + section.id} aria-current={active === section.id ? 'location' : undefined}><span>{String(index + 1).padStart(2, '0')}</span>{section.heading}</a></li>)}</ol>;
 }
 
+// Emphasize only explicit labels already present in the manuscript; preserve its text.
+function ArticleText({ text, listItem = false }: { text: string; listItem?: boolean }) {
+  const label = text.match(/^【[^】\n]{1,48}】/)?.[0]
+    || (listItem ? text.match(/^[^：\n。！？]{1,48}：/)?.[0] : undefined);
+  return label ? <><strong className="mag-label-emphasis">{label}</strong>{text.slice(label.length)}</> : <>{text}</>;
+}
+
 function ArticleReader({ article, articles }: { article: Article; articles: ArticleSummary[] }) {
   const ref = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
@@ -176,8 +183,8 @@ function ArticleReader({ article, articles }: { article: Article; articles: Arti
           {article.cover.attribution.modifications && <> ／ {article.cover.attribution.modifications}</>}
         </>}
       </figcaption>}</figure>
-      <div className="mag-reading-layout"><div className="mag-body"><p className="mag-lead">{article.lead}</p><details className="mag-mobile-toc"><summary>この記事の目次<ChevronDown size={17} /></summary><TableOfContents article={article} active={active} /></details>
-        {article.sections.map(section => <section id={'section-' + section.id} key={section.id}><h2>{section.heading}</h2>{section.blocks.map((block, i) => block.type === 'list' ? <ul key={i}>{block.items!.map((item, j) => <li key={j}>{item}</li>)}</ul> : block.type === 'note' ? <aside className="mag-note" key={i}>{block.text}</aside> : block.type === 'quote' ? <blockquote key={i}>{block.text}</blockquote> : <p key={i}>{block.text}</p>)}</section>)}
+      <div className="mag-reading-layout"><div className="mag-body"><details className="mag-inline-toc" open><summary>この記事の目次<ChevronDown size={18} aria-hidden="true" /></summary><nav aria-label="記事冒頭の目次"><TableOfContents article={article} active={active} /></nav></details><p className="mag-lead">{article.lead}</p>
+        {article.sections.map(section => <section id={'section-' + section.id} key={section.id}><h2>{section.heading}</h2>{section.blocks.map((block, i) => block.type === 'list' ? <ul key={i}>{block.items!.map((item, j) => <li key={j}><ArticleText text={item} listItem /></li>)}</ul> : block.type === 'note' ? <aside className="mag-note" key={i}>{block.text}</aside> : block.type === 'quote' ? <blockquote key={i}>{block.text}</blockquote> : <p key={i}><ArticleText text={block.text || ''} /></p>)}</section>)}
         {article.sources.length > 0 && <section className="mag-sources"><h2>参考資料</h2><ul>{article.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}<ArrowUpRight size={14} /></a></li>)}</ul></section>}
         {article.writingAssistance && <p className="mag-writing-credit">{article.writingAssistance}</p>}<div className="mag-article-tags">{article.tags.map(tag => <a href={'/magazine/?q=' + encodeURIComponent(tag)} key={tag}>#{tag}</a>)}</div><ShareButton article={article} /><a className="mag-text-link mag-back" href="/magazine/"><ArrowLeft size={16} />記事一覧に戻る</a>
       </div><aside className="mag-desktop-toc"><nav aria-label="この記事の目次"><p className="mag-eyebrow">この記事の目次</p><TableOfContents article={article} active={active} /></nav></aside></div>
