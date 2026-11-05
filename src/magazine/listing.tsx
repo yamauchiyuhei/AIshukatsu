@@ -6,10 +6,16 @@ import './magazine.css';
 // does not compete with the initial editorial image in the HTML preload queue.
 // Query-filtered results differ from the static default listing and must mount fresh.
 const root = document.getElementById('root');
-if (root) void import('./MagazineApp').then(({ MagazineApp }) => {
-  if (root.querySelector('.mag-index') && !window.location.search) {
-    hydrateRoot(root, <MagazineApp />);
-  } else {
-    createRoot(root).render(<MagazineApp />);
-  }
-});
+if (root) {
+  root.dataset.catalogState = 'loading';
+  void import('./MagazineApp').then(({ MagazineApp }) => {
+    delete root.dataset.catalogState;
+    if (root.querySelector('.mag-index') && !window.location.search) {
+      hydrateRoot(root, <MagazineApp />);
+    } else {
+      createRoot(root).render(<MagazineApp />);
+    }
+  }, () => {
+    root.dataset.catalogState = 'error';
+  });
+}

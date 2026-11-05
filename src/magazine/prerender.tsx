@@ -5,7 +5,7 @@ import type { Article, ArticleSummary } from './types';
 import { LandingPage } from '../components/LandingPage';
 
 export function renderLanding() {
-  return renderToString(<LandingPage onOpenApp={() => {}} />);
+  return renderToString(<LandingPage />);
 }
 
 export function renderMagazine(article: Article | null, articles: ArticleSummary[], notFound = false, page = 1) {

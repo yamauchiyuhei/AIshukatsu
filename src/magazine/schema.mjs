@@ -99,13 +99,33 @@ export function articleSummary(article) {
   return result;
 }
 
+const normalizeSearch = value => value.normalize('NFKC').toLocaleLowerCase('ja').trim();
+const compactSearch = value => value.replace(/[\s・･-]+/g, '');
+
 export function filterArticles(articles, { category = '', query = '' } = {}) {
-  const terms = query.normalize('NFKC').toLocaleLowerCase('ja').trim().split(/\s+/).filter(Boolean);
-  return articles.filter(article => {
-    if (category && article.category !== category) return false;
-    const haystack = [article.title, article.description, ...(article.tags || []), categories.find(item => item.id === article.category)?.label].join(' ').normalize('NFKC').toLocaleLowerCase('ja');
-    return terms.every(term => haystack.includes(term));
-  }).sort((a, b) => b.datePublished.localeCompare(a.datePublished) || a.slug.localeCompare(b.slug));
+  const normalized = normalizeSearch(query);
+  const terms = normalized.split(/\s+/).filter(Boolean);
+  const compactQuery = compactSearch(normalized);
+  const results = [];
+  for (const article of articles) {
+    if (category && article.category !== category) continue;
+    let rank = 0;
+    if (terms.length) {
+      const code = article.slug.match(/^company-analysis-([0-9]{3}[0-9a-z])$/)?.[1];
+      const aliases = [code, ...(article.searchAliases || [])].filter(Boolean);
+      const companyName = code && article.title.split('の企業分析')[0];
+      const exact = [companyName, ...aliases].filter(Boolean).some(name =>
+        compactSearch(normalizeSearch(name)) === compactQuery);
+      const haystack = normalizeSearch([article.title, article.description, ...(article.tags || []),
+        ...aliases, categories.find(item => item.id === article.category)?.label].join(' '));
+      if (!exact && !terms.every(term => haystack.includes(term))) continue;
+      rank = exact ? 2 : normalizeSearch(article.title).includes(normalized) ? 1 : 0;
+    }
+    results.push({ article, rank });
+  }
+  return results.sort((a, b) => b.rank - a.rank
+    || b.article.datePublished.localeCompare(a.article.datePublished)
+    || a.article.slug.localeCompare(b.article.slug)).map(result => result.article);
 }
 
 export const pageSize = 24;

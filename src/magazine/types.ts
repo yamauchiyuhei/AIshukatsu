@@ -33,6 +33,7 @@ export interface ArticleSummary {
   tags: string[];
   readingMinutes: number;
   featured?: boolean;
+  searchAliases?: string[];
   writingAssistance?: string;
   cover?: ArticleCoverImage;
 }

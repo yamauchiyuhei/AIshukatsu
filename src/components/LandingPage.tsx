@@ -1,7 +1,8 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { LegalModal } from './onboarding/LegalModal';
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../data/legal';
 import { LandingMagazine } from '../magazine/LandingMagazine';
+import { readWebsiteTheme, saveWebsiteTheme } from '../lib/websiteTheme';
 
 const CONTACT_EMAIL = 'yamatomo.inc@gmail.com';
 const CONTACT_RATE_LIMIT_MS = 60_000;
@@ -39,7 +40,7 @@ const themes: Record<ThemeKey, ThemeTokens> = {
     bg2: 'bg-[#0a0b12]',
     text: 'text-white',
     textMuted: 'text-white/60',
-    textDim: 'text-white/40',
+    textDim: 'text-white/65',
     border: 'border-white/10',
     card: 'bg-white/[0.03]',
     cardHover: 'hover:bg-white/[0.06]',
@@ -56,7 +57,7 @@ const themes: Record<ThemeKey, ThemeTokens> = {
     bg2: 'bg-white',
     text: 'text-slate-900',
     textMuted: 'text-slate-600',
-    textDim: 'text-slate-400',
+    textDim: 'text-slate-600',
     border: 'border-slate-200',
     card: 'bg-white',
     cardHover: 'hover:bg-slate-50',
@@ -76,6 +77,15 @@ const LandingStyles = () => (
     .landing-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
     .landing-serif { font-family: 'Instrument Serif', ui-serif, serif; font-style: italic; }
     .landing-sans-jp { font-family: 'Noto Sans JP', 'Inter', system-ui, sans-serif; }
+    .landing-page :is(a,button,summary,input,textarea,select):focus-visible {
+      outline: 2px solid #818cf8; outline-offset: 3px;
+    }
+    .landing-page .landing-skip { position: fixed; top: 10px; left: 12px; z-index: 60; }
+    .landing-page .landing-skip:not(:focus) { clip-path: inset(50%); pointer-events: none; }
+    .landing-contact::backdrop { background: #05060a99; backdrop-filter: blur(4px); }
+    @media (max-width: 767px) {
+      .landing-page main > section:not(:first-child) { padding-block: 64px; }
+    }
     .landing-page section[id], .landing-page #demo { scroll-margin-top: 110px; }
     .landing-grid-bg {
       background-image:
@@ -227,39 +237,37 @@ function Logo(_: { theme: ThemeKey }) {
 }
 
 // ───────────────────────── Nav ─────────────────────────
-function Nav({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpenApp: () => void }) {
+function Nav({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const [scrolled, setScrolled] = useState(false);
+  const menu = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  const sections = [['機能', '#features'], ['選考管理', '#views'], ['AI連携', '#ai'], ['FAQ', '#faq']];
   return (
-    <header className={'fixed top-0 inset-x-0 z-40 transition-all ' + (scrolled ? 'py-3' : 'py-5')}>
-      <div className="mx-auto max-w-6xl px-6">
-        <nav className={'flex items-center justify-between rounded-full px-5 py-2.5 transition-all ' + (scrolled ? t.glass : '')}>
-          <a href="#" className="flex items-center gap-2.5">
-            <Logo theme={theme} />
-            <span className={'font-bold tracking-tight ' + t.text}>AI就活</span>
-            <span className={'landing-mono text-[10px] px-1.5 py-0.5 rounded ' + t.chip}>デスクトップ版</span>
+    <header className={'fixed inset-x-0 top-0 z-40 ' + (scrolled ? 'py-2' : 'py-3')}>
+      <div className="mx-auto max-w-6xl px-3 sm:px-6">
+        <nav aria-label="メインナビゲーション" className={'relative flex items-center justify-between gap-2 rounded-2xl px-2 sm:px-4 ' + t.glass}>
+          <a href="/" className={'flex min-h-11 shrink-0 items-center gap-1.5 font-bold ' + t.text}>
+            <Logo theme={theme} /><span>AI就活</span>
           </a>
-          <div className={'hidden md:flex items-center gap-7 text-sm ' + t.textMuted}>
-            <a href="#features" className="hover:opacity-100 opacity-80">機能</a>
-            <a href="#views" className="hover:opacity-100 opacity-80">選考管理</a>
-            <a href="#ai" className="hover:opacity-100 opacity-80">AI連携</a>
-            <a href="#stories" className="hover:opacity-100 opacity-80">ストーリー</a>
-            <a href="/magazine/" className="hover:opacity-100 opacity-80">マガジン</a>
-            <a href="#faq" className="hover:opacity-100 opacity-80">FAQ</a>
+          <div className={'hidden items-center gap-6 lg:flex ' + t.textMuted}>
+            {sections.map(([label, href]) => <a key={href} href={href} className="inline-flex min-h-11 items-center text-sm hover:underline">{label}</a>)}
           </div>
-          <div className="flex items-center gap-2">
-            <a href="/magazine/" className={'md:hidden rounded-full px-3 py-1.5 text-xs transition ' + t.btnGhost}>マガジン</a>
-            <button
-              type="button"
-              onClick={onOpenApp}
-              className={'hidden sm:inline-flex rounded-full px-4 py-1.5 text-sm font-medium transition ' + t.btn}
-            >
-              Web版を使う
-            </button>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <a href="/magazine/" className={'inline-flex min-h-11 items-center text-xs sm:text-sm ' + t.text}>マガジン</a>
+            <a href="/app/" className={'inline-flex min-h-11 items-center rounded-xl px-2.5 text-xs font-semibold sm:px-4 sm:text-sm ' + t.btn}>Web版</a>
+            <details ref={menu} className="lg:hidden">
+              <summary className={'flex min-h-11 cursor-pointer list-none items-center text-xs [&::-webkit-details-marker]:hidden ' + t.text}>メニュー</summary>
+              <div className={'absolute right-0 top-full mt-2 grid min-w-40 rounded-xl border p-2 shadow-lg ' + t.bg2 + ' ' + t.border}>
+                {[...sections, ['ダウンロード', '#download']].map(([label, href]) => (
+                  <a key={href} href={href} className="flex min-h-11 items-center px-3 text-sm" onClick={() => { if (menu.current) menu.current.open = false; }}>{label}</a>
+                ))}
+              </div>
+            </details>
           </div>
         </nav>
       </div>
@@ -268,82 +276,29 @@ function Nav({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpenA
 }
 
 // ───────────────────────── Hero ─────────────────────────
-function Hero({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpenApp: () => void }) {
+function Hero({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   return (
-    <section className={'relative overflow-hidden pt-40 pb-24 ' + t.bg}>
-      <div className={'absolute inset-0 ' + t.grid} />
-      <div className="absolute inset-0 pointer-events-none">
-        <div className={'absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] landing-aurora-anim ' + t.aurora} />
-      </div>
-      <div className={'absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent ' + (theme === 'dark' ? 'to-[#05060a]' : 'to-[#fafafa]')} />
-
-      <div className="relative mx-auto max-w-6xl px-6">
-        <div className="max-w-4xl">
-          <div className={'landing-rise-in landing-rise-d1 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs ' + t.chip}>
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 landing-pulse-dot" />
-            <span className="landing-mono tracking-wider">28卒・29卒の就活OS</span>
-            <span className={t.textDim}>・</span>
-            <span>Mac / Windows 対応</span>
-          </div>
-
-          <h1 className={'landing-sans-jp mt-6 text-[clamp(44px,7.5vw,104px)] font-bold leading-[0.95] tracking-tight ' + t.text}>
-            <span className="whitespace-nowrap">就活を、</span><br />
-            <span className={'whitespace-nowrap ' + t.heading}>AIと一緒に、</span><br />
-            <span className="whitespace-nowrap">
-              <span className="landing-serif font-normal">ちゃんと</span>終わらせる。
-            </span>
-          </h1>
-
-          <p className={'landing-rise-in landing-rise-d3 mt-7 max-w-2xl text-lg md:text-xl leading-relaxed ' + t.textMuted}>
-            1企業 1フォルダ、全部 Markdown。<br className="hidden md:block" />
-            書いた情報はそのまま <span className={t.text + ' font-medium'}>Claude / Cursor / ChatGPT</span> に渡せる、
-            ローカルファーストの就活管理アプリ。
-          </p>
-
-          <div className="landing-rise-in landing-rise-d4 mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href="#download"
-              className={'group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition ' + t.btn}
-            >
-              <span className="flex items-center gap-1.5">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-label="macOS">
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                </svg>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-label="Windows">
-                  <path d="M3 5.7L11 4v8H3V5.7zM3 12.3L11 12.3V20l-8-1.7v-6zM12 4v8h9V4.3L12 4zM12 12.3L21 12.3V19.7l-9-1.3v-6.1z" />
-                </svg>
-              </span>
-              無料ダウンロード
-              <span className="landing-cta-arrow opacity-50">→</span>
-            </a>
-            <button
-              type="button"
-              onClick={onOpenApp}
-              className={'inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition ' + t.btnGhost}
-            >
-              Web版を無料で使う
-            </button>
-            <a
-              href="#demo"
-              className={'inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition ' + t.btnGhost}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-              プロダクトデモ
-            </a>
-          </div>
-
-          <div className={'landing-rise-in landing-rise-d5 mt-14 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs ' + t.textMuted}>
-            {['ローカルファースト', 'Markdown ネイティブ', 'パスワード暗号化', 'Firestore バックアップ', 'Chrome / Edge / Desktop'].map((s) => (
-              <div key={s} className="flex items-center gap-2">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12l5 5L20 7" /></svg>
-                {s}
-              </div>
-            ))}
-          </div>
+    <section className={'relative overflow-hidden pb-12 pt-28 md:pb-20 md:pt-36 ' + t.bg}>
+      <div aria-hidden="true" className={'pointer-events-none absolute inset-0 ' + t.grid} />
+      <div aria-hidden="true" className={'pointer-events-none absolute -top-32 left-1/2 h-[500px] w-[900px] -translate-x-1/2 ' + t.aurora} />
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-6">
+        <p className={'text-sm font-semibold ' + t.textMuted}>自己分析から内定まで使える、就活管理アプリ</p>
+        <h1 className={'landing-sans-jp mt-4 max-w-4xl text-[clamp(32px,5.4vw,72px)] font-bold leading-[1.2] tracking-tight ' + t.text}>
+          応募先、ES、面接日程を<br className="hidden sm:block" />ひとつにまとめる。
+        </h1>
+        <p className={'mt-5 max-w-2xl text-base leading-relaxed md:text-lg ' + t.textMuted}>
+          企業ごとに選考の進捗とメモを整理し、次の締切を確認できます。
+          保存したメモは、必要に応じてClaudeやChatGPTでのES・面接準備にも使えます。
+        </p>
+        <div className="mt-7 flex flex-wrap items-center gap-3">
+          <a href="/app/" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btn}>Web版を使う</a>
+          <a href="#download" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btnGhost}>Mac・Windows版</a>
         </div>
-
-        <div id="demo" className="landing-pop-in landing-rise-d6 relative mt-24">
+        <p className={'mt-3 text-sm ' + t.textMuted}>無料 · Web版はPCのChrome・Edgeに対応</p>
+        <div id="demo" className="relative mt-10">
+          <p className={'mb-3 text-sm font-semibold ' + t.textMuted}>企業ごとの選考とメモを管理する画面例</p>
           <HeroScreen t={t} theme={theme} />
+          <a href="#views" className={'mt-4 inline-flex min-h-11 items-center text-sm underline underline-offset-4 ' + t.text}>表・カンバン・カレンダーを見る</a>
         </div>
       </div>
     </section>
@@ -372,8 +327,8 @@ function HeroScreen({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-[240px_1fr]">
-          <aside className={'border-r p-3 space-y-0.5 ' + t.border + ' ' + (theme === 'dark' ? 'bg-black/20' : 'bg-slate-50/80')}>
+        <div className="grid md:grid-cols-[210px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)]">
+          <aside className={'hidden border-r p-3 md:block space-y-0.5 ' + t.border + ' ' + (theme === 'dark' ? 'bg-black/20' : 'bg-slate-50/80')}>
             <div className={'px-2 py-1 text-[10px] uppercase tracking-widest ' + t.textDim}>就活2028</div>
             {[
               { type: 'folder' as const, name: '自己分析', open: true, count: 3 },
@@ -395,14 +350,14 @@ function HeroScreen({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
             ))}
           </aside>
 
-          <div className="p-6">
-            <div className={'flex items-center gap-2 text-xs ' + t.textDim}>
+          <div className="min-w-0 p-4 sm:p-6">
+            <div className={'flex flex-wrap items-center gap-2 text-xs ' + t.textDim}>
               <span>コンサル</span><span>/</span>
               <span className={t.text}>株式会社サンプルA</span><span>/</span>
               <span className={t.text}>選考状況.md</span>
             </div>
-            <div className="mt-4 flex items-center gap-3">
-              <h3 className={'text-3xl font-bold ' + t.text}>株式会社サンプルA</h3>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <h3 className={'text-xl sm:text-3xl font-bold ' + t.text}>株式会社サンプルA</h3>
               <span className="rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2.5 py-0.5 text-xs font-medium">1次面接</span>
             </div>
             <div className={'landing-mono text-[11px] mt-3 space-y-0.5 ' + t.textMuted}>
@@ -766,7 +721,7 @@ function ViewsSection({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           title={<>選考を、見たい形で<br />ぜんぶ可視化。</>}
           t={t}
         />
-        <div className={'inline-flex rounded-full p-1 mb-8 ' + t.chip}>
+        <div aria-label="選考管理の表示形式" role="group" className={'mb-4 flex w-fit flex-wrap rounded-2xl p-1 ' + t.chip}>
           {[
             { id: 'sheet' as const, label: 'スプレッドシート' },
             { id: 'kanban' as const, label: 'カンバン' },
@@ -776,13 +731,15 @@ function ViewsSection({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
               key={v.id}
               type="button"
               onClick={() => setTab(v.id)}
-              className={'px-4 py-1.5 text-sm rounded-full transition ' + (tab === v.id ? (theme === 'dark' ? 'bg-white text-black' : 'bg-slate-900 text-white') : 'opacity-70 hover:opacity-100')}
+              aria-pressed={tab === v.id}
+              className={'min-h-11 rounded-xl px-2 py-1.5 text-xs sm:px-4 sm:text-sm transition ' + (tab === v.id ? (theme === 'dark' ? 'bg-white text-black' : 'bg-slate-900 text-white') : 'opacity-70 hover:opacity-100')}
             >
               {v.label}
             </button>
           ))}
         </div>
-        <div className={'rounded-2xl border overflow-hidden shadow-2xl ' + t.border + ' ' + (theme === 'dark' ? 'bg-[#0a0b12]' : 'bg-white')}>
+        <p className={'mb-3 text-sm md:hidden ' + t.textMuted}>画面例は横にスクロールできます。</p>
+        <div role="region" aria-label="選考管理の画面例" tabIndex={0} className={'overflow-x-auto rounded-2xl border shadow-xl ' + t.border + ' ' + (theme === 'dark' ? 'bg-[#0a0b12]' : 'bg-white')}>
           {tab === 'sheet' && <SheetView t={t} theme={theme} />}
           {tab === 'kanban' && <KanbanView t={t} />}
           {tab === 'calendar' && <CalendarView t={t} theme={theme} />}
@@ -796,7 +753,7 @@ function SheetView({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const headerBg = theme === 'dark' ? 'bg-white/[0.04]' : 'bg-slate-50';
   const rowBorder = theme === 'dark' ? 'border-white/5' : 'border-slate-100';
   return (
-    <div className="text-sm overflow-hidden">
+    <div className="min-w-[740px] text-sm">
       <div className={'grid grid-cols-[36px_2fr_1.3fr_1fr_1fr_0.8fr] ' + headerBg + ' ' + (theme === 'dark' ? 'text-white/60' : 'text-slate-500') + ' text-xs landing-mono uppercase tracking-wider'}>
         {['#', '企業名', 'ステータス', '業界', '次アクション', '評価'].map((h, i) => (
           <div key={i} className="px-4 py-3 border-r border-white/5">{h}</div>
@@ -828,7 +785,7 @@ function SheetView({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
 function KanbanView({ t }: { t: ThemeTokens }) {
   const cols = ['エントリー済', 'ES提出済', '1次面接', '最終面接', '内定'];
   return (
-    <div className="p-5 overflow-x-auto">
+    <div className="p-5">
       <div className="flex gap-4 min-w-fit">
         {cols.map((col) => {
           const cards = COMPANIES.filter((c) => c.s === col);
@@ -881,14 +838,10 @@ function CalendarView({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const days = Array.from({ length: 35 }, (_, i) => i - 2);
   const today = 12;
   return (
-    <div className="p-5">
+    <div className="min-w-[650px] p-5">
       <div className="flex items-center justify-between mb-4">
         <div className={'text-base font-bold ' + t.text}>2028年 5月</div>
-        <div className="flex gap-1">
-          {['今日', '‹', '›'].map((x, i) => (
-            <button key={i} type="button" className={'px-2 py-1 text-xs rounded-md ' + t.btnGhost}>{x}</button>
-          ))}
-        </div>
+        <span className={'text-xs ' + t.textMuted}>表示例</span>
       </div>
       <div className={'grid grid-cols-7 text-[10px] landing-mono uppercase tracking-widest mb-1 ' + t.textDim}>
         {['月', '火', '水', '木', '金', '土', '日'].map((d) => (
@@ -926,40 +879,17 @@ function CalendarView({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
 
 // ───────────────────────── Stories ─────────────────────────
 function Stories({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
-  const testimonials = [
-    { name: 'K.T.', grade: '28卒・慶應', role: '戦略コンサル内定', avatar: 'bg-gradient-to-br from-indigo-400 to-pink-400', body: 'ES修正のたびに ChatGPT に状況を説明し直すのが苦痛だった。フォルダを渡せばそれで済むのが本当にラク。' },
-    { name: 'A.M.', grade: '28卒・早稲田', role: 'メガバンク内定', avatar: 'bg-gradient-to-br from-emerald-400 to-sky-400', body: 'スプレッドシートとカンバンを行き来しながら、並列で50社を回した。カレンダーの〆切管理が命綱。' },
-    { name: 'R.S.', grade: '27卒・東大院', role: 'SaaS PdM 内定', avatar: 'bg-gradient-to-br from-amber-400 to-rose-400', body: 'Cursor で志望動機を下書きするのが定番になった。Markdown でバージョン管理もできて最高。' },
-    { name: 'Y.H.', grade: '28卒・京大', role: '外資メーカー内定', avatar: 'bg-gradient-to-br from-violet-400 to-fuchsia-400', body: 'どの企業にも使い回せる「自己分析.md」を1つ育てていくと、面接準備が半分の時間で終わる。' },
-  ];
   return (
     <section id="stories" className={'relative py-32 ' + t.bg2}>
       <div className="mx-auto max-w-6xl px-6">
         <SectionLabel
           n="04"
-          subtitle="Real stories"
+          subtitle="How to use"
           theme={theme}
-          title={<>先輩たちが、<br />どう使って内定を取ったか。</>}
+          title="就活の場面に合わせた使い方"
           t={t}
         />
-        <div className="grid md:grid-cols-2 gap-5" data-stagger>
-          {testimonials.map((x, i) => (
-            <figure key={i} className={'rounded-2xl p-7 border ' + t.border + ' ' + t.card}>
-              <div className={'text-lg leading-relaxed ' + t.text}>&quot;{x.body}&quot;</div>
-              <figcaption className="mt-6 flex items-center gap-3">
-                <div className={'h-10 w-10 rounded-full ' + x.avatar} />
-                <div>
-                  <div className={'text-sm font-semibold ' + t.text}>
-                    {x.name} <span className={'landing-mono text-[10px] ml-1 ' + t.textDim}>{x.grade}</span>
-                  </div>
-                  <div className={'text-xs ' + t.textMuted}>{x.role}</div>
-                </div>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-
-        <div className="mt-16 grid md:grid-cols-3 gap-4" data-stagger>
+        <div className="grid md:grid-cols-3 gap-4" data-stagger>
           {[
             { tag: 'USE CASE 01', title: 'ES 量産期', body: 'Frontmatter に〆切・提出先をメモ。テンプレから派生させて5社並行で下書き。' },
             { tag: 'USE CASE 02', title: '面接ラッシュ', body: 'カレンダーで時系列、カンバンで進捗、詳細は Markdown。同じデータを3視点で。' },
@@ -978,18 +908,18 @@ function Stories({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
 }
 
 // ───────────────────────── Download ─────────────────────────
-function DownloadSection({ t, theme, onOpenApp }: { t: ThemeTokens; theme: ThemeKey; onOpenApp: () => void }) {
+function DownloadSection({ t }: { t: ThemeTokens }) {
   return (
     <section id="download" className={'relative py-32 overflow-hidden ' + t.bg}>
       <div className="absolute inset-0 pointer-events-none">
         <div className={'absolute inset-0 landing-aurora-anim ' + t.aurora + ' opacity-80'} />
       </div>
       <div className="relative mx-auto max-w-6xl px-6 text-center">
-        <div className={'landing-mono text-xs ' + t.textDim}>— Start in 30 seconds —</div>
+        <div className={'landing-mono text-xs ' + t.textDim}>利用環境を選ぶ</div>
         <h2 className={'landing-sans-jp mt-5 text-5xl md:text-7xl font-bold tracking-tight ' + t.text}>
           さあ、<span className={t.heading}>就活</span>を始めよう。
         </h2>
-        <p className={'mt-5 text-lg ' + t.textMuted}>ダウンロード即無料。アカウント作成はワンクリックで完了。</p>
+        <p className={'mt-5 text-lg ' + t.textMuted}>Web版とデスクトップ版を無料で利用できます。</p>
 
         <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto" data-stagger>
           <a
@@ -1018,19 +948,11 @@ function DownloadSection({ t, theme, onOpenApp }: { t: ThemeTokens; theme: Theme
           </a>
         </div>
         <div className={'mx-auto mt-4 max-w-2xl text-sm leading-7 ' + t.textMuted}>
-          <a className="underline" href={GITHUB_RELEASE}>Windowsのインストーラーを選ぶ</a>
           <details className="mt-3 text-left"><summary className="cursor-pointer text-center">インストール方法・対応環境</summary><p>Mac：ダウンロードしたtar.gzを展開し、AIshukatsu.appをアプリケーションへ移動してください。Apple Silicon・Intel両対応です。OSで開けない場合は、配布ページの署名状況と案内を確認してください。</p><p>Windows 10 / 11：通常はx64版、ARM搭載PCではARM64版のセットアップを実行してください。</p><p>更新前にはフォルダ全体のバックアップを作成できます。インストーラーの公開状況・変更点は<a className="underline" href={GITHUB_RELEASE}>リリースページ</a>で確認できます。</p></details>
         </div>
-        <div className={'mt-4 text-xs ' + t.textDim}>
-          ブラウザ版は Chrome / Edge で{' '}
-          <button type="button" onClick={onOpenApp} className="underline">こちら</button>
-        </div>
-
-        <div className={'mt-12 inline-flex items-center gap-2 landing-mono text-[11px] ' + t.textDim}>
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 landing-pulse-dot" />
-          <span>デスクトップ版 · 自動アップデート対応</span>
-          <span className={theme === 'dark' ? 'text-white/20' : 'text-slate-300'}>·</span>
-          <span>Tauri 2 / Universal Binary</span>
+        <div className={'mx-auto mt-6 max-w-2xl rounded-xl border p-4 ' + t.border}>
+          <p className={'mb-3 text-sm ' + t.textMuted}>Web版はPCのChrome・Edgeで利用できます。Googleログインは任意です。</p>
+          <a href="/app/" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btnGhost}>Web版を使う</a>
         </div>
       </div>
     </section>
@@ -1058,19 +980,19 @@ function FAQ({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           {items.map((it, i) => {
             const isOpen = open === i;
             return (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setOpen(isOpen ? -1 : i)}
-                className="w-full text-left px-6 py-5 block"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={'landing-mono text-[10px] ' + t.textDim}>{String(i + 1).padStart(2, '0')}</div>
-                  <div className={'flex-1 font-semibold ' + t.text}>{it.q}</div>
-                  <div className={'text-xl transition-transform ' + t.textMuted + ' ' + (isOpen ? 'rotate-45' : '')}>+</div>
-                </div>
-                {isOpen && <div className={'mt-3 pl-10 text-sm leading-relaxed ' + t.textMuted}>{it.a}</div>}
-              </button>
+              <div key={it.q}>
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-controls={`landing-faq-${i}`}
+                  onClick={() => setOpen(isOpen ? -1 : i)}
+                  className="flex w-full items-center gap-4 px-5 py-4 text-left"
+                >
+                  <span className={'flex-1 font-semibold ' + t.text}>{it.q}</span>
+                  <span aria-hidden="true" className={'text-xl ' + t.textMuted}>{isOpen ? '−' : '+'}</span>
+                </button>
+                <p id={`landing-faq-${i}`} hidden={!isOpen} className={'px-5 pb-5 text-sm leading-relaxed ' + t.textMuted}>{it.a}</p>
+              </div>
             );
           })}
         </div>
@@ -1086,10 +1008,13 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const [legal, setLegal] = useState<'terms' | 'privacy' | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
   useEffect(() => {
-    const openPrivacy = () => { if (window.location.hash === '#privacy') setLegal('privacy'); };
-    openPrivacy();
-    window.addEventListener('hashchange', openPrivacy);
-    return () => window.removeEventListener('hashchange', openPrivacy);
+    const openFooterPanel = () => {
+      if (window.location.hash === '#privacy') setLegal('privacy');
+      if (window.location.hash === '#contact') setContactOpen(true);
+    };
+    openFooterPanel();
+    window.addEventListener('hashchange', openFooterPanel);
+    return () => window.removeEventListener('hashchange', openFooterPanel);
   }, []);
 
   const columns: { h: string; l: FooterLink[] }[] = [
@@ -1106,7 +1031,7 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
       l: [
         { label: '利用規約', onClick: () => setLegal('terms') },
         { label: 'プライバシーポリシー', id: 'privacy', onClick: () => setLegal('privacy') },
-        { label: 'お問い合わせ', onClick: () => setContactOpen(true) },
+        { label: 'お問い合わせ', id: 'contact', onClick: () => setContactOpen(true) },
       ],
     },
   ];
@@ -1124,7 +1049,7 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
               あなたの就活の軌跡は、あなたのPCの中に残る。AIに渡せる形で。それが、就活管理のあたりまえを更新する。
             </div>
             <div className={'mt-6 landing-mono text-[10px] ' + t.textDim}>
-              © {new Date().getFullYear()} AIshukatsu. Made with ♡ for 28卒.
+              © {new Date().getFullYear()} AI就活
             </div>
           </div>
           {columns.map((col, i) => (
@@ -1163,9 +1088,6 @@ function Footer({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
         <div className={'mt-16 pt-8 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-6 ' + t.border}>
           <div className={'text-5xl md:text-7xl font-bold tracking-tighter ' + t.textDim}>AI SHUKATSU.</div>
           <div className={'text-xs landing-mono flex items-center gap-3 ' + t.textDim}>
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 landing-pulse-dot" />
-            <span>all systems operational</span>
-            <span>·</span>
             <span>aishukatsu.net</span>
           </div>
         </div>
@@ -1214,14 +1136,17 @@ function ContactForm({
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  const dialogRef = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+    const dialog = dialogRef.current;
+    if (!open || !dialog) return;
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      opener?.focus();
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open, onClose]);
+  }, [open]);
 
   // Reset state whenever the modal closes so a future open starts fresh.
   useEffect(() => {
@@ -1284,13 +1209,16 @@ function ContactForm({
   const headerBorder = isDark ? 'border-white/10' : 'border-slate-200';
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm"
-      onClick={onClose}
+    <dialog
+      ref={dialogRef}
+      aria-labelledby="landing-contact-title"
+      className="landing-contact m-auto w-[calc(100%-2rem)] max-w-lg overflow-visible rounded-2xl bg-transparent p-0"
+      onCancel={event => { event.preventDefault(); onClose(); }}
+      onClick={event => { if (event.target === event.currentTarget) onClose(); }}
     >
-      <div className={panelCls} onClick={(e) => e.stopPropagation()}>
+      <div className={panelCls}>
         <div className={'flex items-center justify-between border-b px-6 py-4 ' + headerBorder}>
-          <h2 className={'text-lg font-semibold ' + t.text}>お問い合わせ</h2>
+          <h2 id="landing-contact-title" className={'text-lg font-semibold ' + t.text}>お問い合わせ</h2>
           <button
             type="button"
             onClick={onClose}
@@ -1305,7 +1233,7 @@ function ContactForm({
 
         <div className="overflow-y-auto p-6">
           {status === 'sent' ? (
-            <div className="space-y-4 py-6 text-center">
+            <div role="status" className="space-y-4 py-6 text-center">
               <div className={'mx-auto grid h-12 w-12 place-items-center rounded-full ' + (isDark ? 'bg-emerald-500/15 text-emerald-300' : 'bg-emerald-50 text-emerald-600')}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12l5 5L20 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </div>
@@ -1339,10 +1267,11 @@ function ContactForm({
               />
 
               <div>
-                <label className={'mb-1 block text-xs font-medium ' + t.textMuted}>
+                <label htmlFor="contact-name" className={'mb-1 block text-xs font-medium ' + t.textMuted}>
                   お名前 <span className="text-rose-400">*</span>
                 </label>
                 <input
+                  id="contact-name"
                   type="text"
                   required
                   maxLength={100}
@@ -1353,10 +1282,11 @@ function ContactForm({
                 />
               </div>
               <div>
-                <label className={'mb-1 block text-xs font-medium ' + t.textMuted}>
+                <label htmlFor="contact-email" className={'mb-1 block text-xs font-medium ' + t.textMuted}>
                   メールアドレス <span className="text-rose-400">*</span>
                 </label>
                 <input
+                  id="contact-email"
                   type="email"
                   required
                   maxLength={200}
@@ -1367,8 +1297,9 @@ function ContactForm({
                 />
               </div>
               <div>
-                <label className={'mb-1 block text-xs font-medium ' + t.textMuted}>件名</label>
+                <label htmlFor="contact-subject" className={'mb-1 block text-xs font-medium ' + t.textMuted}>件名</label>
                 <input
+                  id="contact-subject"
                   type="text"
                   maxLength={200}
                   value={subject}
@@ -1378,10 +1309,11 @@ function ContactForm({
                 />
               </div>
               <div>
-                <label className={'mb-1 block text-xs font-medium ' + t.textMuted}>
+                <label htmlFor="contact-message" className={'mb-1 block text-xs font-medium ' + t.textMuted}>
                   お問い合わせ内容 <span className="text-rose-400">*</span>
                 </label>
                 <textarea
+                  id="contact-message"
                   required
                   maxLength={5000}
                   rows={6}
@@ -1393,6 +1325,7 @@ function ContactForm({
 
               {errorMsg && (
                 <div
+                  role="alert"
                   className={
                     'rounded-lg border px-3 py-2 text-xs leading-relaxed ' +
                     (isDark
@@ -1429,11 +1362,10 @@ function ContactForm({
           )}
         </div>
       </div>
-    </div>
+    </dialog>
   );
 }
 
-// ───────────────────────── Theme toggle ─────────────────────────
 function ThemeToggle({ theme, setTheme }: { theme: ThemeKey; setTheme: (t: ThemeKey) => void }) {
   return (
     <button
@@ -1462,29 +1394,14 @@ function ThemeToggle({ theme, setTheme }: { theme: ThemeKey; setTheme: (t: Theme
 }
 
 // ───────────────────────── Entry ─────────────────────────
-interface Props {
-  onOpenApp: () => void;
-}
-
-const THEME_STORAGE_KEY = 'aishukatsu-landing-theme';
-
-export function LandingPage({ onOpenApp }: Props) {
+export function LandingPage() {
   // Match the prerendered theme during hydration, then restore the preference.
   const [theme, setThemeState] = useState<ThemeKey>('dark');
-  useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
-      if (saved === 'light' || saved === 'dark') setThemeState(saved);
-    } catch { /* The landing page also works when storage is unavailable. */ }
-  }, []);
+  useEffect(() => { setThemeState(readWebsiteTheme('dark', 'aishukatsu-landing-theme')); }, []);
 
-  const setTheme = (v: ThemeKey) => {
-    setThemeState(v);
-    try {
-      window.localStorage.setItem(THEME_STORAGE_KEY, v);
-    } catch {
-      /* ignore */
-    }
+  const setTheme = (value: ThemeKey) => {
+    setThemeState(value);
+    saveWebsiteTheme(value);
   };
 
   const t = themes[theme];
@@ -1531,16 +1448,19 @@ export function LandingPage({ onOpenApp }: Props) {
   return (
     <div className={'landing-page min-h-screen overflow-x-hidden ' + t.bg + ' ' + t.text}>
       <LandingStyles />
-      <Nav t={t} theme={theme} onOpenApp={onOpenApp} />
-      <Hero t={t} theme={theme} onOpenApp={onOpenApp} />
-      <LogoStrip t={t} />
-      <AISection t={t} theme={theme} />
-      <Features t={t} theme={theme} />
-      <ViewsSection t={t} theme={theme} />
-      <Stories t={t} theme={theme} />
-      <LandingMagazine theme={theme} />
-      <DownloadSection t={t} theme={theme} onOpenApp={onOpenApp} />
-      <FAQ t={t} theme={theme} />
+      <a href="#landing-main" className={'landing-skip rounded-lg px-4 py-3 ' + t.btn}>本文に進む</a>
+      <Nav t={t} theme={theme} />
+      <main id="landing-main" tabIndex={-1}>
+        <Hero t={t} theme={theme} />
+        <LogoStrip t={t} />
+        <Features t={t} theme={theme} />
+        <ViewsSection t={t} theme={theme} />
+        <AISection t={t} theme={theme} />
+        <Stories t={t} theme={theme} />
+        <LandingMagazine theme={theme} />
+        <DownloadSection t={t} />
+        <FAQ t={t} theme={theme} />
+      </main>
       <Footer t={t} theme={theme} />
       <ThemeToggle theme={theme} setTheme={setTheme} />
     </div>

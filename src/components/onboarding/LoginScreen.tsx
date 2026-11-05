@@ -53,11 +53,7 @@ export function LoginScreen({ user, onNext, variant = 'onboarding', showWebsiteL
       </div>
       <h1 className="text-2xl font-bold text-slate-900">AI就活へようこそ</h1>
       <p className="mt-3 text-sm text-slate-600">
-        Google接続は任意です。この端末だけでも利用できます。
-        <br />
-        データは引き続きあなたの PC に保存されます。
-        <br />
-        ログインすると任意のクラウドバックアップを利用できます。
+        利用方法を選んでください。Googleでログインすると、任意のクラウドバックアップを利用できます。
       </p>
 
       {!firebaseEnabled ? (
@@ -85,11 +81,12 @@ export function LoginScreen({ user, onNext, variant = 'onboarding', showWebsiteL
           </button>
         </div>
       ) : (
-        <div className="mt-8">
+        <div className="mx-auto mt-6 grid max-w-xs gap-3">
+          <button type="button" className="min-h-11 rounded-xl border border-slate-300 px-4 py-2 font-medium text-slate-900 hover:bg-slate-50" onClick={enableLocalMode}>ログインせず、この端末だけで使う</button>
           <button
             onClick={handleLogin}
             disabled={busy}
-            className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-5 py-3 text-white shadow hover:bg-slate-800 disabled:opacity-60"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800 disabled:opacity-60"
           >
             <LogIn size={18} />
             {busy ? 'ログイン中…' : 'Google でログイン'}
@@ -101,7 +98,7 @@ export function LoginScreen({ user, onNext, variant = 'onboarding', showWebsiteL
         </div>
       )}
 
-      {!user && <button type="button" className="mt-5 text-sm text-indigo-700 underline" onClick={enableLocalMode}>ログインせず、この端末だけで使う</button>}
+      {!user && !firebaseEnabled && <button type="button" className="mt-5 text-sm text-indigo-700 underline" onClick={enableLocalMode}>ログインせず、この端末だけで使う</button>}
       {!isTauri() && typeof window.showDirectoryPicker !== 'function' && <p role="alert" className="mt-4 text-sm text-amber-800">保存フォルダの操作にはChrome・Edge、またはデスクトップ版が必要です。<a href="/#download" className="underline">ダウンロード案内</a></p>}
       <p className="mt-6 text-xs leading-relaxed text-slate-500">
         ログインすることで、

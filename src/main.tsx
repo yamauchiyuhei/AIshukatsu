@@ -53,7 +53,7 @@ function SiteRoot() {
     } else if (route !== 'magazine') publicAnalytics.suspend();
     return () => publicAnalytics.suspend();
   }, [route]);
-  if (route === 'website') return <LandingPage onOpenApp={() => window.location.assign('/app/')} />;
+  if (route === 'website') return <LandingPage />;
   const page = route === 'workspace' ? <App /> : route === 'ui' ? <UiShowcase />
     : route === 'dashboard' ? <Dashboard /> : route === 'tgweb' ? <TgWebApp />
     : route === 'mckinsey' ? <McKinseyApp /> : <MagazineApp />;

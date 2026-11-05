@@ -3,11 +3,12 @@ import catalog from './catalog.generated.json';
 import { MagazineView, type MagazineFilters, type MagazineTheme } from './MagazineView';
 import { categories, isSlug, validateArticle, pageSize } from './schema.mjs';
 import { magazineSeo } from './seo';
+import { readWebsiteTheme, saveWebsiteTheme } from '../lib/websiteTheme';
 import type { Article, ArticleSummary } from './types';
 import { publicAnalytics } from '../lib/analytics';
 
 const articles = catalog as ArticleSummary[];
-const THEME_KEY = 'aishukatsu-magazine-theme';
+const PREVIOUS_THEME_KEY = 'aishukatsu-magazine-theme';
 function readFilters(): MagazineFilters {
   const params = new URLSearchParams(window.location.search);
   const category = params.get('category') || '';
@@ -39,9 +40,7 @@ export function MagazineApp() {
   const [filters, setFilters] = useState(readFilters);
   const [theme, setTheme] = useState<MagazineTheme>('light');
   useEffect(() => {
-    try {
-      if (localStorage.getItem(THEME_KEY) === 'dark') setTheme('dark');
-    } catch { /* Storage may be unavailable. */ }
+    setTheme(readWebsiteTheme('light', PREVIOUS_THEME_KEY));
   }, []);
   useEffect(() => {
     if (!summary || article) return;
@@ -105,7 +104,7 @@ export function MagazineApp() {
   const toggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
-    try { localStorage.setItem(THEME_KEY, next); } catch { /* theme still works without storage */ }
+    saveWebsiteTheme(next);
   };
   useEffect(() => {
     if (!article || !window.location.hash.startsWith('#section-')) return;

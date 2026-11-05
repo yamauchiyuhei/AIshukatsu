@@ -4,17 +4,16 @@ import { useEffect, useState } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { createPublicAnalytics } from '../lib/publicAnalytics.mjs';
 import { MagazineView, type MagazineTheme } from './MagazineView';
+import { readWebsiteTheme, saveWebsiteTheme } from '../lib/websiteTheme';
 import type { Article, ArticleSummary } from './types';
 
-const THEME_KEY = 'aishukatsu-magazine-theme';
+const PREVIOUS_THEME_KEY = 'aishukatsu-magazine-theme';
 
 function Reader({ article, related }: { article: Article; related: ArticleSummary[] }) {
   const [theme, setTheme] = useState<MagazineTheme>('light');
 
   useEffect(() => {
-    try {
-      if (localStorage.getItem(THEME_KEY) === 'dark') setTheme('dark');
-    } catch { /* Storage can be unavailable in private contexts. */ }
+    setTheme(readWebsiteTheme('light', PREVIOUS_THEME_KEY));
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (canonical) {
       createPublicAnalytics(window, { enabled: import.meta.env.PROD })
@@ -25,7 +24,7 @@ function Reader({ article, related }: { article: Article; related: ArticleSummar
   function toggleTheme() {
     const next = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
-    try { localStorage.setItem(THEME_KEY, next); } catch { /* The active theme still changes. */ }
+    saveWebsiteTheme(next);
   }
 
   return <MagazineView articles={related} article={article} page="article" theme={theme} onThemeChange={toggleTheme} />;

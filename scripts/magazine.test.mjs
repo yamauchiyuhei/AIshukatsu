@@ -207,3 +207,17 @@ test('pagination covers a thousand articles exactly once and clamps invalid page
   assert.equal(magazinePagePath(1), '/magazine/');
   assert.equal(magazinePagePath(42), '/magazine/page/42/');
 });
+
+test('company search ranks an exact name, code or official spelling above article mentions', () => {
+  const target = {
+    ...articleSummary(fixture()), slug: 'company-analysis-7203', category: 'company-research',
+    title: 'トヨタ自動車の企業分析', searchAliases: ['toyota'], datePublished: '2026-10-23',
+  };
+  const mention = {
+    ...target, slug: 'company-analysis-3116', title: 'トヨタ紡織の企業分析',
+    searchAliases: ['toyota-boshoku'], description: 'トヨタ自動車との違い', datePublished: '2026-10-24',
+  };
+  for (const query of ['TOYOTA', '７２０３', 'トヨタ 自動車']) {
+    assert.equal(filterArticles([mention, target], { query })[0]?.slug, target.slug);
+  }
+});
