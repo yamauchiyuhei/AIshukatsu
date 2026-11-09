@@ -1,3 +1,4 @@
+import { useUpdateWork } from '../lib/updateWork';
 import { validateFileName } from '../lib/fileNames';
 import { Modal } from './ui/Modal';
 import { useState } from 'react';
@@ -37,6 +38,7 @@ export function AddCompanyModal({
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  useUpdateWork('AddCompanyModal',busy||!!name.trim(),'企業フォルダの作成');
 
   // Auto-select the matching folder when the typed/picked company name maps
   // to a known industry AND the user hasn't manually picked a target yet.

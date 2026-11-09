@@ -1,3 +1,4 @@
+import { useUpdateWork } from '../lib/updateWork';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { parseWorkbook } from '../lib/workbookValidation';
 import { Modal } from './ui/Modal';
@@ -19,6 +20,7 @@ export function WorkspaceSettings({ root, onClose, onRefresh }: { root: FileSyst
   const orphaned=pendingSaves().filter(writer=>writer.detached&&writer.resourceKey&&writer.owner===owner);
   const [tab,setTab]=useState<'settings'|'backup'|'trash'|'help'>('settings');
   const [pass,setPass]=useState(''); const [busy,setBusy]=useState(false); const [message,setMessage]=useState(''); const [error,setError]=useState('');
+  useUpdateWork('workspace-settings',busy||!!pass,'設定とバックアップの操作');
   const [secrets,setSecrets]=useState(false); const [backups,setBackups]=useState<Awaited<ReturnType<typeof listBackups>>>([]);
   const [selectedBackup,setSelectedBackup]=useState(''); const [selectedSheets,setSelectedSheets]=useState<string[]>([]);
   const [trash,setTrash]=useState<TrashEntry[]>([]); const [archive,setArchive]=useState<Record<string,Uint8Array> | null>(null);

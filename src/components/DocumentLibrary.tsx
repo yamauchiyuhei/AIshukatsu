@@ -1,3 +1,4 @@
+import { useUpdateWork } from '../lib/updateWork';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ChevronDown, ChevronRight, FilePlus2, Folder, FolderOpen, FolderPlus, MoreHorizontal, PanelLeftClose, PanelLeftOpen, Plus, RefreshCw, Search, Upload } from 'lucide-react';
 import type { FileTab } from '../hooks/useOpenTabs';
@@ -48,6 +49,7 @@ export function DocumentLibrary({workspace, activeFile, documentView, onOpenFile
   const [sort, setSort] = useState('name');
   const [format, setFormat] = useState('all');
   const [busy, setBusy] = useState(false);
+  useUpdateWork('library-operation',busy,'資料の操作');
   const [modified, setModified] = useState<Record<string, number>>({});
   const tree = useMemo(() => libraryTree(workspace), [workspace]);
   useEffect(() => { setPath([]); setQuery(''); setModified({}); }, [workspace?.root]);

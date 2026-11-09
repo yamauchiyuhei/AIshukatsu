@@ -1,3 +1,4 @@
+import { useUpdateWork } from '../lib/updateWork';
 import { validateFileName } from '../lib/fileNames';
 import { Modal } from './ui/Modal';
 import { useState } from 'react';
@@ -28,6 +29,7 @@ export function AddFolderModal({ workspace, onClose, onSubmit, initialLocation }
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  useUpdateWork('AddFolderModal',busy||!!name.trim(),'フォルダの作成');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

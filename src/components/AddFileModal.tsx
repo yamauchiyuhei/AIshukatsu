@@ -1,3 +1,4 @@
+import { useUpdateWork } from '../lib/updateWork';
 import { validateFileName } from '../lib/fileNames';
 import { Modal } from './ui/Modal';
 import { useMemo, useState } from 'react';
@@ -29,6 +30,7 @@ export function AddFileModal({ workspace, onClose, onSubmit, initialLocation }: 
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  useUpdateWork('AddFileModal',busy||!!name.trim(),'文書の作成');
 
   const previewName = useMemo(
     () => (name.trim() ? ensureMdExtension(name) : ''),

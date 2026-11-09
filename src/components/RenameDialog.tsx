@@ -1,3 +1,4 @@
+import { useUpdateWork } from '../lib/updateWork';
 import { validateFileName } from '../lib/fileNames';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/Button';
@@ -31,6 +32,7 @@ export function RenameDialog({
   const [value, setValue] = useState(initialName);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  useUpdateWork('rename',open&&(submitting||value!==initialName),'ファイル・フォルダの名前変更');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
