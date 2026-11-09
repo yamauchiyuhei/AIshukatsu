@@ -24,6 +24,7 @@ jobs:
           workspaces: ./src-tauri -> target
       - run: npm ci
       - run: npm run test:app
+      - run: npm run test:research
       - run: npm run test:updater
       - run: npm run test:routing
       - run: npm run test:analytics

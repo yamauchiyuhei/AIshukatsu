@@ -1,7 +1,7 @@
 {
   "name": "aishukatsu",
   "private": true,
-  "version": "0.2.19",
+  "version": "0.2.20",
   "type": "module",
   "scripts": {
     "predev": "npm run magazine:build",
@@ -32,7 +32,8 @@
     "test:site:links": "python3 scripts/audit-site-links.py",
     "test:website": "node --import tsx --test scripts/website-ux.test.ts",
     "test:public-entries": "node --test scripts/public-entrypoints.test.mjs",
-    "audit:design": "node scripts/audit-public-design.mjs"
+    "audit:design": "node scripts/audit-public-design.mjs",
+    "test:research": "node --import tsx --test scripts/research-links.test.ts"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.9.0",

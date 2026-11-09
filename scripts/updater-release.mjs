@@ -38,6 +38,6 @@ export async function prepareUpdateManifest({directory,version,publicKey,notes})
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const [directory,version]=process.argv.slice(2);if(!directory||!version)throw Error('Usage: updater-release.mjs DIRECTORY VERSION');
  const config=JSON.parse(await readFile(new URL('../src-tauri/tauri.conf.json',import.meta.url),'utf8'));
- const manifest=await prepareUpdateManifest({directory,version,publicKey:config.plugins.updater.pubkey,notes:'Macで更新画面が透明になる問題を修正しました。アプリ内から最新版の確認・ダウンロード・更新と再起動ができるようになりました。保存保護、ホーム画面、設定、バックアップ・復元、検索・カレンダーなどを改善しました。初回は既存の保存フォルダを選び直す場合があります。更新前に作業を保存してください。'});
+ const manifest=await prepareUpdateManifest({directory,version,publicKey:config.plugins.updater.pubkey,notes:'企業研究の記事からMac・Windowsアプリを開き、企業名と記事URLを入れた研究メモを作成できるようになりました。起動済み・新規起動の両方に対応し、ログインや保存先の設定後も記事を引き継ぎます。同名のメモは上書きせず開きます。更新前に作業を保存してください。'});
  console.log(`Verified signed update ${manifest.version}: Mac Apple Silicon / Intel, Windows x64 / ARM64`);
 }

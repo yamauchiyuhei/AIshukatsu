@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, Clock3, Copy, Moon, Search, Sun, X } from 'lucide-react';
 import { categories, filterArticles, magazinePagePath, paginateArticles } from './schema.mjs';
 import type { Article, ArticleSummary } from './types';
+import { DesktopResearchLink } from './DesktopResearchLink';
 import { WebsiteHeader } from '../components/website/WebsiteHeader';
 import { companyName, filterDiscovery } from './discovery.mjs';
 import { ArticleCover, ArticleCard } from './ArticleCard';
@@ -126,7 +127,7 @@ function MagazineIndex({ articles, filters, onFilterChange }: { articles: Articl
 function ProductCallout({ article }: { article?: ArticleSummary }) {
   const name = article && companyName(article);
   const webLabel = name ? `Web版で${name}のメモを作る` : article?.category === 'es' ? 'Web版でESの下書きメモを作る' : article ? 'Web版でこの記事のメモを作る' : 'Web版を試す';
-  return <aside className="mag-callout" aria-label="記事をアプリでの就活準備に活かす"><div><h2>{article ? '読んで気づいたことを、アプリのメモへ。' : '企業研究も、次の締切も。PCのアプリで。'}</h2><p>{article ? '企業研究で気づいたことや、自分の経験との接点を、Mac・Windowsアプリに書き残しましょう。この記事を参考に、ES・面接の準備を進められます。' : 'Mac・Windowsアプリで、企業ごとのメモと選考の進捗をひとつの場所に。'}<br />無料で利用できます。Googleログインは任意です。</p></div><div><a className="mag-button" href="/#download">Mac・Windows版を入手</a><a className="mag-text-link" href="/#start">アプリのはじめ方を見る</a><a className="mag-text-link mag-web-alternative" href={article ? '/app/?article='+article.slug : '/app/'}>{webLabel}</a></div></aside>;
+  return <aside className="mag-callout" aria-label="記事をアプリでの就活準備に活かす"><div><h2>{article ? '読んで気づいたことを、アプリのメモへ。' : '企業研究も、次の締切も。PCのアプリで。'}</h2><p>{article ? '企業研究で気づいたことや、自分の経験との接点を、Mac・Windowsアプリに書き残しましょう。この記事を参考に、ES・面接の準備を進められます。' : 'Mac・Windowsアプリで、企業ごとのメモと選考の進捗をひとつの場所に。'}<br />無料で利用できます。Googleログインは任意です。</p></div><div>{article ? <DesktopResearchLink article={article} primary /> : <a className="mag-button" href="/#download">Mac・Windows版を入手</a>}<a className="mag-text-link" href="/#download">Mac・Windows版をダウンロード</a><a className="mag-text-link" href="/#start">アプリのはじめ方を見る</a><a className="mag-text-link mag-web-alternative" href={article ? '/app/?article='+article.slug : '/app/'}>{webLabel}</a></div></aside>;
 }
 
 function ShareButton({ article }: { article: Article }) {

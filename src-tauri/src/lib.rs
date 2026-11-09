@@ -1,4 +1,5 @@
 mod app_updater;
+mod public_articles;
 use tauri::{Manager, Emitter};
 use std::sync::atomic::{AtomicBool, Ordering};
 static EXIT_GUARD_READY: AtomicBool = AtomicBool::new(false);
@@ -124,7 +125,7 @@ pub fn run() {
             }
         })
         .manage(app_updater::AppUpdaterState::default())
-        .invoke_handler(tauri::generate_handler![app_updater::app_update_check,app_updater::app_update_download,app_updater::app_update_install,pick_workspace_directory, restore_workspace_permission, atomic_write_workspace_file, enable_exit_guard, finish_app_exit])
+        .invoke_handler(tauri::generate_handler![public_articles::load_public_article,app_updater::app_update_check,app_updater::app_update_download,app_updater::app_update_install,pick_workspace_directory, restore_workspace_permission, atomic_write_workspace_file, enable_exit_guard, finish_app_exit])
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
