@@ -1,11 +1,40 @@
-.magazine-site {
+/* Hallmark · checked 2026-11-09 · built: the project · redesign: polish · genre: editorial · brand: AI就活 · job: read · hero: Index · nav: public magazine navigation · footer: existing resource links */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, the existing reading layout stays while small labels and redundant decoration are corrected */
+
+/* Hallmark · waive 49b · the magazine sources are full document titles, not short navigation controls · magazine source links wrap at phone widths so the full reference identity stays readable */
+/* Hallmark · waive 71 · the magazine cards group image, category and title as one item · magazine titles belong with their thumbnail rather than the following shelf section */
+/* Hallmark · dismissed 3 · the magazine article headings and quotations use left rules as reading landmarks; these selectors are not card containers */
+/* Hallmark · answered F19 · magazine body, metadata, headings and navigation use four existing weights to retain the reading hierarchy */
+:root {
+  --font-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+  --mag-tone-1: #a6b7ff66;
+  --mag-tone-2: #e2e8f4;
+  --mag-tone-3: #35476b;
+  --mag-tone-4: #dbe5e9;
+  --mag-tone-5: #274c57;
+  --mag-tone-6: #dce5e3;
+  --mag-tone-7: #2e514c;
+  --mag-tone-8: #e9e1d4;
+  --mag-tone-9: #665238;
+  --mag-tone-10: #e6dfeb;
+  --mag-tone-11: #5d496f;
+  --mag-tone-12: #dce8e0;
+  --mag-tone-13: #385c4b;
+  --mag-tone-14: #dde2f0;
+  --mag-tone-15: #3d4e80;
+  --mag-tone-16: #e6b65b44;
+  --mag-tone-17: #e6b65b33;
+}
+:root, [data-theme="light"] {
   --mag-bg:#fff; --mag-panel:#f5f6f8; --mag-text:#20242b; --mag-muted:#657080;
   --mag-line:#e5e8ed; --mag-accent:#435ab4; --mag-button:#263c82; --mag-button-text:#fff;
+}
+.magazine-site {
   min-height:100vh; background:var(--mag-bg); color:var(--mag-text);
-  font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN','Yu Gothic',Meiryo,sans-serif;
+  font-family:var(--font-body);
   font-feature-settings:'palt' 1; line-height:1.7; letter-spacing:.015em;
 }
-.magazine-site[data-theme=dark] {
+[data-theme="dark"] {
   --mag-bg:#11151c; --mag-panel:#1b212c; --mag-text:#eef0f5; --mag-muted:#a8b1c0;
   --mag-line:#303848; --mag-accent:#aebeff; --mag-button:#dce4ff; --mag-button-text:#1a2442;
 }
@@ -14,14 +43,15 @@
 .magazine-site button,.magazine-site input { font:inherit; }
 .magazine-site button { cursor:pointer; }
 .magazine-site :is(a,button,input,summary,[tabindex]):focus-visible { outline:2px solid var(--mag-accent); outline-offset:4px; }
-.magazine-site ::selection { background:#a6b7ff66; }
+.magazine-site :is(h1,h2,h3) { min-width:0; overflow-wrap:break-word; }
+.magazine-site ::selection { background:var(--mag-tone-1); }
 .mag-shell { width:min(1160px,calc(100% - 64px)); margin-inline:auto; }
 .mag-header { border-bottom:1px solid var(--mag-line); background:var(--mag-bg); }
 .mag-header-inner { display:flex; align-items:center; gap:32px; min-height:76px; }
 .mag-brand { display:inline-flex; align-items:center; gap:11px; white-space:nowrap; font-size:20px; font-weight:750; }
 .mag-brand img { border-radius:8px; }
 .mag-brand-divider { margin:0 13px; color:var(--mag-muted); font-weight:400; }
-.mag-brand-journal { font:500 11px 'Inter',sans-serif; letter-spacing:.1em; }
+.mag-brand-journal { font:500 12px var(--font-body); letter-spacing:normal; }
 .mag-header nav { display:flex; align-items:center; gap:28px; margin-left:auto; font-size:13px; }
 .mag-header nav a { display:flex; align-items:center; gap:6px; }
 .mag-header nav [aria-current] { color:var(--mag-accent); font-weight:650; }
@@ -30,7 +60,7 @@
 .mag-button { display:inline-flex; align-items:center; justify-content:center; gap:15px; padding:13px 22px; border:0; border-radius:6px; background:var(--mag-button); color:var(--mag-button-text)!important; font-size:13px; font-weight:650; }
 .mag-header-cta { padding:10px 16px; font-size:12px; }
 .mag-button:hover { opacity:.86; }
-.mag-eyebrow { margin:0 0 10px; font:550 10px/1.6 'Inter',sans-serif; letter-spacing:.14em; color:var(--mag-muted); }
+.mag-eyebrow { margin:0 0 10px; font:550 12px/1.6 var(--font-body); letter-spacing:normal; color:var(--mag-muted); }
 .mag-page-heading { text-align:center; padding:49px 0 33px; }
 .mag-page-heading h1 { font-size:32px; line-height:1.5; font-weight:750; margin:0 0 13px; letter-spacing:.025em; }
 .mag-page-heading>p:last-child { font-size:14px; color:var(--mag-muted); line-height:1.9; margin:0; }
@@ -42,7 +72,7 @@
 .mag-search input::placeholder { color:var(--mag-muted); }
 .mag-filters { display:flex; justify-content:center; flex-wrap:wrap; gap:6px; }
 .mag-filters>a { display:flex; align-items:center; gap:7px; padding:8px 13px; border:1px solid transparent; border-radius:5px; white-space:nowrap; font-size:12px; color:var(--mag-muted); }
-.mag-filters>a>span { font:400 10px 'Inter',sans-serif; }
+.mag-filters>a>span { font:400 10px var(--font-body); }
 .mag-filters>a:hover,.mag-filters>a[aria-current] { color:var(--mag-accent); background:var(--mag-panel); }
 .mag-filters>a[aria-current] { border-color:var(--mag-line); font-weight:650; }
 .mag-shelves { margin-bottom:56px; }
@@ -63,7 +93,7 @@
 .mag-shelf-track .mag-card time { font-size:11px; }
 .mag-section-head { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:24px; }
 .mag-section-head h2 { display:flex; align-items:center; gap:15px; font-size:24px; line-height:1.5; font-weight:700; margin:0; }
-.mag-section-head h2>span { font-size:12px; font-weight:400; color:var(--mag-muted); }
+.mag-section-head h2>span { font-size:12px; font-weight:inherit; color:inherit; }
 .mag-all-articles { padding-top:32px; border-top:1px solid var(--mag-line); }
 .mag-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); column-gap:28px; row-gap:35px; }
 .mag-card { min-width:0; }
@@ -73,24 +103,24 @@
 .mag-card-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:14px; }
 .mag-category { display:inline-block; color:var(--mag-accent)!important; font-size:12px; font-weight:650; }
 .mag-card time { font-size:11px; color:var(--mag-muted); }
-.mag-card h3 { margin:11px 0 9px; font-size:18px; line-height:1.65; font-weight:700; letter-spacing:.01em; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
-.mag-card p { margin:0 0 16px; font-size:13px; line-height:1.8; color:var(--mag-muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.mag-card h3 { margin:11px 0 9px; font-size:18px; line-height:1.65; font-weight:700; letter-spacing:.01em; display:block; }
+.mag-card p { margin:0 0 16px; font-size:13px; line-height:1.8; color:var(--mag-muted); display:block; }
 .mag-card a:hover h3 { color:var(--mag-accent); }
 .mag-card-foot { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:10px; color:var(--mag-muted); font-size:11px; }
 .mag-card-foot>span { display:flex; align-items:center; gap:6px; }
-.mag-cover { position:relative; overflow:hidden; isolation:isolate; display:flex; flex-direction:column; justify-content:space-between; aspect-ratio:16/9; width:100%; min-width:0; padding:20px 23px; background:#e2e8f4; color:#35476b; }
+.mag-cover { position:relative; overflow:hidden; isolation:isolate; display:flex; flex-direction:column; justify-content:space-between; aspect-ratio:16/9; width:100%; min-width:0; padding:20px 23px; background:var(--mag-tone-2); color:var(--mag-tone-3); }
 .mag-cover-photo { display:block; padding:0!important; }
 .mag-cover-photo img { display:block; width:100%; height:100%; object-fit:cover; transition:transform .25s; }
-.mag-card a:hover .mag-cover-photo img { transform:scale(1.035); }
-.mag-cover-self-analysis { background:#dbe5e9; color:#274c57; }
-.mag-cover-company-research { background:#dce5e3; color:#2e514c; }
-.mag-cover-es { background:#e9e1d4; color:#665238; }
-.mag-cover-interview { background:#e6dfeb; color:#5d496f; }
-.mag-cover-schedule { background:#dce8e0; color:#385c4b; }
-.mag-cover-ai { background:#dde2f0; color:#3d4e80; }
-.mag-cover-label { position:relative; z-index:1; font:500 7px 'Inter',sans-serif; letter-spacing:.15em; }
-.mag-cover-words { position:relative; z-index:1; margin:10px 0; white-space:pre-line; font:500 clamp(26px,3vw,42px)/.95 'Inter',sans-serif; letter-spacing:-.05em; }
-.mag-cover-bottom { display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; font:500 7px 'Inter',sans-serif; letter-spacing:.1em; }
+.mag-card a:hover h3 { text-decoration:underline; text-underline-offset:4px; }
+.mag-cover-self-analysis { background:var(--mag-tone-4); color:var(--mag-tone-5); }
+.mag-cover-company-research { background:var(--mag-tone-6); color:var(--mag-tone-7); }
+.mag-cover-es { background:var(--mag-tone-8); color:var(--mag-tone-9); }
+.mag-cover-interview { background:var(--mag-tone-10); color:var(--mag-tone-11); }
+.mag-cover-schedule { background:var(--mag-tone-12); color:var(--mag-tone-13); }
+.mag-cover-ai { background:var(--mag-tone-14); color:var(--mag-tone-15); }
+.mag-cover-label { position:relative; z-index:1; font:500 12px var(--font-body); letter-spacing:normal; }
+.mag-cover-words { position:relative; z-index:1; margin:10px 0; white-space:pre-line; font:500 clamp(26px,3vw,42px)/.95 var(--font-body); letter-spacing:-.05em; }
+.mag-cover-bottom { display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; font:500 12px var(--font-body); letter-spacing:normal; }
 .mag-cover-orbit { position:absolute; width:65%; aspect-ratio:1; border:1px solid currentColor; border-radius:50%; right:-12%; top:5%; opacity:.18; }
 .mag-cover-orbit-two { right:-2%; top:20%; width:48%; border-width:15px; opacity:.07; }
 .mag-cover-large .mag-cover-words { font-size:clamp(42px,7vw,82px); }
@@ -109,7 +139,7 @@
 .mag-callout p:not(.mag-eyebrow) { color:var(--mag-muted); font-size:13px; line-height:1.9; margin:0; }
 .mag-callout .mag-button { flex-shrink:0; }
 .mag-footer { padding:30px 0; border-top:1px solid var(--mag-line); }
-.mag-footer>.mag-shell { display:grid; grid-template-columns:1fr auto; gap:14px; }
+.mag-footer>.mag-shell { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:14px; }
 .mag-footer .mag-brand { font-size:17px; gap:15px; }
 .mag-footer p { color:var(--mag-muted); font-size:12px; margin:0; grid-row:2; }
 .mag-footer nav { display:flex; align-items:center; gap:24px; font-size:12px; }
@@ -118,14 +148,14 @@
 .mag-skip:focus { top:12px; }
 .mag-breadcrumbs { display:flex; flex-wrap:wrap; gap:10px; padding:24px 0; color:var(--mag-muted); font-size:12px; }
 .mag-article-header { max-width:760px; margin:26px auto 36px; padding-inline:24px; }
-.mag-article-header h1 { margin:20px 0 0; font-size:clamp(27px,3.4vw,36px); font-weight:750; line-height:1.6; letter-spacing:.015em; text-wrap:balance; }
+.mag-article-header h1 { margin:20px 0 0; font-size:clamp(27px,3.4vw,36px); font-weight:750; line-height:1.6; letter-spacing:.015em; text-wrap:pretty; }
 .mag-byline { display:flex; flex-wrap:wrap; align-items:center; gap:7px 17px; color:var(--mag-muted); margin-top:14px; font-size:13px; }
 .mag-byline>span:last-child { display:inline-flex; align-items:center; gap:5px; }
 .mag-article-cover { max-width:880px; margin:0 auto 48px; }
 .mag-article-cover .mag-cover { border-radius:6px; aspect-ratio:16/9; }
 .mag-article-cover figcaption { font-size:11px; color:var(--mag-muted); margin-top:9px; text-align:right; }
 .mag-reading-layout { position:relative; max-width:720px; margin:0 auto; padding-inline:24px; }
-.mag-body { min-width:0; font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic Medium',Meiryo,sans-serif; font-size:18px; line-height:2; letter-spacing:.04em; font-feature-settings:normal; overflow-wrap:anywhere; }
+.mag-body { min-width:0; font-family:var(--font-body); font-size:18px; line-height:2; letter-spacing:.04em; font-feature-settings:normal; overflow-wrap:anywhere; }
 .mag-body p { white-space:pre-line; margin:0 0 32px; }
 .mag-body .mag-lead { font-size:inherit; line-height:inherit; margin:0 0 56px; }
 .mag-body>section { margin:0 0 64px; scroll-margin-top:32px; }
@@ -137,11 +167,11 @@
 .mag-body blockquote { border-left:3px solid var(--mag-line); padding:3px 0 3px 21px; margin:32px 0; font-size:16px; line-height:1.95; color:var(--mag-muted); white-space:pre-line; overflow-wrap:anywhere; }
 .mag-desktop-toc { position:absolute; left:calc(100% + 24px); top:0; height:100%; width:208px; }
 .mag-desktop-toc nav { position:sticky; top:28px; border-left:1px solid var(--mag-line); padding-left:19px; max-height:82vh; overflow:auto; }
-.mag-desktop-toc .mag-eyebrow { margin-bottom:15px; font-size:12px; font-family:inherit; font-weight:650; letter-spacing:.02em; }
+.mag-desktop-toc .mag-eyebrow { margin-bottom:15px; font-size:12px; font-family:var(--font-body); font-weight:650; letter-spacing:.02em; }
 .mag-desktop-toc ol,.mag-inline-toc ol { list-style:none; padding:0; margin:0; }
 .mag-desktop-toc li,.mag-inline-toc li { list-style:none; margin:0; padding:0; }
 .mag-desktop-toc a,.mag-inline-toc li a { display:flex; gap:10px; font-size:12px; line-height:1.8; padding:8px 0; color:var(--mag-muted); }
-.mag-desktop-toc a>span,.mag-inline-toc a>span { font:400 10px/2.1 'Inter',sans-serif; }
+.mag-desktop-toc a>span,.mag-inline-toc a>span { font:400 10px/2.1 var(--font-body); }
 .mag-desktop-toc a[aria-current],.mag-inline-toc a[aria-current] { color:var(--mag-accent); font-weight:600; }
 .mag-inline-toc { padding:24px 28px; background:var(--mag-panel); border:1px solid var(--mag-line); border-radius:8px; margin:0 0 48px; }
 .mag-inline-toc summary { display:flex; justify-content:space-between; align-items:center; cursor:pointer; list-style:none; font-size:16px; font-weight:700; letter-spacing:.02em; }
@@ -150,8 +180,8 @@
 .mag-inline-toc[open] summary svg { transform:rotate(180deg); }
 .mag-inline-toc li a { font-size:15px; line-height:1.8; padding:10px 0; color:var(--mag-text); }
 .mag-inline-toc a>span { flex-shrink:0; min-width:24px; font-size:12px; color:var(--mag-accent); }
-.mag-label-emphasis { font-weight:700; background:linear-gradient(transparent 65%,#e6b65b44 65%); box-decoration-break:clone; -webkit-box-decoration-break:clone; }
-.magazine-site[data-theme=dark] .mag-label-emphasis { background:linear-gradient(transparent 65%,#e6b65b33 65%); }
+.mag-label-emphasis { font-weight:700; background:linear-gradient(transparent 65%,var(--mag-tone-16) 65%); box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.magazine-site[data-theme=dark] .mag-label-emphasis { background:linear-gradient(transparent 65%,var(--mag-tone-17) 65%); }
 .mag-article-cover figcaption a { text-decoration:underline; text-underline-offset:3px; }
 .mag-body a:hover { color:var(--mag-accent); }
 .mag-body .mag-writing-credit { font-size:12px; line-height:1.8; color:var(--mag-muted); padding-top:24px; border-top:1px solid var(--mag-line); }
@@ -314,3 +344,19 @@
   .mag-article-cover figcaption { font-size:12px; }
   .mag-related .mag-grid>.mag-card:last-child { display:block; }
 }
+
+.magazine-site :is(a,button):active { transform:translateY(1px); }
+.magazine-site .mag-search { border-color:var(--mag-muted); padding:0 12px; }
+.magazine-site .mag-search input { min-height:44px; }
+.magazine-site .mag-share button { min-height:44px; }
+.magazine-site .mag-text-link { white-space:nowrap; }
+.magazine-site .mag-sources a { display:inline; white-space:normal; }
+.magazine-site .mag-card-meta,.magazine-site .mag-card-foot { font-size:12px; }
+.magazine-site .mag-card-meta :is(time,.mag-category),.magazine-site .mag-filters>a>span { font-size:12px; }
+.magazine-site .mag-card h3 { margin-block:16px 8px; }
+.magazine-site .mag-card p { font-size:14px; }
+.magazine-site .mag-shelf-track .mag-card h3 { margin-top:16px; }
+
+.magazine-site button:disabled { opacity:.55; cursor:not-allowed; }
+.magazine-site :is(h1,h2) { text-wrap:balance; }
+.mag-page-state h1 { font-variant-numeric:tabular-nums; }

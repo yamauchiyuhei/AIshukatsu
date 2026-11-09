@@ -1,0 +1,33 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "polish",
+  "scope": "site",
+  "theme": "existing AI就活",
+  "shape": "existing product and editorial pages",
+  "hero": "Banner",
+  "nav": "existing compact navigation",
+  "footer": "existing resource links",
+  "imagery": "real app capture with fictional OPFS fixture",
+  "photos": [],
+  "entry": "/",
+  "fingerprint": "aishukatsu-navy-public-polish-20261109",
+  "sections": [
+   "product",
+   "features",
+   "views",
+   "AI",
+   "use cases",
+   "magazine",
+   "download",
+   "FAQ"
+  ],
+  "signature": "real Japanese company research editor",
+  "waived": [
+   "49b",
+   "71"
+  ],
+  "prompt": "Install Hallmark, audit and improve aishukatsu.net, retain rollback and publish after verification",
+  "date": "2026-11-09"
+ }
+]

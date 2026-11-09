@@ -2,6 +2,7 @@
 @tailwind base;
 
 html { scroll-behavior: smooth; }
+html, body { overflow-x:clip; }
 html, body, #root { min-height: 100%; }
 body { margin: 0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

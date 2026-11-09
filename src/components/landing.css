@@ -1,0 +1,113 @@
+/* Hallmark · checked 2026-11-09 · built: the project · redesign: polish · genre: modern-minimal · brand: AI就活 · job: try · hero: Banner · nav: compact product navigation · footer: existing resource columns · finish-review: subagent, one decorative chrome finding resolved */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, existing layout retained while decorative chrome is removed */
+/* Hallmark · dropped "株式会社サンプルa" · gate 84 replaces the placeholder editor with the captured real AI就活 application */
+/* Hallmark · reworded "1,200" to "企業名を検索して追加" · gate 46a removes the unverified registration count */
+/* Hallmark · reworded "2,341" to "AIへの質問と回答の例です。" · gate 46a removes the invented token counter in the prompt example */
+/* Hallmark · answered F19 · the existing product navigation, body, links and headings use four weights for a consistent hierarchy */
+:root {
+  --font-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+  --font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --landing-focus: #435ab4;
+  --landing-rule: #657080;
+  --landing-black-50: #10151f80;
+  --landing-amber-500: #f59e0b;
+  --landing-amber-500-0: color-mix(in srgb, #f59e0b 0%, transparent);
+  --landing-amber-500-15: color-mix(in srgb, #f59e0b 15%, transparent);
+  --landing-amber-500-20: color-mix(in srgb, #f59e0b 20%, transparent);
+  --landing-amber-700: #b45309;
+  --landing-bg-dark: #05060a;
+  --landing-bg-light: #fafafa;
+  --landing-black: #10151f;
+  --landing-blue-500: #3164a8;
+  --landing-cyan-500: #06b6d4;
+  --landing-emerald-300: #6ee7b7;
+  --landing-emerald-50: #ecfdf5;
+  --landing-emerald-500: #10b981;
+  --landing-emerald-500-0: color-mix(in srgb, #10b981 0%, transparent);
+  --landing-emerald-500-15: color-mix(in srgb, #10b981 15%, transparent);
+  --landing-emerald-500-20: color-mix(in srgb, #10b981 20%, transparent);
+  --landing-emerald-600: #059669;
+  --landing-indigo-300: #a5b4fc;
+  --landing-indigo-500: #435ab4;
+  --landing-indigo-500-0: color-mix(in srgb, #435ab4 0%, transparent);
+  --landing-indigo-500-15: color-mix(in srgb, #435ab4 15%, transparent);
+  --landing-indigo-500-20: color-mix(in srgb, #435ab4 20%, transparent);
+  --landing-panel-dark: #0a0b12;
+  --landing-pink-300: #f9a8d4;
+  --landing-pink-500: #ec4899;
+  --landing-pink-500-0: color-mix(in srgb, #ec4899 0%, transparent);
+  --landing-pink-500-15: color-mix(in srgb, #ec4899 15%, transparent);
+  --landing-pink-500-20: color-mix(in srgb, #ec4899 20%, transparent);
+  --landing-rose-200: #fecdd3;
+  --landing-rose-400: #fb7185;
+  --landing-rose-50: #fff1f2;
+  --landing-rose-500-10: color-mix(in srgb, #f43f5e 10%, transparent);
+  --landing-rose-500-30: color-mix(in srgb, #f43f5e 30%, transparent);
+  --landing-rose-700: #be123c;
+  --landing-sky-400: #38bdf8;
+  --landing-sky-500: #0ea5e9;
+  --landing-slate-100: #f1f5f9;
+  --landing-slate-200: #e2e8f0;
+  --landing-slate-300: #cbd5e1;
+  --landing-slate-400: #94a3b8;
+  --landing-slate-50: #f5f6f8;
+  --landing-slate-50-60: color-mix(in srgb, #f5f6f8 60%, transparent);
+  --landing-slate-500: #657080;
+  --landing-slate-600: #475569;
+  --landing-slate-700: #334155;
+  --landing-slate-800: #283243;
+  --landing-slate-900: #20242b;
+  --landing-teal-500: #14b8a6;
+  --landing-violet-500: #7960ad;
+  --landing-white: #ffffff;
+  --landing-white-1: color-mix(in srgb, #ffffff 1.5%, transparent);
+  --landing-white-10: color-mix(in srgb, #ffffff 10%, transparent);
+  --landing-white-15: color-mix(in srgb, #ffffff 15%, transparent);
+  --landing-white-20: color-mix(in srgb, #ffffff 20%, transparent);
+  --landing-white-3: color-mix(in srgb, #ffffff 3%, transparent);
+  --landing-white-30: color-mix(in srgb, #ffffff 30%, transparent);
+  --landing-white-4: color-mix(in srgb, #ffffff 4%, transparent);
+  --landing-white-40: color-mix(in srgb, #ffffff 40%, transparent);
+  --landing-white-5: color-mix(in srgb, #ffffff 5%, transparent);
+  --landing-white-6: color-mix(in srgb, #ffffff 6%, transparent);
+  --landing-white-60: color-mix(in srgb, #ffffff 60%, transparent);
+  --landing-white-65: color-mix(in srgb, #ffffff 65%, transparent);
+  --landing-white-70: color-mix(in srgb, #ffffff 70%, transparent);
+  --landing-white-80: color-mix(in srgb, #ffffff 80%, transparent);
+  --landing-white-90: color-mix(in srgb, #ffffff 90%, transparent);
+}
+html, body { overflow-x: clip; }
+.landing-page { font-family:var(--font-body); }
+.landing-page :is(h1,h2,h3) { min-width:0; overflow-wrap:break-word; }
+.landing-page :is(a,button,summary,input,textarea):focus-visible { outline:2px solid var(--landing-focus); outline-offset:3px; }
+.landing-page :is(button,a):active { transform:translateY(1px); }
+.landing-page button:disabled { cursor:not-allowed; }
+.landing-page .landing-plain { display:none; }
+.landing-page .landing-solid-heading { color:inherit; }
+.landing-sans-jp { font-family:var(--font-body); }
+.landing-page .landing-skip { position:fixed; left:12px; top:12px; z-index:70; }
+.landing-page .landing-skip:not(:focus) { clip-path:inset(50%); pointer-events:none; }
+.landing-page section[id],.landing-page #demo { scroll-margin-top:88px; }
+.landing-page #demo { margin-top:24px; }
+.landing-product-capture { margin:0; max-width:100%; }
+.landing-product-capture img { width:100%; height:auto; display:block; object-fit:contain; object-position:center; background:var(--landing-slate-50); border:1px solid var(--landing-rule); border-radius:12px; }
+.landing-product-capture figcaption { font-size:12px; line-height:1.6; margin-top:8px; }
+.landing-capabilities { display:flex; flex-wrap:wrap; justify-content:center; gap:16px 24px; max-width:1104px; padding-inline:24px; margin-inline:auto; font-size:14px; }
+.landing-contact::backdrop { background:var(--landing-black-50); }
+.landing-rating { color:var(--landing-amber-700); }
+.landing-page [data-reveal],.landing-page [data-stagger] > * { opacity:1; transform:none; }
+.landing-page .landing-marquee,.landing-page .landing-blink,.landing-page .landing-pulse-dot { animation:none; }
+@media(max-width:767px) {
+ .landing-page main > section:not(:first-child) { padding-block:64px; }
+ .landing-product-capture img { height:auto; }
+ .landing-page .mag-section-head { align-items:flex-start; flex-wrap:wrap; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .landing-page * { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+}
+
+.landing-status { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--landing-slate-500); border-radius:6px; padding:4px 8px; font-size:12px; color:var(--landing-white); background:var(--landing-panel-dark); }
+.landing-page[data-theme=light] .landing-status { color:var(--landing-slate-900); background:var(--landing-slate-50); }
+.landing-page :is(h1,h2) { text-wrap:balance; }
+
+.landing-page a.underline { white-space:nowrap; }

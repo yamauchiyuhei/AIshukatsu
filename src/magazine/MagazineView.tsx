@@ -39,7 +39,7 @@ export function ArticleCover({ article, large = false, priority = large }: { art
     <img src={large ? article.cover.src : article.cover.thumbnail} srcSet={large ? `${article.cover.thumbnail} 560w, ${article.cover.src} ${article.cover.width}w` : undefined} sizes={large ? article.cover.source === 'official-logo' ? '(max-width: 708px) calc(100vw - 36px), 672px' : '(max-width: 944px) calc(100vw - 64px), 880px' : undefined} alt={large ? article.cover.alt : ''} width={article.cover.width} height={article.cover.height} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : undefined} decoding="async" />
   </div>;
   return <div className={`mag-cover mag-cover-${article.category}${large ? ' mag-cover-large' : ''}`} aria-hidden="true">
-    <span className="mag-cover-label">AI SHUKATSU JOURNAL</span>
+    <span className="mag-cover-label">AI就活マガジン</span>
     <span className="mag-cover-orbit" /><span className="mag-cover-orbit mag-cover-orbit-two" />
     <span className="mag-cover-words">{coverWords[article.category]}</span>
     <span className="mag-cover-bottom"><span>{categoryOf(article).english}</span><ArrowUpRight size={22} strokeWidth={1.4} /></span>
@@ -50,9 +50,9 @@ export function ArticleCard({ article, priority }: { article: ArticleSummary; pr
   return <article className="mag-card">
     <a href={articleHref(article)}>
       <ArticleCover article={article} priority={priority} />
-      <div className="mag-card-content"><div className="mag-card-meta"><span className="mag-category">{categoryOf(article).label}</span><time dateTime={article.datePublished}>{formatDate(article.datePublished)}</time></div>
+      <div className="mag-card-content"><div className="mag-card-meta"><span className="mag-card-category">{categoryOf(article).label}</span><time dateTime={article.datePublished}>{formatDate(article.datePublished)}</time></div>
       <h3>{article.title}</h3><p>{article.description}</p>
-      <span className="mag-card-foot"><span><Clock3 size={13} />約{article.readingMinutes}分</span><ArrowUpRight size={19} /></span></div>
+      <span className="mag-card-foot"><span><Clock3 size={13} />約{article.readingMinutes}分</span></span></div>
     </a>
   </article>;
 }
@@ -73,9 +73,9 @@ function ArticleShelf({ title, articles, href, prioritizeFirst }: { title: strin
 
 function Header({ theme, onThemeChange }: { theme: MagazineTheme; onThemeChange?: () => void }) {
   return <header className="mag-header"><div className="mag-shell mag-header-inner">
-    <a className="mag-brand" href="/" aria-label="AI就活 ホーム"><img src="/logo.png" alt="" width={34} height={34} /><span>AI就活<span className="mag-brand-divider">/</span><span className="mag-brand-journal">JOURNAL</span></span></a>
-    <nav aria-label="メインナビゲーション"><a href="/magazine/">マガジン</a><a className="mag-nav-product" href="/#features">AI就活について<ArrowUpRight size={13} /></a></nav>
-    <div className="mag-header-actions"><button className="mag-icon-button" type="button" onClick={onThemeChange} aria-label={theme === 'dark' ? 'ライトテーマに切り替える' : 'ダークテーマに切り替える'}>{theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}</button><a className="mag-button mag-header-cta" href="/app/">Web版<ArrowUpRight size={14} /></a></div>
+    <a className="mag-brand" href="/" aria-label="AI就活 ホーム"><img src="/logo.png" alt="" width={34} height={34} /><span>AI就活<span className="mag-brand-divider">/</span><span className="mag-brand-journal">マガジン</span></span></a>
+    <nav aria-label="メインナビゲーション"><a href="/magazine/">マガジン</a><a className="mag-nav-product" href="/#features">AI就活について</a></nav>
+    <div className="mag-header-actions"><button className="mag-icon-button" type="button" onClick={onThemeChange} aria-label={theme === 'dark' ? 'ライトテーマに切り替える' : 'ダークテーマに切り替える'}>{theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}</button><a className="mag-button mag-header-cta" href="/app/">Web版</a></div>
   </div></header>;
 }
 
@@ -96,7 +96,7 @@ function MagazineIndex({ articles, filters, onFilterChange }: { articles: Articl
   };
   return <main id="mag-main" className="mag-shell mag-index">
     <section className="mag-page-heading" aria-labelledby="mag-heading">
-      <p className="mag-eyebrow">AI SHUKATSU MAGAZINE</p><h1 id="mag-heading">就活マガジン</h1>
+      <h1 id="mag-heading">就活マガジン</h1>
       <p>自己分析から、企業研究、選考の準備まで。<br className="mag-heading-break" />あなたの次の一歩につながる読みもの。</p>
     </section>
     <section className="mag-stories" id="stories" aria-labelledby="mag-stories-heading">
@@ -136,7 +136,7 @@ function MagazineIndex({ articles, filters, onFilterChange }: { articles: Articl
 }
 
 function ProductCallout() {
-  return <aside className="mag-callout" aria-label="AI就活のご案内"><div><p className="mag-eyebrow">READ. THINK. TAKE ACTION.</p><h2>読んだ先の一歩も、<br />AI就活と。</h2><p>企業研究も、書きかけのESも、次の締切も。<br />考えたことをひとつの場所に残して、就活を進めよう。</p></div><a className="mag-button" href="/#download">AI就活を見てみる<ArrowUpRight size={17} /></a></aside>;
+  return <aside className="mag-callout" aria-label="AI就活のご案内"><div><h2>読んだ先の一歩も、<br />AI就活と。</h2><p>企業研究も、書きかけのESも、次の締切も。<br />考えたことをひとつの場所に残して、就活を進めよう。</p></div><a className="mag-button" href="/#download">AI就活を見てみる</a></aside>;
 }
 
 function ShareButton({ article }: { article: Article }) {
@@ -206,18 +206,18 @@ function ArticleReader({ article, articles }: { article: Article; articles: Arti
             <nav aria-label="記事冒頭の目次"><TableOfContents article={article} active={active} /></nav>
           </details>
         {article.sections.map((section, index) => <section id={'section-' + section.id} key={section.id}><h2>{section.heading}</h2>{section.blocks.map((block, i) => block.type === 'list' ? <ul key={i}>{block.items!.map((item, j) => <li key={j}><ArticleText text={item} listItem /></li>)}</ul> : block.type === 'note' ? <aside className="mag-note" key={i}>{block.text}</aside> : block.type === 'quote' ? <blockquote key={i}>{block.text}</blockquote> : <p key={i}><ArticleText text={block.text || ''} /></p>)}{index % 3 === 2 && <a className="mag-text-link mag-return-toc" href="#article-toc">目次に戻る</a>}</section>)}
-        {article.sources.length > 0 && <section className="mag-sources"><h2>参考資料</h2><ul>{article.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}<ArrowUpRight size={14} /></a></li>)}</ul></section>}
+        {article.sources.length > 0 && <section className="mag-sources"><h2>参考資料</h2><ul>{article.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>)}</ul></section>}
         {article.writingAssistance && <p className="mag-writing-credit">{article.writingAssistance}</p>}<div className="mag-article-tags">{article.tags.map(tag => <a href={'/magazine/?q=' + encodeURIComponent(tag)} key={tag}>#{tag}</a>)}</div><ShareButton article={article} /><a className="mag-text-link mag-back" href="/magazine/"><ArrowLeft size={16} />記事一覧に戻る</a>
-      </div><aside className="mag-desktop-toc"><nav aria-label="この記事の目次"><p className="mag-eyebrow">この記事の目次</p><TableOfContents article={article} active={active} /></nav></aside></div>
+      </div><aside className="mag-desktop-toc"><nav aria-label="この記事の目次"><TableOfContents article={article} active={active} /></nav></aside></div>
     </article>
-    {related.length > 0 && <section className="mag-related" aria-labelledby="mag-related-heading"><div className="mag-section-head"><div><p className="mag-eyebrow">KEEP EXPLORING</p><h2 id="mag-related-heading">こちらの記事も</h2></div><a className="mag-text-link" href="/magazine/">すべての記事<ArrowRight size={17} /></a></div><div className="mag-grid">{related.map(item => <ArticleCard key={item.slug} article={item} />)}</div></section>}
+    {related.length > 0 && <section className="mag-related" aria-labelledby="mag-related-heading"><div className="mag-section-head"><div><h2 id="mag-related-heading">こちらの記事も</h2></div><a className="mag-text-link" href="/magazine/">すべての記事<ArrowRight size={17} /></a></div><div className="mag-grid">{related.map(item => <ArticleCard key={item.slug} article={item} />)}</div></section>}
     <ProductCallout />
   </main>;
 }
 
 export function MagazineView({ articles, page, article, theme = 'light', onThemeChange, filters = { category: '', query: '' }, onFilterChange, loading, failed, onRetry }: MagazineViewProps) {
   return <div className="magazine-site" data-theme={theme}><a className="mag-skip" href="#mag-main">本文に進む</a><Header theme={theme} onThemeChange={onThemeChange} />
-    {page === 'index' ? <MagazineIndex articles={articles} filters={filters} onFilterChange={onFilterChange} /> : page === 'article' && article ? <ArticleReader article={article} articles={articles} /> : <main className="mag-shell mag-empty mag-page-state" id="mag-main" aria-busy={loading || undefined}><p className="mag-eyebrow">AI SHUKATSU JOURNAL</p><h1>{loading ? '記事を読み込んでいます' : failed ? '記事を読み込めませんでした' : 'ページが見つかりません'}</h1><p>{loading ? 'もう少しお待ちください。' : failed ? '通信状況を確認して、もう一度お試しください。' : 'URLをご確認いただくか、記事一覧からお探しください。'}</p>{failed && <button className="mag-button" type="button" onClick={onRetry}>もう一度読み込む</button>}<a className="mag-text-link" href="/magazine/"><ArrowLeft size={16} />マガジンに戻る</a>{!loading && !failed && <a className="mag-text-link" href="/">トップへ戻る</a>}</main>}
-    <footer className="mag-footer" id="editorial"><div className="mag-shell"><a className="mag-brand" href="/">AI就活<span className="mag-brand-journal">JOURNAL</span></a><p>考える、書く、一歩進む。</p><p>運営：AI就活。記事ごとの執筆補助と参考資料は本文末尾に記載しています。</p><nav aria-label="フッターナビゲーション"><a href="/magazine/">マガジン</a><a href="/#features">AI就活について</a><a href="/#download">ダウンロード</a><a href="/#privacy">プライバシーポリシー</a><a href="/#contact">お問い合わせ</a></nav><small>© {new Date().getFullYear()} AIshukatsu</small></div></footer>
+    {page === 'index' ? <MagazineIndex articles={articles} filters={filters} onFilterChange={onFilterChange} /> : page === 'article' && article ? <ArticleReader article={article} articles={articles} /> : <main className="mag-shell mag-empty mag-page-state" id="mag-main" aria-busy={loading || undefined}><h1>{loading ? '記事を読み込んでいます' : failed ? '記事を読み込めませんでした' : 'ページが見つかりません'}</h1><p>{loading ? 'もう少しお待ちください。' : failed ? '通信状況を確認して、もう一度お試しください。' : 'URLをご確認いただくか、記事一覧からお探しください。'}</p>{failed && <button className="mag-button" type="button" onClick={onRetry}>もう一度読み込む</button>}<a className="mag-text-link" href="/magazine/"><ArrowLeft size={16} />マガジンに戻る</a>{!loading && !failed && <a className="mag-text-link" href="/">トップへ戻る</a>}</main>}
+    <footer className="mag-footer" id="editorial"><div className="mag-shell"><a className="mag-brand" href="/">AI就活<span className="mag-brand-journal">マガジン</span></a><p>考える、書く、一歩進む。</p><p>運営：AI就活。記事ごとの執筆補助と参考資料は本文末尾に記載しています。</p><nav aria-label="フッターナビゲーション"><a href="/magazine/">マガジン</a><a href="/#features">AI就活について</a><a href="/#download">ダウンロード</a><a href="/#privacy">プライバシーポリシー</a><a href="/#contact">お問い合わせ</a></nav><small>© {new Date().getFullYear()} AIshukatsu</small></div></footer>
   </div>;
 }
