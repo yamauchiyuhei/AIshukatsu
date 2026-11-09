@@ -2,9 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronDown, Clock3, Copy, Moon, Search, Sun, X } from 'lucide-react';
 import { categories, filterArticles, magazinePagePath, paginateArticles } from './schema.mjs';
 import type { Article, ArticleSummary } from './types';
+import { WebsiteHeader } from '../components/website/WebsiteHeader';
+import { companyName, filterDiscovery } from './discovery.mjs';
+import { ArticleCover, ArticleCard } from './ArticleCard';
+export { ArticleCover, ArticleCard } from './ArticleCard';
+import { ArticleActions, ReadingLibrary, useReadingProgress } from './ReaderTools';
 
 export type MagazineTheme = 'light' | 'dark';
-export type MagazineFilters = { category: string; query: string; page?: number };
+export type MagazineFilters = { category: string; query: string; page?: number; industry?: string; order?: string; collection?: string };
 export interface MagazineViewProps {
   articles: ArticleSummary[];
   page: 'index' | 'article' | 'not-found';
@@ -18,10 +23,6 @@ export interface MagazineViewProps {
   onRetry?: () => void;
 }
 
-const coverWords: Record<string, string> = {
-  'self-analysis': 'YOUR\nOWN\nSTORY.', 'company-research': 'FIND\nYOUR\nFIT.',
-  es: 'WORDS\nTHAT\nMATTER.', interview: 'LET’S\nTALK.', schedule: 'ONE\nSTEP\nAHEAD.', ai: 'THINK\nWITH\nAI.',
-};
 const formatDate = (date: string) => new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'UTC' }).format(new Date(date + 'T00:00:00Z'));
 const articleHref = (article: ArticleSummary) => `/magazine/${article.slug}/`;
 const categoryOf = (article: ArticleSummary) => categories.find(category => category.id === article.category)!;
@@ -31,30 +32,11 @@ export function relatedArticles(article: Article, articles: ArticleSummary[]) {
   const tags = new Set(article.tags.filter(tag => !genericTags.has(tag)));
   const score = (item: ArticleSummary) => Number(item.category === article.category)
     + item.tags.filter(tag => tags.has(tag)).length * 3;
-  return articles.filter(item => item.slug !== article.slug).sort((a, b) => score(b) - score(a)).slice(0, 3);
-}
-
-export function ArticleCover({ article, large = false, priority = large }: { article: ArticleSummary; large?: boolean; priority?: boolean }) {
-  if (article.cover) return <div className={`mag-cover mag-cover-photo${large && article.cover.source === 'official-logo' ? ' mag-cover-logo' : ''}${large ? ' mag-cover-large' : ''}`}>
-    <img src={large ? article.cover.src : article.cover.thumbnail} srcSet={large ? `${article.cover.thumbnail} 560w, ${article.cover.src} ${article.cover.width}w` : undefined} sizes={large ? article.cover.source === 'official-logo' ? '(max-width: 708px) calc(100vw - 36px), 672px' : '(max-width: 944px) calc(100vw - 64px), 880px' : undefined} alt={large ? article.cover.alt : ''} width={article.cover.width} height={article.cover.height} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : undefined} decoding="async" />
-  </div>;
-  return <div className={`mag-cover mag-cover-${article.category}${large ? ' mag-cover-large' : ''}`} aria-hidden="true">
-    <span className="mag-cover-label">AI就活マガジン</span>
-    <span className="mag-cover-orbit" /><span className="mag-cover-orbit mag-cover-orbit-two" />
-    <span className="mag-cover-words">{coverWords[article.category]}</span>
-    <span className="mag-cover-bottom"><span>{categoryOf(article).english}</span><ArrowUpRight size={22} strokeWidth={1.4} /></span>
-  </div>;
-}
-
-export function ArticleCard({ article, priority }: { article: ArticleSummary; priority?: boolean }) {
-  return <article className="mag-card">
-    <a href={articleHref(article)}>
-      <ArticleCover article={article} priority={priority} />
-      <div className="mag-card-content"><div className="mag-card-meta"><span className="mag-card-category">{categoryOf(article).label}</span><time dateTime={article.datePublished}>{formatDate(article.datePublished)}</time></div>
-      <h3>{article.title}</h3><p>{article.description}</p>
-      <span className="mag-card-foot"><span><Clock3 size={13} />約{article.readingMinutes}分</span></span></div>
-    </a>
-  </article>;
+  const candidates = articles.filter(item => item.slug !== article.slug);
+  const sameIndustry = article.companyIndustry && article.companyIndustry !== '未分類' ? candidates.filter(item => item.companyIndustry === article.companyIndustry).sort((a,b) => score(b)-score(a)).slice(0,2) : [];
+  const ranked = candidates.sort((a,b) => score(b)-score(a));
+  const nextStep = candidates.filter(item => !companyName(item) && ['es','interview'].includes(item.category)).slice(0,2);
+  return [...new Map([...(sameIndustry.length ? sameIndustry : ranked.slice(0,2)), ...nextStep.slice(0,1), ...ranked].map(item => [item.slug,item])).values()].slice(0,3);
 }
 
 function ArticleShelf({ title, articles, href, prioritizeFirst }: { title: string; articles: ArticleSummary[]; href?: string; prioritizeFirst?: boolean }) {
@@ -71,18 +53,10 @@ function ArticleShelf({ title, articles, href, prioritizeFirst }: { title: strin
   </section>;
 }
 
-function Header({ theme, onThemeChange }: { theme: MagazineTheme; onThemeChange?: () => void }) {
-  return <header className="mag-header"><div className="mag-shell mag-header-inner">
-    <a className="mag-brand" href="/" aria-label="AI就活 ホーム"><img src="/logo.png" alt="" width={34} height={34} /><span>AI就活<span className="mag-brand-divider">/</span><span className="mag-brand-journal">マガジン</span></span></a>
-    <nav aria-label="メインナビゲーション"><a href="/magazine/">マガジン</a><a className="mag-nav-product" href="/#features">AI就活について</a></nav>
-    <div className="mag-header-actions"><button className="mag-icon-button" type="button" onClick={onThemeChange} aria-label={theme === 'dark' ? 'ライトテーマに切り替える' : 'ダークテーマに切り替える'}>{theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}</button><a className="mag-button mag-header-cta" href="/app/">Web版</a></div>
-  </div></header>;
-}
-
 function MagazineIndex({ articles, filters, onFilterChange }: { articles: ArticleSummary[]; filters: MagazineFilters; onFilterChange?: (filters: MagazineFilters) => void }) {
-  const results = filterArticles(articles, filters);
+  const results = filterDiscovery(filterArticles(articles, filters), filters);
   const pagination = paginateArticles(results, filters.page);
-  const filtering = Boolean(filters.category || filters.query.trim());
+  const filtering = Boolean(filters.category || filters.query.trim() || filters.industry || filters.collection || filters.order);
   const browse = !filtering && pagination.page === 1;
   const starterSlugs = ['find-your-own-career-axis', 'company-research-one-page', 'es-first-draft'];
   const starters = starterSlugs.map(slug => articles.find(article => article.slug === slug))
@@ -92,6 +66,9 @@ function MagazineIndex({ articles, filters, onFilterChange }: { articles: Articl
     const params = new URLSearchParams();
     if (category) params.set('category', category);
     if (filters.query) params.set('q', filters.query);
+    if (filters.industry && category === 'company-research') params.set('industry',filters.industry);
+    if (filters.order) params.set('order',filters.order);
+    if (filters.collection) params.set('collection',filters.collection);
     return '/magazine/' + (params.size ? '?' + params : '') + '#stories';
   };
   return <main id="mag-main" className="mag-shell mag-index">
@@ -108,10 +85,16 @@ function MagazineIndex({ articles, filters, onFilterChange }: { articles: Articl
         </form>
       <noscript><p className="mag-search-help">キーワード検索にはJavaScriptが必要です。記事は下の一覧から閲覧できます。</p></noscript>
       <nav className="mag-filters" aria-label="記事のカテゴリ">
-        {[{ id: '', label: 'すべて' }, ...categories].map(category => <a key={category.id} href={categoryLink(category.id)} aria-current={filters.category === category.id ? 'page' : undefined} onClick={onFilterChange ? event => { if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); onFilterChange({ ...filters, category: category.id, page: 1 }); } : undefined}>{category.label}<span>{category.id ? articles.filter(article => article.category === category.id).length : articles.length}</span></a>)}
+        {[{ id: '', label: 'すべて' }, ...categories].map(category => <a key={category.id} href={categoryLink(category.id)} aria-current={filters.category === category.id ? 'page' : undefined} onClick={onFilterChange ? event => { if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); onFilterChange({ ...filters, category: category.id, industry: category.id === 'company-research' ? filters.industry : '', collection: '', page: 1 }); } : undefined}>{category.label}<span>{category.id ? articles.filter(article => article.category === category.id).length : articles.length}</span></a>)}
       </nav>
+      <details className="mag-advanced-search" open={Boolean(filters.industry || filters.order)}><summary>業界・並び順で絞り込む</summary><div className="mag-discovery-tools">
+        <label>業界から企業を探す<select value={filters.industry || ''} onChange={event => onFilterChange?.({...filters, category: event.target.value ? 'company-research' : filters.category, industry:event.target.value, page:1})}><option value="">すべての業界</option>{[...new Set(articles.filter(item => companyName(item)).map(item => item.companyIndustry || '未分類'))].sort((a,b) => a.localeCompare(b,'ja')).map(industry => <option key={industry} value={industry}>{industry}</option>)}</select></label>
+        <label>並び順<select value={filters.order || ''} onChange={event => onFilterChange?.({...filters, order:event.target.value,page:1})}><option value="">公開日が新しい順</option><option value="name">企業名・記事名順</option></select></label>
+      </div>
+      <p className="mag-discovery-help">業界は既存の企業分類を使用しています。分類がない企業は「未分類」から探せます。</p></details>
+      <nav className="mag-library-tabs" aria-label="自分の記事一覧">{[['','記事を探す'],['saved','あとで読む'],['history','履歴'],['compare','比較候補']].map(([value,label]) => <a key={value} href={'/magazine/'+(value ? '?collection='+value : '')+'#stories'} aria-current={(filters.collection || '') === value ? 'page' : undefined} onClick={onFilterChange ? event => { if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); onFilterChange({category:'',query:'',collection:value,page:1}); } : undefined}>{label}</a>)}</nav>
       {filtering ? <div className="mag-filter-summary">
-        <span>{[selectedCategory?.label, filters.query.trim() && `「${filters.query.trim()}」`].filter(Boolean).join(' / ')} · {results.length.toLocaleString('ja-JP')}件</span>
+        <span>{[selectedCategory?.label, filters.industry, filters.order === 'name' && '企業名・記事名順', filters.query.trim() && `「${filters.query.trim()}」`].filter(Boolean).join(' / ')}{!filters.collection && <> · {results.length.toLocaleString('ja-JP')}件</>}</span>
         <a href="/magazine/#stories" className="mag-text-link" onClick={onFilterChange ? event => { event.preventDefault(); onFilterChange({ category: '', query: '' }); } : undefined}>解除</a>
       </div> : <a className="mag-text-link mag-jump-list" href="#article-list">すべての記事へ<ArrowRight size={16} aria-hidden="true" /></a>}
       </div>
@@ -119,6 +102,8 @@ function MagazineIndex({ articles, filters, onFilterChange }: { articles: Articl
         {starters.length > 0 && <ArticleShelf title="まず読みたい記事" articles={starters} prioritizeFirst />}
         <ArticleShelf title="新着記事" articles={articles.slice(0, 6)} />
       </div>}
+      <ReadingLibrary collection={filters.collection} articles={articles} />
+      {!filters.collection && <>
       <div id="article-list" className="mag-section-head mag-all-articles"><h2 id="mag-stories-heading">{selectedCategory?.label || (filters.query.trim() ? '検索結果' : 'すべての記事')}<span>{results.length.toLocaleString('ja-JP')}本</span></h2></div>
       <p className="sr-only mag-result-count" role="status" aria-live="polite">{results.length}件の記事が見つかりました</p>
       {results.length ? <div className="mag-grid">{pagination.items.map((article, index) => <ArticleCard article={article} key={article.slug} priority={!browse && index === 0} />)}</div> : <div className="mag-empty"><Search size={28} strokeWidth={1.2} /><h3>{articles.length ? '記事が見つかりませんでした' : '最初の記事を準備しています'}</h3><p>{articles.length ? '会社名を短くする、証券コードで探す、またはカテゴリを解除してお試しください。' : '自己分析や企業研究など、就活に役立つ読みものをお届けします。'}</p>{filtering && <a href="/magazine/" className="mag-text-link" onClick={onFilterChange ? event => { event.preventDefault(); onFilterChange({ category: '', query: '' }); } : undefined}><X size={15} />絞り込みを解除する</a>}</div>}
@@ -126,17 +111,22 @@ function MagazineIndex({ articles, filters, onFilterChange }: { articles: Articl
         const params = new URLSearchParams();
         if (filters.category) params.set('category', filters.category);
         if (filters.query) params.set('q', filters.query);
+        if (filters.industry) params.set('industry', filters.industry);
+        if (filters.order) params.set('order', filters.order);
         if (filtering && number > 1) params.set('page', String(number));
         const href = (filtering ? '/magazine/?' + params : magazinePagePath(number)) + '#stories';
         return <a key={number} href={href} aria-current={number === pagination.page ? 'page' : undefined} onClick={filtering && onFilterChange ? event => { if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); onFilterChange({ ...filters, page: number }); document.getElementById('stories')?.scrollIntoView(); } : undefined}>{number}</a>;
       })}</div></nav>}
+      </>}
     </section>
     <ProductCallout />
   </main>;
 }
 
-function ProductCallout() {
-  return <aside className="mag-callout" aria-label="AI就活のご案内"><div><h2>読んだ先の一歩も、<br />AI就活と。</h2><p>企業研究も、書きかけのESも、次の締切も。<br />考えたことをひとつの場所に残して、就活を進めよう。</p></div><a className="mag-button" href="/#download">AI就活を見てみる</a></aside>;
+function ProductCallout({ article }: { article?: ArticleSummary }) {
+  const name = article && companyName(article);
+  const label = name ? `${name}の研究メモを作る` : article?.category === 'es' ? 'ESの下書きメモを作る' : article ? 'この記事のメモを作る' : 'Web版で準備を始める';
+  return <aside className="mag-callout" aria-label="記事を就活の準備に活かす"><div><h2>{article ? '読んで気づいたことを、自分のメモへ。' : '企業研究も、次の締切も。'}</h2><p>{article ? '記事のタイトルとURLを入れたひな形を用意します。自分の経験との接点や、次に確かめたいことを書き残しましょう。' : '企業ごとのメモと選考の進捗を、ひとつの場所で整理できます。'}<br />アプリの操作はPCのChrome・Edgeに対応。ログインは任意です。</p></div><div><a className="mag-button" href={article ? '/app/?article='+article.slug : '/app/'}>{label}</a><a className="mag-text-link" href="/#start">使い方・対応環境を見る</a></div></aside>;
 }
 
 function ShareButton({ article }: { article: Article }) {
@@ -183,7 +173,11 @@ function ArticleReader({ article, articles }: { article: Article; articles: Arti
     update();
     return () => { window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule); cancelAnimationFrame(frame); };
   }, [article]);
+  const resume = useReadingProgress(article,active);
   const related = relatedArticles(article, articles);
+  const industryRelated = article.companyIndustry && article.companyIndustry !== '未分類' ? related.filter(item => item.companyIndustry === article.companyIndustry && companyName(item)) : [];
+  const nextSteps = related.filter(item => !companyName(item) && ['es','interview'].includes(item.category));
+  const otherRelated = related.filter(item => !industryRelated.includes(item) && !nextSteps.includes(item));
   return <main id="mag-main" className="mag-shell mag-reader">
     <div className="mag-progress" aria-hidden="true"><span style={{ transform: `scaleX(${progress})` }} /></div>
     <nav className="mag-breadcrumbs" aria-label="パンくずリスト"><a href="/">ホーム</a><span>/</span><a href="/magazine/">マガジン</a></nav>
@@ -200,24 +194,28 @@ function ArticleReader({ article, articles }: { article: Article; articles: Arti
       </figcaption>}</figure>
       <div className="mag-reading-layout">
         <div className="mag-body">
+          {resume}
           <p className="mag-lead">{article.lead}</p>
+          <aside className="mag-takeaways" aria-label="この記事でわかること"><h2>この記事でわかること</h2><ul>{article.sections.slice(0,3).map(section => <li key={section.id}><a href={'#section-'+section.id}>{section.heading}</a></li>)}</ul></aside>
+          <ArticleActions article={article} />
           <details id="article-toc" className="mag-inline-toc">
             <summary>この記事の目次 <span className="mag-toc-count">{article.sections.length}項目</span><ChevronDown size={18} aria-hidden="true" /></summary>
             <nav aria-label="記事冒頭の目次"><TableOfContents article={article} active={active} /></nav>
           </details>
         {article.sections.map((section, index) => <section id={'section-' + section.id} key={section.id}><h2>{section.heading}</h2>{section.blocks.map((block, i) => block.type === 'list' ? <ul key={i}>{block.items!.map((item, j) => <li key={j}><ArticleText text={item} listItem /></li>)}</ul> : block.type === 'note' ? <aside className="mag-note" key={i}>{block.text}</aside> : block.type === 'quote' ? <blockquote key={i}>{block.text}</blockquote> : <p key={i}><ArticleText text={block.text || ''} /></p>)}{index % 3 === 2 && <a className="mag-text-link mag-return-toc" href="#article-toc">目次に戻る</a>}</section>)}
-        {article.sources.length > 0 && <section className="mag-sources"><h2>参考資料</h2><ul>{article.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>)}</ul></section>}
-        {article.writingAssistance && <p className="mag-writing-credit">{article.writingAssistance}</p>}<div className="mag-article-tags">{article.tags.map(tag => <a href={'/magazine/?q=' + encodeURIComponent(tag)} key={tag}>#{tag}</a>)}</div><ShareButton article={article} /><a className="mag-text-link mag-back" href="/magazine/"><ArrowLeft size={16} />記事一覧に戻る</a>
+        {article.sources.length > 0 && <section id="article-sources" className="mag-sources"><h2>参考資料</h2><p className="mag-source-policy">資料に基づく解説です。採用条件・募集状況は企業の最新の公式情報をご確認ください。</p><ul>{article.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a></li>)}</ul></section>}
+        {article.writingAssistance && <p className="mag-writing-credit">{article.writingAssistance}</p>}<div className="mag-article-tags">{article.tags.map(tag => <a href={'/magazine/?q=' + encodeURIComponent(tag)} key={tag}>#{tag}</a>)}</div><a className="mag-text-link" href="/#contact">記事の誤りを連絡する</a><ShareButton article={article} /><a className="mag-text-link mag-back" href="/magazine/"><ArrowLeft size={16} />記事一覧に戻る</a>
       </div><aside className="mag-desktop-toc"><nav aria-label="この記事の目次"><TableOfContents article={article} active={active} /></nav></aside></div>
     </article>
-    {related.length > 0 && <section className="mag-related" aria-labelledby="mag-related-heading"><div className="mag-section-head"><div><h2 id="mag-related-heading">こちらの記事も</h2></div><a className="mag-text-link" href="/magazine/">すべての記事<ArrowRight size={17} /></a></div><div className="mag-grid">{related.map(item => <ArticleCard key={item.slug} article={item} />)}</div></section>}
-    <ProductCallout />
+    {[[industryRelated, '同じ業界の企業を読み比べる'], [otherRelated.slice(0,3), '関連する記事'], [nextSteps, '研究の次に、ES・面接の準備へ']].map(([items,label]) => (items as ArticleSummary[]).length > 0 && <section className="mag-related" key={label as string} aria-label={label as string}><div className="mag-section-head"><h2>{label as string}</h2><a className="mag-text-link" href="/magazine/">記事一覧</a></div><div className="mag-grid">{(items as ArticleSummary[]).map(item => <ArticleCard key={item.slug} article={item} />)}</div></section>)}
+    <ProductCallout article={article} />
+    <details className="mag-mobile-toc"><summary><span>目次</span><span>{article.sections.find(section => section.id === active)?.heading}</span><ChevronDown size={16} /></summary><nav aria-label="読み進めながら使える目次" onClick={event => { if ((event.target as HTMLElement).closest('a')) (event.currentTarget.parentElement as HTMLDetailsElement).open = false; }}><TableOfContents article={article} active={active} /></nav></details>
   </main>;
 }
 
 export function MagazineView({ articles, page, article, theme = 'light', onThemeChange, filters = { category: '', query: '' }, onFilterChange, loading, failed, onRetry }: MagazineViewProps) {
-  return <div className="magazine-site" data-theme={theme}><a className="mag-skip" href="#mag-main">本文に進む</a><Header theme={theme} onThemeChange={onThemeChange} />
+  return <div className="magazine-site" data-theme={theme}><a className="mag-skip" href="#mag-main">本文に進む</a><WebsiteHeader theme={theme} onThemeChange={onThemeChange} magazine />
     {page === 'index' ? <MagazineIndex articles={articles} filters={filters} onFilterChange={onFilterChange} /> : page === 'article' && article ? <ArticleReader article={article} articles={articles} /> : <main className="mag-shell mag-empty mag-page-state" id="mag-main" aria-busy={loading || undefined}><h1>{loading ? '記事を読み込んでいます' : failed ? '記事を読み込めませんでした' : 'ページが見つかりません'}</h1><p>{loading ? 'もう少しお待ちください。' : failed ? '通信状況を確認して、もう一度お試しください。' : 'URLをご確認いただくか、記事一覧からお探しください。'}</p>{failed && <button className="mag-button" type="button" onClick={onRetry}>もう一度読み込む</button>}<a className="mag-text-link" href="/magazine/"><ArrowLeft size={16} />マガジンに戻る</a>{!loading && !failed && <a className="mag-text-link" href="/">トップへ戻る</a>}</main>}
-    <footer className="mag-footer" id="editorial"><div className="mag-shell"><a className="mag-brand" href="/">AI就活<span className="mag-brand-journal">マガジン</span></a><p>考える、書く、一歩進む。</p><p>運営：AI就活。記事ごとの執筆補助と参考資料は本文末尾に記載しています。</p><nav aria-label="フッターナビゲーション"><a href="/magazine/">マガジン</a><a href="/#features">AI就活について</a><a href="/#download">ダウンロード</a><a href="/#privacy">プライバシーポリシー</a><a href="/#contact">お問い合わせ</a></nav><small>© {new Date().getFullYear()} AIshukatsu</small></div></footer>
+    <footer className="mag-footer" id="editorial"><div className="mag-shell"><a className="mag-brand" href="/">AI就活<span className="mag-brand-journal">マガジン</span></a><p>考える、書く、一歩進む。</p><p>運営：AI就活。記事ごとの執筆補助と参考資料は本文末尾に記載しています。</p><details className="mag-editorial-policy"><summary>編集方針・更新日の考え方</summary><p>公開日は記事を公開した日、更新日は内容を修正した日です。デザインの変更では記事の更新日を変更しません。情報確認日の記録がない記事には、確認済みの日付を表示しません。記事ごとの参考資料と執筆補助を明示しています。</p><a href="/#contact">記事の誤り・修正の連絡</a></details><nav aria-label="フッターナビゲーション"><a href="/magazine/">マガジン</a><a href="/#features">AI就活について</a><a href="/#download">ダウンロード</a><a href="/#privacy">プライバシーポリシー</a><a href="/#contact">お問い合わせ</a></nav><small>© {new Date().getFullYear()} AIshukatsu</small></div></footer>
   </div>;
 }

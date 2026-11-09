@@ -30,6 +30,7 @@
     "test:app": "node --import tsx --test scripts/app-safety.test.ts",
     "test:updater": "node --import tsx --test scripts/updater.test.ts",
     "test:site:links": "python3 scripts/audit-site-links.py",
+    "test:website": "node --import tsx --test scripts/website-ux.test.ts",
     "test:public-entries": "node --test scripts/public-entrypoints.test.mjs",
     "audit:design": "node scripts/audit-public-design.mjs"
   },

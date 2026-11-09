@@ -34,6 +34,7 @@ export interface ArticleSummary {
   readingMinutes: number;
   featured?: boolean;
   searchAliases?: string[];
+  companyIndustry?: string;
   writingAssistance?: string;
   cover?: ArticleCoverImage;
 }

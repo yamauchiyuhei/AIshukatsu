@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import './landing.css';
+import { WebsiteHeader, useWebsiteDevice } from './website/WebsiteHeader';
 import { LegalModal } from './onboarding/LegalModal';
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../data/legal';
 import { LandingMagazine } from '../magazine/LandingMagazine';
@@ -97,48 +98,11 @@ function Logo(_: { theme: ThemeKey }) {
 }
 
 // ───────────────────────── Nav ─────────────────────────
-function Nav({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
-  const [scrolled, setScrolled] = useState(false);
-  const menu = useRef<HTMLDetailsElement>(null);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-  const sections = [['機能', '#features'], ['選考管理', '#views'], ['AI連携', '#ai'], ['FAQ', '#faq']];
-  return (
-    <header className={'fixed inset-x-0 top-0 z-40 ' + (scrolled ? 'py-2' : 'py-3')}>
-      <div className="mx-auto max-w-6xl px-3 sm:px-6">
-        <nav aria-label="メインナビゲーション" className={'relative flex items-center justify-between gap-2 rounded-2xl px-2 sm:px-4 ' + t.glass}>
-          <a href="/" className={'flex min-h-11 shrink-0 items-center gap-1.5 font-bold ' + t.text}>
-            <Logo theme={theme} /><span>AI就活</span>
-          </a>
-          <div className={'hidden items-center gap-6 lg:flex ' + t.textMuted}>
-            {sections.map(([label, href]) => <a key={href} href={href} className="inline-flex min-h-11 items-center text-sm hover:underline">{label}</a>)}
-          </div>
-          <div className="flex items-center gap-2 sm:gap-4">
-            <a href="/magazine/" className={'inline-flex min-h-11 items-center text-xs sm:text-sm ' + t.text}>マガジン</a>
-            <a href="/app/" className={'inline-flex min-h-11 items-center rounded-xl px-2.5 text-xs font-semibold sm:px-4 sm:text-sm ' + t.btn}>Web版</a>
-            <details ref={menu} className="lg:hidden">
-              <summary className={'flex min-h-11 cursor-pointer list-none items-center text-xs [&::-webkit-details-marker]:hidden ' + t.text}>メニュー</summary>
-              <div className={'absolute right-0 top-full mt-2 grid min-w-40 rounded-xl border p-2 shadow-lg ' + t.bg2 + ' ' + t.border}>
-                {[...sections, ['ダウンロード', '#download']].map(([label, href]) => (
-                  <a key={href} href={href} className="flex min-h-11 items-center px-3 text-sm" onClick={() => { if (menu.current) menu.current.open = false; }}>{label}</a>
-                ))}
-              </div>
-            </details>
-          </div>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
 // ───────────────────────── Hero ─────────────────────────
 function Hero({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
+  const mobile = useWebsiteDevice() === 'mobile';
   return (
-    <section className={'landing-hero relative pb-10 pt-24 md:pt-28 ' + t.bg}>
+    <section className={'landing-hero relative pb-10 pt-10 md:pt-16 ' + t.bg}>
       <div aria-hidden="true" className={'pointer-events-none absolute inset-0 ' + t.grid} />
       <div aria-hidden="true" className={'pointer-events-none absolute -top-32 left-1/2 h-[500px] w-[900px] -translate-x-1/2 ' + t.aurora} />
       <div className="relative mx-auto max-w-6xl px-5 sm:px-6">
@@ -151,8 +115,8 @@ function Hero({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           保存したメモは、必要に応じてClaudeやChatGPTでのES・面接準備にも使えます。
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
-          <a href="/app/" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btn}>Web版を使う</a>
-          <a href="#download" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btnGhost}>Mac・Windows版</a>
+          <a href={mobile ? "/magazine/" : "/app/"} className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btn}>{mobile ? "就活の記事を読む" : "Web版を使う"}</a>
+          <a href={mobile ? "#start" : "#download"} className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btnGhost}>{mobile ? "PCでのはじめ方" : "Mac・Windows版"}</a>
         </div>
         <p className={'mt-3 text-sm ' + t.textMuted}>無料。Web版はPCのChrome・Edgeに対応</p>
         <div id="demo" className="relative mt-10">
@@ -166,25 +130,44 @@ function Hero({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
 }
 
 function HeroScreen(_: { t: ThemeTokens; theme: ThemeKey }) {
+  const dialog = useRef<HTMLDialogElement>(null);
   return <figure className="landing-product-capture">
-    <img src="/site/workspace-sample-app.png" width={1440} height={440}
-      alt="AI就活で企業研究のメモを編集する実際の画面。架空のサンプル企業を使用しています。"
-      loading="eager" decoding="async" />
-    <figcaption>企業研究メモを編集する画面。表示内容は架空のサンプルです。</figcaption>
+    <button type="button" className="landing-capture-open" onClick={() => dialog.current?.showModal()} aria-label="アプリの画面例を拡大する">
+      <img src="/site/workspace-sample-app.png" width={1440} height={440} alt="AI就活で企業研究メモを編集する画面。架空の企業のサンプルです。" loading="eager" fetchPriority="high" decoding="async" />
+    </button>
+    <figcaption>企業研究メモの画面例。タップで拡大できます。表示内容は架空のサンプルです。</figcaption>
+    <dialog ref={dialog} className="landing-image-dialog" aria-label="アプリの画面例" onClick={event => { if (event.target === event.currentTarget) event.currentTarget.close(); }}>
+      <form method="dialog"><button autoFocus>閉じる</button></form>
+      <div><img src="/site/workspace-sample-app.png" alt="AI就活の画面全体。横にスクロールして確認できます。" width={1440} height={440} /></div>
+      <p>横にスクロールして画面全体を確認できます。</p>
+    </dialog>
   </figure>;
+}
+
+function GettingStarted({ t }: { t: ThemeTokens }) {
+  const mobile = useWebsiteDevice() === 'mobile';
+  const [message, setMessage] = useState('');
+  return <section id="start" className={'py-16 ' + t.bg2}><div className="mx-auto max-w-6xl px-6">
+    <h2 className="text-3xl font-bold">最初の1社から、始めよう。</h2>
+    <p className={'mt-4 leading-7 ' + t.textMuted}>PCのChrome・Edge、またはMac・Windows版で使えます。Googleログインは任意です。</p>
+    <ol className="landing-start-steps">{[
+      ['保存先を選ぶ', 'PC内に就活用フォルダを作ります。以前のフォルダもそのまま使えます。'],
+      ['気になる企業を追加', '企業研究やESのメモを用意します。企業選びは後からでも大丈夫です。'],
+      ['次の締切を登録', '選考管理の表に締切と次の行動を記入。表・カンバン・カレンダーで確認できます。'],
+    ].map(([title, body], i) => <li key={title}><span>{i + 1}</span><h3>{title}</h3><p className={t.textMuted}>{body}</p></li>)}</ol>
+    <div className="mt-6 flex flex-wrap items-center gap-4">{mobile ? <><p className={'text-sm ' + t.textMuted}>スマートフォンでは記事を閲覧できます。アプリの操作はPCで続けてください。</p><button type="button" className={'min-h-11 rounded-xl px-5 text-sm font-semibold ' + t.btn} onClick={async () => { try { await navigator.clipboard.writeText('https://aishukatsu.net/#start'); setMessage('URLをコピーしました。PCに送って開いてください。'); } catch { setMessage('PCで https://aishukatsu.net/#start を開いてください。'); } }}>PCで開くURLをコピー</button></> : <a href="/app/" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btn}>Web版で始める</a>}<a className="underline" href="#download">Mac・Windows版の案内</a></div>
+    <p role="status" className="mt-3 text-sm">{message}</p>
+  </div></section>;
 }
 
 // ───────────────────────── Marquee ─────────────────────────
 function LogoStrip({ t }: { t: ThemeTokens }) {
   const items = [
     '企業名を検索して追加',
-    'Claude Sonnet 対応',
-    'Cursor 連携',
-    'GitHub Copilot と併用可',
-    'gray-matter + Frontmatter',
-    '100% ローカル保存',
-    'Firestore 自動バックアップ',
-    'AES-GCM 暗号化',
+    '締切と選考の進捗をまとめる',
+    '企業ごとにメモを残す',
+    'PC内のフォルダに保存',
+    'バックアップは任意',
   ];
   return (
     <section className={'py-10 border-y ' + t.border + ' ' + t.bg2 + ' overflow-hidden'}>
@@ -221,19 +204,19 @@ function AISection({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           n="01"
           subtitle="AI Native"
           theme={theme}
-          title={<>ファイル構造そのものが、<br /><span className="landing-serif font-normal">AIとの共通言語</span>になる。</>}
+          title={<>研究メモを活かして、<br /><span className="landing-serif font-normal">ES・面接の準備</span>を進める。</>}
           t={t}
         />
         <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center">
           <div className="order-2 lg:order-1">
             <p className={'text-lg md:text-xl leading-relaxed ' + t.textMuted}>
-              DB も専用フォーマットも使わない。<span className={t.text}>企業フォルダをそのまま Claude にドラッグ</span>すれば、面接対策も ES 添削も、あなたの就活の文脈ごと一瞬で理解してくれる。
+              <span className={t.text}>企業研究と自分の経験をまとめたメモ</span>を、お使いのAIに渡して相談できます。AIの回答は参考にしながら、自分の言葉でESや面接の回答を仕上げましょう。
             </p>
             <div className="mt-8 space-y-3">
               {[
-                { k: '1', v: '企業フォルダを丸ごと Claude Projects にアップロード' },
-                { k: '2', v: 'Cursor / VSCode で .md を開き、AI アシストで下書き' },
-                { k: '3', v: 'ChatGPT にコピペしても Frontmatter 付きで文脈が伝わる' },
+                { k: '1', v: '企業の特徴と自分の経験をメモする' },
+                { k: '2', v: '必要なメモを選び、ChatGPTやClaudeに渡す' },
+                { k: '3', v: '回答を確かめ、自分の言葉で書き直す' },
               ].map((s) => (
                 <div key={s.k} className={'flex gap-4 rounded-xl p-4 ' + t.glass}>
                   <div className={'landing-mono text-xs h-7 w-7 grid place-items-center rounded-lg shrink-0 ' + (theme === 'dark' ? 'bg-[var(--landing-white)] text-[var(--landing-black)]' : 'bg-[var(--landing-slate-900)] text-[var(--landing-white)]')}>
@@ -301,8 +284,8 @@ function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
         </svg>
       ),
-      title: 'ローカル保存、あなたのPC内のみ',
-      body: 'DBもクラウド強制もなし。File System Access API で Finder / Explorer と完全同期。',
+      title: 'メモは、自分のPCに保存',
+      body: '選んだフォルダにメモを保存します。別のPCへの移行も、フォルダをコピーするだけです。',
     },
     {
       icon: (
@@ -311,8 +294,8 @@ function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
         </svg>
       ),
-      title: 'Notion風 WYSIWYG エディタ',
-      body: 'Milkdown ベース。スラッシュコマンドで #見出し や - チェックリストをその場で挿入。',
+      title: '見出しや箇条書きで、考えを整理',
+      body: '普段のノートのように入力できます。見出し・箇条書き・チェックリストを使って読みやすくまとめましょう。',
     },
     {
       icon: (
@@ -322,8 +305,8 @@ function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           <path d="M10 21v-3a2 2 0 0 1 4 0v3" />
         </svg>
       ),
-      title: '新規企業で5ファイル自動生成',
-      body: '選考状況 / 企業分析 / ES・面接対策 / 説明会メモ / インターン を業界推定で雛形展開。',
+      title: '企業ごとに、準備用のメモを用意',
+      body: '企業を追加すると、選考状況・企業研究・ESや面接対策など、5種類のひな形を用意します。',
     },
     {
       icon: (
@@ -332,8 +315,8 @@ function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
         </svg>
       ),
-      title: 'パスワード欄は AES-GCM 暗号化',
-      body: 'マイページのID/パスワードはパスフレーズで暗号化してから Firestore に同期。',
+      title: 'バックアップは、必要なときに',
+      body: 'Googleでログインすると、選考管理の表をクラウドにバックアップできます。パスワード欄は暗号化して保存します。',
     },
   ];
   return (
@@ -343,7 +326,7 @@ function Features({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           n="02"
           subtitle="Core features"
           theme={theme}
-          title={<>&quot;紙で管理&quot;の限界を、<br />4つの設計で超える。</>}
+          title={<>企業研究も、選考管理も。<br />準備を進める4つの機能。</>}
           t={t}
         />
         <div className="grid md:grid-cols-2 gap-5" data-stagger>
@@ -584,9 +567,9 @@ function Stories({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
         />
         <div className="grid md:grid-cols-3 gap-4" data-stagger>
           {[
-            { tag: 'ESの下書き', title: 'ES 量産期', body: 'Frontmatter に〆切・提出先をメモ。テンプレから派生させて5社並行で下書き。' },
-            { tag: '面接の準備', title: '面接ラッシュ', body: 'カレンダーで時系列、カンバンで進捗、詳細は Markdown。同じデータを3視点で。' },
-            { tag: '内定後の比較', title: '内定承諾検討', body: '比較表を1つの md に。Claude に「このオファーをどう判断すべき？」と聞ける。' },
+            { tag: 'ESの下書き', title: 'ES 量産期', body: '企業ごとに締切と提出先を記録。ひな形を使って、ESの下書きを残せます。' },
+            { tag: '面接の準備', title: '面接ラッシュ', body: 'カレンダーで日程、カンバンで進捗、企業ごとのメモで準備内容を確認できます。' },
+            { tag: '内定後の比較', title: '内定承諾検討', body: '企業ごとの条件と自分が大切にしたいことを並べて、選ぶ理由を整理できます。' },
           ].map((u, i) => (
             <div key={i} className={'rounded-2xl p-6 border ' + t.border + ' ' + t.card}>
               <div className={'landing-mono text-xs ' + t.textDim}>{u.tag}</div>
@@ -602,6 +585,7 @@ function Stories({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
 
 // ───────────────────────── Download ─────────────────────────
 function DownloadSection({ t }: { t: ThemeTokens }) {
+  const device = useWebsiteDevice();
   return (
     <section id="download" className={'relative py-32 overflow-hidden ' + t.bg}>
       <div className="absolute inset-0 pointer-events-none">
@@ -613,6 +597,7 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
           さあ、<span className={t.heading}>就活</span>を始めよう。
         </h2>
         <p className={'mt-5 text-lg ' + t.textMuted}>Web版とデスクトップ版を無料で利用できます。</p>
+        <p className={'mt-3 text-sm ' + t.textMuted}>{device === 'mac' ? 'この端末にはMac版がおすすめです。Web版も選べます。' : device === 'windows' ? 'この端末にはWindows版がおすすめです。Web版も選べます。' : device === 'mobile' ? 'ダウンロードとインストールはPCで行ってください。' : 'お使いのPCに合う版を選んでください。'}</p>
 
         <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto" data-stagger>
           <a
@@ -624,7 +609,7 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
             </svg>
             <div className="text-left leading-tight">
               <div className="text-xs opacity-60 landing-mono">対応OS</div>
-              <div>macOS (Apple / Intel)</div>
+              <div>Mac版をダウンロード</div><small>Apple Silicon / Intel 両対応</small>
             </div>
           </a>
           <a
@@ -636,7 +621,7 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
             </svg>
             <div className="text-left leading-tight">
               <div className="text-xs opacity-60 landing-mono">対応OS</div>
-              <div>Windows (x64 / ARM64)</div>
+              <div>Windows版の配布ページ</div><small>x64 / ARM64 を選択できます</small>
             </div>
           </a>
         </div>
@@ -655,11 +640,11 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
 // ───────────────────────── FAQ ─────────────────────────
 function FAQ({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
   const items = [
-    { q: '本当にデータはローカルのみ？', a: 'はい。Markdown 本体はあなたのPC内（選んだフォルダ）にしか保存されません。選考管理のシートだけは、サインインすれば Firestore にバックアップされます（パスワード欄は暗号化）。' },
-    { q: 'Safari / Firefox では動きませんか？', a: '現状は File System Access API に対応した Chromium 系ブラウザ（Chrome / Edge / Arc）か、Mac/Windows のデスクトップアプリのみです。' },
+    { q: '本当にデータはローカルのみ？', a: 'メモの本文は、選んだPC内のフォルダに保存されます。選考管理の表は、Googleログイン後にクラウドへバックアップできます。パスワード欄は暗号化します。' },
+    { q: 'Safari / Firefox では動きませんか？', a: 'アプリの操作はPCのChrome・Edge、またはMac・Windows版をご利用ください。記事はスマートフォンやSafari・Firefoxでも閲覧できます。' },
     { q: 'Claude や Cursor は必須ですか？', a: 'いいえ。AI を使わなくても普通の就活管理ツールとして完結します。AI を使う場合は生成したフォルダをドラッグ&ドロップするだけです。' },
     { q: '完全無料ですか？', a: 'はい、MVP 期間中は完全無料。将来的に有料プランを検討する場合でも、既存のあなたのデータが人質になることはありません（自分のPCに全部残っています）。' },
-    { q: 'データ移行は？', a: 'フォルダごとコピーするだけで別PCに移行可能。Obsidian や VSCode でそのまま開けます。' },
+    { q: 'データ移行は？', a: 'フォルダごとコピーして別のPCで開けます。メモは一般的なMarkdown形式なので、対応する他のアプリでも読めます。' },
   ];
   const [open, setOpen] = useState(0);
   return (
@@ -1129,7 +1114,7 @@ export function LandingPage() {
     const scrollToSection = () => {
       try {
         const id = decodeURIComponent(window.location.hash.slice(1));
-        if (!['features', 'views', 'ai', 'stories', 'magazine', 'download', 'faq', 'demo'].includes(id)) return;
+        if (!['start', 'features', 'views', 'ai', 'stories', 'magazine', 'download', 'faq', 'demo'].includes(id)) return;
         frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'instant' }));
       } catch { /* an invalid fragment does not block the public website */ }
     };
@@ -1142,10 +1127,11 @@ export function LandingPage() {
     <div data-theme={theme} className={'landing-page min-h-screen ' + t.bg + ' ' + t.text}>
       <LandingStyles />
       <a href="#landing-main" className={'landing-skip rounded-lg px-4 py-3 ' + t.btn}>本文に進む</a>
-      <Nav t={t} theme={theme} />
+      <WebsiteHeader theme={theme} onThemeChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')} />
       <main id="landing-main" tabIndex={-1}>
         <Hero t={t} theme={theme} />
         <LogoStrip t={t} />
+        <GettingStarted t={t} />
         <Features t={t} theme={theme} />
         <ViewsSection t={t} theme={theme} />
         <AISection t={t} theme={theme} />
@@ -1155,7 +1141,7 @@ export function LandingPage() {
         <FAQ t={t} theme={theme} />
       </main>
       <Footer t={t} theme={theme} />
-      <ThemeToggle theme={theme} setTheme={setTheme} />
+
     </div>
   );
 }

@@ -1,3 +1,4 @@
+@import "../components/website/website.css";
 /* Hallmark · checked 2026-11-09 · built: the project · redesign: polish · genre: editorial · brand: AI就活 · job: read · hero: Index · nav: public magazine navigation · footer: existing resource links */
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, the existing reading layout stays while small labels and redundant decoration are corrected */
 
@@ -360,3 +361,84 @@
 .magazine-site button:disabled { opacity:.55; cursor:not-allowed; }
 .magazine-site :is(h1,h2) { text-wrap:balance; }
 .mag-page-state h1 { font-variant-numeric:tabular-nums; }
+
+/* Search, reading and the next action share the same visual hierarchy. */
+.mag-discovery-tools { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; width:100%; }
+.mag-discovery-tools label { display:grid; gap:7px; font-size:13px; color:var(--mag-muted); min-width:210px; }
+.mag-discovery-tools select { background:var(--mag-bg); color:var(--mag-text); border:1px solid var(--mag-muted); border-radius:6px; min-height:44px; padding:8px 34px 8px 12px; font-size:15px; max-width:100%; }
+.mag-discovery-help { max-width:680px; font-size:12px; line-height:1.9; color:var(--mag-muted); margin:0; }
+.mag-library-tabs { display:flex; flex-wrap:wrap; gap:4px 20px; border-bottom:1px solid var(--mag-line); width:100%; }
+.mag-library-tabs a { display:inline-flex; align-items:center; min-height:44px; font-size:14px; border-bottom:2px solid transparent; }
+.mag-library-tabs a[aria-current] { color:var(--mag-accent); font-weight:650; border-color:var(--mag-accent); }
+.mag-company-name { display:block; font-size:19px; font-weight:700; margin-bottom:6px; }
+.mag-card-topic { display:block; font-size:14px; font-weight:450; line-height:1.8; color:var(--mag-muted); }
+.mag-takeaways { padding:22px 24px; background:var(--mag-panel); border-radius:8px; margin:0 0 24px; }
+.mag-body .mag-takeaways h2 { font-size:17px; padding:0; border:0; margin:0 0 12px; }
+.mag-body .mag-takeaways ul { margin:0; font-size:15px; line-height:1.9; }
+.mag-body .mag-takeaways li { margin:0 0 6px; }
+.mag-takeaways a:hover { text-decoration:underline; }
+.mag-reader-actions { display:flex; align-items:center; flex-wrap:wrap; gap:8px 14px; margin-bottom:24px; font-size:13px; }
+.mag-reader-actions button,.mag-library button { min-height:44px; padding:8px 12px; border:1px solid var(--mag-line); border-radius:6px; color:var(--mag-text); background:var(--mag-panel); }
+.mag-reader-actions button { display:inline-flex; align-items:center; gap:7px; }
+.mag-reader-actions button[aria-pressed=true] { border-color:var(--mag-accent); color:var(--mag-accent); }
+.mag-reader-actions a { display:inline-flex; align-items:center; min-height:44px; text-decoration:underline; }
+.mag-reader-actions [role=status],.mag-reader-actions small { flex-basis:100%; font-size:12px; color:var(--mag-muted); }
+.mag-library { scroll-margin-top:24px; margin-top:28px; }
+.mag-library>p { color:var(--mag-muted); font-size:13px; line-height:1.9; }
+.mag-library ul { list-style:none; padding:0; }
+.mag-library li { display:flex; align-items:center; gap:16px; justify-content:space-between; border-bottom:1px solid var(--mag-line); padding:16px 0; }
+.mag-library li>a { font-size:16px; line-height:1.8; }
+.mag-library li>button { flex-shrink:0; }
+.mag-library-empty { padding:30px 0; }
+.mag-comparison { width:100%; overflow:auto; margin:24px 0; }
+.mag-comparison table { width:100%; min-width:550px; border-collapse:collapse; font-size:14px; }
+.mag-comparison caption { text-align:left; padding-bottom:12px; color:var(--mag-muted); }
+.mag-comparison :is(th,td) { padding:18px; border:1px solid var(--mag-line); min-width:180px; vertical-align:top; line-height:1.9; }
+.mag-comparison :is(th,td):first-child { min-width:110px; }
+.mag-comparison th { text-align:left; background:var(--mag-panel); }
+.mag-comparison a { text-decoration:underline; text-underline-offset:4px; }
+.mag-resume { display:block; padding:16px; margin-bottom:24px; border:1px solid var(--mag-accent); border-radius:6px; font-size:14px; line-height:1.8; text-decoration:underline!important; }
+.mag-mobile-toc { display:none; }
+.mag-editorial-policy { grid-column:1/-1; max-width:720px; font-size:13px; line-height:1.9; }
+.mag-editorial-policy summary { min-height:44px; display:flex; align-items:center; cursor:pointer; text-decoration:underline; }
+.mag-editorial-policy p { font-size:13px; line-height:1.9; }
+.mag-editorial-policy a { display:inline-flex; align-items:center; min-height:44px; text-decoration:underline; }
+.mag-body .mag-source-policy { font-size:14px; line-height:1.9; color:var(--mag-muted); }
+.mag-callout>div:last-child { min-width:0; }
+.mag-callout .mag-button { white-space:normal; max-width:340px; text-align:center; line-height:1.7; }
+.mag-callout>div:last-child>.mag-text-link { display:flex; margin-top:12px; min-height:44px; white-space:normal; }
+@media(max-width:767px) {
+ .mag-discovery-tools { gap:12px; }
+ .mag-discovery-tools label { min-width:0; flex:1; }
+ .mag-discovery-tools select { width:100%; font-size:14px; }
+ .mag-company-name { font-size:17px; }
+ .mag-card-topic { font-size:13px; }
+ .mag-grid:not(.mag-related .mag-grid) { grid-template-columns:1fr; }
+ .mag-index .mag-grid .mag-card>a { display:grid; grid-template-columns:100px minmax(0,1fr); align-items:start; gap:16px; }
+ .mag-index .mag-grid .mag-card .mag-cover { margin-top:14px; }
+ .mag-index .mag-grid .mag-card h3 { margin-top:8px; }
+ .mag-index .mag-grid .mag-card-meta { margin-top:0; }
+ .mag-index .mag-grid .mag-card-foot { margin-top:8px; }
+ .mag-takeaways { padding:18px; }
+ .mag-mobile-toc { display:block; position:fixed; z-index:35; bottom:12px; bottom:calc(12px + env(safe-area-inset-bottom)); left:18px; right:18px; max-width:540px; margin:auto; background:var(--mag-bg); border:1px solid var(--mag-muted); border-radius:10px; box-shadow:0 4px 15px #0002; }
+ .mag-mobile-toc>summary { min-height:48px; display:flex; align-items:center; gap:12px; padding:8px 16px; list-style:none; cursor:pointer; font-size:13px; }
+ .mag-mobile-toc>summary::-webkit-details-marker { display:none; }
+ .mag-mobile-toc>summary>span:first-child { font-weight:700; flex-shrink:0; }
+ .mag-mobile-toc>summary>span:nth-child(2) { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+ .mag-mobile-toc>summary svg { margin-left:auto; flex-shrink:0; }
+ .mag-mobile-toc>nav { max-height:55dvh; overflow:auto; padding:8px 16px; border-top:1px solid var(--mag-line); }
+ .mag-mobile-toc ol { list-style:none; padding:0; margin:0; }
+ .mag-mobile-toc a { display:flex; gap:10px; min-height:44px; padding:10px 0; font-size:14px; line-height:1.7; }
+ .mag-mobile-toc a[aria-current] { color:var(--mag-accent); font-weight:650; }
+ .mag-reader { padding-bottom:72px; }
+ .mag-body>section { scroll-margin-top:20px; }
+ .mag-library li { align-items:start; }
+}
+.mag-advanced-search { width:100%; }
+.mag-advanced-search>summary { display:flex; align-items:center; gap:8px; min-height:44px; cursor:pointer; font-size:14px; color:var(--mag-muted); }
+.mag-advanced-search>summary::after { content:'＋'; margin-left:auto; }
+.mag-advanced-search[open]>summary::after { content:'−'; }
+.mag-advanced-search>summary::-webkit-details-marker { display:none; }
+.mag-advanced-search[open] .mag-discovery-tools { margin-block:12px; justify-content:flex-start; }
+.mag-library-tabs { gap:4px 12px; }
+.mag-library-tabs a { font-size:13px; }

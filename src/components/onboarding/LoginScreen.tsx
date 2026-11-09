@@ -43,7 +43,7 @@ export function LoginScreen({ user, onNext, variant = 'onboarding', showWebsiteL
   };
 
   return (
-    <OnboardingShell step={variant === 'onboarding' ? 1 : null} total={4}>
+    <OnboardingShell step={null} total={4}>
       <div className="mx-auto mb-4 h-20 w-20">
         <img
           src="/logo.png"
@@ -56,6 +56,8 @@ export function LoginScreen({ user, onNext, variant = 'onboarding', showWebsiteL
         利用方法を選んでください。Googleでログインすると、任意のクラウドバックアップを利用できます。
       </p>
 
+      <ol className="mt-5 grid gap-2 rounded-xl bg-slate-50 p-4 text-left text-sm text-slate-700" aria-label="使い始めるまでの流れ"><li>1. PC内の保存先フォルダを選ぶ</li><li>2. 気になる企業のメモを用意する（後からでも可）</li><li>3. 選考管理の表に、次の締切を記入する</li></ol>
+      {new URLSearchParams(window.location.search).get('article') && <p className="mt-3 text-sm text-indigo-700">記事からのメモ作成を引き継いでいます。保存先の設定後に、内容を確認して作成できます。</p>}
       {!firebaseEnabled ? (
         <div className="mt-8 rounded-lg bg-amber-50 p-4 text-left text-sm text-amber-800">
           Firebase が設定されていないため、ログインはスキップされます。
@@ -154,7 +156,7 @@ export function OnboardingShell({
   return (
     <div className="flex min-h-dvh items-center justify-center overflow-auto bg-slate-50 px-4 py-8">
       <div className="w-full max-w-xl rounded-2xl bg-white p-6 sm:p-8 text-center shadow-lg ring-1 ring-slate-200">
-        {step !== null && <StepIndicator step={step} total={total} />}
+        {step !== null && <><StepIndicator step={step} total={total} /><p className="mb-5 text-sm text-slate-600">{step} / {total}　{['保存先','業界','企業','メモの準備'][step-1]}{step === 2 || step === 3 ? '（あとで設定できます）' : ''}</p></>}
         {children}
       </div>
     </div>

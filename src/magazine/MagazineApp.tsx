@@ -13,7 +13,7 @@ function readFilters(): MagazineFilters {
   const params = new URLSearchParams(window.location.search);
   const category = params.get('category') || '';
   const requestedPage = Number(window.location.pathname.match(/^\/magazine\/page\/(\d+)\/?$/)?.[1] || params.get('page') || 1);
-  return { category: categories.some(item => item.id === category) ? category : '', query: params.get('q') || '', page: Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1 };
+  return { industry: params.get('industry') || '', order: params.get('order') === 'name' ? 'name' : '', collection: ['saved','history','compare'].includes(params.get('collection') || '') ? params.get('collection')! : '', category: categories.some(item => item.id === category) ? category : '', query: params.get('q') || '', page: Number.isSafeInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1 };
 }
 function routeSlug() {
   const path = window.location.pathname.replace(/\/+$/, '');
@@ -71,7 +71,7 @@ export function MagazineApp() {
     };
     meta('description', seo.description);
     meta('twitter:card', article?.cover ? 'summary_large_image' : 'summary');
-    meta('robots', filters.query || filters.category || failed ? 'noindex, follow' : seo.robots);
+    meta('robots', filters.query || filters.category || filters.industry || filters.order || filters.collection || failed ? 'noindex, follow' : seo.robots);
     for (const [key, value] of Object.entries({ 'og:title': seo.title, 'og:description': seo.description, 'og:url': seo.canonical, 'og:type': seo.type, 'og:image': seo.image })) meta(key, value, true);
     for (const [key,value] of [['article:published_time',article?.datePublished],['article:modified_time',article?.dateModified]] as const) {
       if(value) meta(key,value,true);
@@ -95,9 +95,12 @@ export function MagazineApp() {
     const params = new URLSearchParams();
     if (next.category) params.set('category', next.category);
     if (next.query) params.set('q', next.query);
+    if (next.industry) params.set('industry',next.industry);
+    if (next.order) params.set('order',next.order);
+    if (next.collection) params.set('collection',next.collection);
     if (next.page && next.page > 1) params.set('page', String(next.page));
     const url = '/magazine/' + (params.size ? '?' + params : '') + window.location.hash;
-    if (next.category !== filters.category) window.history.pushState(null, '', url);
+    if (next.category !== filters.category || next.collection !== filters.collection || next.industry !== filters.industry || next.page !== filters.page) window.history.pushState(null, '', url);
     else window.history.replaceState(null, '', url);
     setFilters(next);
   };

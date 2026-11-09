@@ -9,6 +9,7 @@ import { ToastHost, ConfirmHost, toast } from './spreadsheet/components/Toast';
 import { useEffect, useMemo, useState } from 'react';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
+import { ArticleMemoImport } from './components/ArticleMemoImport';
 import { LoginScreen } from './components/onboarding/LoginScreen';
 import { isOnboarded } from './lib/onboardingState';
 import { isTauri } from './lib/tauriFsaShim';
@@ -395,6 +396,7 @@ function WorkspaceApp() {
         <div className="flex items-center gap-2"><button className="rounded border px-3 py-2" onClick={() => setShowSettings(true)}>設定とバックアップ</button>{!isTauri() && <a href="/magazine/" className="px-2 text-slate-600">マガジン</a>}</div>
       </header>
       {(error||rootError)&&<div role="alert" className="flex flex-wrap items-center gap-3 border-b bg-amber-50 px-4 py-2 text-sm text-amber-900"><span>{rootError||'フォルダの表示を更新できませんでした。権限や保存先を確認してください。'}</span><button className="underline" onClick={()=>void refresh()}>表示を再試行</button></div>}
+      <ArticleMemoImport root={handle} onOpen={async (file,name) => { await refresh(); setHomeVisible(false); await tabs.openFile({key:'co:記事メモ/'+name,label:name,breadcrumb:['記事メモ'],handle:file}); }} />
       <SaveStatus onSettings={() => setShowSettings(true)} />
       <div className="flex flex-1 overflow-hidden">
       {!preferences.sidebarCollapsed && <div className="relative h-full shrink-0" style={{width: preferences.sidebarWidth}}><FileTree

@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import latest from './landing.generated.json';
-import { ArticleCard, type MagazineTheme } from './MagazineView';
+import { ArticleCard } from './ArticleCard';
+import type { MagazineTheme } from './MagazineView';
 import type { ArticleSummary } from './types';
 
 export function LandingMagazine({ theme }: { theme: MagazineTheme }) {

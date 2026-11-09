@@ -36,8 +36,8 @@ try {
     }
     visit(entry);
     const head = [
-      ...[...imports].map(key => `<link rel="modulepreload" crossorigin href="/${manifest[key].file}">`),
       ...[...css].map(path => `<link rel="stylesheet" crossorigin href="/${path}">`),
+      ...[...imports].map(key => `<link rel="modulepreload" crossorigin href="/${manifest[key].file}">`),
     ].join('\n');
     return base
       .replace(/<script type="module"[^>]*><\/script>/, `<script type="module" crossorigin src="/${entry.file}"></script>`)

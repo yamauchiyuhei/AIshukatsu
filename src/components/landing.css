@@ -111,3 +111,19 @@ html, body { overflow-x: clip; }
 .landing-page :is(h1,h2) { text-wrap:balance; }
 
 .landing-page a.underline { white-space:nowrap; }
+
+/* Clear first-use guidance and readable product preview. */
+.landing-start-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; margin:32px 0 0; padding:0; list-style:none; }
+.landing-start-steps li { min-width:0; border-top:1px solid var(--landing-rule); padding-top:20px; }
+.landing-start-steps li>span { font-size:14px; font-weight:700; }
+.landing-start-steps h3 { margin:12px 0; font-size:20px; font-weight:700; }
+.landing-start-steps p { font-size:14px; line-height:1.9; }
+.landing-capture-open { display:block; width:100%; background:transparent; border:0; padding:0; cursor:zoom-in; }
+.landing-image-dialog { width:min(95vw,1488px); max-width:95vw; max-height:90dvh; border:1px solid #657080; border-radius:12px; padding:16px; color:#20242b; background:#fff; }
+.landing-image-dialog::backdrop { background:#000b; }
+.landing-image-dialog form { text-align:right; margin-bottom:12px; }
+.landing-image-dialog button { min-height:44px; padding:8px 20px; border:1px solid #657080; border-radius:8px; }
+.landing-image-dialog>div { overflow:auto; }
+.landing-image-dialog>div img { width:1440px; min-width:1440px; max-width:none; height:440px; border:0; }
+.landing-image-dialog p { margin-top:12px; font-size:13px; }
+@media(max-width:767px) { .landing-start-steps { grid-template-columns:1fr; gap:24px; } .landing-product-capture .landing-capture-open img { height:216px; object-fit:cover; object-position:20% top; } }

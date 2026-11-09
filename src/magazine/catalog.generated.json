@@ -28,6 +28,7 @@
         "url": "https://www.kyokuyo.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kyokuyo"
     ]
@@ -59,6 +60,7 @@
         "url": "https://www.nissui.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nissui"
     ]
@@ -90,6 +92,7 @@
         "url": "https://www.umios.com/jp/corporate/outline/data/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "umios"
     ]
@@ -122,7 +125,8 @@
         "title": "サカタのタネ（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000021.000079494.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-1414",
@@ -151,6 +155,7 @@
         "url": "https://www.sho-bondhd.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sho-bondhd",
       "sho bondhd"
@@ -183,6 +188,7 @@
         "url": "https://www.mirait-one.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mirait-one",
       "mirait one"
@@ -217,6 +223,7 @@
         "url": "https://www.tamahome.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "tamahome"
     ]
@@ -250,6 +257,7 @@
         "url": "https://www.nittetsukou.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nittetsukou"
     ]
@@ -283,6 +291,7 @@
         "url": "https://www.mitsui-matsushima.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mitsui-matsushima",
       "mitsui matsushima"
@@ -315,6 +324,7 @@
         "url": "https://www.inpex.com/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "inpex"
     ]
@@ -348,6 +358,7 @@
         "url": "https://www.japex.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "japex"
     ]
@@ -381,6 +392,7 @@
         "url": "https://www.k-and-o-energy.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "k-and-o-energy",
       "k and o energy"
@@ -415,6 +427,7 @@
         "url": "https://www.ad-hzm.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ad-hzm",
       "ad hzm"
@@ -449,6 +462,7 @@
         "url": "https://www.tokyu-cnst.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "tokyu-cnst",
       "tokyu cnst"
@@ -481,6 +495,7 @@
         "url": "https://www.comsys-hd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "comsys-hd",
       "comsys hd"
@@ -513,6 +528,7 @@
         "url": "https://www.taisei.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "taisei"
     ]
@@ -544,6 +560,7 @@
         "url": "https://www.obayashi.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "obayashi"
     ]
@@ -575,6 +592,7 @@
         "url": "https://www.shimz.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "shimz"
     ]
@@ -607,7 +625,8 @@
         "title": "長谷工コーポレーション（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000080.000128890.html"
       }
-    }
+    },
+    "companyIndustry": "不動産・建設"
   },
   {
     "slug": "company-analysis-1812",
@@ -636,6 +655,7 @@
         "url": "https://www.kajima.co.jp/prof/recruit/new/jobs/jobs11/index.html"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "kajima"
     ]
@@ -667,6 +687,7 @@
         "url": "https://www.nishimatsu.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "nishimatsu"
     ]
@@ -700,6 +721,7 @@
         "url": "https://www.okumuragumi.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "okumuragumi"
     ]
@@ -733,6 +755,7 @@
         "url": "https://www.totetsu.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "totetsu"
     ]
@@ -766,6 +789,7 @@
         "url": "https://www.asanuma.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "asanuma"
     ]
@@ -799,6 +823,7 @@
         "url": "https://www.toda.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "toda"
     ]
@@ -832,6 +857,7 @@
         "url": "https://www.kumagaigumi.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "kumagaigumi"
     ]
@@ -863,6 +889,7 @@
         "url": "https://www.kentaku.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "kentaku"
     ]
@@ -896,6 +923,7 @@
         "url": "https://www.toadoro.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "toadoro"
     ]
@@ -928,6 +956,7 @@
         "url": "https://www.recruit.toa-const.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "toa-const",
       "toa const"
@@ -959,7 +988,8 @@
         "title": "五洋建設 / Wikimedia Commons（PD-textlogo）",
         "url": "https://commons.wikimedia.org/wiki/File:Penta-Ocean_Construction_Co.%2C_Ltd._logo.svg"
       }
-    }
+    },
+    "companyIndustry": "不動産・建設"
   },
   {
     "slug": "company-analysis-1898",
@@ -990,6 +1020,7 @@
         "url": "https://www.seikitokyu.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "seikitokyu"
     ]
@@ -1021,6 +1052,7 @@
         "url": "https://sfc.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "sfc"
     ]
@@ -1051,7 +1083,8 @@
         "title": "大和ハウス工業 ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000002734.000002296.html"
       }
-    }
+    },
+    "companyIndustry": "不動産・建設"
   },
   {
     "slug": "company-analysis-1926",
@@ -1081,6 +1114,7 @@
         "url": "https://www.raito.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "raito"
     ]
@@ -1114,6 +1148,7 @@
         "url": "https://www.sekisuihouse.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "sekisuihouse"
     ]
@@ -1147,6 +1182,7 @@
         "url": "https://www.yurtec.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yurtec"
     ]
@@ -1180,6 +1216,7 @@
         "url": "https://www.chudenko.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "chudenko"
     ]
@@ -1212,6 +1249,7 @@
         "url": "https://www.kandenko.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kandenko"
     ]
@@ -1243,6 +1281,7 @@
         "url": "https://www.kinden.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kinden"
     ]
@@ -1276,6 +1315,7 @@
         "url": "https://www.densetsuko.co.jp/01jobs/recruit/new-graduate.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "densetsuko"
     ]
@@ -1308,6 +1348,7 @@
         "url": "https://www.exeo.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "exeo"
     ]
@@ -1341,6 +1382,7 @@
         "url": "https://www.snk.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "snk"
     ]
@@ -1372,6 +1414,7 @@
         "url": "https://www.kraftia.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kraftia"
     ]
@@ -1403,6 +1446,7 @@
         "url": "https://www.jgc.com/saiyo/information/requirement.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "jgc"
     ]
@@ -1436,6 +1480,7 @@
         "url": "https://www.taihei-dengyo.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "taihei-dengyo",
       "taihei dengyo"
@@ -1468,6 +1513,7 @@
         "url": "https://www.tte-net.com/service/domain/energy_management.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tte-net",
       "tte net"
@@ -1502,6 +1548,7 @@
         "url": "https://www.asahikogyosha.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "asahikogyosha"
     ]
@@ -1535,6 +1582,7 @@
         "url": "https://www.taikisha.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "taikisha"
     ]
@@ -1568,6 +1616,7 @@
         "url": "https://www.daidan.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "daidan"
     ]
@@ -1601,6 +1650,7 @@
         "url": "https://www.nippn.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nippn"
     ]
@@ -1632,6 +1682,7 @@
         "url": "https://www.nisshin.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nisshin"
     ]
@@ -1665,6 +1716,7 @@
         "url": "https://www.msdm-hd.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "msdm-hd",
       "msdm hd"
@@ -1697,7 +1749,8 @@
         "title": "MIXI（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000885.000025121.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-2124",
@@ -1726,6 +1779,7 @@
         "url": "https://www.jacgroup.com/jp/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "jacgroup"
     ]
@@ -1757,6 +1811,7 @@
         "url": "https://www.nihon-ma.co.jp/groups/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nihon-ma",
       "nihon ma"
@@ -1788,7 +1843,8 @@
         "title": "UTグループ ロゴ（タレントアンドアセスメント提供の共同発表資料 / PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000023.000011421.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-2154",
@@ -1817,6 +1873,7 @@
         "url": "https://openupgroup.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "openupgroup"
     ]
@@ -1848,6 +1905,7 @@
         "url": "https://www.koshidakaholdings.co.jp/ja/business/case.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "koshidakaholdings"
     ]
@@ -1881,6 +1939,7 @@
         "url": "https://corp.timee.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "timee"
     ]
@@ -1912,6 +1971,7 @@
         "url": "https://www.pasonagroup.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "pasonagroup"
     ]
@@ -1943,7 +2003,8 @@
         "title": "エス・エム・エス（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000001.000013298.html"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア"
   },
   {
     "slug": "company-analysis-2181",
@@ -1974,6 +2035,7 @@
         "url": "https://www.persol-group.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "persol-group",
       "persol group"
@@ -2005,7 +2067,8 @@
         "title": "森永製菓 / Wikimedia Commons（PD-textlogo）",
         "url": "https://commons.wikimedia.org/wiki/File:Morinaga_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-2206",
@@ -2036,6 +2099,7 @@
         "url": "https://www.glico.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "glico"
     ]
@@ -2067,6 +2131,7 @@
         "url": "https://www.yamazakipan.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "yamazakipan"
     ]
@@ -2100,6 +2165,7 @@
         "url": "https://www.kamedaseika.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kamedaseika"
     ]
@@ -2132,6 +2198,7 @@
         "url": "https://www.kotobukispirits.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kotobukispirits"
     ]
@@ -2163,6 +2230,7 @@
         "url": "https://www.calbee.co.jp"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "calbee"
     ]
@@ -2193,7 +2261,8 @@
         "title": "森永乳業（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000001521.000021580.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-2267",
@@ -2222,6 +2291,7 @@
         "url": "https://www.yakult.co.jp/maintenance/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "yakult"
     ]
@@ -2254,6 +2324,7 @@
         "url": "https://www.meiji.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "meiji"
     ]
@@ -2287,6 +2358,7 @@
         "url": "https://www.meg-snow.com"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "meg-snow",
       "meg snow"
@@ -2321,6 +2393,7 @@
         "url": "https://www.primaham.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "primaham"
     ]
@@ -2352,6 +2425,7 @@
         "url": "https://www.nipponham.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nipponham"
     ]
@@ -2385,6 +2459,7 @@
         "url": "https://www.sfoods.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sfoods"
     ]
@@ -2418,6 +2493,7 @@
         "url": "https://www.itoham-yonekyu-holdings.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "itoham-yonekyu-holdings",
       "itoham yonekyu holdings"
@@ -2450,6 +2526,7 @@
         "url": "https://www.systena.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "systena"
     ]
@@ -2483,6 +2560,7 @@
         "url": "https://www.daj.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "daj"
     ]
@@ -2514,6 +2592,7 @@
         "url": "https://www.nssol.nipponsteel.com/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "nipponsteel"
     ]
@@ -2547,6 +2626,7 @@
         "url": "https://www.alsok.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "alsok"
     ]
@@ -2579,6 +2659,7 @@
         "url": "https://n-p-d.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "n-p-d",
       "n p d"
@@ -2611,6 +2692,7 @@
         "url": "https://corporate.kakaku.com/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "kakaku"
     ]
@@ -2644,6 +2726,7 @@
         "url": "https://www.baitoru.com/solution/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "baitoru"
     ]
@@ -2677,6 +2760,7 @@
         "url": "https://www.sbs-group.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "sbs-group",
       "sbs group"
@@ -2708,7 +2792,8 @@
         "title": "エムスリー 公式サイト",
         "url": "https://corporate.m3.com/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア"
   },
   {
     "slug": "company-analysis-2432",
@@ -2738,6 +2823,7 @@
         "url": "https://dena.com/jp/services/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "dena"
     ]
@@ -2769,6 +2855,7 @@
         "url": "https://www.hakuhodody-holdings.co.jp/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "hakuhodody-holdings",
       "hakuhodody holdings"
@@ -2801,6 +2888,7 @@
         "url": "https://www.infomart.co.jp/index.asp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "infomart"
     ]
@@ -2832,6 +2920,7 @@
         "url": "https://www.sapporobeer.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sapporobeer"
     ]
@@ -2865,6 +2954,7 @@
         "url": "https://www.asahigroup-holdings.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "asahigroup-holdings",
       "asahigroup holdings"
@@ -2897,6 +2987,7 @@
         "url": "https://www.kirinholdings.com/jp/company/group/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kirinholdings"
     ]
@@ -2930,6 +3021,7 @@
         "url": "https://ir.takara.co.jp/ja/Management/BusinessOutline.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "takara"
     ]
@@ -2961,6 +3053,7 @@
         "url": "https://www.ccbj-holdings.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ccbj-holdings",
       "ccbj holdings"
@@ -2995,6 +3088,7 @@
         "url": "https://www.ld-company.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ld-company",
       "ld company"
@@ -3026,7 +3120,8 @@
         "title": "サントリービバレッジ＆フードが使用するSUNTORYブランドロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:SUNTORY_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-2590",
@@ -3057,6 +3152,7 @@
         "url": "https://holdings.dydo.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "dydo"
     ]
@@ -3088,6 +3184,7 @@
         "url": "https://www.itoen.co.jp/tea_producing/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "itoen"
     ]
@@ -3121,6 +3218,7 @@
         "url": "https://www.nisshin-oillio.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nisshin-oillio",
       "nisshin oillio"
@@ -3153,6 +3251,7 @@
         "url": "https://www.fujioil.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "fujioil"
     ]
@@ -3186,6 +3285,7 @@
         "url": "https://www.cawachi.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "cawachi"
     ]
@@ -3219,6 +3319,7 @@
         "url": "https://www.abc-mart.co.jp/ir/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "abc-mart",
       "abc mart"
@@ -3253,6 +3354,7 @@
         "url": "https://www.askul.co.jp/corp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "askul"
     ]
@@ -3285,7 +3387,8 @@
         "title": "セカンドリテイリング（旧ゲオホールディングス）（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000105.000141539.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-2685",
@@ -3316,6 +3419,7 @@
         "url": "https://www.andst-hd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "andst-hd",
       "andst hd"
@@ -3350,6 +3454,7 @@
         "url": "https://rigaku-holdings.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "rigaku-holdings",
       "rigaku holdings"
@@ -3384,6 +3489,7 @@
         "url": "https://www.kurasushi.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "kurasushi"
     ]
@@ -3417,6 +3523,7 @@
         "url": "https://www.palgroup.holdings/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "holdings"
     ]
@@ -3450,6 +3557,7 @@
         "url": "https://www.edion.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "edion"
     ]
@@ -3483,6 +3591,7 @@
         "url": "https://www.arata-gr.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "arata-gr",
       "arata gr"
@@ -3515,6 +3624,7 @@
         "url": "https://www.jp-holdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "jp-holdings",
       "jp holdings"
@@ -3549,6 +3659,7 @@
         "url": "https://www.teldevice.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "teldevice"
     ]
@@ -3582,6 +3693,7 @@
         "url": "https://www.tsuburaya-fields.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tsuburaya-fields",
       "tsuburaya fields"
@@ -3614,6 +3726,7 @@
         "url": "https://www.sojitz.com/jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "sojitz"
     ]
@@ -3645,6 +3758,7 @@
         "url": "https://www.alfresa.com/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "alfresa"
     ]
@@ -3678,6 +3792,7 @@
         "url": "https://www.e-dkt.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "e-dkt",
       "e dkt"
@@ -3712,6 +3827,7 @@
         "url": "https://www.kikkoman.com/jp/corporate/about/oversea/development.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kikkoman"
     ]
@@ -3745,6 +3861,7 @@
         "url": "https://www.ajinomoto.com/ja/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ajinomoto"
     ]
@@ -3777,6 +3894,7 @@
         "url": "https://www.kewpie.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kewpie"
     ]
@@ -3809,6 +3927,7 @@
         "url": "https://housefoods-group.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "housefoods-group",
       "housefoods group"
@@ -3841,6 +3960,7 @@
         "url": "https://www.kagome.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kagome"
     ]
@@ -3874,6 +3994,7 @@
         "url": "https://www.ariakejapan.com/ja/about.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ariakejapan"
     ]
@@ -3904,7 +4025,8 @@
         "title": "キオクシアホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Kioxia.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-2871",
@@ -3935,6 +4057,7 @@
         "url": "https://www.nichirei.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nichirei"
     ]
@@ -3968,6 +4091,7 @@
         "url": "https://www.yokorei.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yokorei"
     ]
@@ -3999,6 +4123,7 @@
         "url": "https://www.maruchan.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "maruchan"
     ]
@@ -4032,6 +4157,7 @@
         "url": "https://www.nissin.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nissin"
     ]
@@ -4065,6 +4191,7 @@
         "url": "https://www.jti.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "jti"
     ]
@@ -4098,6 +4225,7 @@
         "url": "https://www.warabeya.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "warabeya"
     ]
@@ -4131,6 +4259,7 @@
         "url": "https://www.euglena.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "euglena"
     ]
@@ -4164,6 +4293,7 @@
         "url": "https://www.gunze.co.jp/recruit/fresh/service/keyword/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "gunze"
     ]
@@ -4195,6 +4325,7 @@
         "url": "https://www.hulic.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "hulic"
     ]
@@ -4228,6 +4359,7 @@
         "url": "https://store.alpen-group.jp/corporate/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "alpen-group",
       "alpen group"
@@ -4262,6 +4394,7 @@
         "url": "https://www.qolhd.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "qolhd"
     ]
@@ -4293,6 +4426,7 @@
         "url": "https://www.kobebussan.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "kobebussan"
     ]
@@ -4325,7 +4459,8 @@
         "title": "ジンズホールディングス（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000403.000027384.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-3048",
@@ -4355,7 +4490,8 @@
         "title": "ビックカメラ ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:BICCAMERA_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-3050",
@@ -4386,6 +4522,7 @@
         "url": "https://www.dcm-hldgs.co.jp/grp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "dcm-hldgs",
       "dcm hldgs"
@@ -4418,6 +4555,7 @@
         "url": "https://corp.monotaro.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "monotaro"
     ]
@@ -4450,6 +4588,7 @@
         "url": "https://www.aiholdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "aiholdings"
     ]
@@ -4481,6 +4620,7 @@
         "url": "https://www2.j-front-retailing.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "j-front-retailing",
       "j front retailing"
@@ -4515,6 +4655,7 @@
         "url": "https://www.dnh.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "dnh"
     ]
@@ -4545,7 +4686,8 @@
         "title": "マツキヨココカラ&カンパニー ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000193.000089283.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-3091",
@@ -4576,6 +4718,7 @@
         "url": "https://www.bronco-recruit.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "bronco-recruit",
       "bronco recruit"
@@ -4610,6 +4753,7 @@
         "url": "https://corp.zozo.com/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "zozo"
     ]
@@ -4643,6 +4787,7 @@
         "url": "https://www.monogatari.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "monogatari"
     ]
@@ -4674,6 +4819,7 @@
         "url": "https://www.imhds.co.jp/corporate/business/department/index.html"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "imhds"
     ]
@@ -4707,6 +4853,7 @@
         "url": "https://www.toyobo.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "toyobo"
     ]
@@ -4737,7 +4884,8 @@
         "title": "日清紡ホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Nisshinbo_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-3107",
@@ -4766,6 +4914,7 @@
         "url": "https://www.daiwabo-holdings.com/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "daiwabo-holdings",
       "daiwabo holdings"
@@ -4800,6 +4949,7 @@
         "url": "https://www.nittobo.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nittobo"
     ]
@@ -4831,6 +4981,7 @@
         "url": "https://www.toyota-boshoku.com/jp/hayawakari/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "toyota-boshoku",
       "toyota boshoku"
@@ -4863,6 +5014,7 @@
         "url": "https://holdings.macnica.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "macnica"
     ]
@@ -4896,6 +5048,7 @@
         "url": "https://www.createsdhd.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "createsdhd"
     ]
@@ -4929,6 +5082,7 @@
         "url": "https://www.tokaiholdings.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "tokaiholdings"
     ]
@@ -4962,6 +5116,7 @@
         "url": "https://www.oisix.co.jp:443/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "oisix"
     ]
@@ -4995,6 +5150,7 @@
         "url": "https://ir.nextage.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "nextage"
     ]
@@ -5028,6 +5184,7 @@
         "url": "https://www.joyfulhonda.co.jp/ja/company/summary.html"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "joyfulhonda"
     ]
@@ -5058,7 +5215,8 @@
         "title": "すかいらーくホールディングス（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000700.000017486.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-3222",
@@ -5089,6 +5247,7 @@
         "url": "https://www.usmh.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "usmh"
     ]
@@ -5120,6 +5279,7 @@
         "url": "https://www.nomura-re-hd.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "nomura-re-hd",
       "nomura re hd"
@@ -5152,6 +5312,7 @@
         "url": "https://openhouse-group.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "openhouse-group",
       "openhouse group"
@@ -5186,6 +5347,7 @@
         "url": "https://www.tokyu-fudosan-hd.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "tokyu-fudosan-hd",
       "tokyu fudosan hd"
@@ -5218,6 +5380,7 @@
         "url": "https://www.ighd.co.jp/en/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "ighd"
     ]
@@ -5249,6 +5412,7 @@
         "url": "https://cosmos-recruit.com/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "cosmos-recruit",
       "cosmos recruit"
@@ -5283,6 +5447,7 @@
         "url": "https://www.shiphd.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "shiphd"
     ]
@@ -5313,7 +5478,8 @@
         "title": "セブン&アイ・ホールディングス 公式サイト",
         "url": "https://www.7andi.com/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-3387",
@@ -5344,6 +5510,7 @@
         "url": "https://www.createrestaurants.com/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "createrestaurants"
     ]
@@ -5375,6 +5542,7 @@
         "url": "https://www.tsuruha-hd.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "tsuruha-hd",
       "tsuruha hd"
@@ -5409,6 +5577,7 @@
         "url": "https://www.saint-marc-hd.com/hd/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "saint-marc-hd",
       "saint marc hd"
@@ -5441,6 +5610,7 @@
         "url": "https://www.toridoll.com/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "toridoll"
     ]
@@ -5474,6 +5644,7 @@
         "url": "https://www.teijin.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "teijin"
     ]
@@ -5505,6 +5676,7 @@
         "url": "https://www.toray.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "toray"
     ]
@@ -5535,7 +5707,8 @@
         "title": "クラレ ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Kuraray_Logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-3407",
@@ -5566,6 +5739,7 @@
         "url": "https://www.asahi-kasei.com/jp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "asahi-kasei",
       "asahi kasei"
@@ -5600,6 +5774,7 @@
         "url": "https://meg.createch.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "createch"
     ]
@@ -5633,6 +5808,7 @@
         "url": "https://www.tocalo.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tocalo"
     ]
@@ -5664,6 +5840,7 @@
         "url": "https://www.sumcosi.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sumcosi"
     ]
@@ -5697,6 +5874,7 @@
         "url": "https://www.rs-tec.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "rs-tec",
       "rs tec"
@@ -5729,6 +5907,7 @@
         "url": "https://kasumigaseki.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kasumigaseki"
     ]
@@ -5762,6 +5941,7 @@
         "url": "https://komeda-holdings.co.jp"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "komeda-holdings",
       "komeda holdings"
@@ -5795,6 +5975,7 @@
         "url": "https://kusuri-aoki-hd.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "kusuri-aoki-hd",
       "kusuri aoki hd"
@@ -5827,6 +6008,7 @@
         "url": "https://food-and-life.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "food-and-life",
       "food and life"
@@ -5861,6 +6043,7 @@
         "url": "https://www.seiren.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "seiren"
     ]
@@ -5892,6 +6075,7 @@
         "url": "https://www.wacoalholdings.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "wacoalholdings"
     ]
@@ -5925,6 +6109,7 @@
         "url": "https://www.tsi-holdings.com/tsi-socialworks.html"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "tsi-holdings",
       "tsi holdings"
@@ -5959,6 +6144,7 @@
         "url": "https://corp.world.co.jp"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "world"
     ]
@@ -5991,6 +6177,7 @@
         "url": "https://www.tisi.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tisi"
     ]
@@ -6023,6 +6210,7 @@
         "url": "https://www3.koeitecmo.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "koeitecmo"
     ]
@@ -6054,6 +6242,7 @@
         "url": "https://ir.mri.co.jp/ja/individual/group.html"
       }
     },
+    "companyIndustry": "コンサル",
     "searchAliases": [
       "mri"
     ]
@@ -6085,6 +6274,7 @@
         "url": "https://www.nexon.co.jp:443/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nexon"
     ]
@@ -6116,6 +6306,7 @@
         "url": "https://www.istyle.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "istyle"
     ]
@@ -6147,6 +6338,7 @@
         "url": "https://m-upholdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "m-upholdings",
       "m upholdings"
@@ -6181,6 +6373,7 @@
         "url": "https://colopl.co.jp"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "colopl"
     ]
@@ -6212,6 +6405,7 @@
         "url": "https://next.broadleaf.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "broadleaf"
     ]
@@ -6243,6 +6437,7 @@
         "url": "https://service.shiftinc.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "shiftinc"
     ]
@@ -6274,6 +6469,7 @@
         "url": "https://www.techmatrix.co.jp/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "techmatrix"
     ]
@@ -6305,6 +6501,7 @@
         "url": "https://www.gungho.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "gungho"
     ]
@@ -6338,6 +6535,7 @@
         "url": "https://www.gmo-pg.com/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "gmo-pg",
       "gmo pg"
@@ -6371,7 +6569,8 @@
         "title": "インターネットイニシアティブ 公式サイト",
         "url": "https://www.iij.ad.jp/"
       }
-    }
+    },
+    "companyIndustry": "通信"
   },
   {
     "slug": "company-analysis-3778",
@@ -6400,7 +6599,8 @@
         "title": "さくらインターネット 公式サイト",
         "url": "https://datacenter.sakura.ad.jp/"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-3844",
@@ -6429,6 +6629,7 @@
         "url": "https://www.comture.com/casestudy/cloud/kintone-comture.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "comture"
     ]
@@ -6460,6 +6661,7 @@
         "url": "https://www.ojiholdings.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ojiholdings"
     ]
@@ -6491,6 +6693,7 @@
         "url": "https://www.nipponpapergroup.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nipponpapergroup"
     ]
@@ -6522,6 +6725,7 @@
         "url": "https://recruit.daio-paper.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "daio-paper",
       "daio paper"
@@ -6554,6 +6758,7 @@
         "url": "https://www.rakus.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "rakus"
     ]
@@ -6585,6 +6790,7 @@
         "url": "https://www.rengo.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "rengo"
     ]
@@ -6617,6 +6823,7 @@
         "url": "https://www.changeholdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "changeholdings"
     ]
@@ -6648,6 +6855,7 @@
         "url": "https://www.pkshatech.com"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "pkshatech"
     ]
@@ -6681,6 +6889,7 @@
         "url": "https://corp.moneyforward.com/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "moneyforward"
     ]
@@ -6712,6 +6921,7 @@
         "url": "https://www.resonac.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "resonac"
     ]
@@ -6743,6 +6953,7 @@
         "url": "https://www.sumitomo-chem.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sumitomo-chem",
       "sumitomo chem"
@@ -6777,6 +6988,7 @@
         "url": "https://www.sumitomoseika.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sumitomoseika"
     ]
@@ -6810,6 +7022,7 @@
         "url": "https://www.nissanchem.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nissanchem"
     ]
@@ -6843,6 +7056,7 @@
         "url": "https://www.kureha.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kureha"
     ]
@@ -6876,6 +7090,7 @@
         "url": "https://www.iskweb.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "iskweb"
     ]
@@ -6909,6 +7124,7 @@
         "url": "https://www.nippon-soda.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nippon-soda",
       "nippon soda"
@@ -6942,6 +7158,7 @@
         "url": "https://www.tosoh.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tosoh"
     ]
@@ -6973,6 +7190,7 @@
         "url": "https://www.tokuyama.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tokuyama"
     ]
@@ -7006,6 +7224,7 @@
         "url": "https://www.cgco.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "cgco"
     ]
@@ -7037,6 +7256,7 @@
         "url": "https://www.toagosei.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "toagosei"
     ]
@@ -7069,7 +7289,8 @@
         "title": "大阪ソーダ（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000004.000139292.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-4047",
@@ -7100,6 +7321,7 @@
         "url": "https://www.kantodenka.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kantodenka"
     ]
@@ -7133,6 +7355,7 @@
         "url": "https://www.denka.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "denka"
     ]
@@ -7164,6 +7387,7 @@
         "url": "https://js01.jposting.net/ibiden-saiyo/u/job.phtml?job_code=179"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "jposting"
     ]
@@ -7197,6 +7421,7 @@
         "url": "https://www.shinetsu.co.jp/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "shinetsu"
     ]
@@ -7230,6 +7455,7 @@
         "url": "https://www.pa-consul.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "pa-consul",
       "pa consul"
@@ -7263,6 +7489,7 @@
         "url": "https://www.sakai-chem.co.jp/wp/wp-content/uploads/2023/01/envi_report2021.pdf"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sakai-chem",
       "sakai chem"
@@ -7294,7 +7521,8 @@
         "title": "日本酸素ホールディングス（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000011.000118246.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-4095",
@@ -7325,6 +7553,7 @@
         "url": "https://www.parker.co.jp/recruit/job/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "parker"
     ]
@@ -7358,6 +7587,7 @@
         "url": "https://www.stella-chemifa.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "stella-chemifa",
       "stella chemifa"
@@ -7390,6 +7620,7 @@
         "url": "https://www.shokubai.co.jp/ja/ir/special/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "shokubai"
     ]
@@ -7421,6 +7652,7 @@
         "url": "https://www.kaneka.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kaneka"
     ]
@@ -7451,7 +7683,8 @@
         "title": "協和キリン（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000055.000003506.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-417a",
@@ -7480,6 +7713,7 @@
         "url": "https://www.bluezonesholdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "bluezonesholdings"
     ]
@@ -7511,6 +7745,7 @@
         "url": "https://www.appier.com/en/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "appier"
     ]
@@ -7543,6 +7778,7 @@
         "url": "https://www.mgc.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mgc"
     ]
@@ -7576,6 +7812,7 @@
         "url": "https://jp.mitsuichemicals.com/jp/index.htm"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mitsuichemicals"
     ]
@@ -7607,6 +7844,7 @@
         "url": "https://www.tok-pr.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tok-pr",
       "tok pr"
@@ -7641,6 +7879,7 @@
         "url": "https://pr.mono.ipros.com/ooc/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ipros"
     ]
@@ -7674,6 +7913,7 @@
         "url": "https://www.mcgc.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mcgc"
     ]
@@ -7706,6 +7946,7 @@
         "url": "https://www.visional.inc/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "inc"
     ]
@@ -7737,6 +7978,7 @@
         "url": "https://www.daicel.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "daicel"
     ]
@@ -7768,6 +8010,7 @@
         "url": "https://www.sumibe.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sumibe"
     ]
@@ -7799,6 +8042,7 @@
         "url": "https://www.sekisui.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sekisui"
     ]
@@ -7830,6 +8074,7 @@
         "url": "https://www.zeon.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "zeon"
     ]
@@ -7862,6 +8107,7 @@
         "url": "https://www.aica.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "aica"
     ]
@@ -7895,6 +8141,7 @@
         "url": "https://www.ube.com/ube/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ube"
     ]
@@ -7928,6 +8175,7 @@
         "url": "https://www.sekisuijushi.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sekisuijushi"
     ]
@@ -7960,7 +8208,8 @@
         "title": "旭有機材（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000001.000159074.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-4272",
@@ -7991,6 +8240,7 @@
         "url": "https://www.nipponkayaku.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nipponkayaku"
     ]
@@ -8024,6 +8274,7 @@
         "url": "https://www.nri.com/jp/"
       }
     },
+    "companyIndustry": "コンサル",
     "searchAliases": [
       "nri"
     ]
@@ -8055,6 +8306,7 @@
         "url": "https://www.group.dentsu.com/jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "dentsu"
     ]
@@ -8088,6 +8340,7 @@
         "url": "https://fusokk.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "fusokk"
     ]
@@ -8121,6 +8374,7 @@
         "url": "https://www.trichemical.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "trichemical"
     ]
@@ -8154,6 +8408,7 @@
         "url": "https://recruit.onecareer.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "onecareer"
     ]
@@ -8185,6 +8440,7 @@
         "url": "https://about.mercari.com/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "mercari"
     ]
@@ -8216,6 +8472,7 @@
         "url": "https://www.adeka.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "adeka"
     ]
@@ -8247,6 +8504,7 @@
         "url": "https://www.nof.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nof"
     ]
@@ -8278,6 +8536,7 @@
         "url": "https://www.wingarc.com/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "wingarc"
     ]
@@ -8309,6 +8568,7 @@
         "url": "https://ir.corp-sansan.com/ja/index.html"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "corp-sansan",
       "corp sansan"
@@ -8343,6 +8603,7 @@
         "url": "https://www.kao.com/jp/investor-relations/individual/business/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kao"
     ]
@@ -8376,6 +8637,7 @@
         "url": "https://www.sanyo-chemical.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sanyo-chemical",
       "sanyo chemical"
@@ -8410,6 +8672,7 @@
         "url": "https://binc.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "binc"
     ]
@@ -8443,6 +8706,7 @@
         "url": "https://www.freee.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "freee"
     ]
@@ -8475,6 +8739,7 @@
         "url": "https://www.medley.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "medley"
     ]
@@ -8508,6 +8773,7 @@
         "url": "https://www.jmdc.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "jmdc"
     ]
@@ -8541,6 +8807,7 @@
         "url": "https://www.takeda.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "takeda"
     ]
@@ -8574,6 +8841,7 @@
         "url": "https://www.astellas.com/jp/science/research-and-development/primary-focuses"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "astellas"
     ]
@@ -8605,6 +8873,7 @@
         "url": "https://www.sumitomo-pharma.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sumitomo-pharma",
       "sumitomo pharma"
@@ -8639,6 +8908,7 @@
         "url": "https://www.shionogi.com/jp/ja/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "shionogi"
     ]
@@ -8672,6 +8942,7 @@
         "url": "https://www.nippon-shinyaku.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nippon-shinyaku",
       "nippon shinyaku"
@@ -8706,6 +8977,7 @@
         "url": "https://www.chugai-pharm.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "chugai-pharm",
       "chugai pharm"
@@ -8740,6 +9012,7 @@
         "url": "https://www.kaken.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kaken"
     ]
@@ -8773,6 +9046,7 @@
         "url": "https://www.eisai.co.jp/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "eisai"
     ]
@@ -8804,6 +9078,7 @@
         "url": "https://www.rohto.co.jp/en/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "rohto"
     ]
@@ -8835,6 +9110,7 @@
         "url": "https://www.ono-pharma.com/ja"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ono-pharma",
       "ono pharma"
@@ -8866,7 +9142,8 @@
         "title": "参天製薬（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000095.000074428.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-4540",
@@ -8895,6 +9172,7 @@
         "url": "https://www.tsumura.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tsumura"
     ]
@@ -8926,6 +9204,7 @@
         "url": "https://pharma-alliance.terumo.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "terumo"
     ]
@@ -8957,6 +9236,7 @@
         "url": "https://www.hugp.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hugp"
     ]
@@ -8990,6 +9270,7 @@
         "url": "https://www.kissei.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kissei"
     ]
@@ -9023,6 +9304,7 @@
         "url": "https://www.eiken.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "eiken"
     ]
@@ -9056,6 +9338,7 @@
         "url": "https://www.jcrpharm.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "jcrpharm"
     ]
@@ -9089,6 +9372,7 @@
         "url": "https://www.towayakuhin.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "towayakuhin"
     ]
@@ -9122,6 +9406,7 @@
         "url": "https://www.zeria.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "zeria"
     ]
@@ -9155,6 +9440,7 @@
         "url": "https://www.nxera.life/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "life"
     ]
@@ -9188,6 +9474,7 @@
         "url": "https://www.daiichisankyo.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "daiichisankyo"
     ]
@@ -9221,6 +9508,7 @@
         "url": "https://www.kyorin-pharm.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kyorin-pharm",
       "kyorin pharm"
@@ -9253,6 +9541,7 @@
         "url": "https://www.otsuka.com/jp/rd/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "otsuka"
     ]
@@ -9284,6 +9573,7 @@
         "url": "https://www.peptidream.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "peptidream"
     ]
@@ -9317,6 +9607,7 @@
         "url": "https://www.nipponpaint-holdings.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nipponpaint-holdings",
       "nipponpaint holdings"
@@ -9349,6 +9640,7 @@
         "url": "https://www.kansai.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kansai"
     ]
@@ -9380,6 +9672,7 @@
         "url": "https://www.taiyo-hd.co.jp/jp/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "taiyo-hd",
       "taiyo hd"
@@ -9412,6 +9705,7 @@
         "url": "https://www.dic-global.com:443/ja/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "dic-global",
       "dic global"
@@ -9446,6 +9740,7 @@
         "url": "https://www.inx.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "inx"
     ]
@@ -9479,6 +9774,7 @@
         "url": "https://www.artiencegroup.com/en/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "artiencegroup"
     ]
@@ -9511,6 +9807,7 @@
         "url": "https://www.recruit.olc.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "olc"
     ]
@@ -9542,6 +9839,7 @@
         "url": "https://www.duskin.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "duskin"
     ]
@@ -9575,6 +9873,7 @@
         "url": "https://career.park24.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "park24"
     ]
@@ -9608,6 +9907,7 @@
         "url": "https://www.fujimediahd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "fujimediahd"
     ]
@@ -9639,6 +9939,7 @@
         "url": "https://www.round1.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "round1"
     ]
@@ -9672,6 +9973,7 @@
         "url": "https://www.resorttrust.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "resorttrust"
     ]
@@ -9703,6 +10005,7 @@
         "url": "https://www.obic.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "obic"
     ]
@@ -9734,6 +10037,7 @@
         "url": "https://www.justsystems.com/jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "justsystems"
     ]
@@ -9767,6 +10071,7 @@
         "url": "https://www.lycorp.co.jp/ja/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "lycorp"
     ]
@@ -9798,6 +10103,7 @@
         "url": "https://www.bml.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "bml"
     ]
@@ -9829,6 +10135,7 @@
         "url": "https://www.trendmicro.com/ja_jp/business.html"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "trendmicro"
     ]
@@ -9860,6 +10167,7 @@
         "url": "https://www.oracle.com/jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "oracle"
     ]
@@ -9891,6 +10199,7 @@
         "url": "https://www.future.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "future"
     ]
@@ -9923,6 +10232,7 @@
         "url": "https://www.ussnet.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ussnet"
     ]
@@ -9955,6 +10265,7 @@
         "url": "https://www.obc.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "obc"
     ]
@@ -9986,6 +10297,7 @@
         "url": "https://www.cyberagent.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "cyberagent"
     ]
@@ -10019,6 +10331,7 @@
         "url": "https://corp.rakuten.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "rakuten"
     ]
@@ -10050,6 +10363,7 @@
         "url": "https://www.otsuka-shokai.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "otsuka-shokai",
       "otsuka shokai"
@@ -10083,6 +10397,7 @@
         "url": "https://cybozu.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "cybozu"
     ]
@@ -10115,7 +10430,8 @@
         "title": "電通総研 / Wikimedia Commons（PD-textlogo）",
         "url": "https://commons.wikimedia.org/wiki/File:Dentsu_Soken_Logo.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-4819",
@@ -10145,6 +10461,7 @@
         "url": "https://www.garage.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "garage"
     ]
@@ -10178,6 +10495,7 @@
         "url": "https://jp.weathernews.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "weathernews"
     ]
@@ -10210,6 +10528,7 @@
         "url": "https://corp.en-japan.com"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "en-japan",
       "en japan"
@@ -10242,6 +10561,7 @@
         "url": "https://www.sawaigroup.holdings/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "holdings"
     ]
@@ -10275,6 +10595,7 @@
         "url": "https://holdings.fujifilm.com/ja"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "fujifilm"
     ]
@@ -10306,6 +10627,7 @@
         "url": "https://www.konicaminolta.com/jp-ja/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "konicaminolta"
     ]
@@ -10339,6 +10661,7 @@
         "url": "https://corp.shiseido.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "shiseido"
     ]
@@ -10369,7 +10692,8 @@
         "title": "ライオン ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Lion_Logo_2012-.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-4914",
@@ -10400,6 +10724,7 @@
         "url": "https://www.takasago.com/ja"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "takasago"
     ]
@@ -10433,6 +10758,7 @@
         "url": "https://www.milbon.com/ja/ir/individual/business.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "milbon"
     ]
@@ -10464,6 +10790,7 @@
         "url": "https://koseholdings.co.jp/ja/ir/faq/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "koseholdings"
     ]
@@ -10495,6 +10822,7 @@
         "url": "https://www.po-holdings.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "po-holdings",
       "po holdings"
@@ -10529,6 +10857,7 @@
         "url": "https://recruit.noevirholdings.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "noevirholdings"
     ]
@@ -10560,6 +10889,7 @@
         "url": "https://www.kobayashi.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kobayashi"
     ]
@@ -10593,6 +10923,7 @@
         "url": "https://www.mec-co.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mec-co",
       "mec co"
@@ -10625,6 +10956,7 @@
         "url": "https://www.dexerials.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "dexerials"
     ]
@@ -10657,7 +10989,8 @@
         "title": "アース製薬（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000512.000023444.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-4996",
@@ -10688,6 +11021,7 @@
         "url": "https://www.kumiai-chem.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kumiai-chem",
       "kumiai chem"
@@ -10720,6 +11054,7 @@
         "url": "https://www.jx-nmm.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "jx-nmm",
       "jx nmm"
@@ -10752,6 +11087,7 @@
         "url": "https://www.idemitsu.com/jp/index.html"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "idemitsu"
     ]
@@ -10785,6 +11121,7 @@
         "url": "https://www.hd.eneos.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "eneos"
     ]
@@ -10817,6 +11154,7 @@
         "url": "https://www.cosmo-energy.co.jp/ja/top.html"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "cosmo-energy",
       "cosmo energy"
@@ -10850,6 +11188,7 @@
         "url": "https://www.anycolor.co.jp/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "anycolor"
     ]
@@ -10883,6 +11222,7 @@
         "url": "https://recruit.infroneer.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "infroneer"
     ]
@@ -10914,6 +11254,7 @@
         "url": "https://www.y-yokohama.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "y-yokohama",
       "y yokohama"
@@ -10946,6 +11287,7 @@
         "url": "https://www.toyotires.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "toyotires"
     ]
@@ -10979,6 +11321,7 @@
         "url": "https://www.bridgestone.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "bridgestone"
     ]
@@ -11012,6 +11355,7 @@
         "url": "https://www.srigroup.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "srigroup"
     ]
@@ -11043,6 +11387,7 @@
         "url": "https://product.mitsuboshi.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mitsuboshi"
     ]
@@ -11074,6 +11419,7 @@
         "url": "https://www.agc.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "agc"
     ]
@@ -11107,6 +11453,7 @@
         "url": "https://www.arisawa.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "arisawa"
     ]
@@ -11138,6 +11485,7 @@
         "url": "https://www.neg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "neg"
     ]
@@ -11171,6 +11519,7 @@
         "url": "https://www.soc.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "soc"
     ]
@@ -11202,6 +11551,7 @@
         "url": "https://www.taiheiyo-cement.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "taiheiyo-cement",
       "taiheiyo cement"
@@ -11236,6 +11586,7 @@
         "url": "https://cover-corp.com/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "cover-corp",
       "cover corp"
@@ -11268,6 +11619,7 @@
         "url": "https://www.nipponhume.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nipponhume"
     ]
@@ -11299,6 +11651,7 @@
         "url": "https://www.tokaicarbon.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tokaicarbon"
     ]
@@ -11330,6 +11683,7 @@
         "url": "https://www.carbon.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "carbon"
     ]
@@ -11362,6 +11716,7 @@
         "url": "https://www.toyotanso.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "toyotanso"
     ]
@@ -11394,7 +11749,8 @@
         "title": "ノリタケ（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000016.000080321.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-5332",
@@ -11425,6 +11781,7 @@
         "url": "https://jp.toto.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "toto"
     ]
@@ -11458,6 +11815,7 @@
         "url": "https://www.ngk.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ngk"
     ]
@@ -11488,7 +11846,8 @@
         "title": "日本特殊陶業 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Niterra_logo(2023).svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-5344",
@@ -11517,6 +11876,7 @@
         "url": "https://www.maruwa-g.com/recruit/business/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "maruwa-g",
       "maruwa g"
@@ -11548,7 +11908,8 @@
         "title": "品川リフラ（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000011.000154526.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-5384",
@@ -11578,6 +11939,7 @@
         "url": "https://www.fujimiinc.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "fujimiinc"
     ]
@@ -11611,6 +11973,7 @@
         "url": "https://www.nichias.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nichias"
     ]
@@ -11644,6 +12007,7 @@
         "url": "https://www.nipponsteel.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nipponsteel"
     ]
@@ -11675,6 +12039,7 @@
         "url": "https://www.kobelco.co.jp/about-kobelco/business.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kobelco"
     ]
@@ -11708,6 +12073,7 @@
         "url": "https://www.godo-steel.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "godo-steel",
       "godo steel"
@@ -11740,6 +12106,7 @@
         "url": "https://www.jfe-holdings.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "jfe-holdings",
       "jfe holdings"
@@ -11774,6 +12141,7 @@
         "url": "https://www.kyoeisteel.co.jp/ja/what.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kyoeisteel"
     ]
@@ -11805,6 +12173,7 @@
         "url": "https://www.yamatokogyo.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yamatokogyo"
     ]
@@ -11838,6 +12207,7 @@
         "url": "https://www.tokyotekko.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tokyotekko"
     ]
@@ -11870,7 +12240,8 @@
         "title": "ヨドコウ（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000016.000068872.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-5461",
@@ -11901,6 +12272,7 @@
         "url": "https://www.chubukohan.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "chubukohan"
     ]
@@ -11933,7 +12305,8 @@
         "title": "丸一鋼管（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000001.000158955.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-5471",
@@ -11964,6 +12337,7 @@
         "url": "https://www.daido.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "daido"
     ]
@@ -11997,6 +12371,7 @@
         "url": "https://www.muninova.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "muninova"
     ]
@@ -12030,6 +12405,7 @@
         "url": "https://www.nyk.co.jp/main/recruit/fresh/aboutus/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nyk"
     ]
@@ -12063,6 +12439,7 @@
         "url": "https://www.aichi-steel.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "aichi-steel",
       "aichi steel"
@@ -12097,6 +12474,7 @@
         "url": "https://www.nippondenko.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nippondenko"
     ]
@@ -12130,6 +12508,7 @@
         "url": "https://corp.kurimoto.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kurimoto"
     ]
@@ -12161,6 +12540,7 @@
         "url": "https://saiyo.jsw.co.jp:443/recruit/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "jsw"
     ]
@@ -12193,6 +12573,7 @@
         "url": "https://www.dik-net.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "dik-net",
       "dik net"
@@ -12227,6 +12608,7 @@
         "url": "https://www.nikkeikinholdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nikkeikinholdings"
     ]
@@ -12258,6 +12640,7 @@
         "url": "https://www.mitsui-kinzoku.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mitsui-kinzoku",
       "mitsui kinzoku"
@@ -12292,6 +12675,7 @@
         "url": "https://ir.mmc.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mmc"
     ]
@@ -12324,6 +12708,7 @@
         "url": "https://www.smm.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "smm"
     ]
@@ -12354,7 +12739,8 @@
         "title": "DOWAホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:DOWA.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-5715",
@@ -12385,6 +12771,7 @@
         "url": "https://www.furukawakk.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "furukawakk"
     ]
@@ -12418,6 +12805,7 @@
         "url": "https://www.osaka-ti.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "osaka-ti",
       "osaka ti"
@@ -12452,6 +12840,7 @@
         "url": "https://www.uacj.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "uacj"
     ]
@@ -12483,6 +12872,7 @@
         "url": "https://www.furukawaelectric.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "furukawaelectric"
     ]
@@ -12514,6 +12904,7 @@
         "url": "https://sumitomoelectric.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sumitomoelectric"
     ]
@@ -12545,6 +12936,7 @@
         "url": "https://www.fujikura.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "fujikura"
     ]
@@ -12577,6 +12969,7 @@
         "url": "https://www.iyogin-hd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "iyogin-hd",
       "iyogin hd"
@@ -12609,6 +13002,7 @@
         "url": "https://www.shizuoka-fg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "shizuoka-fg",
       "shizuoka fg"
@@ -12641,6 +13035,7 @@
         "url": "https://www.chugin-fg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "chugin-fg",
       "chugin fg"
@@ -12675,6 +13070,7 @@
         "url": "https://www.rakuten-bank.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "rakuten-bank",
       "rakuten bank"
@@ -12708,6 +13104,7 @@
         "url": "https://www.kyoto-fg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kyoto-fg",
       "kyoto fg"
@@ -12742,6 +13139,7 @@
         "url": "https://www.ryobi-group.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ryobi-group",
       "ryobi group"
@@ -12776,6 +13174,7 @@
         "url": "https://www.are-holdings.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "are-holdings",
       "are holdings"
@@ -12808,6 +13207,7 @@
         "url": "https://www.tskg-hd.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tskg-hd",
       "tskg hd"
@@ -12842,6 +13242,7 @@
         "url": "https://www.ybhd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ybhd"
     ]
@@ -12873,6 +13274,7 @@
         "url": "https://www.sanwa-hldgs.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sanwa-hldgs",
       "sanwa hldgs"
@@ -12907,6 +13309,7 @@
         "url": "https://www.bunka-s.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "bunka-s",
       "bunka s"
@@ -12939,6 +13342,7 @@
         "url": "https://www.lixil.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "lixil"
     ]
@@ -12971,6 +13375,7 @@
         "url": "https://www.noritz.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "noritz"
     ]
@@ -13004,6 +13409,7 @@
         "url": "https://rinnai.jp/top"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "rinnai"
     ]
@@ -13036,7 +13442,8 @@
         "title": "ユニプレスの紹介画像（株式会社iCARE提供 / PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000194.000022826.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-5988",
@@ -13067,6 +13474,7 @@
         "url": "https://www.piolax.co.jp/jp/company/about/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "piolax"
     ]
@@ -13100,6 +13508,7 @@
         "url": "https://www.nhkspg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nhkspg"
     ]
@@ -13131,6 +13540,7 @@
         "url": "https://www.miuraz.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "miuraz"
     ]
@@ -13162,6 +13572,7 @@
         "url": "https://keepergiken.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "keepergiken"
     ]
@@ -13194,6 +13605,7 @@
         "url": "https://www.ma-cp.com/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "ma-cp",
       "ma cp"
@@ -13228,6 +13640,7 @@
         "url": "https://recruit-holdings.com/ja/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "recruit-holdings",
       "recruit holdings"
@@ -13262,6 +13675,7 @@
         "url": "https://www.okuma.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "okuma"
     ]
@@ -13295,6 +13709,7 @@
         "url": "https://www.shibaura-machine.co.jp/jp/ir/private/products.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "shibaura-machine",
       "shibaura machine"
@@ -13327,6 +13742,7 @@
         "url": "https://www.sheetmetal.amada.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "amada"
     ]
@@ -13360,6 +13776,7 @@
         "url": "https://recruit.fuji.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "fuji"
     ]
@@ -13392,6 +13809,7 @@
         "url": "https://www.makino.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "makino"
     ]
@@ -13423,6 +13841,7 @@
         "url": "https://www.osg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "osg"
     ]
@@ -13456,6 +13875,7 @@
         "url": "https://recruit.asahidia.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "asahidia"
     ]
@@ -13487,6 +13907,7 @@
         "url": "https://www.dmgmori.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "dmgmori"
     ]
@@ -13520,6 +13941,7 @@
         "url": "https://www.sodick.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sodick"
     ]
@@ -13551,6 +13973,7 @@
         "url": "https://www.disco.co.jp/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "disco"
     ]
@@ -13584,6 +14007,7 @@
         "url": "https://recruit.japanpost.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "japanpost"
     ]
@@ -13615,6 +14039,7 @@
         "url": "https://www.strike.co.jp/group/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "strike"
     ]
@@ -13646,6 +14071,7 @@
         "url": "https://www.insource.co.jp/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "insource"
     ]
@@ -13679,6 +14105,7 @@
         "url": "https://www.shimaseiki.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "shimaseiki"
     ]
@@ -13712,6 +14139,7 @@
         "url": "https://www.nomura-nms.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nomura-nms",
       "nomura nms"
@@ -13746,6 +14174,7 @@
         "url": "https://www.hirata.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hirata"
     ]
@@ -13777,6 +14206,7 @@
         "url": "https://www.nabtesco.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nabtesco"
     ]
@@ -13807,7 +14237,8 @@
         "title": "三井海洋開発 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:MODEC.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-6273",
@@ -13838,6 +14269,7 @@
         "url": "https://www.smcworld.com/ja-jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "smcworld"
     ]
@@ -13871,6 +14303,7 @@
         "url": "https://www.hosokawamicron.co.jp/jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hosokawamicron"
     ]
@@ -13904,6 +14337,7 @@
         "url": "https://www.uniontool.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "uniontool"
     ]
@@ -13937,6 +14371,7 @@
         "url": "https://www.oiles.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "oiles"
     ]
@@ -13970,6 +14405,7 @@
         "url": "https://nisseiasb.co.jp/ja/pdf/news/2022/K2022_Press_Release.pdf"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nisseiasb"
     ]
@@ -14002,6 +14438,7 @@
         "url": "https://www.komatsu.jp/ja"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "komatsu"
     ]
@@ -14033,6 +14470,7 @@
         "url": "https://www.shi.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "shi"
     ]
@@ -14066,6 +14504,7 @@
         "url": "https://www.hitachicm.com/jp/ja/recruit/faq/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "hitachicm"
     ]
@@ -14099,6 +14538,7 @@
         "url": "https://www.towajapan.co.jp/jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "towajapan"
     ]
@@ -14132,6 +14572,7 @@
         "url": "https://www.rorze.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "rorze"
     ]
@@ -14164,7 +14605,8 @@
         "title": "クボタ ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Kubota_Logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-6331",
@@ -14195,6 +14637,7 @@
         "url": "https://www.kakoki.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kakoki"
     ]
@@ -14228,6 +14671,7 @@
         "url": "https://www.tsk-g.co.jp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tsk-g",
       "tsk g"
@@ -14262,6 +14706,7 @@
         "url": "https://www.komori.com/en/global/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "komori"
     ]
@@ -14293,6 +14738,7 @@
         "url": "https://ebara-recruiting-site.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ebara-recruiting-site",
       "ebara recruiting site"
@@ -14327,6 +14773,7 @@
         "url": "https://www.torishima.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "torishima"
     ]
@@ -14358,6 +14805,7 @@
         "url": "https://www.daikin.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "daikin"
     ]
@@ -14390,6 +14838,7 @@
         "url": "https://product.organo.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "organo"
     ]
@@ -14423,6 +14872,7 @@
         "url": "https://www.kurita-water.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kurita-water",
       "kurita water"
@@ -14457,6 +14907,7 @@
         "url": "https://www.tsubakimoto.jp/recruit/fresh/people/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tsubakimoto"
     ]
@@ -14489,6 +14940,7 @@
         "url": "https://www.nikkiso.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nikkiso"
     ]
@@ -14522,6 +14974,7 @@
         "url": "https://www.daifuku.com/jp/solution/intralogistics/products/automated-warehouse/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "daifuku"
     ]
@@ -14555,6 +15008,7 @@
         "url": "https://www.tadano.co.jp/ja/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tadano"
     ]
@@ -14588,6 +15042,7 @@
         "url": "https://www.ckd.co.jp/company/recruit/student/company/strength/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ckd"
     ]
@@ -14619,6 +15074,7 @@
         "url": "https://sankyo-recruit.snar.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "snar"
     ]
@@ -14652,6 +15108,7 @@
         "url": "https://www.mars-ghd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mars-ghd",
       "mars ghd"
@@ -14686,6 +15143,7 @@
         "url": "https://www.galilei-holdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "galilei-holdings",
       "galilei holdings"
@@ -14720,6 +15178,7 @@
         "url": "https://takeuchi-mfg-recruit.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "takeuchi-mfg-recruit",
       "takeuchi mfg recruit"
@@ -14754,6 +15213,7 @@
         "url": "https://www.amano.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "amano"
     ]
@@ -14785,6 +15245,7 @@
         "url": "https://www.brother.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "brother"
     ]
@@ -14818,6 +15279,7 @@
         "url": "https://www.max-ltd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "max-ltd",
       "max ltd"
@@ -14850,6 +15312,7 @@
         "url": "https://www.glory.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "glory"
     ]
@@ -14883,6 +15346,7 @@
         "url": "https://www.sinko.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sinko"
     ]
@@ -14916,6 +15380,7 @@
         "url": "https://www.segasammy.co.jp/ja/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "segasammy"
     ]
@@ -14949,6 +15414,7 @@
         "url": "https://www.tpr.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tpr"
     ]
@@ -14980,6 +15446,7 @@
         "url": "https://www.hoshizaki.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hoshizaki"
     ]
@@ -15011,6 +15478,7 @@
         "url": "https://www.crasus.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "crasus"
     ]
@@ -15042,6 +15510,7 @@
         "url": "https://www.nsk.com/jp-ja/company/career/graduate/recruit/requirement/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nsk"
     ]
@@ -15073,6 +15542,7 @@
         "url": "https://www.ntn.co.jp/japan/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ntn"
     ]
@@ -15103,7 +15573,8 @@
         "title": "ジェイテクト（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000609.000028729.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-6474",
@@ -15134,6 +15605,7 @@
         "url": "https://www.nachi-fujikoshi.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nachi-fujikoshi",
       "nachi fujikoshi"
@@ -15166,6 +15638,7 @@
         "url": "https://product.minebeamitsumi.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "minebeamitsumi"
     ]
@@ -15197,6 +15670,7 @@
         "url": "https://www.thk.com/opm/jp/ja/linear/thklinearguide/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "thk"
     ]
@@ -15230,6 +15704,7 @@
         "url": "https://www.pillar.co.jp/ja/business/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "pillar"
     ]
@@ -15263,8 +15738,10 @@
         "url": "https://www.hitachi.com/ja-jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
-      "hitachi"
+      "hitachi",
+      "日立"
     ]
   },
   {
@@ -15296,6 +15773,7 @@
         "url": "https://www.mitsubishielectric.co.jp/ja/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mitsubishielectric"
     ]
@@ -15328,7 +15806,8 @@
         "title": "富士電機 / Wikimedia Commons（PD-textlogo）",
         "url": "https://commons.wikimedia.org/wiki/File:Fuji_Electric_company_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-6506",
@@ -15357,6 +15836,7 @@
         "url": "https://www.yaskawa.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "yaskawa"
     ]
@@ -15390,6 +15870,7 @@
         "url": "https://www.sinfo-t.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sinfo-t",
       "sinfo t"
@@ -15424,6 +15905,7 @@
         "url": "https://www.meidensha.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "meidensha"
     ]
@@ -15457,6 +15939,7 @@
         "url": "https://products.sanyodenki.com/ja/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sanyodenki"
     ]
@@ -15488,7 +15971,8 @@
         "title": "PHCグループのPHC株式会社と積水化学の共同実証紹介画像（積水化学工業提供 / PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000373.000099121.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-6525",
@@ -15517,6 +16001,7 @@
         "url": "https://www.kokusai-electric.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kokusai-electric",
       "kokusai electric"
@@ -15551,6 +16036,7 @@
         "url": "https://www.socionext.com/jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "socionext"
     ]
@@ -15582,6 +16068,7 @@
         "url": "https://www.baycurrent.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "baycurrent"
     ]
@@ -15615,6 +16102,7 @@
         "url": "https://www.jes24.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "jes24"
     ]
@@ -15646,6 +16134,7 @@
         "url": "https://www.makita.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "makita"
     ]
@@ -15679,6 +16168,7 @@
         "url": "https://www.toshibatec.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "toshibatec"
     ]
@@ -15707,7 +16197,8 @@
       "width": 1280,
       "height": 720,
       "source": "editorial-design"
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-6592",
@@ -15736,6 +16227,7 @@
         "url": "https://www.mabuchi-motor-recruit.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mabuchi-motor-recruit",
       "mabuchi motor recruit"
@@ -15770,6 +16262,7 @@
         "url": "https://www.daihen.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "daihen"
     ]
@@ -15801,7 +16294,8 @@
         "title": "JVCケンウッド（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000626.000045133.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-6645",
@@ -15831,7 +16325,8 @@
         "title": "オムロン（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000184.000120244.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-6651",
@@ -15862,6 +16357,7 @@
         "url": "https://www.nito.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nito"
     ]
@@ -15894,7 +16390,8 @@
         "title": "IDEC（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000001.000110616.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-6674",
@@ -15923,6 +16420,7 @@
         "url": "https://www.gs-yuasa.com/jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "gs-yuasa",
       "gs yuasa"
@@ -15956,8 +16454,10 @@
         "url": "https://jpn.nec.com/publicworks/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
-      "nec"
+      "nec",
+      "日本電気"
     ]
   },
   {
@@ -15987,8 +16487,10 @@
         "url": "https://global.fujitsu/ja-JP"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
-      "fujitsu"
+      "fujitsu",
+      "富士通"
     ]
   },
   {
@@ -16020,6 +16522,7 @@
         "url": "https://www.oki.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "oki"
     ]
@@ -16051,6 +16554,7 @@
         "url": "https://www.semicon.sanken-ele.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sanken-ele",
       "sanken ele"
@@ -16083,6 +16587,7 @@
         "url": "https://www.renesas.com/ja"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "renesas"
     ]
@@ -16113,7 +16618,8 @@
         "title": "セイコーエプソン ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Epson_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-6727",
@@ -16144,6 +16650,7 @@
         "url": "https://www.wacom.com/ja-jp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "wacom"
     ]
@@ -16177,6 +16684,7 @@
         "url": "https://www.ulvac.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ulvac"
     ]
@@ -16210,8 +16718,10 @@
         "url": "https://recruit.jpn.panasonic.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
-      "panasonic"
+      "panasonic",
+      "パナソニック"
     ]
   },
   {
@@ -16242,6 +16752,7 @@
         "url": "https://corporate.jp.sharp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sharp"
     ]
@@ -16273,6 +16784,7 @@
         "url": "https://www.anritsu.com/ja-jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "anritsu"
     ]
@@ -16305,7 +16817,13 @@
         "title": "ソニーグループ ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Sony_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー",
+    "searchAliases": [
+      "sony",
+      "sony group",
+      "ソニー"
+    ]
   },
   {
     "slug": "company-analysis-6762",
@@ -16335,7 +16853,8 @@
         "title": "TDK ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000025.000059698.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-6768",
@@ -16366,6 +16885,7 @@
         "url": "https://www.tamuracorp.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tamuracorp"
     ]
@@ -16398,6 +16918,7 @@
         "url": "https://www.alpsalpine.com/j/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "alpsalpine"
     ]
@@ -16431,6 +16952,7 @@
         "url": "https://www.meiko-elec.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "meiko-elec",
       "meiko elec"
@@ -16465,6 +16987,7 @@
         "url": "https://www.hosiden.com/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "hosiden"
     ]
@@ -16497,6 +17020,7 @@
         "url": "https://www.hirose.com/corporate/ja/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "hirose"
     ]
@@ -16530,6 +17054,7 @@
         "url": "https://www.maxell.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "maxell"
     ]
@@ -16562,7 +17087,8 @@
         "title": "古野電気（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000158.000089783.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-6841",
@@ -16593,6 +17119,7 @@
         "url": "https://www.yokogawa.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "yokogawa"
     ]
@@ -16623,7 +17150,8 @@
         "title": "アズビル（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000010.000160655.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-6849",
@@ -16652,6 +17180,7 @@
         "url": "https://www.nihonkohden.co.jp/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nihonkohden"
     ]
@@ -16683,6 +17212,7 @@
         "url": "https://recruit.horiba.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "horiba"
     ]
@@ -16716,6 +17246,7 @@
         "url": "https://www.advantest.com/ja/about/business/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "advantest"
     ]
@@ -16748,7 +17279,8 @@
         "title": "エスペックへのSkillnote導入紹介画像（株式会社Skillnote提供 / PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000052.000088452.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-6861",
@@ -16779,6 +17311,7 @@
         "url": "https://www.keyence.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "keyence"
     ]
@@ -16812,6 +17345,7 @@
         "url": "https://www.sysmex.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sysmex"
     ]
@@ -16840,7 +17374,8 @@
       "width": 1280,
       "height": 720,
       "source": "editorial-design"
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-6875",
@@ -16871,6 +17406,7 @@
         "url": "https://www.megachips.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "megachips"
     ]
@@ -16904,6 +17440,7 @@
         "url": "https://careers.denso.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "denso"
     ]
@@ -16937,6 +17474,7 @@
         "url": "https://www.irisoele.com/jp/recruit/newgrads/strengths/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "irisoele"
     ]
@@ -16970,6 +17508,7 @@
         "url": "https://www.optexgroup.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "optexgroup"
     ]
@@ -17003,6 +17542,7 @@
         "url": "https://www.lasertec.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "lasertec"
     ]
@@ -17034,6 +17574,7 @@
         "url": "https://www.stanley-electric.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "stanley-electric",
       "stanley electric"
@@ -17066,6 +17607,7 @@
         "url": "https://www.ushio.co.jp/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ushio"
     ]
@@ -17099,6 +17641,7 @@
         "url": "https://www.nicera.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nicera"
     ]
@@ -17132,6 +17675,7 @@
         "url": "https://www.yamaichi.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yamaichi"
     ]
@@ -17163,6 +17707,7 @@
         "url": "https://www.jeol.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "jeol"
     ]
@@ -17195,6 +17740,7 @@
         "url": "https://www.casio.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "casio"
     ]
@@ -17228,6 +17774,7 @@
         "url": "https://www.fanuc.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "fanuc"
     ]
@@ -17260,6 +17807,7 @@
         "url": "https://www.rohm.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "rohm"
     ]
@@ -17292,6 +17840,7 @@
         "url": "https://www.hamamatsu.com/jp/ja/our-company/business-domain/systems-division.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hamamatsu"
     ]
@@ -17324,6 +17873,7 @@
         "url": "https://www.mitsui-high-tec.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mitsui-high-tec",
       "mitsui high tec"
@@ -17356,6 +17906,7 @@
         "url": "https://www.kyocera.co.jp/prdct/fc/about-us/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kyocera"
     ]
@@ -17387,6 +17938,7 @@
         "url": "https://www.yuden.co.jp/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "yuden"
     ]
@@ -17419,6 +17971,7 @@
         "url": "https://www.murata.com/ja-jp"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "murata"
     ]
@@ -17450,6 +18003,7 @@
         "url": "https://www-origin.nitto.com/jp/ja/products/semicon/dicing006/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nitto"
     ]
@@ -17483,6 +18037,7 @@
         "url": "https://www.nichicon.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nichicon"
     ]
@@ -17516,6 +18071,7 @@
         "url": "https://career.koaglobal.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "koaglobal"
     ]
@@ -17549,6 +18105,7 @@
         "url": "https://www.mes.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mes"
     ]
@@ -17581,6 +18138,7 @@
         "url": "https://www.kanadevia.com/employ/job/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kanadevia"
     ]
@@ -17614,6 +18172,7 @@
         "url": "https://www.mhi.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mhi"
     ]
@@ -17647,6 +18206,7 @@
         "url": "https://www.khi.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "khi"
     ]
@@ -17679,6 +18239,7 @@
         "url": "https://www.ihi.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ihi"
     ]
@@ -17712,6 +18273,7 @@
         "url": "https://www.namura.co.jp/ja/product.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "namura"
     ]
@@ -17745,6 +18307,7 @@
         "url": "https://www.curvesholdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "curvesholdings"
     ]
@@ -17778,6 +18341,7 @@
         "url": "https://www.unisol-gr.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "unisol-gr",
       "unisol gr"
@@ -17812,6 +18376,7 @@
         "url": "https://www.yamaegroup-hd.co.jp/careers/newgrads/guideline/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yamaegroup-hd",
       "yamaegroup hd"
@@ -17846,6 +18411,7 @@
         "url": "https://www.fpg.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "fpg"
     ]
@@ -17879,6 +18445,7 @@
         "url": "https://www.lifenet-seimei.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "lifenet-seimei",
       "lifenet seimei"
@@ -17912,6 +18479,7 @@
         "url": "https://www.zenkoku.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "zenkoku"
     ]
@@ -17943,6 +18511,7 @@
         "url": "https://www.mebuki-fg.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "mebuki-fg",
       "mebuki fg"
@@ -17977,6 +18546,7 @@
         "url": "https://www.tokyo-kiraboshifg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tokyo-kiraboshifg",
       "tokyo kiraboshifg"
@@ -18016,7 +18586,8 @@
           "url": "https://creativecommons.org/licenses/by/2.5/"
         }
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-7181",
@@ -18044,7 +18615,8 @@
         "title": "かんぽ生命保険 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Japan_Post_Insurance_Logo.svg"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-7182",
@@ -18075,6 +18647,7 @@
         "url": "https://www.jp-bank.japanpost.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "japanpost"
     ]
@@ -18108,6 +18681,7 @@
         "url": "https://www.first-bank.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "first-bank",
       "first bank"
@@ -18141,6 +18715,7 @@
         "url": "https://www.yokohamafg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yokohamafg"
     ]
@@ -18172,6 +18747,7 @@
         "url": "https://www.nnfh.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nnfh"
     ]
@@ -18204,7 +18780,8 @@
         "title": "プレミアグループ（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000001.000154715.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-7201",
@@ -18233,7 +18810,10 @@
         "url": "https://www.nissanmotor.jobs/japan/MC/life-at-nissan/field.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
+      "nissan",
+      "日産",
       "jobs"
     ]
   },
@@ -18263,7 +18843,8 @@
         "title": "いすゞ自動車 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Isuzu_wordmark.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7203",
@@ -18294,8 +18875,11 @@
         "url": "https://global.toyota/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
-      "toyota"
+      "toyota",
+      "toyota motor",
+      "トヨタ"
     ]
   },
   {
@@ -18327,6 +18911,7 @@
         "url": "https://www.mitsubishi-motors.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mitsubishi-motors",
       "mitsubishi motors"
@@ -18361,6 +18946,7 @@
         "url": "https://musashi-recruit.snar.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "snar"
     ]
@@ -18393,7 +18979,8 @@
         "title": "新明和工業（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000025.000070611.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7226",
@@ -18424,6 +19011,7 @@
         "url": "https://www.kyokuto.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "kyokuto"
     ]
@@ -18457,6 +19045,7 @@
         "url": "https://www.tachi-s.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tachi-s",
       "tachi s"
@@ -18490,7 +19079,8 @@
         "title": "フタバ産業 提供ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000004.000181723.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-7242",
@@ -18521,6 +19111,7 @@
         "url": "https://www.kyb.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kyb"
     ]
@@ -18554,6 +19145,7 @@
         "url": "https://www.presskogyo.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "presskogyo"
     ]
@@ -18587,6 +19179,7 @@
         "url": "https://www.aisin.com/jp/news/2024/006084.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "aisin"
     ]
@@ -18618,6 +19211,7 @@
         "url": "https://www.mazda.com/en/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mazda"
     ]
@@ -18651,7 +19245,10 @@
         "url": "https://www.honda-recruit.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
+      "honda",
+      "ホンダ",
       "honda-recruit",
       "honda recruit"
     ]
@@ -18685,6 +19282,7 @@
         "url": "https://saiyo.suzuki.co.jp/graduate/jobs/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "suzuki"
     ]
@@ -18718,6 +19316,7 @@
         "url": "https://www.subaru.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "subaru"
     ]
@@ -18749,6 +19348,7 @@
         "url": "https://global.yamaha-motor.com/jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "yamaha-motor",
       "yamaha motor"
@@ -18782,6 +19382,7 @@
         "url": "https://www.koito.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "koito"
     ]
@@ -18815,6 +19416,7 @@
         "url": "https://www.exedy.com/ja/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "exedy"
     ]
@@ -18848,6 +19450,7 @@
         "url": "https://www.mitsuba.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mitsuba"
     ]
@@ -18879,6 +19482,7 @@
         "url": "https://www.toyoda-gosei.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "toyoda-gosei",
       "toyoda gosei"
@@ -18913,6 +19517,7 @@
         "url": "https://www.aisan-ind.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "aisan-ind",
       "aisan ind"
@@ -18947,6 +19552,7 @@
         "url": "https://fcc-na.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "fcc-na",
       "fcc na"
@@ -18980,7 +19586,8 @@
         "title": "シマノ ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Shimano_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7313",
@@ -19011,7 +19618,8 @@
         "title": "テイ・エス テック（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000024.000039997.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-7327",
@@ -19042,6 +19650,7 @@
         "url": "https://www.dhfg.co.jp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "dhfg"
     ]
@@ -19073,6 +19682,7 @@
         "url": "https://www.hirogin-hd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hirogin-hd",
       "hirogin hd"
@@ -19107,6 +19717,7 @@
         "url": "https://www.okinawafg.co.jp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "okinawafg"
     ]
@@ -19139,7 +19750,8 @@
         "title": "十六フィナンシャルグループ 公式サイト",
         "url": "https://www.16fg.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-7383",
@@ -19169,6 +19781,7 @@
         "url": "https://corp.netprotections.com/en/ir/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "netprotections"
     ]
@@ -19202,6 +19815,7 @@
         "url": "https://www.aichi-fg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "aichi-fg",
       "aichi fg"
@@ -19236,6 +19850,7 @@
         "url": "https://www.nojima.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "nojima"
     ]
@@ -19269,6 +19884,7 @@
         "url": "https://career.kappa-create.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "kappa-create",
       "kappa create"
@@ -19303,6 +19919,7 @@
         "url": "https://www.hakuto.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "hakuto"
     ]
@@ -19334,6 +19951,7 @@
         "url": "https://assets.ryohin-keikaku.jp/content/error.html"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "ryohin-keikaku",
       "ryohin keikaku"
@@ -19368,6 +19986,7 @@
         "url": "https://www.matsuda-sangyo.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "matsuda-sangyo",
       "matsuda sangyo"
@@ -19402,6 +20021,7 @@
         "url": "https://www.dkkaraoke.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "dkkaraoke"
     ]
@@ -19435,6 +20055,7 @@
         "url": "https://www.medipal.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "medipal"
     ]
@@ -19468,6 +20089,7 @@
         "url": "https://www.as-1.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "as-1",
       "as 1"
@@ -19502,6 +20124,7 @@
         "url": "https://www.aeon-hokkaido.jp/home.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "aeon-hokkaido",
       "aeon hokkaido"
@@ -19535,6 +20158,7 @@
         "url": "https://www.hc-kohnan.com"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hc-kohnan",
       "hc kohnan"
@@ -19568,7 +20192,8 @@
         "title": "パン・パシフィック・インターナショナルホールディングス / Wikimedia Commons（PD-textlogo）",
         "url": "https://commons.wikimedia.org/wiki/File:PPIH_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-7545",
@@ -19598,7 +20223,8 @@
         "title": "西松屋チェーン 公式サイト",
         "url": "https://www.24028.jp"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-7550",
@@ -19627,6 +20253,7 @@
         "url": "https://www.zensho.co.jp/jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "zensho"
     ]
@@ -19660,6 +20287,7 @@
         "url": "https://www.happinet.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "happinet"
     ]
@@ -19693,6 +20321,7 @@
         "url": "https://www.saizeriya.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "saizeriya"
     ]
@@ -19726,6 +20355,7 @@
         "url": "https://www.vt-holdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "vt-holdings",
       "vt holdings"
@@ -19758,6 +20388,7 @@
         "url": "https://www.argo-graph.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "argo-graph",
       "argo graph"
@@ -19792,6 +20423,7 @@
         "url": "https://idom-inc.com/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "idom-inc",
       "idom inc"
@@ -19826,6 +20458,7 @@
         "url": "https://recruit.united-arrows.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "united-arrows",
       "united arrows"
@@ -19859,7 +20492,8 @@
         "title": "ハイデイ日高 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Hiday_hidaka.svg"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-7613",
@@ -19890,6 +20524,7 @@
         "url": "https://www.siix.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "siix"
     ]
@@ -19921,6 +20556,7 @@
         "url": "https://www.colowide.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "colowide"
     ]
@@ -19954,6 +20590,7 @@
         "url": "https://www.ichibanya.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "ichibanya"
     ]
@@ -19987,6 +20624,7 @@
         "url": "https://www.sugi-hd.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "sugi-hd",
       "sugi hd"
@@ -20021,6 +20659,7 @@
         "url": "https://www.shimadzu.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "shimadzu"
     ]
@@ -20053,7 +20692,8 @@
         "title": "東京計器（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000023.000115843.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-7729",
@@ -20081,7 +20721,8 @@
         "title": "東京精密（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000006.000168571.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7730",
@@ -20112,6 +20753,7 @@
         "url": "https://mani.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mani"
     ]
@@ -20143,6 +20785,7 @@
         "url": "https://www.jp.nikon.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nikon"
     ]
@@ -20176,6 +20819,7 @@
         "url": "https://www.olympus.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "olympus"
     ]
@@ -20209,6 +20853,7 @@
         "url": "https://www.rikenkeiki.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "rikenkeiki"
     ]
@@ -20239,7 +20884,8 @@
         "title": "SCREENホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Dainippon_Screen_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7740",
@@ -20270,6 +20916,7 @@
         "url": "https://www.tamron-recruit.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tamron-recruit",
       "tamron recruit"
@@ -20304,6 +20951,7 @@
         "url": "https://www.hoya.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hoya"
     ]
@@ -20337,6 +20985,7 @@
         "url": "https://www.noritsu.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "noritsu"
     ]
@@ -20370,6 +21019,7 @@
         "url": "https://andholon.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "andholon"
     ]
@@ -20402,6 +21052,7 @@
         "url": "https://www.asahi-intecc.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "asahi-intecc",
       "asahi intecc"
@@ -20435,7 +21086,8 @@
         "title": "キヤノン ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Canon_wordmark.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7752",
@@ -20466,6 +21118,7 @@
         "url": "https://jp.ricoh.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "ricoh"
     ]
@@ -20499,6 +21152,7 @@
         "url": "https://www.citizen.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "citizen"
     ]
@@ -20532,6 +21186,7 @@
         "url": "https://www.menicon.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "menicon"
     ]
@@ -20563,6 +21218,7 @@
         "url": "https://www.maedakosen.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "maedakosen"
     ]
@@ -20594,6 +21250,7 @@
         "url": "https://www.furuyametals.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "furuyametals"
     ]
@@ -20627,6 +21284,7 @@
         "url": "https://www.bandainamco.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "bandainamco"
     ]
@@ -20660,6 +21318,7 @@
         "url": "https://www.pilot.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "pilot"
     ]
@@ -20692,6 +21351,7 @@
         "url": "https://avex.com/jp/ja/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "avex"
     ]
@@ -20724,6 +21384,7 @@
         "url": "https://www.fujiseal.com/jp/product/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "fujiseal"
     ]
@@ -20755,6 +21416,7 @@
         "url": "https://www.takaratomy.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "takaratomy"
     ]
@@ -20788,6 +21450,7 @@
         "url": "https://www.holdings.toppan.com/ja/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "toppan"
     ]
@@ -20819,6 +21482,7 @@
         "url": "https://www.dnp.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "dnp"
     ]
@@ -20851,6 +21515,7 @@
         "url": "https://www.nissha.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nissha"
     ]
@@ -20884,6 +21549,7 @@
         "url": "https://corp.asics.com/jp"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "asics"
     ]
@@ -20915,6 +21581,7 @@
         "url": "https://www.nichiha.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nichiha"
     ]
@@ -20946,6 +21613,7 @@
         "url": "https://www.roland.com/jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "roland"
     ]
@@ -20979,6 +21647,7 @@
         "url": "https://www.fpco.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "fpco"
     ]
@@ -21010,6 +21679,7 @@
         "url": "https://jp.yamaha.com/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "yamaha"
     ]
@@ -21042,7 +21712,8 @@
         "title": "ピジョン 提供ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000266.000048454.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7965",
@@ -21073,6 +21744,7 @@
         "url": "https://www.zojirushi.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "zojirushi"
     ]
@@ -21103,7 +21775,8 @@
         "title": "リンテック（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000090.000001720.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-7970",
@@ -21134,6 +21807,7 @@
         "url": "https://www.shinpoly.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "shinpoly"
     ]
@@ -21165,6 +21839,7 @@
         "url": "https://itoki-recruit.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "itoki-recruit",
       "itoki recruit"
@@ -21199,8 +21874,10 @@
         "url": "https://www.nintendo.com/jp/index.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
-      "nintendo"
+      "nintendo",
+      "ニンテンドー"
     ]
   },
   {
@@ -21231,6 +21908,7 @@
         "url": "https://www.mpuni.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mpuni"
     ]
@@ -21263,7 +21941,8 @@
         "title": "タカラスタンダード（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000001.000088261.html"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7984",
@@ -21291,7 +21970,8 @@
         "title": "コクヨ ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Kokuyo_logo_2025.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-7988",
@@ -21321,6 +22001,7 @@
         "url": "https://www.nifco.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nifco"
     ]
@@ -21352,6 +22033,7 @@
         "url": "https://www.globeride.co.jp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "globeride"
     ]
@@ -21383,6 +22065,7 @@
         "url": "https://www.okamura.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "okamura"
     ]
@@ -21416,6 +22099,7 @@
         "url": "https://www.valqua.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "valqua"
     ]
@@ -21449,6 +22133,7 @@
         "url": "https://www.itochu.co.jp/ja/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "itochu"
     ]
@@ -21482,6 +22167,7 @@
         "url": "https://www.marubeni.com/jp/company/profile/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "marubeni"
     ]
@@ -21515,6 +22201,7 @@
         "url": "https://yondoshi.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yondoshi"
     ]
@@ -21548,6 +22235,7 @@
         "url": "https://www.nagase.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "nagase"
     ]
@@ -21579,6 +22267,7 @@
         "url": "https://www.toyota-tsusho.com/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "toyota-tsusho",
       "toyota tsusho"
@@ -21613,6 +22302,7 @@
         "url": "https://www.onward-hd.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "onward-hd",
       "onward hd"
@@ -21648,6 +22338,7 @@
         "url": "https://www.kanematsu.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "kanematsu"
     ]
@@ -21679,6 +22370,7 @@
         "url": "https://corp.mizuno.com/jp"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "mizuno"
     ]
@@ -21712,6 +22404,7 @@
         "url": "https://www.mitsui.com/jp/ja/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "mitsui"
     ]
@@ -21745,6 +22438,7 @@
         "url": "https://www.tel.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "tel"
     ]
@@ -21778,6 +22472,7 @@
         "url": "https://www.seiko.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "seiko"
     ]
@@ -21810,7 +22505,8 @@
         "title": "山善 ロゴ（再春館製薬所提供 / PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000132.000051751.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-8053",
@@ -21839,6 +22535,7 @@
         "url": "https://www.sumitomocorp.com/ja/jp/about/company/profile"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "sumitomocorp"
     ]
@@ -21869,7 +22566,8 @@
         "title": "BIPROGY ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:BIPROGY_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア"
   },
   {
     "slug": "company-analysis-8057",
@@ -21900,6 +22598,7 @@
         "url": "https://www.uchida.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "uchida"
     ]
@@ -21933,6 +22632,7 @@
         "url": "https://www.career-mc.com/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "career-mc",
       "career mc"
@@ -21965,6 +22665,7 @@
         "url": "https://corporate.jp.canon/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "canon"
     ]
@@ -21998,6 +22699,7 @@
         "url": "https://www.seika.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "seika"
     ]
@@ -22031,6 +22733,7 @@
         "url": "https://www.yuasa.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yuasa"
     ]
@@ -22064,6 +22767,7 @@
         "url": "https://www.hanwa.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "hanwa"
     ]
@@ -22095,6 +22799,7 @@
         "url": "https://www.nipro.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "nipro"
     ]
@@ -22126,6 +22831,7 @@
         "url": "https://www.iwatani.co.jp/jpn/business/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "iwatani"
     ]
@@ -22159,6 +22865,7 @@
         "url": "https://www.inabata.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "inabata"
     ]
@@ -22190,6 +22897,7 @@
         "url": "https://about.goldwin.co.jp/about/business"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "goldwin"
     ]
@@ -22223,6 +22931,7 @@
         "url": "https://www.unicharm.co.jp/ja/home.html"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "unicharm"
     ]
@@ -22255,7 +22964,8 @@
         "title": "ワキタ（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000010.000131229.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-8129",
@@ -22284,6 +22994,7 @@
         "url": "https://www.tohohd.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "tohohd"
     ]
@@ -22317,6 +23028,7 @@
         "url": "https://www.sangetsu.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sangetsu"
     ]
@@ -22350,6 +23062,7 @@
         "url": "https://www.itcenex.com/ja/business/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "itcenex"
     ]
@@ -22381,6 +23094,7 @@
         "url": "https://corporate.sanrio.co.jp/"
       }
     },
+    "companyIndustry": "メーカー",
     "searchAliases": [
       "sanrio"
     ]
@@ -22413,7 +23127,8 @@
         "title": "モスフードサービス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:MOS-Burger-Logo.svg"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-8154",
@@ -22443,7 +23158,8 @@
         "title": "加賀電子 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Kaga_Electronics_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "商社"
   },
   {
     "slug": "company-analysis-8160",
@@ -22474,6 +23190,7 @@
         "url": "https://www.kisoji-recruit.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kisoji-recruit",
       "kisoji recruit"
@@ -22508,6 +23225,7 @@
         "url": "https://www.joshin.co.jp/ja/company/outline.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "joshin"
     ]
@@ -22538,7 +23256,8 @@
         "title": "日本瓦斯（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000001.000014398.html"
       }
-    }
+    },
+    "companyIndustry": "インフラ"
   },
   {
     "slug": "company-analysis-8179",
@@ -22569,6 +23288,7 @@
         "url": "https://www.royal-holdings.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "royal-holdings",
       "royal holdings"
@@ -22602,6 +23322,7 @@
         "url": "https://www.lifecorp.jp/company/recruit/new_gra/departments/index.html"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "lifecorp"
     ]
@@ -22634,7 +23355,8 @@
         "title": "リンガーハット ロゴ（三菱地所プロパティマネジメント提供 / PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000010.000043503.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-8214",
@@ -22665,6 +23387,7 @@
         "url": "https://www.aoki-hd.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "aoki-hd",
       "aoki hd"
@@ -22698,7 +23421,8 @@
         "title": "コメリ（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000881.000079052.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-8219",
@@ -22728,7 +23452,8 @@
         "title": "青山商事（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000442.000115161.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-8227",
@@ -22758,7 +23483,8 @@
         "title": "しまむら 公式サイト",
         "url": "https://img.shimamura.gr.jp/company/csr/detail.php"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-8233",
@@ -22786,7 +23512,8 @@
         "title": "高島屋 / Wikimedia Commons（PD-textlogo）",
         "url": "https://commons.wikimedia.org/wiki/File:Takashimaya-Logo.svg"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-8237",
@@ -22817,6 +23544,7 @@
         "url": "https://www.matsuya.com/corp/company/profile/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "matsuya"
     ]
@@ -22848,6 +23576,7 @@
         "url": "https://www.h2o-retailing.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "h2o-retailing",
       "h2o retailing"
@@ -22881,7 +23610,8 @@
         "title": "丸井グループ 公式サイト",
         "url": "https://www.0101maruigroup.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-8253",
@@ -22910,6 +23640,7 @@
         "url": "https://saiyo.saisoncard.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "saisoncard"
     ]
@@ -22941,6 +23672,7 @@
         "url": "https://www.aeon.info/en/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "info"
     ]
@@ -22974,6 +23706,7 @@
         "url": "https://www.izumi.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "izumi"
     ]
@@ -23007,6 +23740,7 @@
         "url": "https://www.heiwado.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "heiwado"
     ]
@@ -23040,6 +23774,7 @@
         "url": "https://www.the-fuji.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "the-fuji",
       "the fuji"
@@ -23074,6 +23809,7 @@
         "url": "https://www.xebio.co.jp/ja/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "xebio"
     ]
@@ -23105,6 +23841,7 @@
         "url": "https://www.ksdenki-recruit.com/ksdenki/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "ksdenki-recruit",
       "ksdenki recruit"
@@ -23137,6 +23874,7 @@
         "url": "https://corp.sbishinseibank.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "sbishinseibank"
     ]
@@ -23170,6 +23908,7 @@
         "url": "https://www.aozorabank.co.jp/corp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "aozorabank"
     ]
@@ -23201,6 +23940,7 @@
         "url": "https://www.mufg.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "mufg"
     ]
@@ -23234,6 +23974,7 @@
         "url": "https://www.resona-gr.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "resona-gr",
       "resona gr"
@@ -23268,6 +24009,7 @@
         "url": "https://www.smtg.jp/-/media/tg/img/logo/img-logo-tg_sp.svg"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "smtg"
     ]
@@ -23299,6 +24041,7 @@
         "url": "https://www.smfg.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "smfg"
     ]
@@ -23330,6 +24073,7 @@
         "url": "https://www.chibabank.co.jp/s/special/job/work/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "chibabank"
     ]
@@ -23361,6 +24105,7 @@
         "url": "https://www.gunmabank.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "gunmabank"
     ]
@@ -23393,6 +24138,7 @@
         "url": "https://www.musashinobank.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "musashinobank"
     ]
@@ -23426,6 +24172,7 @@
         "url": "https://www.chibakogyo-bank.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "chibakogyo-bank",
       "chibakogyo bank"
@@ -23457,7 +24204,8 @@
         "title": "七十七銀行 公式サイト",
         "url": "https://www.77bank.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-8346",
@@ -23488,6 +24236,7 @@
         "url": "https://www.tohobank.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "tohobank"
     ]
@@ -23520,7 +24269,8 @@
         "title": "ふくおかフィナンシャルグループ ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000393.000029076.html"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-8358",
@@ -23551,6 +24301,7 @@
         "url": "https://www.surugabank.co.jp/surugabank/recruitment/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "surugabank"
     ]
@@ -23581,7 +24332,8 @@
         "title": "八十二長野銀行公式サイト",
         "url": "https://bank.82group.jp/"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-8360",
@@ -23612,6 +24364,7 @@
         "url": "https://www.yamanashibank.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "yamanashibank"
     ]
@@ -23645,6 +24398,7 @@
         "url": "https://www.okb.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "okb"
     ]
@@ -23678,6 +24432,7 @@
         "url": "https://www.shigagin.com/recruit/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "shigagin"
     ]
@@ -23711,6 +24466,7 @@
         "url": "https://www.nantobank.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nantobank"
     ]
@@ -23744,6 +24500,7 @@
         "url": "https://www.hyakugo.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "hyakugo"
     ]
@@ -23777,6 +24534,7 @@
         "url": "https://www.kiyobank.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "kiyobank"
     ]
@@ -23809,6 +24567,7 @@
         "url": "https://www.hokuhoku-fg.co.jp/recruit/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hokuhoku-fg",
       "hokuhoku fg"
@@ -23843,6 +24602,7 @@
         "url": "https://www.gogin.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "gogin"
     ]
@@ -23875,7 +24635,8 @@
         "title": "百十四銀行 公式サイト",
         "url": "https://www.114bank.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-8388",
@@ -23906,6 +24667,7 @@
         "url": "https://www.awabank.co.jp/about/gaiyo/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "awabank"
     ]
@@ -23939,6 +24701,7 @@
         "url": "https://www.ryugin.co.jp/corporate/about/profile/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "ryugin"
     ]
@@ -23970,6 +24733,7 @@
         "url": "https://www.sevenbank.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "sevenbank"
     ]
@@ -24003,6 +24767,7 @@
         "url": "https://www.mizuhogroup.com/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "mizuhogroup"
     ]
@@ -24034,6 +24799,7 @@
         "url": "https://www.ymfg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ymfg"
     ]
@@ -24065,6 +24831,7 @@
         "url": "https://www.fgl.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "fgl"
     ]
@@ -24098,6 +24865,7 @@
         "url": "https://www.mizuho-ls.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "mizuho-ls",
       "mizuho ls"
@@ -24130,6 +24898,7 @@
         "url": "https://www.tokyocentury.co.jp/jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "tokyocentury"
     ]
@@ -24161,6 +24930,7 @@
         "url": "https://www.sbigroup.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "sbigroup"
     ]
@@ -24194,6 +24964,7 @@
         "url": "https://www.meigin.com/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "meigin"
     ]
@@ -24227,6 +24998,7 @@
         "url": "https://www.keiyobank.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "keiyobank"
     ]
@@ -24260,6 +25032,7 @@
         "url": "https://www.r-lease.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "r-lease",
       "r lease"
@@ -24292,6 +25065,7 @@
         "url": "https://www.aeonfs.com/domestic.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "aeonfs"
     ]
@@ -24323,6 +25097,7 @@
         "url": "https://www.acom.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "acom"
     ]
@@ -24356,6 +25131,7 @@
         "url": "https://www.orico.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "orico"
     ]
@@ -24389,6 +25165,7 @@
         "url": "https://www.orix.co.jp/grp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "orix"
     ]
@@ -24422,6 +25199,7 @@
         "url": "https://www.mitsubishi-hc-capital.com/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "mitsubishi-hc-capital",
       "mitsubishi hc capital"
@@ -24454,6 +25232,7 @@
         "url": "https://www.jafco.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "jafco"
     ]
@@ -24487,6 +25266,7 @@
         "url": "https://www.tomony-hd.co.jp/company/company.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tomony-hd",
       "tomony hd"
@@ -24519,6 +25299,7 @@
         "url": "https://www.daiwa-grp.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "daiwa-grp",
       "daiwa grp"
@@ -24550,7 +25331,8 @@
         "title": "野村ホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Nomura_Holdings_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-8609",
@@ -24581,6 +25363,7 @@
         "url": "https://www.okasan.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "okasan"
     ]
@@ -24614,6 +25397,7 @@
         "url": "https://www.marusan-sec.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "marusan-sec",
       "marusan sec"
@@ -24648,6 +25432,7 @@
         "url": "https://www.tokaitokyo-fh.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "tokaitokyo-fh",
       "tokaitokyo fh"
@@ -24682,6 +25467,7 @@
         "url": "https://www.matsui.co.jp/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "matsui"
     ]
@@ -24715,6 +25501,7 @@
         "url": "https://www.sompo-hd.com/news/topics/mediakit/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "sompo-hd",
       "sompo hd"
@@ -24749,6 +25536,7 @@
         "url": "https://www.jpx.co.jp/"
       }
     },
+    "companyIndustry": "その他",
     "searchAliases": [
       "jpx"
     ]
@@ -24781,6 +25569,7 @@
         "url": "https://monex-open-disclose.ifis.co.jp/6ef/140120251126509033.pdf"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "ifis"
     ]
@@ -24814,6 +25603,7 @@
         "url": "https://www.kyokuto-sec.co.jp/company/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kyokuto-sec",
       "kyokuto sec"
@@ -24848,6 +25638,7 @@
         "url": "https://www.iwaicosmo-hd.jp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "iwaicosmo-hd",
       "iwaicosmo hd"
@@ -24882,6 +25673,7 @@
         "url": "https://www.senshuikeda-hd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "senshuikeda-hd",
       "senshuikeda hd"
@@ -24914,6 +25706,7 @@
         "url": "https://www.anicom.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "anicom"
     ]
@@ -24946,7 +25739,8 @@
         "title": "MS&ADインシュアランスグループホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:MS%26AD_Insurance_Group_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-8729",
@@ -24977,7 +25771,10 @@
         "url": "https://www.sonyfg.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
+      "sony financial group",
+      "ソニーフィナンシャルグループ",
       "sonyfg"
     ]
   },
@@ -25010,6 +25807,7 @@
         "url": "https://www.daiichilife-group.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "daiichilife-group",
       "daiichilife group"
@@ -25044,6 +25842,7 @@
         "url": "https://www.tokiomarinehd.com/"
       }
     },
+    "companyIndustry": "金融",
     "searchAliases": [
       "tokiomarinehd"
     ]
@@ -25077,6 +25876,7 @@
         "url": "https://www.eguarantee.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "eguarantee"
     ]
@@ -25108,6 +25908,7 @@
         "url": "https://www.td-holdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "td-holdings",
       "td holdings"
@@ -25142,6 +25943,7 @@
         "url": "https://www.mitsuifudosan.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "mitsuifudosan"
     ]
@@ -25175,6 +25977,7 @@
         "url": "https://www.mec.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "mec"
     ]
@@ -25206,6 +26009,7 @@
         "url": "https://recruit.tatemono.com/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "tatemono"
     ]
@@ -25239,6 +26043,7 @@
         "url": "https://www.sumitomo-rd.co.jp/?doing_wp_cron=1793775407.8717050552368164062500"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "sumitomo-rd",
       "sumitomo rd"
@@ -25273,6 +26078,7 @@
         "url": "https://www.leopalace21.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "leopalace21"
     ]
@@ -25304,6 +26110,7 @@
         "url": "https://www.starts.co.jp"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "starts"
     ]
@@ -25336,6 +26143,7 @@
         "url": "https://www.goldcrest.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "goldcrest"
     ]
@@ -25367,6 +26175,7 @@
         "url": "https://www.relo.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "relo"
     ]
@@ -25398,6 +26207,7 @@
         "url": "https://mirarth.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "mirarth"
     ]
@@ -25431,6 +26241,7 @@
         "url": "https://katitas.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "katitas"
     ]
@@ -25462,6 +26273,7 @@
         "url": "https://www.toseicorp.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "toseicorp"
     ]
@@ -25493,6 +26305,7 @@
         "url": "https://www.sunfrt.co.jp/"
       }
     },
+    "companyIndustry": "不動産・建設",
     "searchAliases": [
       "sunfrt"
     ]
@@ -25524,6 +26337,7 @@
         "url": "https://www.tobu.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "tobu"
     ]
@@ -25555,6 +26369,7 @@
         "url": "https://www.sotetsu.co.jp/recruit/sotetsu-holdings/careerpath/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "sotetsu"
     ]
@@ -25586,6 +26401,7 @@
         "url": "https://www.tokyu.co.jp/company/information/detail/545.html"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "tokyu"
     ]
@@ -25619,6 +26435,7 @@
         "url": "https://www.keikyu.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "keikyu"
     ]
@@ -25649,7 +26466,8 @@
         "title": "小田急電鉄 / Wikimedia Commons（PD-textlogo）",
         "url": "https://commons.wikimedia.org/wiki/File:Odakyu_logo_with_its_slogan.svg"
       }
-    }
+    },
+    "companyIndustry": "インフラ"
   },
   {
     "slug": "company-analysis-9008",
@@ -25679,6 +26497,7 @@
         "url": "https://www.keio.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "keio"
     ]
@@ -25710,6 +26529,7 @@
         "url": "https://www.keisei.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "keisei"
     ]
@@ -25743,6 +26563,7 @@
         "url": "https://www.fujikyu.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "fujikyu"
     ]
@@ -25776,6 +26597,7 @@
         "url": "https://recruit.jreast.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "jreast"
     ]
@@ -25809,6 +26631,7 @@
         "url": "https://www.westjr.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "westjr"
     ]
@@ -25842,6 +26665,7 @@
         "url": "https://company.jr-central.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "jr-central",
       "jr central"
@@ -25875,7 +26699,8 @@
         "title": "東京地下鉄 ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000001526.000020053.html"
       }
-    }
+    },
+    "companyIndustry": "インフラ"
   },
   {
     "slug": "company-analysis-9024",
@@ -25906,6 +26731,7 @@
         "url": "https://recruit.seibuholdings.co.jp/hd/role/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "seibuholdings"
     ]
@@ -25939,6 +26765,7 @@
         "url": "https://www.konoike.net/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "konoike"
     ]
@@ -25973,6 +26800,7 @@
         "url": "https://www.nishitetsu.co.jp/ja/group/business/mobility/railroad.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nishitetsu"
     ]
@@ -26006,6 +26834,7 @@
         "url": "https://www.hamakyorex.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "hamakyorex"
     ]
@@ -26039,6 +26868,7 @@
         "url": "https://www.hikkoshi-sakai.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "hikkoshi-sakai",
       "hikkoshi sakai"
@@ -26071,6 +26901,7 @@
         "url": "https://www.kintetsu-g-hd.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "kintetsu-g-hd",
       "kintetsu g hd"
@@ -26103,6 +26934,7 @@
         "url": "https://www.hankyu-hanshin.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "hankyu-hanshin",
       "hankyu hanshin"
@@ -26135,6 +26967,7 @@
         "url": "https://www.nankai.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nankai"
     ]
@@ -26166,6 +26999,7 @@
         "url": "https://www.keihan.co.jp/hdrecruit/future/business.html"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "keihan"
     ]
@@ -26197,6 +27031,7 @@
         "url": "https://www.meitetsu.co.jp/profile/recruit/business/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "meitetsu"
     ]
@@ -26228,6 +27063,7 @@
         "url": "https://www.yamato-hd.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "yamato-hd",
       "yamato hd"
@@ -26262,6 +27098,7 @@
         "url": "https://www.sankyu.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "sankyu"
     ]
@@ -26295,6 +27132,7 @@
         "url": "https://www.maruzenshowa.co.jp/recruit/lp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "maruzenshowa"
     ]
@@ -26328,6 +27166,7 @@
         "url": "https://hanshinsenko.com/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "hanshinsenko"
     ]
@@ -26360,6 +27199,7 @@
         "url": "https://www.nikkon-hd.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "nikkon-hd",
       "nikkon hd"
@@ -26394,6 +27234,7 @@
         "url": "https://corp.fukutsu.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "fukutsu"
     ]
@@ -26425,6 +27266,7 @@
         "url": "https://www.seino.co.jp/seino/shd/company/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "seino"
     ]
@@ -26458,6 +27300,7 @@
         "url": "https://www.az-com-maruwa-hd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "az-com-maruwa-hd",
       "az com maruwa hd"
@@ -26492,6 +27335,7 @@
         "url": "https://www.nyk.com/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "nyk"
     ]
@@ -26523,6 +27367,7 @@
         "url": "https://www.mol.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "mol"
     ]
@@ -26556,6 +27401,7 @@
         "url": "https://www.kline.co.jp/ja/index.html"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "kline"
     ]
@@ -26589,6 +27435,7 @@
         "url": "https://www.iino.co.jp/kaiun/recruit/saiyou/atfirst/about/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "iino"
     ]
@@ -26621,6 +27468,7 @@
         "url": "https://www.jrkyushu.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "jrkyushu"
     ]
@@ -26651,7 +27499,8 @@
         "title": "SGホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:SG%E3%83%9B%E3%83%BC%E3%83%AB%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%82%B9.svg"
       }
-    }
+    },
+    "companyIndustry": "物流"
   },
   {
     "slug": "company-analysis-9147",
@@ -26680,6 +27529,7 @@
         "url": "https://www.nipponexpress-holdings.com/ja/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "nipponexpress-holdings",
       "nipponexpress holdings"
@@ -26714,6 +27564,7 @@
         "url": "https://www.job-jal.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "job-jal",
       "job jal"
@@ -26747,6 +27598,7 @@
         "url": "https://www.ana.co.jp/group/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "ana"
     ]
@@ -26779,6 +27631,7 @@
         "url": "https://www.tre-hd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tre-hd",
       "tre hd"
@@ -26812,7 +27665,8 @@
         "title": "KPPグループホールディングス（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000003.000186326.html"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-9301",
@@ -26842,6 +27696,7 @@
         "url": "https://www.mitsubishi-logistics.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "mitsubishi-logistics",
       "mitsubishi logistics"
@@ -26876,6 +27731,7 @@
         "url": "https://www.mitsui-soko.com/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "mitsui-soko",
       "mitsui soko"
@@ -26910,6 +27766,7 @@
         "url": "https://www.sumitomo-soko.co.jp"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sumitomo-soko",
       "sumitomo soko"
@@ -26942,6 +27799,7 @@
         "url": "https://www.dinsgr.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "dinsgr"
     ]
@@ -26973,6 +27831,7 @@
         "url": "https://www.kamigumi.co.jp/"
       }
     },
+    "companyIndustry": "物流",
     "searchAliases": [
       "kamigumi"
     ]
@@ -27004,6 +27863,7 @@
         "url": "https://www.tbsholdings.co.jp/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "tbsholdings"
     ]
@@ -27037,6 +27897,7 @@
         "url": "https://www.ntvhd.co.jp/company/history/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "ntvhd"
     ]
@@ -27068,6 +27929,7 @@
         "url": "https://www.tv-asahihd.co.jp/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "tv-asahihd",
       "tv asahihd"
@@ -27101,7 +27963,8 @@
         "title": "スカパーJSAT（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000038.000043483.html"
       }
-    }
+    },
+    "companyIndustry": "通信"
   },
   {
     "slug": "company-analysis-9413",
@@ -27130,6 +27993,7 @@
         "url": "https://www.txhd.co.jp/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "txhd"
     ]
@@ -27161,6 +28025,7 @@
         "url": "https://www.vision-net.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "vision-net",
       "vision net"
@@ -27195,6 +28060,7 @@
         "url": "https://recruit.unext-hd.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "unext-hd",
       "unext hd"
@@ -27229,8 +28095,10 @@
         "url": "https://group.ntt/en/"
       }
     },
+    "companyIndustry": "通信",
     "searchAliases": [
-      "ntt"
+      "ntt",
+      "日本電信電話"
     ]
   },
   {
@@ -27262,6 +28130,7 @@
         "url": "https://www.kddi.com/"
       }
     },
+    "companyIndustry": "通信",
     "searchAliases": [
       "kddi"
     ]
@@ -27295,6 +28164,7 @@
         "url": "https://www.softbank.jp/"
       }
     },
+    "companyIndustry": "通信",
     "searchAliases": [
       "softbank"
     ]
@@ -27326,6 +28196,7 @@
         "url": "https://www.hikari.co.jp/"
       }
     },
+    "companyIndustry": "通信",
     "searchAliases": [
       "hikari"
     ]
@@ -27357,6 +28228,7 @@
         "url": "https://group.gmo/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "gmo"
     ]
@@ -27390,6 +28262,7 @@
         "url": "https://group.kadokawa.co.jp/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "kadokawa"
     ]
@@ -27422,6 +28295,7 @@
         "url": "https://www.tepco.co.jp/toudenhou/hd/1271995_9039.html"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "tepco"
     ]
@@ -27455,6 +28329,7 @@
         "url": "https://www.chuden.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "chuden"
     ]
@@ -27485,7 +28360,8 @@
         "title": "関西電力（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000148.000064489.html"
       }
-    }
+    },
+    "companyIndustry": "インフラ"
   },
   {
     "slug": "company-analysis-9504",
@@ -27514,6 +28390,7 @@
         "url": "https://www.energia.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "energia"
     ]
@@ -27545,6 +28422,7 @@
         "url": "https://www.rikuden.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "rikuden"
     ]
@@ -27576,6 +28454,7 @@
         "url": "https://www.tohoku-epco.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "tohoku-epco",
       "tohoku epco"
@@ -27608,6 +28487,7 @@
         "url": "https://www.yonden.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "yonden"
     ]
@@ -27640,6 +28520,7 @@
         "url": "https://www.hepco.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "hepco"
     ]
@@ -27672,7 +28553,8 @@
         "title": "沖縄電力 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Okidenn_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "インフラ"
   },
   {
     "slug": "company-analysis-9513",
@@ -27703,6 +28585,7 @@
         "url": "https://www.jpower.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "jpower"
     ]
@@ -27736,6 +28619,7 @@
         "url": "https://www.renovainc.com/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "renovainc"
     ]
@@ -27769,6 +28653,7 @@
         "url": "https://www.tokyo-gas.co.jp/index.html"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "tokyo-gas",
       "tokyo gas"
@@ -27801,6 +28686,7 @@
         "url": "https://www.osakagas.co.jp"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "osakagas"
     ]
@@ -27831,7 +28717,8 @@
         "title": "東邦瓦斯（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000056.000050754.html"
       }
-    }
+    },
+    "companyIndustry": "インフラ"
   },
   {
     "slug": "company-analysis-9543",
@@ -27862,6 +28749,7 @@
         "url": "https://www.shizuokagas.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "shizuokagas"
     ]
@@ -27895,6 +28783,7 @@
         "url": "https://www.metawater.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "metawater"
     ]
@@ -27927,6 +28816,7 @@
         "url": "https://quants-souken.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "quants-souken",
       "quants souken"
@@ -27959,6 +28849,7 @@
         "url": "https://www.shochiku.co.jp/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "shochiku"
     ]
@@ -27990,6 +28881,7 @@
         "url": "https://www.saiyo-info.net/toho/business/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "saiyo-info",
       "saiyo info"
@@ -28024,6 +28916,7 @@
         "url": "https://www.his.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "his"
     ]
@@ -28055,6 +28948,7 @@
         "url": "https://dramatic-study.toei.co.jp/"
       }
     },
+    "companyIndustry": "広告・マスコミ",
     "searchAliases": [
       "toei"
     ]
@@ -28086,6 +28980,7 @@
         "url": "https://www.kyoritsugroup.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "kyoritsugroup"
     ]
@@ -28117,6 +29012,7 @@
         "url": "https://www.ctie.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "ctie"
     ]
@@ -28148,6 +29044,7 @@
         "url": "https://www.ainj.co.jp/corporate/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "ainj"
     ]
@@ -28179,6 +29076,7 @@
         "url": "https://tokyotokeiba.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tokyotokeiba"
     ]
@@ -28210,6 +29108,7 @@
         "url": "https://www.kanamoto.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "kanamoto"
     ]
@@ -28241,6 +29140,7 @@
         "url": "https://www.dts.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "dts"
     ]
@@ -28273,6 +29173,7 @@
         "url": "https://www.hd.square-enix.com/jpn/company/group.html"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "square-enix",
       "square enix"
@@ -28305,6 +29206,7 @@
         "url": "https://www.cec-ltd.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "cec-ltd",
       "cec ltd"
@@ -28337,6 +29239,7 @@
         "url": "https://www.capcom.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "capcom"
     ]
@@ -28368,6 +29271,7 @@
         "url": "https://nishio-grp.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nishio-grp",
       "nishio grp"
@@ -28400,6 +29304,7 @@
         "url": "https://www.tokyo-airport-bldg.co.jp/"
       }
     },
+    "companyIndustry": "インフラ",
     "searchAliases": [
       "tokyo-airport-bldg",
       "tokyo airport bldg"
@@ -28433,6 +29338,7 @@
         "url": "https://www.transcosmos.com/ja-jp/customercase/ajinomoto2"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "transcosmos"
     ]
@@ -28465,6 +29371,7 @@
         "url": "https://www.nomurakougei.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "nomurakougei"
     ]
@@ -28497,6 +29404,7 @@
         "url": "https://www.fujita-kanko.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "fujita-kanko",
       "fujita kanko"
@@ -28531,6 +29439,7 @@
         "url": "https://www.secom.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "secom"
     ]
@@ -28564,6 +29473,7 @@
         "url": "https://www.tanseisha.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tanseisha"
     ]
@@ -28595,6 +29505,7 @@
         "url": "https://www.meitecgroup-holdings.com/ja/company/history.html"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "meitecgroup-holdings",
       "meitecgroup holdings"
@@ -28627,6 +29538,7 @@
         "url": "https://www.tkc.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "tkc"
     ]
@@ -28660,6 +29572,7 @@
         "url": "https://hd.funaisoken.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "funaisoken"
     ]
@@ -28690,7 +29603,8 @@
         "title": "NSD 提供ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000037.000050275.html"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア"
   },
   {
     "slug": "company-analysis-9766",
@@ -28721,6 +29635,7 @@
         "url": "https://www.konami.com/ja/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "konami"
     ]
@@ -28753,6 +29668,7 @@
         "url": "https://www.senden.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "senden"
     ]
@@ -28786,6 +29702,7 @@
         "url": "https://recruit.genki-gdc.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "genki-gdc",
       "genki gdc"
@@ -28820,6 +29737,7 @@
         "url": "https://www.trusco.co.jp/en/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "trusco"
     ]
@@ -28851,6 +29769,7 @@
         "url": "https://www.yamada-holdings.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "yamada-holdings",
       "yamada holdings"
@@ -28885,6 +29804,7 @@
         "url": "https://www.autobacs.co.jp/ja/company/business.html"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "autobacs"
     ]
@@ -28918,6 +29838,7 @@
         "url": "https://recruit.arclands.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "arclands"
     ]
@@ -28948,7 +29869,8 @@
         "title": "ニトリホールディングス ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000001722.000073913.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-9861",
@@ -28978,6 +29900,7 @@
         "url": "https://www.yoshinoya-holdings.com/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "yoshinoya-holdings",
       "yoshinoya holdings"
@@ -29012,6 +29935,7 @@
         "url": "https://www.katosangyo.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "katosangyo"
     ]
@@ -29044,7 +29968,8 @@
         "title": "イエローハット（PR TIMES提供素材）",
         "url": "https://prtimes.jp/main/html/rd/p/000000005.000164039.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-9887",
@@ -29074,7 +29999,8 @@
         "title": "松屋フーズホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Logo_of_matsuyafoods.png"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-9889",
@@ -29103,6 +30029,7 @@
         "url": "https://www.jbcchd.co.jp/"
       }
     },
+    "companyIndustry": "IT・ソフトウェア",
     "searchAliases": [
       "jbcchd"
     ]
@@ -29136,6 +30063,7 @@
         "url": "https://www.sagami-holdings.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "sagami-holdings",
       "sagami holdings"
@@ -29168,6 +30096,7 @@
         "url": "https://www.inaba.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "inaba"
     ]
@@ -29201,6 +30130,7 @@
         "url": "https://recruit.ohsho.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "ohsho"
     ]
@@ -29234,6 +30164,7 @@
         "url": "https://www.arcs-g.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "arcs-g",
       "arcs g"
@@ -29268,6 +30199,7 @@
         "url": "https://valorholdings.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "valorholdings"
     ]
@@ -29301,6 +30233,7 @@
         "url": "https://www.totech.co.jp/"
       }
     },
+    "companyIndustry": "未分類",
     "searchAliases": [
       "totech"
     ]
@@ -29332,6 +30265,7 @@
         "url": "https://www.misumi.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "misumi"
     ]
@@ -29365,6 +30299,7 @@
         "url": "https://recruit.belc.jp/employment/about/company.html"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "belc"
     ]
@@ -29396,6 +30331,7 @@
         "url": "https://www.fastretailing.com/jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "fastretailing"
     ]
@@ -29429,6 +30365,7 @@
         "url": "https://group.softbank/"
       }
     },
+    "companyIndustry": "通信",
     "searchAliases": [
       "softbank"
     ]
@@ -29461,6 +30398,7 @@
         "url": "https://www.suzuken.co.jp/"
       }
     },
+    "companyIndustry": "商社",
     "searchAliases": [
       "suzuken"
     ]
@@ -29494,6 +30432,7 @@
         "url": "https://www.sundrug.co.jp/"
       }
     },
+    "companyIndustry": "小売・サービス",
     "searchAliases": [
       "sundrug"
     ]
@@ -29524,7 +30463,11 @@
         "title": "アクセンチュア 公式サイト",
         "url": "https://www.accenture.com/jp-ja"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "accenture"
+    ]
   },
   {
     "slug": "company-analysis-curated-002",
@@ -29554,7 +30497,8 @@
         "title": "マッキンゼー・アンド・カンパニー ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000038.000094688.html"
       }
-    }
+    },
+    "companyIndustry": "コンサル"
   },
   {
     "slug": "company-analysis-curated-003",
@@ -29584,7 +30528,11 @@
         "title": "ボストン コンサルティング グループ 公式サイト",
         "url": "https://www.bcg.com/ja-jp/"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "bcg"
+    ]
   },
   {
     "slug": "company-analysis-curated-004",
@@ -29614,7 +30562,11 @@
         "title": "ベイン・アンド・カンパニー 公式サイト",
         "url": "https://www.bain.com/ja/about-bain/"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "bain"
+    ]
   },
   {
     "slug": "company-analysis-curated-005",
@@ -29642,7 +30594,11 @@
         "title": "合同会社デロイト トーマツ 公式サイト",
         "url": "https://www.deloitte.com/jp/ja.html"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "deloitte"
+    ]
   },
   {
     "slug": "company-analysis-curated-006",
@@ -29670,7 +30626,11 @@
         "title": "PwCコンサルティング 公式サイト",
         "url": "https://www.pwc.com/jp/ja.html"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "pwc"
+    ]
   },
   {
     "slug": "company-analysis-curated-007",
@@ -29700,7 +30660,11 @@
         "title": "EYストラテジー・アンド・コンサルティング 公式サイト",
         "url": "https://www.eysc.jp/recruit/new_graduate/entry/new/"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "eysc"
+    ]
   },
   {
     "slug": "company-analysis-curated-008",
@@ -29728,7 +30692,12 @@
         "title": "KPMGコンサルティング 公式サイト",
         "url": "https://recruit.kpmg-consulting.jp/"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "kpmg-consulting",
+      "kpmg consulting"
+    ]
   },
   {
     "slug": "company-analysis-curated-009",
@@ -29758,7 +30727,8 @@
         "title": "アビームコンサルティング ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000070.000123981.html"
       }
-    }
+    },
+    "companyIndustry": "コンサル"
   },
   {
     "slug": "company-analysis-curated-010",
@@ -29786,7 +30756,11 @@
         "title": "アーサー・ディ・リトル 公式サイト",
         "url": "https://www.adlittle.com/jp-ja/press-release/arthur-d-little-publishes-product-development-dx-book-recommending-how-dx-aware"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "adlittle"
+    ]
   },
   {
     "slug": "company-analysis-curated-011",
@@ -29815,7 +30789,11 @@
         "title": "ローランド・ベルガー 公式サイト",
         "url": "https://www.rolandberger.com/en/?country=JP"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "rolandberger"
+    ]
   },
   {
     "slug": "company-analysis-curated-012",
@@ -29843,7 +30821,11 @@
         "title": "オリバー・ワイマン 公式サイト",
         "url": "https://www.oliverwyman.com/index.html"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "oliverwyman"
+    ]
   },
   {
     "slug": "company-analysis-curated-013",
@@ -29871,7 +30853,11 @@
         "title": "カーニー 公式サイト",
         "url": "https://www.kearney.com/"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "kearney"
+    ]
   },
   {
     "slug": "company-analysis-curated-014",
@@ -29899,7 +30885,8 @@
         "title": "マーシュ・マーサー・ジャパン ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Mercer_h_rgb_c.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-curated-015",
@@ -29927,7 +30914,11 @@
         "title": "日本総合研究所 公式サイト",
         "url": "https://www.jri.co.jp/recruit/new_graduates/project/02/"
       }
-    }
+    },
+    "companyIndustry": "コンサル",
+    "searchAliases": [
+      "jri"
+    ]
   },
   {
     "slug": "company-analysis-curated-016",
@@ -29955,7 +30946,11 @@
         "title": "日本IBM 公式サイト",
         "url": "https://www.ibm.com/jp-ja"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "ibm"
+    ]
   },
   {
     "slug": "company-analysis-curated-017",
@@ -29983,7 +30978,11 @@
         "title": "日本マイクロソフト 公式サイト",
         "url": "https://www.microsoft.com/ja-jp/mscorp/college/mskk-recruit-work-yuki"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "microsoft"
+    ]
   },
   {
     "slug": "company-analysis-curated-018",
@@ -30011,7 +31010,11 @@
         "title": "グーグル合同会社 公式サイト",
         "url": "https://about.google/"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "google"
+    ]
   },
   {
     "slug": "company-analysis-curated-019",
@@ -30039,7 +31042,11 @@
         "title": "アマゾン ウェブ サービス ジャパン 公式サイト",
         "url": "https://aws.amazon.com/jp/"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "amazon"
+    ]
   },
   {
     "slug": "company-analysis-curated-020",
@@ -30067,7 +31074,11 @@
         "title": "アマゾンジャパン 公式サイト",
         "url": "https://www.aboutamazon.jp/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス",
+    "searchAliases": [
+      "aboutamazon"
+    ]
   },
   {
     "slug": "company-analysis-curated-021",
@@ -30095,7 +31106,11 @@
         "title": "セールスフォース・ジャパン 公式サイト",
         "url": "https://www.salesforce.com/jp/?bc=OTH"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "salesforce"
+    ]
   },
   {
     "slug": "company-analysis-curated-022",
@@ -30123,7 +31138,8 @@
         "title": "SAPジャパン ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:SAP_2011_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "未分類"
   },
   {
     "slug": "company-analysis-curated-023",
@@ -30151,7 +31167,11 @@
         "title": "シスコシステムズ 公式サイト",
         "url": "https://blogs.cisco.com/"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "cisco"
+    ]
   },
   {
     "slug": "company-analysis-curated-024",
@@ -30181,7 +31201,11 @@
         "title": "NTTデータ 公式サイト",
         "url": "https://www.nttdata.com/jp/ja/about-us/profile/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア",
+    "searchAliases": [
+      "nttdata"
+    ]
   },
   {
     "slug": "company-analysis-curated-025",
@@ -30209,7 +31233,11 @@
         "title": "SCSK 公式サイト",
         "url": "https://www.scsk.jp/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア",
+    "searchAliases": [
+      "scsk"
+    ]
   },
   {
     "slug": "company-analysis-curated-026",
@@ -30237,7 +31265,8 @@
         "title": "伊藤忠テクノソリューションズ 提供ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000179.000108377.html"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア"
   },
   {
     "slug": "company-analysis-curated-027",
@@ -30265,7 +31294,11 @@
         "title": "Sky 公式サイト",
         "url": "https://www.skygroup.jp/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア",
+    "searchAliases": [
+      "skygroup"
+    ]
   },
   {
     "slug": "company-analysis-curated-028",
@@ -30295,7 +31328,11 @@
         "title": "SmartHR 公式サイト",
         "url": "https://smarthr.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア",
+    "searchAliases": [
+      "smarthr"
+    ]
   },
   {
     "slug": "company-analysis-curated-029",
@@ -30323,7 +31360,11 @@
         "title": "LayerX 公式サイト",
         "url": "https://layerx.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア",
+    "searchAliases": [
+      "layerx"
+    ]
   },
   {
     "slug": "company-analysis-curated-030",
@@ -30352,7 +31393,11 @@
         "title": "カオナビ 公式サイト",
         "url": "https://corp.kaonavi.jp/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア",
+    "searchAliases": [
+      "kaonavi"
+    ]
   },
   {
     "slug": "company-analysis-curated-031",
@@ -30380,7 +31425,11 @@
         "title": "ユーザベース 公式サイト",
         "url": "https://www.uzabase.com/jp/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア",
+    "searchAliases": [
+      "uzabase"
+    ]
   },
   {
     "slug": "company-analysis-curated-032",
@@ -30410,7 +31459,8 @@
         "title": "PayPay 公式サイト",
         "url": "https://paypay.ne.jp/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア"
   },
   {
     "slug": "company-analysis-curated-033",
@@ -30438,7 +31488,8 @@
         "title": "NTTドコモ 公式サイト",
         "url": "https://www.docomo.ne.jp/"
       }
-    }
+    },
+    "companyIndustry": "通信"
   },
   {
     "slug": "company-analysis-curated-034",
@@ -30467,7 +31518,12 @@
         "title": "NTT東日本 公式サイト",
         "url": "https://business.ntt-east.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "通信",
+    "searchAliases": [
+      "ntt-east",
+      "ntt east"
+    ]
   },
   {
     "slug": "company-analysis-curated-035",
@@ -30495,7 +31551,12 @@
         "title": "NTT西日本 公式サイト",
         "url": "https://www.ntt-west.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "通信",
+    "searchAliases": [
+      "ntt-west",
+      "ntt west"
+    ]
   },
   {
     "slug": "company-analysis-curated-036",
@@ -30523,7 +31584,11 @@
         "title": "NTTドコモビジネス 公式サイト",
         "url": "https://www.ntt.com/index.html"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "ntt"
+    ]
   },
   {
     "slug": "company-analysis-curated-037",
@@ -30551,7 +31616,11 @@
         "title": "楽天モバイル 公式サイト",
         "url": "https://corp.mobile.rakuten.co.jp/service/"
       }
-    }
+    },
+    "companyIndustry": "通信",
+    "searchAliases": [
+      "rakuten"
+    ]
   },
   {
     "slug": "company-analysis-curated-038",
@@ -30579,7 +31648,12 @@
         "title": "LINE WORKS 公式サイト",
         "url": "https://line-works.com/"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "line-works",
+      "line works"
+    ]
   },
   {
     "slug": "company-analysis-curated-039",
@@ -30608,7 +31682,8 @@
         "title": "サントリーホールディングス ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:SUNTORY_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-curated-040",
@@ -30636,7 +31711,11 @@
         "title": "ロッテ 公式サイト",
         "url": "https://www.lotte.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "メーカー",
+    "searchAliases": [
+      "lotte"
+    ]
   },
   {
     "slug": "company-analysis-curated-041",
@@ -30664,7 +31743,11 @@
         "title": "ネスレ日本 公式サイト",
         "url": "https://www.nestle.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "メーカー",
+    "searchAliases": [
+      "nestle"
+    ]
   },
   {
     "slug": "company-analysis-curated-042",
@@ -30692,7 +31775,8 @@
         "title": "P&Gジャパン 公式サイト",
         "url": "https://jp.pg.com/"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-curated-043",
@@ -30722,7 +31806,11 @@
         "title": "ユニリーバ・ジャパン 公式サイト",
         "url": "https://www.unilever.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "メーカー",
+    "searchAliases": [
+      "unilever"
+    ]
   },
   {
     "slug": "company-analysis-curated-044",
@@ -30750,7 +31838,11 @@
         "title": "YKK 公式サイト",
         "url": "https://www.ykk.com/english/"
       }
-    }
+    },
+    "companyIndustry": "メーカー",
+    "searchAliases": [
+      "ykk"
+    ]
   },
   {
     "slug": "company-analysis-curated-045",
@@ -30780,7 +31872,11 @@
         "title": "アイリスオーヤマ 公式サイト",
         "url": "https://www.irisohyama.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "メーカー",
+    "searchAliases": [
+      "irisohyama"
+    ]
   },
   {
     "slug": "company-analysis-curated-046",
@@ -30810,7 +31906,8 @@
         "title": "東芝 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Toshiba_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "メーカー"
   },
   {
     "slug": "company-analysis-curated-047",
@@ -30838,7 +31935,11 @@
         "title": "竹中工務店 公式サイト",
         "url": "https://www.takenaka.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "不動産・建設",
+    "searchAliases": [
+      "takenaka"
+    ]
   },
   {
     "slug": "company-analysis-curated-048",
@@ -30866,7 +31967,11 @@
         "title": "森ビル 公式サイト",
         "url": "https://www.mori.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "不動産・建設",
+    "searchAliases": [
+      "mori"
+    ]
   },
   {
     "slug": "company-analysis-curated-049",
@@ -30894,7 +31999,11 @@
         "title": "一条工務店 公式サイト",
         "url": "https://www.ichijo.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "不動産・建設",
+    "searchAliases": [
+      "ichijo"
+    ]
   },
   {
     "slug": "company-analysis-curated-050",
@@ -30924,7 +32033,11 @@
         "title": "日本生命保険 公式サイト",
         "url": "https://www.nissay.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "金融",
+    "searchAliases": [
+      "nissay"
+    ]
   },
   {
     "slug": "company-analysis-curated-051",
@@ -30952,7 +32065,11 @@
         "title": "明治安田生命保険 公式サイト",
         "url": "https://www.meijiyasuda.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "金融",
+    "searchAliases": [
+      "meijiyasuda"
+    ]
   },
   {
     "slug": "company-analysis-curated-052",
@@ -30980,7 +32097,8 @@
         "title": "住友生命保険 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Sumitomo_Life_Insurance_Company_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-curated-053",
@@ -31008,7 +32126,11 @@
         "title": "アフラック生命保険 公式サイト",
         "url": "https://www.aflac.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "金融",
+    "searchAliases": [
+      "aflac"
+    ]
   },
   {
     "slug": "company-analysis-curated-054",
@@ -31036,7 +32158,11 @@
         "title": "ジェーシービー 公式サイト",
         "url": "https://www.global.jcb/ja/"
       }
-    }
+    },
+    "companyIndustry": "金融",
+    "searchAliases": [
+      "jcb"
+    ]
   },
   {
     "slug": "company-analysis-curated-055",
@@ -31066,7 +32192,8 @@
         "title": "三菱UFJ銀行 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Mitsubishi_UFJ_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-curated-056",
@@ -31096,7 +32223,12 @@
         "title": "三井住友銀行 公式サイト",
         "url": "https://www.smbc-freshers.com/"
       }
-    }
+    },
+    "companyIndustry": "金融",
+    "searchAliases": [
+      "smbc-freshers",
+      "smbc freshers"
+    ]
   },
   {
     "slug": "company-analysis-curated-057",
@@ -31126,7 +32258,8 @@
         "title": "みずほ銀行 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Mizuho_Bank_logo.svg"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-curated-058",
@@ -31155,7 +32288,12 @@
         "title": "野村證券 公式サイト",
         "url": "https://www.nomura-recruit.jp/"
       }
-    }
+    },
+    "companyIndustry": "金融",
+    "searchAliases": [
+      "nomura-recruit",
+      "nomura recruit"
+    ]
   },
   {
     "slug": "company-analysis-curated-059",
@@ -31183,7 +32321,11 @@
         "title": "大和証券 公式サイト",
         "url": "https://www.daiwa.jp/"
       }
-    }
+    },
+    "companyIndustry": "金融",
+    "searchAliases": [
+      "daiwa"
+    ]
   },
   {
     "slug": "company-analysis-curated-060",
@@ -31213,7 +32355,8 @@
         "title": "農林中央金庫 公式サイト",
         "url": "https://www.nochubank.or.jp/"
       }
-    }
+    },
+    "companyIndustry": "金融"
   },
   {
     "slug": "company-analysis-curated-061",
@@ -31241,7 +32384,11 @@
         "title": "JTB 公式サイト",
         "url": "https://www.jtbcorp.jp/jp/job_offer/recruit/newgraduate/business/jtb/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス",
+    "searchAliases": [
+      "jtbcorp"
+    ]
   },
   {
     "slug": "company-analysis-curated-062",
@@ -31269,7 +32416,11 @@
         "title": "星野リゾート 公式サイト",
         "url": "https://hoshinoresorts.com/jp/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス",
+    "searchAliases": [
+      "hoshinoresorts"
+    ]
   },
   {
     "slug": "company-analysis-curated-063",
@@ -31297,7 +32448,8 @@
         "title": "アパホテル ロゴ（PR TIMES）",
         "url": "https://prtimes.jp/main/html/rd/p/000000841.000018265.html"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス"
   },
   {
     "slug": "company-analysis-curated-064",
@@ -31325,7 +32477,11 @@
         "title": "ローソン 公式サイト",
         "url": "https://www.lawson.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス",
+    "searchAliases": [
+      "lawson"
+    ]
   },
   {
     "slug": "company-analysis-curated-065",
@@ -31353,7 +32509,11 @@
         "title": "ファミリーマート 公式サイト",
         "url": "https://www.family.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス",
+    "searchAliases": [
+      "family"
+    ]
   },
   {
     "slug": "company-analysis-curated-066",
@@ -31383,7 +32543,11 @@
         "title": "イケア・ジャパン 公式サイト",
         "url": "https://www.ikea.com/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス",
+    "searchAliases": [
+      "ikea"
+    ]
   },
   {
     "slug": "company-analysis-curated-067",
@@ -31413,7 +32577,12 @@
         "title": "大創産業 公式サイト",
         "url": "https://www.daiso-sangyo.co.jp/info/news/36682"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス",
+    "searchAliases": [
+      "daiso-sangyo",
+      "daiso sangyo"
+    ]
   },
   {
     "slug": "company-analysis-curated-068",
@@ -31441,7 +32610,11 @@
         "title": "カインズ 公式サイト",
         "url": "https://www.cainz.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "小売・サービス",
+    "searchAliases": [
+      "cainz"
+    ]
   },
   {
     "slug": "company-analysis-curated-069",
@@ -31471,7 +32644,11 @@
         "title": "講談社 公式サイト",
         "url": "https://recruit.kodansha.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "広告・マスコミ",
+    "searchAliases": [
+      "kodansha"
+    ]
   },
   {
     "slug": "company-analysis-curated-070",
@@ -31501,7 +32678,11 @@
         "title": "集英社 公式サイト",
         "url": "https://www.shueisha.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "広告・マスコミ",
+    "searchAliases": [
+      "shueisha"
+    ]
   },
   {
     "slug": "company-analysis-curated-071",
@@ -31529,7 +32710,11 @@
         "title": "小学館 公式サイト",
         "url": "https://www.shogakukan.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "広告・マスコミ",
+    "searchAliases": [
+      "shogakukan"
+    ]
   },
   {
     "slug": "company-analysis-curated-072",
@@ -31559,7 +32744,11 @@
         "title": "日本経済新聞社 公式サイト",
         "url": "https://www.nikkei.com/"
       }
-    }
+    },
+    "companyIndustry": "広告・マスコミ",
+    "searchAliases": [
+      "nikkei"
+    ]
   },
   {
     "slug": "company-analysis-curated-073",
@@ -31587,7 +32776,11 @@
         "title": "朝日新聞社 公式サイト",
         "url": "https://www.asahi.com/"
       }
-    }
+    },
+    "companyIndustry": "広告・マスコミ",
+    "searchAliases": [
+      "asahi"
+    ]
   },
   {
     "slug": "company-analysis-curated-074",
@@ -31615,7 +32808,11 @@
         "title": "読売新聞東京本社 公式サイト",
         "url": "https://info.yomiuri.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "未分類",
+    "searchAliases": [
+      "yomiuri"
+    ]
   },
   {
     "slug": "company-analysis-curated-075",
@@ -31643,7 +32840,8 @@
         "title": "博報堂 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Hakuhodo_Logos.2026.png"
       }
-    }
+    },
+    "companyIndustry": "広告・マスコミ"
   },
   {
     "slug": "company-analysis-curated-076",
@@ -31671,7 +32869,11 @@
         "title": "電通 公式サイト",
         "url": "https://www.dentsu.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "広告・マスコミ",
+    "searchAliases": [
+      "dentsu"
+    ]
   },
   {
     "slug": "company-analysis-curated-077",
@@ -31699,7 +32901,11 @@
         "title": "ソニー・ミュージックエンタテインメント 公式サイト",
         "url": "https://www.sme.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "広告・マスコミ",
+    "searchAliases": [
+      "sme"
+    ]
   },
   {
     "slug": "company-analysis-curated-078",
@@ -31728,7 +32934,11 @@
         "title": "バンダイナムコエンターテインメント 公式サイト",
         "url": "https://www.bandainamcoent.co.jp/"
       }
-    }
+    },
+    "companyIndustry": "IT・ソフトウェア",
+    "searchAliases": [
+      "bandainamcoent"
+    ]
   },
   {
     "slug": "company-analysis-curated-079",
@@ -31756,7 +32966,11 @@
         "title": "日本通運 公式サイト",
         "url": "https://www.nipponexpress.com/jp/ja/service/domestic/ocean/sea-and-rail/"
       }
-    }
+    },
+    "companyIndustry": "物流",
+    "searchAliases": [
+      "nipponexpress"
+    ]
   },
   {
     "slug": "company-analysis-curated-080",
@@ -31784,7 +32998,8 @@
         "title": "日本郵便 ロゴ（Wikimedia Commons）",
         "url": "https://commons.wikimedia.org/wiki/File:Japan_Post_Logo_(Large).svg"
       }
-    }
+    },
+    "companyIndustry": "物流"
   },
   {
     "slug": "backup-rules-for-job-hunting-data-drafts-and-selection-records",
