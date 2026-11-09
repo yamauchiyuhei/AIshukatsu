@@ -100,7 +100,8 @@ function Logo(_: { theme: ThemeKey }) {
 // ───────────────────────── Nav ─────────────────────────
 // ───────────────────────── Hero ─────────────────────────
 function Hero({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
-  const mobile = useWebsiteDevice() === 'mobile';
+  const device = useWebsiteDevice();
+  const mobile = device === 'mobile';
   return (
     <section className={'landing-hero relative pb-10 pt-10 md:pt-16 ' + t.bg}>
       <div aria-hidden="true" className={'pointer-events-none absolute inset-0 ' + t.grid} />
@@ -115,10 +116,11 @@ function Hero({ t, theme }: { t: ThemeTokens; theme: ThemeKey }) {
           保存したメモは、必要に応じてClaudeやChatGPTでのES・面接準備にも使えます。
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
-          <a href={mobile ? "/magazine/" : "/app/"} className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btn}>{mobile ? "就活の記事を読む" : "Web版を使う"}</a>
-          <a href={mobile ? "#start" : "#download"} className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btnGhost}>{mobile ? "PCでのはじめ方" : "Mac・Windows版"}</a>
+          <a href="#download" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btn}>{mobile ? "PC用アプリの入手方法" : device === "mac" ? "Mac版をダウンロード" : device === "windows" ? "Windows版を入手" : "デスクトップアプリを入手"}</a>
+          <a href="#start" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btnGhost}>アプリの使い方を見る</a>
         </div>
-        <p className={'mt-3 text-sm ' + t.textMuted}>無料。Web版はPCのChrome・Edgeに対応</p>
+        <p className={'mt-3 text-sm ' + t.textMuted}>Mac・Windows対応。無料で利用できます。</p>
+        {mobile && <a href="/magazine/" className={'mt-2 inline-flex min-h-11 items-center text-sm underline ' + t.textMuted}>スマートフォンで就活の記事を読む</a>}
         <div id="demo" className="relative mt-10">
 
           <HeroScreen t={t} theme={theme} />
@@ -149,13 +151,13 @@ function GettingStarted({ t }: { t: ThemeTokens }) {
   const [message, setMessage] = useState('');
   return <section id="start" className={'py-16 ' + t.bg2}><div className="mx-auto max-w-6xl px-6">
     <h2 className="text-3xl font-bold">最初の1社から、始めよう。</h2>
-    <p className={'mt-4 leading-7 ' + t.textMuted}>PCのChrome・Edge、またはMac・Windows版で使えます。Googleログインは任意です。</p>
+    <p className={'mt-4 leading-7 ' + t.textMuted}>Mac・Windowsアプリをダウンロードして使い始めましょう。Googleログインは任意です。</p>
     <ol className="landing-start-steps">{[
       ['保存先を選ぶ', 'PC内に就活用フォルダを作ります。以前のフォルダもそのまま使えます。'],
       ['気になる企業を追加', '企業研究やESのメモを用意します。企業選びは後からでも大丈夫です。'],
       ['次の締切を登録', '選考管理の表に締切と次の行動を記入。表・カンバン・カレンダーで確認できます。'],
     ].map(([title, body], i) => <li key={title}><span>{i + 1}</span><h3>{title}</h3><p className={t.textMuted}>{body}</p></li>)}</ol>
-    <div className="mt-6 flex flex-wrap items-center gap-4">{mobile ? <><p className={'text-sm ' + t.textMuted}>スマートフォンでは記事を閲覧できます。アプリの操作はPCで続けてください。</p><button type="button" className={'min-h-11 rounded-xl px-5 text-sm font-semibold ' + t.btn} onClick={async () => { try { await navigator.clipboard.writeText('https://aishukatsu.net/#start'); setMessage('URLをコピーしました。PCに送って開いてください。'); } catch { setMessage('PCで https://aishukatsu.net/#start を開いてください。'); } }}>PCで開くURLをコピー</button></> : <a href="/app/" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btn}>Web版で始める</a>}<a className="underline" href="#download">Mac・Windows版の案内</a></div>
+    <div className="mt-6 flex flex-wrap items-center gap-4">{mobile ? <><p className={'text-sm ' + t.textMuted}>スマートフォンでは記事を閲覧できます。アプリの操作はPCで続けてください。</p><button type="button" className={'min-h-11 rounded-xl px-5 text-sm font-semibold ' + t.btn} onClick={async () => { try { await navigator.clipboard.writeText('https://aishukatsu.net/#download'); setMessage('URLをコピーしました。PCに送って開いてください。'); } catch { setMessage('PCで https://aishukatsu.net/#download を開いてください。'); } }}>PC用アプリの案内URLをコピー</button></> : <a href="#download" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btn}>Mac・Windowsアプリで始める</a>}<a className={'inline-flex min-h-11 items-center text-sm underline ' + t.textMuted} href="/app/">Web版を試す（PCのChrome・Edge）</a></div>
     <p role="status" className="mt-3 text-sm">{message}</p>
   </div></section>;
 }
@@ -594,15 +596,15 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
       <div className="relative mx-auto max-w-6xl px-6 text-center">
         <div className={'landing-mono text-xs ' + t.textDim}>利用環境を選ぶ</div>
         <h2 className={'landing-sans-jp mt-5 text-5xl md:text-7xl font-bold tracking-tight ' + t.text}>
-          さあ、<span className={t.heading}>就活</span>を始めよう。
+          AI就活を、<br className="sm:hidden" /><span className={t.heading}>いつものPC</span>に。
         </h2>
-        <p className={'mt-5 text-lg ' + t.textMuted}>Web版とデスクトップ版を無料で利用できます。</p>
-        <p className={'mt-3 text-sm ' + t.textMuted}>{device === 'mac' ? 'この端末にはMac版がおすすめです。Web版も選べます。' : device === 'windows' ? 'この端末にはWindows版がおすすめです。Web版も選べます。' : device === 'mobile' ? 'ダウンロードとインストールはPCで行ってください。' : 'お使いのPCに合う版を選んでください。'}</p>
+        <p className={'mt-5 text-lg ' + t.textMuted}>Mac・Windowsアプリを無料でダウンロードできます。</p>
+        <p className={'mt-3 text-sm ' + t.textMuted}>{device === 'mac' ? 'この端末にはMac版がおすすめです。' : device === 'windows' ? 'この端末にはWindows版がおすすめです。' : device === 'mobile' ? 'ダウンロードとインストールはPCで行ってください。' : 'お使いのPCに合う版を選んでください。'}</p>
 
         <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto" data-stagger>
           <a
             href={DL_MACOS}
-            className={'group flex items-center justify-center gap-3 rounded-2xl px-6 py-5 text-base font-semibold transition ' + t.btn}
+            className={'group flex items-center justify-center gap-3 rounded-2xl px-6 py-5 text-base font-semibold transition ' + (device === 'windows' ? t.btnGhost : t.btn)}
           >
             <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
@@ -614,7 +616,7 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
           </a>
           <a
             href={GITHUB_RELEASE}
-            className={'group flex items-center justify-center gap-3 rounded-2xl px-6 py-5 text-base font-semibold transition ' + t.btnGhost}
+            className={'group flex items-center justify-center gap-3 rounded-2xl px-6 py-5 text-base font-semibold transition ' + (device === 'windows' ? t.btn : t.btnGhost)}
           >
             <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
               <path d="M3 5.7L11 4v8H3V5.7zM3 12.3L11 12.3V20l-8-1.7v-6zM12 4v8h9V4.3L12 4zM12 12.3L21 12.3V19.7l-9-1.3v-6.1z" />
@@ -628,10 +630,7 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
         <div className={'mx-auto mt-4 max-w-2xl text-sm leading-7 ' + t.textMuted}>
           <details className="mt-3 text-left"><summary className="cursor-pointer text-center">インストール方法・対応環境</summary><p>Mac：ダウンロードしたtar.gzを展開し、AIshukatsu.appをアプリケーションへ移動してください。Apple Silicon・Intel両対応です。OSで開けない場合は、配布ページの署名状況と案内を確認してください。</p><p>Windows 10 / 11：通常はx64版、ARM搭載PCではARM64版のセットアップを実行してください。</p><p>更新前にはフォルダ全体のバックアップを作成できます。インストーラーの公開状況・変更点は<a className="underline" href={GITHUB_RELEASE}>リリースページ</a>で確認できます。</p></details>
         </div>
-        <div className={'mx-auto mt-6 max-w-2xl rounded-xl border p-4 ' + t.border}>
-          <p className={'mb-3 text-sm ' + t.textMuted}>Web版はPCのChrome・Edgeで利用できます。Googleログインは任意です。</p>
-          <a href="/app/" className={'inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold ' + t.btnGhost}>Web版を使う</a>
-        </div>
+        <details className={'mx-auto mt-8 max-w-2xl text-sm ' + t.textMuted}><summary className="inline-flex min-h-11 cursor-pointer items-center underline underline-offset-4">インストールせずにWeb版を試したい方へ</summary><p className="mt-3">Web版はPCのChrome・Edgeで利用できます。Googleログインは任意です。</p><a href="/app/" className="inline-flex min-h-11 items-center underline underline-offset-4">Web版を試す</a></details>
       </div>
     </section>
   );
