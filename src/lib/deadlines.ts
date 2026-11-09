@@ -6,7 +6,7 @@ export function parseLocalDate(value: string): Date | null {
   const date=new Date(+y,+m-1,+d,+h,+minute);
   return date.getFullYear()===+y&&date.getMonth()===+m-1&&date.getDate()===+d&&date.getHours()===+h&&date.getMinutes()===+minute ? date : null;
 }
-export function isClosedStatus(value: unknown) { return ['内定','内々定','お祈り','不合格','辞退','終了'].includes(String(value)); }
+export function isClosedStatus(value: unknown) { return ['内定','内々定','お祈り','不合格','辞退','終了','完了'].includes(String(value)); }
 export function collectDeadlines(rows: Row[], columns: Column[], includeCompleted = false) {
   return rows.flatMap(row => {
     if (!includeCompleted && isClosedStatus(row.cells.status)) return [];

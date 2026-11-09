@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: 'Version tag matching package.json, e.g. v0.2.20'
+        description: 'Version tag matching package.json, e.g. v0.2.21'
         required: true
-        default: 'v0.2.20'
+        default: 'v0.2.21'
       publish:
         description: 'Publish after all platforms and update signatures pass validation'
         type: boolean
@@ -67,7 +67,7 @@ jobs:
         run: node -e "const p=require('./package.json'),t=require('./src-tauri/tauri.conf.json');if(!/^v\d+\.\d+\.\d+$/.test(process.env.RELEASE_TAG)||process.env.RELEASE_TAG!=='v'+p.version||t.version!==p.version)throw Error('Release versions do not match')"
       - run: npm ci
       - name: Regression checks
-        run: npm run test:app && npm run test:research && npm run test:updater && npm run test:routing && npm run test:analytics && npx tsc -b && npm run build:desktop && cargo test --manifest-path src-tauri/Cargo.toml --locked
+        run: npm run test:app && npm run test:career && npm run test:research && npm run test:updater && npm run test:routing && npm run test:analytics && npx tsc -b && npm run build:desktop && cargo test --manifest-path src-tauri/Cargo.toml --locked
       - name: Build signed installers into a draft release
         uses: tauri-apps/tauri-action@v0
         env:
@@ -95,15 +95,16 @@ jobs:
           includeUpdaterJson: false
           args: ${{ matrix.tauri_args }}
           releaseBody: |
-            企業研究の記事から、デスクトップアプリで研究メモを作成できます。
-            - Mac・Windowsの両方で、記事のボタンからアプリを起動
-            - 起動済みのアプリにも企業名と記事URLを引き継ぎ
-            - ログイン・保存先設定が必要な場合も作成待ちの記事を保持
-            - 企業研究メモのひな形を作成し、同名のメモは上書きせず開く
-            - 未インストール・旧版の場合のWebサイト上の案内を追加
+            AI就活の画面をアプリシェル＋インセットパネルへ刷新しました。
+            - 左タブで資料・カレンダー・就活表・タスク・連携を切り替え
+            - ローカル資料のフォルダツリー・検索・同じパネル内での閲覧と編集
+            - AI就活の標準テーマとセージ・プラム・ミッドナイトの切り替え
+            - 更新内容・ダウンロード進捗・保存してから更新と再起動する画面を改善
+            - 入力中の予定やメールの取り込みがある場合、編集へ戻ってから更新
+            - 記事からデスクトップの研究メモを開く機能を保持
 
             MacはAIshukatsu_universal.app.tar.gz、Windowsはx64またはARM64のsetup.exeを選択してください。
-            初回のみ既存の保存フォルダを選び直す場合があります。更新前に作業を保存してください。
+
   verify-and-publish:
     needs: build
     runs-on: ubuntu-latest

@@ -259,7 +259,7 @@ export function SheetGrid() {
 
   /* ----------- Render ----------- */
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div className="sheet-grid flex flex-1 flex-col overflow-hidden">
       <div
         ref={gridRef}
         tabIndex={0}
@@ -290,7 +290,7 @@ export function SheetGrid() {
                   <th
                     key={col.id}
                     aria-sort={sortColumnId === col.id ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
-                    style={{ minWidth: w, width: w, ...(col.id === 'company' ? { position: 'sticky', left: 40, zIndex: 35, background: 'white' } : {}) }}
+                    style={{ minWidth: w, width: w, ...(col.id === 'company' ? { position: 'sticky', left: 40, zIndex: 35, background: 'var(--panel, white)' } : {}) }}
                     className="relative border-b border-r border-slate-200/60 bg-white/80 px-2 py-2 text-left text-[11px] font-semibold text-slate-700 backdrop-blur"
                   >
                     <div className="flex items-center gap-1">
@@ -395,7 +395,7 @@ export function SheetGrid() {
                         tabIndex={isSelected ? 0 : -1}
                         aria-selected={!!isSelected}
                         aria-label={`${String(row.cells.company ?? '企業名未入力')}、${col.name}`}
-                        style={{ minWidth: w, width: w, ...(col.id === 'company' ? { position: 'sticky', left: 40, zIndex: 15, background: 'white' } : {}) }}
+                        style={{ minWidth: w, width: w, ...(col.id === 'company' ? { position: 'sticky', left: 40, zIndex: 15, background: 'var(--panel, white)' } : {}) }}
                         className={`relative border-b border-r border-slate-200/60 bg-white p-0 align-top transition group-hover:bg-indigo-50/30 ${
                           isSelected ? 'ring-2 ring-inset ring-indigo-500/70' : ''
                         }`}

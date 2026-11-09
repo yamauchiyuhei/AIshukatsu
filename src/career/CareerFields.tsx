@@ -1,0 +1,6 @@
+import { useId } from 'react';
+import type { CareerDraft } from './planner';
+export function CareerFields({value,onChange,compact=false}:{value:CareerDraft;onChange:(patch:Partial<CareerDraft>)=>void;compact?:boolean}){
+ const id=useId();const input=(key:'company'|'title'|'date'|'time'|'endTime'|'location'|'url',label:string,type='text')=><label htmlFor={id+key}>{label}<input id={id+key} type={type} value={value[key]} maxLength={type==='text'?300:undefined} onChange={e=>onChange({[key]:e.target.value})}/></label>;
+ return <div className="career-fields">{input('company','企業名')}{input('title','タイトル')}<label>種類<select value={value.kind} onChange={e=>onChange({kind:e.target.value as CareerDraft['kind']})}><option value="event">面接・説明会などの予定</option><option value="task">返信・提出・準備などのタスク</option></select></label>{input('date','日付','date')}{input('time','開始・締切時刻（任意）','time')}{value.kind==='event'&&input('endTime','終了時刻（任意）','time')}<label>所要時間（分）<input type="number" min="1" max="720" value={value.minutes} onChange={e=>onChange({minutes:Number(e.target.value)})}/></label>{!compact&&<>{input('location','会場（任意）')}{input('url','参加・案内URL（任意）','url')}<label className="career-span">メモ<textarea rows={3} maxLength={20000} value={value.notes} onChange={e=>onChange({notes:e.target.value})}/></label></>}</div>;
+}

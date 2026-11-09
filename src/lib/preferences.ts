@@ -1,10 +1,11 @@
 import { useSyncExternalStore } from 'react';
-export interface Preferences { density: 'comfortable' | 'compact'; textSize: 'normal' | 'large'; cloudDocuments: boolean; sidebarWidth: number; sidebarCollapsed: boolean; }
-const defaults: Preferences = { density: 'comfortable', textSize: 'normal', cloudDocuments: false, sidebarWidth: 260, sidebarCollapsed: false };
+export type AppTheme = 'aishukatsu' | 'sage' | 'plum' | 'midnight';
+export interface Preferences { theme: AppTheme; density: 'comfortable' | 'compact'; textSize: 'normal' | 'large'; cloudDocuments: boolean; sidebarWidth: number; sidebarCollapsed: boolean; }
+const defaults: Preferences = { theme: 'aishukatsu', density: 'comfortable', textSize: 'normal', cloudDocuments: false, sidebarWidth: 280, sidebarCollapsed: false };
 const listeners = new Set<() => void>();
 let preferenceOwner = 'local-guest';
 const key = () => `aishukatsu-preferences-v1:${preferenceOwner}`;
-function read(): Preferences { try { return { ...defaults, ...JSON.parse(localStorage.getItem(key()) ?? '{}') }; } catch { return defaults; } }
+function read(): Preferences { try { const saved = { ...defaults, ...JSON.parse(localStorage.getItem(key()) ?? '{}') }; return { ...saved, theme: ['aishukatsu','sage','plum','midnight'].includes(saved.theme) ? saved.theme : 'aishukatsu' }; } catch { return defaults; } }
 let current = read();
 export function getPreferences() { return current; }
 export function updatePreferences(patch: Partial<Preferences>) {

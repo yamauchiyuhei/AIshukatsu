@@ -23,12 +23,13 @@ import { AuthButton } from './AuthButton';
 import { Popover } from './Popover';
 
 interface Props {
+  shellNavigation?: boolean;
   onOpenPalette: () => void;
   rootHandle?: FileSystemDirectoryHandle | null;
   onRestoreComplete?: () => void;
 }
 
-export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props) {
+export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete, shellNavigation = false }: Props) {
   const view = useSheet((s) => s.view);
   const setView = useSheet((s) => s.setView);
   const search = useSheet((s) => s.searchQuery);
@@ -68,7 +69,7 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
 
   return (
     <>
-      <div className="flex flex-col border-b border-slate-200/70 bg-white/70 backdrop-blur-md">
+      <div className="sheet-toolbar flex flex-col border-b border-slate-200/70 bg-white/70 backdrop-blur-md">
         {/* ─── Row 1: identity + view toggle + search + ⌘K + auth ─── */}
         <div className="flex items-center gap-3 px-5 py-2">
           {/* Middle: scrollable area (now starts at the left edge) */}
@@ -102,7 +103,7 @@ export function Toolbar({ onOpenPalette, rootHandle, onRestoreComplete }: Props)
               className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-slate-200/70 bg-white px-3 py-1.5 text-[11px] text-slate-500 shadow-sm hover:text-slate-800"
               title="コマンドパレット"
             >
-              <span>{platformShortcut('K')}</span>
+              <span>{shellNavigation ? 'シート操作' : platformShortcut('K')}</span>
             </button>
           </div>
 
@@ -265,7 +266,7 @@ function ViewToggle({ view, onChange }: { view: ViewMode; onChange: (v: ViewMode
     { v: 'calendar', label: 'カレンダー', Icon: CalendarDays },
   ];
   return (
-    <div className="inline-flex shrink-0 items-center gap-0.5 rounded-full bg-slate-100/80 p-0.5 shadow-inner">
+    <div className="sheet-view-switch inline-flex shrink-0 items-center gap-0.5 rounded-full bg-slate-100/80 p-0.5 shadow-inner">
       {items.map(({ v, label, Icon }) => (
         <button
           key={v}

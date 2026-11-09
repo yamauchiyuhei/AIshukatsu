@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, ReactNode, RefObject } from 'react';
+import { usePreferences } from '../../lib/preferences';
 import { createPortal } from 'react-dom';
 
 /**
@@ -27,6 +28,7 @@ export function Popover({
   children,
   className,
 }: Props) {
+  const preferences=usePreferences();
   const popoverRef = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState<{ top: number; left?: number; right?: number } | null>(null);
 
@@ -96,7 +98,8 @@ export function Popover({
         right: pos.right,
         zIndex: 9000,
       }}
-      className={className}
+      data-theme={preferences.theme}
+      className={`app-theme app-popover ${className??''}`}
     >
       {children}
     </div>,

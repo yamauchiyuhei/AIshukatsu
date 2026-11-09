@@ -21,7 +21,7 @@ export function StatsBar() {
   const offerRate = stats.total > 0 ? ((stats.offerCount / stats.total) * 100).toFixed(1) : '0.0';
 
   return (
-    <div className="grid grid-cols-2 gap-3 border-b border-slate-200/60 bg-white/40 px-5 py-3 backdrop-blur md:grid-cols-3 xl:grid-cols-6">
+    <div className="sheet-stats grid grid-cols-2 gap-3 border-b border-slate-200/60 bg-white/40 px-5 py-3 backdrop-blur md:grid-cols-3 xl:grid-cols-6">
       <Tile label="表示中のエントリー" value={stats.total} accent="text-slate-700" />
       <Tile
         label="ES提出済"

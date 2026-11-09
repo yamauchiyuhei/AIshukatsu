@@ -38,6 +38,6 @@ export async function prepareUpdateManifest({directory,version,publicKey,notes})
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const [directory,version]=process.argv.slice(2);if(!directory||!version)throw Error('Usage: updater-release.mjs DIRECTORY VERSION');
  const config=JSON.parse(await readFile(new URL('../src-tauri/tauri.conf.json',import.meta.url),'utf8'));
- const manifest=await prepareUpdateManifest({directory,version,publicKey:config.plugins.updater.pubkey,notes:'企業研究の記事からMac・Windowsアプリを開き、企業名と記事URLを入れた研究メモを作成できるようになりました。起動済み・新規起動の両方に対応し、ログインや保存先の設定後も記事を引き継ぎます。同名のメモは上書きせず開きます。更新前に作業を保存してください。'});
+ const manifest=await prepareUpdateManifest({directory,version,publicKey:config.plugins.updater.pubkey,notes:"AI就活の画面をアプリシェル＋インセットパネルへ刷新しました。\n- 左タブで資料・カレンダー・就活表・タスク・連携を切り替え\n- ローカル資料のフォルダツリー・検索・同じパネル内での閲覧と編集\n- AI就活の標準テーマとセージ・プラム・ミッドナイトの切り替え\n- 更新内容・ダウンロード進捗・保存してから更新と再起動する画面を改善\n- 入力中の予定やメールの取り込みがある場合、編集へ戻ってから更新\n- 記事からデスクトップの研究メモを開く機能を保持\n"});
  console.log(`Verified signed update ${manifest.version}: Mac Apple Silicon / Intel, Windows x64 / ARM64`);
 }

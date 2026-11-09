@@ -14,7 +14,7 @@ export function SheetTabs() {
   const duplicateSheet = useSheet((s) => s.duplicateSheet);
 
   return (
-    <div role="tablist" aria-label="エントリーのシート" onKeyDown={event=>{if(event.nativeEvent.isComposing||!(event.target as HTMLElement).matches('[data-sheet-tab]'))return;const tabs=[...event.currentTarget.querySelectorAll<HTMLButtonElement>('[data-sheet-tab]')];const index=tabs.indexOf(event.target as HTMLButtonElement);const next=event.key==='ArrowRight'?tabs[(index+1)%tabs.length]:event.key==='ArrowLeft'?tabs[(index-1+tabs.length)%tabs.length]:event.key==='Home'?tabs[0]:event.key==='End'?tabs.at(-1):null;if(next){event.preventDefault();next.click();next.focus();}}} className="flex items-center gap-1 overflow-x-auto border-b border-slate-200/70 bg-white/40 px-5 py-1.5 backdrop-blur">
+    <div role="tablist" aria-label="エントリーのシート" onKeyDown={event=>{if(event.nativeEvent.isComposing||!(event.target as HTMLElement).matches('[data-sheet-tab]'))return;const tabs=[...event.currentTarget.querySelectorAll<HTMLButtonElement>('[data-sheet-tab]')];const index=tabs.indexOf(event.target as HTMLButtonElement);const next=event.key==='ArrowRight'?tabs[(index+1)%tabs.length]:event.key==='ArrowLeft'?tabs[(index-1+tabs.length)%tabs.length]:event.key==='Home'?tabs[0]:event.key==='End'?tabs.at(-1):null;if(next){event.preventDefault();next.click();next.focus();}}} className="sheet-tabs flex items-center gap-1 overflow-x-auto border-b border-slate-200/70 bg-white/40 px-5 py-1.5 backdrop-blur">
       {sheets.map((s) => (
         <SheetTab
           key={s.id}

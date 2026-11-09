@@ -1,20 +1,26 @@
 import { SaveStatus } from './components/SaveStatus';
 import { WorkspaceSettings } from './components/WorkspaceSettings';
+import { AppShell, type AppSection } from './components/AppShell';
+import { ArticleMemoImport } from './components/ArticleMemoImport';
+import { WorkspaceStart } from './components/WorkspaceStart';
+import { DocumentLibrary } from './components/DocumentLibrary';
+import type { FileTab } from './hooks/useOpenTabs';
+import type { CareerTab } from './career/CareerWorkspace';
+import { collectFolders } from './lib/workspace';
+import { importLibraryFiles } from './lib/libraryImport';
 import { WorkspaceHome } from './components/WorkspaceHome';
+import { setGoogleConnectionOwner } from './career/googleAuth';
 import { WorkspaceErrorBoundary } from './components/WorkspaceErrorBoundary';
 import { flushAllSaves } from './lib/saveQueue';
 import { isLocalMode, usePreferences, updatePreferences, setPreferenceOwner } from './lib/preferences';
 import { moveToWorkspaceTrash } from './lib/workspaceTrash';
 import { ToastHost, ConfirmHost, toast } from './spreadsheet/components/Toast';
 import { useEffect, useMemo, useState } from 'react';
-import { WelcomeScreen } from './components/WelcomeScreen';
 import { OnboardingFlow } from './components/onboarding/OnboardingFlow';
-import { ArticleMemoImport } from './components/ArticleMemoImport';
 import { LoginScreen } from './components/onboarding/LoginScreen';
-import { isOnboarded } from './lib/onboardingState';
 import { isTauri } from './lib/tauriFsaShim';
 import { UpdateBanner } from './components/UpdateBanner';
-import { FileTree, type ContextMenuRequest } from './components/FileTree';
+import { type ContextMenuRequest } from './components/FileTree';
 import { TabBar } from './components/TabBar';
 import { TabViewer } from './components/TabViewer';
 import { AddCompanyModal } from './components/AddCompanyModal';
@@ -90,7 +96,9 @@ function WorkspaceApp() {
   // immediately routes the user back to the LoginScreen.
   const preferences = usePreferences();
   const [showSettings, setShowSettings] = useState(false);
-  const [homeVisible, setHomeVisible] = useState(true);
+  const [section, setSection] = useState<AppSection>('documents');
+  const [careerTab, setCareerTab] = useState<CareerTab>('today');
+  const [showSetup, setShowSetup] = useState(false);
   const [, refreshOnboarding] = useState(0);
   const [creationLocation, setCreationLocation] = useState<TargetLocation>({ path: [] });
   const authUser = useSheet((s) => s.user);
@@ -102,6 +110,7 @@ function WorkspaceApp() {
   const [authChecked, setAuthChecked] = useState(!firebaseEnabled);
 
   const workspaceOwner = authUser?.uid ?? (isLocalMode() || !firebaseEnabled ? 'local-guest' : null);
+  useEffect(() => { setGoogleConnectionOwner(workspaceOwner ?? 'signed-out'); }, [workspaceOwner]);
   const { handle, status, pick, adopt, requestPermission, reset, error: rootError } = useRootDirectory(workspaceOwner);
   useEffect(() => { setPreferenceOwner(workspaceOwner ?? 'local-guest'); }, [workspaceOwner]);
   const root = status === 'ready' ? handle : null;
@@ -201,7 +210,7 @@ function WorkspaceApp() {
       </div>
     );
   }
-  if ((status === 'no-handle' || status === 'ready') && workspaceOwner && !isOnboarded(workspaceOwner)) {
+  if (showSetup && workspaceOwner) {
     // First-time visitor → show the guided onboarding flow. Once finished,
     // we adopt the created "AI就活" subfolder as the root and fall through
     // to the normal MainLayout.
@@ -210,20 +219,13 @@ function WorkspaceApp() {
         uid={workspaceOwner}
         initialRoot={status === 'ready' ? handle : null}
         onComplete={(created) => {
-          void adopt(created); refreshOnboarding(n => n + 1); void refresh();
+          void adopt(created); setShowSetup(false); refreshOnboarding(n => n + 1); void refresh();
         }}
       />
     );
   }
   if (status === 'no-handle' || status === 'needs-permission') {
-    return (
-      <WelcomeScreen
-        needsPermission={status === 'needs-permission'}
-        showWebsiteLinks={!isTauri()}
-        onPick={() => void pick().catch(error => { if (!(error instanceof DOMException && error.name === 'AbortError')) alert('保存先を開けません。権限を確認してください。'); })}
-        onRequestPermission={requestPermission}
-      />
-    );
+    return <WorkspaceStart needsPermission={status === 'needs-permission'} onReconnect={requestPermission} onSetup={() => setShowSetup(true)} onChooseFolder={async () => {await flushAllSaves();await pick();}}/>;
   }
   if (!handle || !workspace) {
     if (loading) {
@@ -385,64 +387,56 @@ function WorkspaceApp() {
     void refresh();
   };
 
-  // A tab is "active" whenever `activeTab` is non-null — the spreadsheet
-  // view is shown when there's no active tab at all.
-  const fileTabActive = tabs.activeTab != null;
+  const navigate = (next: AppSection) => {
+    void flushAllSaves().then(() => { if(next==='calendar')setCareerTab('planner');else if(next==='tasks')setCareerTab('today');else if(next==='connections')setCareerTab(next);setSection(next); }).catch(() => window.dispatchEvent(new Event('aishukatsu-save-error')));
+  };
+  const openFile = (file: Omit<FileTab, 'kind'>) => {
+    void flushAllSaves().then(async () => { await tabs.openFile(file); setSection('documents'); }).catch(() => window.dispatchEvent(new Event('aishukatsu-save-error')));
+  };
+  const openEntry = (sheetId: string, rowId: string) => {
+    void flushAllSaves().then(() => {
+      const state = useSheet.getState(); state.switchSheet(sheetId); state.setSearch(''); state.setFilterIndustry(null); state.setFilterStatus(null); state.setView('sheet'); state.setSelection({rowId, colId:'company'}); setSection('spreadsheet');
+    }).catch(() => window.dispatchEvent(new Event('aishukatsu-save-error')));
+  };
+  const addEntry = () => {
+    void flushAllSaves().then(() => {
+      const state = useSheet.getState();
+      const entry = state.workbook.sheets.find(sheet => sheet.id !== 'career-planner-v1');
+      if (entry) state.switchSheet(entry.id);
+      state.setSearch(''); state.setFilterIndustry(null); state.setFilterStatus(null); state.setView('sheet');
+      const id = state.addRow(); state.setSelection({rowId:id, colId:'company'}); setSection('spreadsheet');
+    }).catch(() => window.dispatchEvent(new Event('aishukatsu-save-error')));
+  };
+  const openCompanyDocument = (company: string, kind: 'research' | 'es') => {
+    const normalize = (value: string) => value.replace(/株式会社|有限会社|合同会社|[\s　]/g, '');
+    const folders = collectFolders(workspace.tree).filter(folder => normalize(folder.name) === normalize(company));
+    if (folders.length !== 1) { setSection('documents'); toast.info('資料から企業フォルダを選んでください。'); return; }
+    const files: Extract<WorkspaceNode,{kind:'file'}>[] = [];
+    const walk = (nodes: WorkspaceNode[]) => nodes.forEach(node => {if(node.kind === 'folder')walk(node.children);else if(kind === 'research' ? /企業分析|企業研究/.test(node.name) : /ES|面接/.test(node.name))files.push(node);});
+    walk(folders[0].children);
+    if (files.length === 1) openFile({key:`co:${files[0].path.join('/')}`,label:files[0].name,handle:files[0].handle,breadcrumb:files[0].path.slice(0,-1)});
+    else { navigate('documents'); toast.info('資料の企業フォルダから、開く文書を選んでください。'); }
+  };
+  const careerNavigate = (tab: CareerTab) => navigate(tab === 'planner' ? 'calendar' : tab === 'today' ? 'tasks' : tab === 'companies' ? 'documents' : tab);
 
   return (
-    <div className={`workspace-app flex h-full flex-col bg-slate-50 ${preferences.density === 'compact' ? 'workspace-compact' : 'workspace-comfortable'} ${preferences.textSize === 'large' ? 'workspace-large-text' : ''}`}>
-      <header className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b bg-white px-3 py-2 text-sm">
-        <div className="flex items-center gap-2"><button className="rounded border px-3 py-2" aria-label={preferences.sidebarCollapsed ? 'フォルダ一覧を開く' : 'フォルダ一覧を閉じる'} aria-expanded={!preferences.sidebarCollapsed} onClick={() => updatePreferences({ sidebarCollapsed: !preferences.sidebarCollapsed })}>フォルダ</button><button className="rounded px-3 py-2 font-semibold" onClick={() => { void flushAllSaves().then(() => { void tabs.activate(null); setHomeVisible(true); }).catch(() => window.dispatchEvent(new Event('aishukatsu-save-error'))); }}>AI就活 ホーム</button><span className="hidden text-slate-500 sm:inline">{handle.name}</span></div>
-        <div className="flex items-center gap-2"><button className="rounded border px-3 py-2" onClick={() => setShowSettings(true)}>設定とバックアップ</button>{!isTauri() && <a href="/magazine/" className="px-2 text-slate-600">マガジン</a>}</div>
-      </header>
-      {(error||rootError)&&<div role="alert" className="flex flex-wrap items-center gap-3 border-b bg-amber-50 px-4 py-2 text-sm text-amber-900"><span>{rootError||'フォルダの表示を更新できませんでした。権限や保存先を確認してください。'}</span><button className="underline" onClick={()=>void refresh()}>表示を再試行</button></div>}
-      <ArticleMemoImport root={handle} onOpen={async (file,name) => { await refresh(); setHomeVisible(false); await tabs.openFile({key:'co:記事メモ/'+name,label:name,breadcrumb:['記事メモ'],handle:file}); }} />
-      <SaveStatus onSettings={() => setShowSettings(true)} />
-      <div className="flex flex-1 overflow-hidden">
-      {!preferences.sidebarCollapsed && <div className="relative h-full shrink-0" style={{width: preferences.sidebarWidth}}><FileTree
-        workspace={workspace}
-        activeFileKey={tabs.activeKey}
-        rootName={handle.name}
-        spreadsheetActive={!fileTabActive}
-        onOpenFile={(file) => { setHomeVisible(false); void tabs.openFile(file); }}
-        onOpenSpreadsheet={() => { setHomeVisible(false); void tabs.activate(null); }}
-        onAddCompany={() => setShowAdd(true)}
-        onAddFolder={() => { setCreationLocation({path:[]}); setShowAddFolder(true); }}
-        onAddFile={() => { setCreationLocation({path:[]}); setShowAddFile(true); }}
-        onRefresh={refresh}
-        onChangeFolder={async () => {
-          try { await flushAllSaves(); await reset(); } catch { window.dispatchEvent(new Event('aishukatsu-save-error')); }
-        }}
-        onContextMenu={handleContextMenu}
-        onMoveNode={handleMoveNode}
-        onReorderChildren={handleReorderChildren}
-      /><div role="separator" aria-label="フォルダ一覧の幅" aria-orientation="vertical" tabIndex={0} className="absolute right-0 top-0 z-30 h-full w-2 cursor-col-resize hover:bg-indigo-200 focus:bg-indigo-200" onKeyDown={event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();updatePreferences({sidebarWidth:Math.max(200,Math.min(400,preferences.sidebarWidth+(event.key==='ArrowRight'?20:-20)))});}}} onPointerDown={event=>{event.currentTarget.setPointerCapture(event.pointerId);}} onPointerMove={event=>{if(event.currentTarget.hasPointerCapture(event.pointerId))updatePreferences({sidebarWidth:Math.max(200,Math.min(400,event.clientX))});}} onPointerUp={event=>{if(event.currentTarget.hasPointerCapture(event.pointerId))event.currentTarget.releasePointerCapture(event.pointerId);}}/></div>}
-
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <TabBar
-          tabs={tabs.tabs}
-          activeKey={tabs.activeKey}
-          onActivate={tabs.activate}
-          onClose={tabs.close}
+    <AppShell section={section} onNavigate={navigate} workspace={workspace} onOpenFile={openFile} onSettings={() => setShowSettings(true)} status={<>{(error||rootError)&&<div role="alert"><span>{rootError||'フォルダを更新できません。権限や保存先を確認してください。'}</span><button onClick={()=>void refresh()}>再試行</button></div>}<ArticleMemoImport root={handle} onOpen={async(file,name)=>{await refresh();openFile({key:'co:記事メモ/'+name,label:name,breadcrumb:['記事メモ'],handle:file});}}/><SaveStatus onSettings={() => setShowSettings(true)}/></>}>
+      <div className="app-feature-view" hidden={section !== 'documents'}>
+        <DocumentLibrary workspace={workspace} activeFile={tabs.activeTab} onOpenFile={openFile} onBrowse={() => tabs.activate(null)} onChooseFolder={async () => { await flushAllSaves(); await pick(); }} onRefresh={refresh}
+          onAddCompany={() => setShowAdd(true)} onAddFolder={path => {setCreationLocation({path});setShowAddFolder(true);}} onAddFile={path => {setCreationLocation({path});setShowAddFile(true);}}
+          onContextMenu={handleContextMenu} onMoveNode={handleMoveNode}
+          onImportFiles={async (path, files) => {
+            await flushAllSaves();
+            try {
+              const {added,skipped}=await importLibraryFiles(resolveNodeByPath(workspace,path),files);
+              toast.success(`${added}件のファイルを追加しました${skipped ? `。同名の${skipped}件は保持しました` : ''}。`);
+            } finally { await refresh(); }
+          }}
+          documentView={<><TabBar tabs={tabs.tabs} activeKey={tabs.activeKey} onActivate={tabs.activate} onClose={tabs.close}/><div className="document-tab-content" role="tabpanel" aria-label={tabs.activeTab?.label}><WorkspaceErrorBoundary key={tabs.activeKey ?? 'documents'}>{tabs.activeTab && <TabViewer tab={tabs.activeTab} rootName={handle.name} onNavigate={index => {if(index === -1)void tabs.activate(null);}}/>}</WorkspaceErrorBoundary></div></>}
         />
-
-        <div className="min-h-0 flex-1 overflow-hidden" role={tabs.activeTab ? 'tabpanel' : undefined} aria-label={tabs.activeTab?.label}><WorkspaceErrorBoundary key={tabs.activeKey ?? (homeVisible ? 'home' : 'sheet')}>
-          {tabs.activeTab ? (
-            <TabViewer
-              tab={tabs.activeTab}
-              rootName={handle.name}
-              onNavigate={(index) => {
-                // Home click (index === -1) returns to the spreadsheet.
-                // Parent-segment clicks are a no-op because the sidebar
-                // tree is the single source of navigation here.
-                if (index === -1) tabs.activate(null);
-              }}
-            />
-          ) : homeVisible ? <WorkspaceHome onSettings={() => setShowSettings(true)} onAdd={() => { void flushAllSaves().then(() => { const state=useSheet.getState();state.setSearch('');state.setFilterIndustry(null);state.setFilterStatus(null);const id=state.addRow();state.setSelection({rowId:id,colId:'company'});setHomeVisible(false); }).catch(()=>window.dispatchEvent(new Event('aishukatsu-save-error'))); }} onOpen={(sheetId,rowId)=>{void flushAllSaves().then(()=>{const state=useSheet.getState();state.switchSheet(sheetId);state.setSearch('');state.setFilterIndustry(null);state.setFilterStatus(null);state.setView('sheet');state.setSelection({rowId,colId:'company'});setHomeVisible(false);}).catch(()=>window.dispatchEvent(new Event('aishukatsu-save-error')));}} /> : (
-            <SpreadsheetRoot active={!fileTabActive} rootHandle={handle} onRestoreComplete={refresh} />
-          )}
-        </WorkspaceErrorBoundary></div>
       </div>
+      <div className="app-feature-view" hidden={section !== 'spreadsheet'}><WorkspaceErrorBoundary><SpreadsheetRoot active={section === 'spreadsheet'} shellNavigation rootHandle={handle} onRestoreComplete={refresh}/></WorkspaceErrorBoundary></div>
+      <div className="app-feature-view" hidden={section === 'documents' || section === 'spreadsheet'}><WorkspaceErrorBoundary><WorkspaceHome embedded activeTab={careerTab} onTabChange={careerNavigate} onSettings={() => setShowSettings(true)} onAdd={addEntry} onOpen={openEntry} onOpenDocument={openCompanyDocument}/></WorkspaceErrorBoundary></div>
 
       {showAdd && (
         <AddCompanyModal
@@ -502,7 +496,6 @@ function WorkspaceApp() {
       />
       {showSettings && <WorkspaceSettings root={handle} onClose={() => setShowSettings(false)} onRefresh={() => void refresh()} />}
       <ToastHost/><ConfirmHost/>
-      </div>
-    </div>
+    </AppShell>
   );
 }

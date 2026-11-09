@@ -47,7 +47,7 @@ export function Modal({
     const wasInert = background.map(el => el.inert);
     background.forEach(el => { el.inert = true; });
     const focusables = () => [...panel.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),select:not(:disabled),textarea:not(:disabled),a[href],[tabindex="0"]')].filter(el => !el.hidden && el.getAttribute('aria-hidden') !== 'true');
-    (panel.querySelector<HTMLElement>('[autofocus]') ?? focusables()[0] ?? panel).focus();
+    (panel.querySelector<HTMLElement>('[autofocus],[data-autofocus]') ?? focusables()[0] ?? panel).focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.isComposing || panel.closest('[inert]')) return;
       if (e.key === 'Escape' && (e.target as HTMLElement)?.closest('[role=combobox][aria-expanded=true]')) return;
@@ -71,7 +71,8 @@ export function Modal({
   return createPortal(
     open ? (
       <div
-        className={`workspace-app ${preferences.textSize === 'large' ? 'workspace-large-text' : ''} fixed inset-0 z-[10000] flex items-center justify-center bg-slate-900/40 backdrop-blur-[2px] p-4`}
+        data-theme={preferences.theme}
+        className={`workspace-app app-theme ${preferences.textSize === 'large' ? 'workspace-large-text' : ''} fixed inset-0 z-[10000] flex items-center justify-center bg-slate-900/40 backdrop-blur-[2px] p-4`}
         onClick={onClose}
         role="dialog"
         aria-modal="true"

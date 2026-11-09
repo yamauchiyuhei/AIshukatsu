@@ -1,4 +1,5 @@
 import { lookupIndustry } from '../../lib/companyIndustryMap';
+import { addCareerItems, changeCareerItem, type CareerDraft, type CareerItem } from '../../career/planner';
 import { create } from 'zustand';
 import { SaveQueue, registerWriter, announceSaves } from '../../lib/saveQueue';
 import { normalizeCell, localDateKey } from '../../lib/cellValues';
@@ -40,6 +41,8 @@ import { clearCryptoCache } from './crypto';
 import { loadFromCsv, readCsvSignature, saveToCsv } from './csvStore';
 
 interface SheetState {
+  addCareerItems: (items: CareerDraft[]) => { ids: string[]; skipped: number };
+  updateCareerItem: (id: string, patch: Partial<CareerItem>) => void;
   workbook: Workbook;
   view: ViewMode;
   hydrated: boolean;
@@ -289,6 +292,17 @@ export const useSheet = create<SheetState>((set, get) => {
   }
 
   return {
+    addCareerItems: (items) => {
+      if (!get().hydrated) throw new Error('保存先を読み込んでから登録してください。');
+      const result = addCareerItems(get().workbook, items);
+      if (result.ids.length) { historyStack.clear(); set({ workbook: result.workbook }); scheduleSave(result.workbook); }
+      return { ids: result.ids, skipped: result.skipped };
+    },
+    updateCareerItem: (id, patch) => {
+      if (!get().hydrated) throw new Error('保存先を読み込んでから変更してください。');
+      const wb = changeCareerItem(get().workbook, id, patch);
+      historyStack.clear(); set({ workbook: wb }); scheduleSave(wb);
+    },
     workbook: createInitialWorkbook(),
     view: 'sheet',
     hydrated: false,

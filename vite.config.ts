@@ -16,6 +16,7 @@ export default defineConfig({
         listing: resolve(import.meta.dirname, 'src/magazine/listing.tsx'),
         desktopAuth: resolve(import.meta.dirname, 'desktop-auth.html'),
         desktopAuthV2: resolve(import.meta.dirname, 'desktop-auth-v2.html'),
+        googleConnect: resolve(import.meta.dirname, 'google-connect.html'),
       },
     },
   },

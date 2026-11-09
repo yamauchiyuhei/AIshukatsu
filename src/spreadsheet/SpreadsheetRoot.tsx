@@ -23,13 +23,14 @@ interface Props {
    * don't steal keystrokes from other tabs (markdown editor, etc.).
    */
   active: boolean;
+  shellNavigation?: boolean;
   /** Workspace root handle for bulk-restore to write files. */
   rootHandle?: FileSystemDirectoryHandle | null;
   /** Callback after bulk restore so the caller can refresh workspace. */
   onRestoreComplete?: () => void;
 }
 
-export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete }: Props) {
+export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete, shellNavigation = false }: Props) {
   const hydrate = useSheet((s) => s.hydrate);
   const localError = useSheet(s => s.localError);
   const hydrated = useSheet((s) => s.hydrated);
@@ -98,7 +99,7 @@ export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete }: Props
       if (!meta) return;
 
       // ⌘K → command palette
-      if (e.key.toLowerCase() === 'k') {
+      if (e.key.toLowerCase() === 'k' && !shellNavigation) {
         e.preventDefault();
         setPaletteOpen((v) => !v);
         return;
@@ -118,7 +119,7 @@ export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete }: Props
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [undo, redo, active]);
+  }, [undo, redo, active, shellNavigation]);
 
   if (!hydrated) {
     return <div className="space-y-4 p-8" role={localError ? 'alert' : 'status'}><p>{localError ?? '一覧を読み込み中…'}</p>{localError && <><button className="rounded border px-4 py-2" onClick={() => void hydrate(user?.uid ?? 'local-guest')}>再試行</button><button className="ml-3 rounded border px-4 py-2" onClick={() => window.dispatchEvent(new Event('aishukatsu-open-settings'))}>バックアップと復元</button>{rootHandle && <button className="ml-3 rounded border px-4 py-2" onClick={async () => { const ok=await import('./components/Toast').then(m=>m.confirmDialog('保存直前の復旧データへ戻します。元のファイルを確認してから実行してください。',{title:'保存直前の状態へ復旧',okLabel:'復旧する'}));if(!ok)return;try{await restoreCsvRecovery(rootHandle);await hydrate(user?.uid ?? 'local-guest');}catch{toast.error('復旧できませんでした。ZIPバックアップを別のフォルダへ復元してください。');} }}>保存直前の状態へ復旧</button>}</>}</div>;
@@ -146,7 +147,7 @@ export function SpreadsheetRoot({ active, rootHandle, onRestoreComplete }: Props
           </button>
         </div>
       )}
-      <Toolbar onOpenPalette={() => setPaletteOpen(true)} rootHandle={rootHandle} onRestoreComplete={onRestoreComplete} />
+      <Toolbar shellNavigation={shellNavigation} onOpenPalette={() => setPaletteOpen(true)} rootHandle={rootHandle} onRestoreComplete={onRestoreComplete} />
       <SheetTabs />
       <StatsBar />
       <div className="flex flex-1 overflow-hidden">
