@@ -98,3 +98,18 @@ test('public HTML revalidates after deploy while fingerprinted images and script
   for (const path of ['/', '/index.html', '/404.html', '/magazine', '/magazine/', '/magazine/index.html', '/magazine/find-your-own-career-axis/', '/magazine/find-your-own-career-axis/index.html', '/magazine/page/2/', '/magazine/page/42/index.html']) assert.equal(matcher.test(path), true, path);
   for (const path of ['/assets/main-123.js', '/magazine/covers/photo-123.webp', '/magazine/articles/article.json']) assert.equal(matcher.test(path), false, path);
 });
+
+
+test('product clicks are whitelisted, privacy safe and disabled on private routes', () => {
+  const f = fixture('/magazine/interview-guide/?email=secret#private');
+  f.analytics.trackPage(article);
+  f.analytics.trackAction('desktop_open_request', 'article_next_step');
+  f.analytics.trackAction('purchase', 'article_next_step');
+  f.analytics.trackAction('mac_download', 'secret');
+  f.browser.location = new URL('/app/?email=secret', PUBLIC_ORIGIN);
+  f.analytics.trackAction('mac_download', 'landing_download');
+  const clicks = f.calls().filter(args => args[1] === 'product_click');
+  assert.equal(clicks.length, 1);
+  assert.equal(clicks[0][2].page_location, article.canonical);
+  assert.doesNotMatch(JSON.stringify(clicks), /secret|private|email|purchase/);
+});

@@ -603,7 +603,7 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
 
         <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto" data-stagger>
           <a
-            href={DL_MACOS}
+            href={DL_MACOS} data-product-action="mac_download" data-product-placement="landing_download"
             className={'group flex items-center justify-center gap-3 rounded-2xl px-6 py-5 text-base font-semibold transition ' + (device === 'windows' ? t.btnGhost : t.btn)}
           >
             <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -615,7 +615,7 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
             </div>
           </a>
           <a
-            href={GITHUB_RELEASE}
+            href={GITHUB_RELEASE} data-product-action="windows_release" data-product-placement="landing_download"
             className={'group flex items-center justify-center gap-3 rounded-2xl px-6 py-5 text-base font-semibold transition ' + (device === 'windows' ? t.btn : t.btnGhost)}
           >
             <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -630,7 +630,7 @@ function DownloadSection({ t }: { t: ThemeTokens }) {
         <div className={'mx-auto mt-4 max-w-2xl text-sm leading-7 ' + t.textMuted}>
           <details className="mt-3 text-left"><summary className="cursor-pointer text-center">インストール方法・対応環境</summary><p>Mac：ダウンロードしたtar.gzを展開し、AIshukatsu.appをアプリケーションへ移動してください。Apple Silicon・Intel両対応です。OSで開けない場合は、配布ページの署名状況と案内を確認してください。</p><p>Windows 10 / 11：通常はx64版、ARM搭載PCではARM64版のセットアップを実行してください。</p><p>更新前にはフォルダ全体のバックアップを作成できます。インストーラーの公開状況・変更点は<a className="underline" href={GITHUB_RELEASE}>リリースページ</a>で確認できます。</p></details>
         </div>
-        <details className={'mx-auto mt-8 max-w-2xl text-sm ' + t.textMuted}><summary className="inline-flex min-h-11 cursor-pointer items-center underline underline-offset-4">インストールせずにWeb版を試したい方へ</summary><p className="mt-3">Web版はPCのChrome・Edgeで利用できます。Googleログインは任意です。</p><a href="/app/" className="inline-flex min-h-11 items-center underline underline-offset-4">Web版を試す</a></details>
+        <details className={'mx-auto mt-8 max-w-2xl text-sm ' + t.textMuted}><summary className="inline-flex min-h-11 cursor-pointer items-center underline underline-offset-4">インストールせずにWeb版を試したい方へ</summary><p className="mt-3">Web版はPCのChrome・Edgeで利用できます。Googleログインは任意です。</p><a href="/app/" data-product-action="web_trial" data-product-placement="landing_download" className="inline-flex min-h-11 items-center underline underline-offset-4">Web版を試す</a></details>
       </div>
     </section>
   );

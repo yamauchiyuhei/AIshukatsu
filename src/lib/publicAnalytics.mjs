@@ -31,6 +31,16 @@ export function createPublicAnalytics(browser, { enabled = false } = {}) {
   let lastPage = '';
   const disabledKey = `ga-disable-${MEASUREMENT_ID}`;
   function suspend() { browser[disabledKey] = true; }
+  function trackAction(action, placement) {
+    const actions = ['mac_download', 'windows_release', 'desktop_open_request', 'download_guide', 'web_trial', 'getting_started'];
+    const placements = ['landing_download', 'article_next_step', 'article_footer'];
+    const route = resolveSiteRoute(browser.location);
+    if (!enabled || !initialized || browser[disabledKey] || browser.location.origin !== PUBLIC_ORIGIN || !['website', 'magazine'].includes(route) || !actions.includes(action) || !placements.includes(placement)) return;
+    const page = publicUrl(browser.location.href);
+    if (!page) return;
+    // These are requests/clicks, never successful installation or purchase.
+    browser.gtag('event', 'product_click', { action, placement, page_location: page, send_to: MEASUREMENT_ID });
+  }
   function trackPage({ canonical, title }) {
     const route = resolveSiteRoute(browser.location);
     const pageLocation = publicUrl(canonical);
@@ -59,9 +69,13 @@ export function createPublicAnalytics(browser, { enabled = false } = {}) {
       script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
       browser.document.head.append(script);
       initialized = true;
+      browser.document.addEventListener?.('click', event => {
+        const link = event.target?.closest?.('a[data-product-action]');
+        if (link) trackAction(link.dataset.productAction, link.dataset.productPlacement);
+      });
     }
     browser.gtag('event', 'page_view', { ...page, send_to: MEASUREMENT_ID });
     previousPage = lastPage = pageLocation;
   }
-  return { trackPage, suspend };
+  return { trackPage, trackAction, suspend };
 }
