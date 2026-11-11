@@ -6,7 +6,7 @@
   "scripts": {
     "predev": "npm run magazine:build",
     "dev": "vite",
-    "build": "npm run magazine:build && tsc -b && vite build && node scripts/prerender-magazine.mjs",
+    "build": "npm run magazine:build && tsc -b && vite build --config vite.config.ts && node scripts/prerender-magazine.mjs",
     "magazine:build": "node scripts/build-magazine.mjs",
     "magazine:new": "node scripts/magazine.mjs new",
     "magazine:publish": "node scripts/magazine.mjs publish",

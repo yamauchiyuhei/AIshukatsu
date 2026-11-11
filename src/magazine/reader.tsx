@@ -7,6 +7,7 @@ import { MagazineView, type MagazineTheme } from './MagazineView';
 import { readWebsiteTheme, saveWebsiteTheme } from '../lib/websiteTheme';
 import type { Article, ArticleSummary } from './types';
 
+const readerAnalytics = createPublicAnalytics(window, { enabled: import.meta.env.PROD });
 const PREVIOUS_THEME_KEY = 'aishukatsu-magazine-theme';
 
 function Reader({ article, related }: { article: Article; related: ArticleSummary[] }) {
@@ -16,9 +17,9 @@ function Reader({ article, related }: { article: Article; related: ArticleSummar
     setTheme(readWebsiteTheme('light', PREVIOUS_THEME_KEY));
     const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (canonical) {
-      createPublicAnalytics(window, { enabled: import.meta.env.PROD })
-        .trackPage({ canonical: canonical.href, title: document.title });
+      readerAnalytics.trackPage({ canonical: canonical.href, title: document.title });
     }
+    return () => readerAnalytics.suspend();
   }, []);
 
   function toggleTheme() {
