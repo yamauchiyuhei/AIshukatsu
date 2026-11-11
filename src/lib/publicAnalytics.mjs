@@ -30,10 +30,31 @@ export function createPublicAnalytics(browser, { enabled = false } = {}) {
   let previousPage = '';
   let lastPage = '';
   const disabledKey = `ga-disable-${MEASUREMENT_ID}`;
+  let excluded = false;
+  let lastControlSearch;
+  // Keep the explicit URL choice effective even when browser storage is blocked.
+  function isExcluded() {
+    const search = browser.location.search;
+    const choice = new URLSearchParams(search).get('metrics');
+    if (search !== lastControlSearch && (choice === 'off' || choice === 'on')) {
+      excluded = choice === 'off';
+      try {
+        if (excluded) browser.localStorage.setItem('site_metrics_exclude', '1');
+        else browser.localStorage.removeItem('site_metrics_exclude');
+      } catch {}
+    } else {
+      try { excluded = browser.localStorage.getItem('site_metrics_exclude') === '1'; } catch {}
+    }
+    lastControlSearch = search;
+    return excluded;
+  }
   function suspend() { browser[disabledKey] = true; }
+  if (isExcluded()) suspend();
+  browser.addEventListener?.('storage', () => { if (isExcluded()) suspend(); });
   function trackAction(action, placement) {
     const actions = ['mac_download', 'windows_release', 'desktop_open_request', 'download_guide', 'web_trial', 'getting_started'];
     const placements = ['landing_download', 'article_next_step', 'article_footer'];
+    if (isExcluded()) { suspend(); return; }
     const route = resolveSiteRoute(browser.location);
     if (!enabled || !initialized || browser[disabledKey] || browser.location.origin !== PUBLIC_ORIGIN || !['website', 'magazine'].includes(route) || !actions.includes(action) || !placements.includes(placement)) return;
     const page = publicUrl(browser.location.href);
@@ -42,6 +63,7 @@ export function createPublicAnalytics(browser, { enabled = false } = {}) {
     browser.gtag('event', 'product_click', { action, placement, page_location: page, send_to: MEASUREMENT_ID });
   }
   function trackPage({ canonical, title }) {
+    if (isExcluded()) { suspend(); return; }
     const route = resolveSiteRoute(browser.location);
     const pageLocation = publicUrl(canonical);
     if (!enabled || browser.location.origin !== PUBLIC_ORIGIN || !['website', 'magazine'].includes(route) || !pageLocation) {
